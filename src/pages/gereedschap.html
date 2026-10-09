@@ -1,0 +1,80 @@
+<!--
+title: Gratis gereedschap voor je zaak — Star.Tec.Solutions
+description: Maak gratis een WhatsApp-knop en QR-code voor je zaak, en bekijk hoe je zaak eruitziet in Google. Zonder account.
+nav: gereedschap
+scripts: ../vendor/qrcode.min motion tools
+-->
+<main id="main" class="page" style="padding-top:72px">
+
+<section class="sec" style="padding-bottom:clamp(32px,4vw,48px)">
+  <div class="sec-head" style="margin-bottom:0">
+    <p class="label">Gratis gereedschap</p>
+    <h1>Kleine dingen die <em>meteen</em> helpen.</h1>
+    <p>Geen account, geen e-mailadres nodig. Alles gebeurt in je eigen browser; wat je invult, verlaat je toestel niet.</p>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0" aria-labelledby="t-wa">
+  <div class="tool">
+    <div>
+      <p class="label">WhatsApp</p>
+      <h2 id="t-wa" style="margin:12px 0 14px">Een WhatsApp-knop en QR-code</h2>
+      <p style="color:var(--ink2);margin-bottom:22px">Klanten sturen je een bericht met &eacute;&eacute;n tik. Zet de knop op je site of Facebook-pagina, en hang de QR-code aan je kassa of op je etalage.</p>
+      <label class="field"><span>Je gsm-nummer</span><input id="wa-num" inputmode="tel" autocomplete="tel" placeholder="0470 12 34 56"></label>
+      <p id="wa-err" class="warn" hidden>Dat nummer herkennen we niet. Probeer zoals 0470 12 34 56 of +32 470 12 34 56.</p>
+      <label class="field"><span>Bericht dat al klaarstaat <span class="small">(optioneel)</span></span><input id="wa-msg" value="Hallo, ik heb een vraag over"></label>
+      <label class="field"><span>Tekst op de knop</span><input id="wa-label" value="Stuur ons een WhatsApp"></label>
+    </div>
+    <div class="out" aria-live="polite">
+      <div id="wa-out" hidden>
+        <p class="label">Je link</p>
+        <p style="margin-top:6px;word-break:break-all"><a id="wa-link" href="#" target="_blank" rel="noopener"></a></p>
+        <div class="row"><button class="btn btn-sm" type="button" id="wa-copy-link">Kopieer link</button></div>
+        <p class="label" style="margin-top:22px">Knop voor je website</p>
+        <pre id="wa-code"></pre>
+        <div class="row"><button class="btn btn-sm btn-line" type="button" id="wa-copy-code">Kopieer code</button></div>
+        <p class="label" style="margin-top:22px">QR-code</p>
+        <canvas id="wa-qr" class="qr" role="img" aria-label="QR-code die je WhatsApp opent"></canvas>
+        <div class="row"><button class="btn btn-sm btn-line" type="button" id="wa-download">Download als afbeelding</button></div>
+      </div>
+      <p class="hint" id="wa-hint">Vul je nummer in. Je link, knop en QR-code verschijnen hier.</p>
+    </div>
+  </div>
+</section>
+
+<div class="band">
+  <section class="sec" aria-labelledby="t-sp">
+    <div class="tool">
+      <div>
+        <p class="label">Google</p>
+        <h2 id="t-sp" style="margin:12px 0 14px">Zo zien mensen je zaak in Google</h2>
+        <p style="color:var(--ink2);margin-bottom:22px">De titel en beschrijving van je site zijn vaak het eerste wat een klant leest. Typ ze hier en zie meteen of Google ze afkapt.</p>
+        <label class="field"><span>Titel van je pagina</span><input id="sp-title" value="Bakkerij Sterrenhemel | Vers brood en taart in Hoboken"></label>
+        <p class="meter" id="sp-t-meter"></p>
+        <label class="field" style="margin-top:14px"><span>Beschrijving</span><textarea id="sp-desc" rows="3" style="min-height:96px">Elke ochtend vers brood en patisserie uit eigen atelier. Open van dinsdag tot zondag vanaf 7 uur. Bestel je taart online of kom even binnen.</textarea></label>
+        <p class="meter" id="sp-d-meter"></p>
+        <label class="field" style="margin-top:14px"><span>Adres van je site</span><input id="sp-url" value="bakkerijsterrenhemel.be/taarten" inputmode="url"></label>
+      </div>
+      <div>
+        <div class="serp" aria-live="polite">
+          <div class="site"><span class="fav" id="sp-fav" aria-hidden="true">B</span><span><span id="sp-host"></span><br><span class="crumb" id="sp-crumb"></span></span></div>
+          <div class="title" id="sp-out-title"></div>
+          <div class="desc" id="sp-out-desc"></div>
+        </div>
+        <p class="hint">Een benadering: Google kapt af op schermbreedte en past soms zelf je tekst aan. Het voorbeeld is een verzonnen bakkerij.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section class="sec">
+  <div class="split">
+    <div class="rv"><h2>Liever dat iemand het <em>voor je</em> doet?</h2></div>
+    <div class="rv">
+      <p style="color:var(--ink2)">Een WhatsApp-knop en een goede Google-titel zitten standaard in elke site die we bouwen. Je ziet eerst een gratis voorbeeld.</p>
+      <div class="ctas"><a class="btn" href="index.html#contact"><span class="st" aria-hidden="true"></span> Vraag een gratis voorbeeld</a></div>
+    </div>
+  </div>
+</section>
+
+</main>
