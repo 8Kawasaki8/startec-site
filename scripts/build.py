@@ -14,7 +14,7 @@ SRC, OUT = ROOT / "src", ROOT / "docs"
 
 # (href fragment or page, label)
 NAV = [("#oplossingen", "Oplossingen"), ("#lab", "Lab"), ("#werkwijze", "Werkwijze"),
-       ("gereedschap.html", "Gereedschap"), ("#contact", "Contact")]
+       ("demos.html", "Demo's"), ("gereedschap.html", "Gereedschap"), ("#contact", "Contact")]
 VENDOR = ["gsap.min", "ScrollTrigger.min", "lenis.min"]
 
 

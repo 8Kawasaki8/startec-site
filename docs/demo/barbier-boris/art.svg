@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true">
+  <!-- Barbier Boris: flat comic illustrations. Palette: ink #111, cream #FFF3D1, mustard #F5C400, red #D7301A -->
+
+  <symbol id="ico-scissors" viewBox="0 0 120 120">
+    <g stroke="#111" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M54 58 L104 8 L112 18 L66 68 Z" fill="#F5C400"/>
+      <path d="M66 58 L16 8 L8 18 L54 68 Z" fill="#F5C400"/>
+      <path d="M60 66 L44 82 M60 66 L76 82" fill="none" stroke-width="7"/>
+      <circle cx="36" cy="94" r="16" fill="none" stroke-width="8"/>
+      <circle cx="84" cy="94" r="16" fill="none" stroke-width="8"/>
+      <circle cx="60" cy="62" r="7" fill="#D7301A"/>
+    </g>
+  </symbol>
+
+  <symbol id="ico-comb" viewBox="0 0 120 120">
+    <g stroke="#111" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+      <rect x="10" y="40" width="100" height="22" rx="5" fill="#F5C400"/>
+      <path d="M20 62v26M31 62v26M42 62v26M53 62v26M64 62v26M75 62v26M86 62v26M97 62v26" fill="none"/>
+      <path d="M20 46h40" stroke="#FFF3D1" stroke-width="4"/>
+    </g>
+  </symbol>
+
+  <symbol id="ico-razor" viewBox="0 0 120 120">
+    <g transform="rotate(-38 60 60)" stroke="#111" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+      <rect x="6" y="54" width="60" height="18" rx="7" fill="#111"/>
+      <path d="M58 44 H112 L108 72 H62 Z" fill="#FFF3D1"/>
+      <path d="M64 66 H104" stroke="#111" stroke-width="3"/>
+      <circle cx="18" cy="63" r="3" fill="#F5C400" stroke="none"/>
+    </g>
+  </symbol>
+
+  <symbol id="ico-towel" viewBox="0 0 120 120">
+    <g stroke="#111" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" fill="none">
+      <path d="M36 40q8-10 0-20M58 40q8-10 0-20M80 40q8-10 0-20"/>
+      <path d="M22 52h66v40H22z" fill="#FFF3D1"/>
+      <path d="M22 66h66M22 78h66" stroke="#F5C400" stroke-width="7"/>
+      <path d="M22 52h66v40H22z"/>
+      <ellipse cx="88" cy="72" rx="12" ry="20" fill="#FFF3D1"/>
+      <path d="M88 60a6 12 0 0 0 0 24a3 6 0 0 1 0-12"/>
+    </g>
+  </symbol>
+
+  <symbol id="ico-beard" viewBox="0 0 120 120">
+    <g stroke="#111" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M26 30 V60 C26 88 42 106 60 106 C78 106 94 88 94 60 V30 L84 46 C80 54 40 54 36 46 Z" fill="#111"/>
+      <path d="M46 70 q14 10 28 0" stroke="#FFF3D1" stroke-width="6" fill="none"/>
+      <path d="M36 44 q24-18 48 0 q-24 8-48 0 Z" fill="#111"/>
+    </g>
+  </symbol>
+
+  <symbol id="ico-cap" viewBox="0 0 120 120">
+    <g stroke="#111" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M24 70 A36 36 0 0 1 96 70 Z" fill="#D7301A"/>
+      <path d="M60 34 V70 M42 40 q-10 14-8 30 M78 40 q10 14 8 30" fill="none"/>
+      <rect x="10" y="68" width="100" height="14" rx="7" fill="#F5C400"/>
+      <circle cx="60" cy="32" r="6" fill="#F5C400"/>
+    </g>
+  </symbol>
+
+  <symbol id="av-boris" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="56" fill="#F5C400"/>
+    <path d="M23 102 C27 86 42 80 60 80 C78 80 93 86 97 102 A56 56 0 0 1 23 102 Z" fill="#111"/>
+    <path d="M50 82 L60 96 L70 82 Z" fill="#FFF3D1"/>
+    <circle cx="60" cy="54" r="26" fill="#FFF3D1" stroke="#111" stroke-width="5"/>
+    <path d="M34 54 C34 84 46 98 60 98 C74 98 86 84 86 54 L80 60 C76 70 44 70 40 60 Z" fill="#111"/>
+    <path d="M44 58 q16-12 32 0 q-16 7-32 0 Z" fill="#111"/>
+    <path d="M40 40 l16-4 M80 40 l-16-4" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="50" cy="48" r="3.5" fill="#111"/><circle cx="70" cy="48" r="3.5" fill="#111"/>
+    <path d="M46 32 q14-8 28 0" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="60" cy="60" r="56" fill="none" stroke="#111" stroke-width="5"/>
+  </symbol>
+
+  <symbol id="av-lena" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="56" fill="#D7301A"/>
+    <path d="M23 102 C27 86 42 80 60 80 C78 80 93 86 97 102 A56 56 0 0 1 23 102 Z" fill="#111"/>
+    <path d="M50 82 L60 96 L70 82 Z" fill="#FFF3D1"/>
+    <circle cx="60" cy="58" r="26" fill="#FFF3D1" stroke="#111" stroke-width="5"/>
+    <path d="M30 66 C28 32 44 22 60 22 C76 22 92 32 90 66 L90 76 C90 82 84 84 78 84 L78 54 C70 46 50 46 42 54 L42 84 C36 84 30 82 30 76 Z" fill="#111"/>
+    <circle cx="36" cy="80" r="5" fill="#F5C400" stroke="#111" stroke-width="3"/>
+    <circle cx="84" cy="80" r="5" fill="#F5C400" stroke="#111" stroke-width="3"/>
+    <circle cx="52" cy="62" r="3.5" fill="#111"/><circle cx="68" cy="62" r="3.5" fill="#111"/>
+    <path d="M46 57 l6-3 M74 57 l-6-3" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+    <path d="M52 72 q8 7 16 0" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="60" cy="60" r="56" fill="none" stroke="#111" stroke-width="5"/>
+  </symbol>
+
+  <symbol id="av-yusuf" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="56" fill="#FFF3D1"/>
+    <path d="M23 102 C27 86 42 80 60 80 C78 80 93 86 97 102 A56 56 0 0 1 23 102 Z" fill="#111"/>
+    <path d="M50 82 L60 96 L70 82 Z" fill="#F5C400"/>
+    <g fill="#111" stroke="#111" stroke-width="5">
+      <circle cx="36" cy="46" r="10"/><circle cx="46" cy="34" r="10"/><circle cx="60" cy="28" r="10"/>
+      <circle cx="74" cy="34" r="10"/><circle cx="84" cy="46" r="10"/><circle cx="30" cy="58" r="8"/><circle cx="90" cy="58" r="8"/>
+    </g>
+    <circle cx="60" cy="60" r="25" fill="#FFF3D1" stroke="#111" stroke-width="5"/>
+    <path d="M42 70 C44 84 52 88 60 88 C68 88 76 84 78 70 C72 80 48 80 42 70 Z" fill="#111"/>
+    <g fill="none" stroke="#111" stroke-width="4"><circle cx="50" cy="60" r="8"/><circle cx="70" cy="60" r="8"/><path d="M58 60h4"/></g>
+    <circle cx="50" cy="60" r="3" fill="#111"/><circle cx="70" cy="60" r="3" fill="#111"/>
+    <path d="M53 73 q7 5 14 0" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="60" cy="60" r="56" fill="none" stroke="#111" stroke-width="5"/>
+  </symbol>
+
+  <symbol id="head-messy" viewBox="0 0 300 360">
+    <path d="M40 360 C40 300 90 284 150 284 C210 284 260 300 260 360 Z" fill="#111"/>
+    <path d="M124 270 h52 v30 h-52 z" fill="#FFF3D1" stroke="#111" stroke-width="6"/>
+    <circle cx="72" cy="194" r="15" fill="#FFF3D1" stroke="#111" stroke-width="6"/>
+    <circle cx="228" cy="194" r="15" fill="#FFF3D1" stroke="#111" stroke-width="6"/>
+    <ellipse cx="150" cy="186" rx="78" ry="92" fill="#FFF3D1" stroke="#111" stroke-width="6"/>
+    <path d="M74 166 L52 150 L46 108 L82 104 L70 60 L112 82 L120 28 L150 72 L182 18 L190 78 L232 46 L224 104 L262 104 L248 140 L246 168 C200 150 160 170 118 150 C104 158 90 164 74 166 Z" fill="#111" stroke="#111" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M94 126 l-10 28 M206 120 l14 26 M150 92 l-4 34" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+    <path d="M106 196 h32 M162 196 h32" stroke="#111" stroke-width="6" stroke-linecap="round"/>
+    <path d="M110 210 q12 8 24 0 M166 210 q12 8 24 0" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+    <path d="M96 180 l36 4 M204 180 l-36 4" stroke="#111" stroke-width="6" stroke-linecap="round"/>
+    <path d="M118 252 q16-10 32 0 q16 10 32 0" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round"/>
+    <g fill="#111">
+      <circle cx="100" cy="236" r="3"/><circle cx="112" cy="250" r="3"/><circle cx="96" cy="222" r="3"/><circle cx="108" cy="266" r="3"/>
+      <circle cx="124" cy="276" r="3"/><circle cx="140" cy="282" r="3"/><circle cx="160" cy="282" r="3"/><circle cx="176" cy="276" r="3"/>
+      <circle cx="192" cy="266" r="3"/><circle cx="200" cy="236" r="3"/><circle cx="188" cy="250" r="3"/><circle cx="204" cy="222" r="3"/>
+      <circle cx="132" cy="268" r="3"/><circle cx="168" cy="268" r="3"/><circle cx="150" cy="272" r="3"/><circle cx="88" cy="250" r="3"/><circle cx="212" cy="250" r="3"/>
+    </g>
+    <path d="M250 118 q-16 26 0 32 q16-6 0-32 Z" fill="#FFF3D1" stroke="#111" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M262 170 q10 14 0 28" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+  </symbol>
+
+  <symbol id="head-sharp" viewBox="0 0 300 360">
+    <path d="M40 360 C40 300 90 284 150 284 C210 284 260 300 260 360 Z" fill="#111"/>
+    <path d="M124 270 h52 v30 h-52 z" fill="#FFF3D1" stroke="#111" stroke-width="6"/>
+    <circle cx="72" cy="194" r="15" fill="#FFF3D1" stroke="#111" stroke-width="6"/>
+    <circle cx="228" cy="194" r="15" fill="#FFF3D1" stroke="#111" stroke-width="6"/>
+    <ellipse cx="150" cy="186" rx="78" ry="92" fill="#FFF3D1" stroke="#111" stroke-width="6"/>
+    <path d="M72 164 C70 110 94 72 150 68 C212 64 236 108 230 164 C216 148 206 140 190 150 C160 136 120 150 100 156 C90 160 80 162 72 164 Z" fill="#111" stroke="#111" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M78 176 h12 M76 188 h10 M210 176 h12 M214 188 h10" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+    <path d="M78 218 C82 268 110 302 150 304 C190 302 218 268 222 218 L222 234 C210 262 180 276 150 276 C120 276 90 262 78 234 Z" fill="#111" stroke="#111" stroke-width="6" stroke-linejoin="round"/>
+    <circle cx="122" cy="196" r="6" fill="#111"/><circle cx="178" cy="196" r="6" fill="#111"/>
+    <path d="M100 176 l36-6 M200 176 l-36-6" stroke="#111" stroke-width="7" stroke-linecap="round"/>
+    <path d="M120 246 q30 24 60 0" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round"/>
+    <path d="M132 250 h36" stroke="#FFF3D1" stroke-width="5" stroke-linecap="round"/>
+    <g fill="#F5C400" stroke="#111" stroke-width="4" stroke-linejoin="round">
+      <path d="M258 72 l7 16 16 7 -16 7 -7 16 -7 -16 -16 -7 16 -7 Z"/>
+      <path d="M36 110 l5 11 11 5 -11 5 -5 11 -5 -11 -11 -5 11 -5 Z"/>
+      <path d="M262 232 l5 11 11 5 -11 5 -5 11 -5 -11 -11 -5 11 -5 Z"/>
+    </g>
+  </symbol>
+</svg>

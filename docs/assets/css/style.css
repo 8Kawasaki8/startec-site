@@ -280,6 +280,109 @@ html.js [data-reveal].in,html.js .rv.in{opacity:1;transform:none;transition:opac
 .split-line{display:block;overflow:hidden}
 .split-line>span{display:block}
 
+/* ═══ INTRO (particle letters + dive, see scene/intro.js) ════ */
+#intro{position:fixed;inset:0;z-index:500;display:grid;place-items:center;color:var(--ink);cursor:pointer}
+#intro .veil{position:absolute;inset:0;background:var(--bg)}
+#intro .intro-lock{position:relative;display:grid;justify-items:center;gap:16px;text-align:center;opacity:0;padding:0 var(--gut);transform:translateY(27vh)}
+#intro .mark{width:clamp(56px,8vw,88px);height:auto;filter:drop-shadow(0 0 18px rgba(54,232,255,.45))}
+#intro .word{font:600 clamp(1.2rem,3.2vw,2.1rem)/1 var(--display);letter-spacing:.14em}
+#intro .word .st{width:.42em;height:.42em;margin:0 .14em;vertical-align:.1em}
+#intro .intro-tag{font:500 12px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
+#intro .intro-hint{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);opacity:0;white-space:nowrap}
+#intro .bar{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--cyan);transform:scaleX(0);transform-origin:left;box-shadow:var(--glow)}
+@media(max-width:700px){#intro .intro-lock{transform:translateY(36vh);gap:12px}#intro .word{font-size:1.15rem}#intro .intro-tag{font-size:10px}}
+.introing .nav,.introing .rail,.introing .hero>div,.introing .tags,.introing .hero .scroll-hint{opacity:0}
+.nav{transition:background .3s,backdrop-filter .3s,opacity .9s var(--ease)}
+.rail{transition:opacity .9s var(--ease)}
+
+/* ═══ LIQUID MORPH (gooey blobs behind the main CTA) ═════════ */
+.pill.liquid{position:relative;isolation:isolate}
+.pill.liquid .goo{position:absolute;inset:-16px -18px;z-index:-1;filter:url(#goo);pointer-events:none;opacity:.8}
+.pill.liquid .goo i{position:absolute;top:0;width:48%;height:100%;border-radius:50%;background:var(--cyan);opacity:.6;animation:blob 7s ease-in-out infinite alternate;transition:transform .9s var(--ease)}
+.pill.liquid .goo i:nth-child(1){left:-4%;animation-delay:-2s}
+.pill.liquid .goo i:nth-child(2){left:28%;background:var(--cyan-2);animation-delay:-4s;animation-duration:9s}
+.pill.liquid .goo i:nth-child(3){left:58%;background:var(--violet);animation-duration:8s}
+@keyframes blob{0%{transform:translate(0,0) scale(1)}50%{transform:translate(6%,-8%) scale(1.08)}100%{transform:translate(-5%,8%) scale(.96)}}
+.pill.liquid:hover .goo i:nth-child(1){transform:translate(-26%,-12%) scale(1.25)}
+.pill.liquid:hover .goo i:nth-child(2){transform:translate(6%,22%) scale(1.35)}
+.pill.liquid:hover .goo i:nth-child(3){transform:translate(28%,-16%) scale(1.2)}
+
+/* ═══ KINETIC MARQUEE (speed follows scroll) ═════════════════ */
+.marquee{overflow:hidden;padding:30px 0 10px;border-bottom:1px solid var(--line);position:relative;z-index:1;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee-track{display:flex;white-space:nowrap;will-change:transform;font:600 clamp(1.8rem,5.2vw,4.2rem)/1.15 var(--display);letter-spacing:-.01em;text-transform:uppercase;color:var(--ink)}
+.marquee-track span{display:inline-flex;align-items:center;gap:.45em;padding-right:.45em}
+.marquee-track b{font-weight:600;color:transparent;-webkit-text-stroke:1.5px rgba(242,245,255,.75)}
+.marquee-track .st{width:.32em;height:.32em;flex:none}
+
+/* ═══ SPLIT-FLAP BOARD ═══════════════════════════════════════ */
+.board{margin-top:56px;padding:22px 24px;border-radius:18px;background:#070a12;border:1px solid var(--line2);box-shadow:0 30px 60px rgba(0,0,0,.4);position:relative;z-index:1}
+.board-head{display:flex;justify-content:space-between;gap:12px;margin-bottom:14px}
+.board-row{display:flex;gap:18px;align-items:center;padding:6px 0;perspective:600px}
+.board-k,.board-v{display:inline-flex;gap:3px}
+.flap{display:inline-grid;place-items:center;width:1.15em;height:1.5em;font:600 clamp(14px,1.6vw,20px)/1 var(--mono);color:var(--ink);background:linear-gradient(#1b2234,#0d111c);border-radius:3px;position:relative;transform-style:preserve-3d;backface-visibility:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
+.flap::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.8)}
+.board-v .flap{color:var(--cyan)}
+@media(max-width:600px){.board{padding:16px 14px;margin-top:40px}.board-row{gap:10px}.flap{font-size:12px;width:1em;height:1.45em}}
+
+/* ═══ ASCII MIRROR (Onderzoek) ═══════════════════════════════ */
+.ascii-wrap{margin-top:30px}
+.ascii-wrap .label{display:block;margin-bottom:10px}
+.ascii{font:8px/8px var(--mono);letter-spacing:0;color:var(--cyan);opacity:.85;white-space:pre;overflow:hidden;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:12px;padding:12px;width:fit-content;max-width:100%;min-height:120px;text-shadow:0 0 6px rgba(54,232,255,.45)}
+@media(max-width:600px){.ascii{font-size:6px;line-height:6px}}
+
+/* ═══ HOLOGRAPHIC SHEEN + TILT (cards, demo plots) ═══════════ */
+.card{position:relative;overflow:hidden;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+.card:hover{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-4px)}
+.card::after,.plot::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .35s;z-index:2;
+  background:conic-gradient(from var(--a,0deg) at var(--mx,50%) var(--my,50%),rgba(54,232,255,0) 0deg,rgba(54,232,255,.22) 60deg,rgba(138,107,255,.2) 140deg,rgba(255,255,255,.14) 220deg,rgba(54,232,255,.18) 300deg,rgba(54,232,255,0) 360deg)}
+.card:hover::after,.plot:hover::after{opacity:1}
+
+/* ═══ NEON FLICKER ═══════════════════════════════════════════ */
+.neon{color:var(--cyan);text-shadow:0 0 6px rgba(54,232,255,.9),0 0 18px rgba(54,232,255,.45);animation:neon 6s linear infinite}
+@keyframes neon{0%,91%,93.5%,100%{opacity:1}92%{opacity:.35}96%{opacity:.65}96.5%{opacity:1}}
+
+/* ═══ GRADIENT MESH (slow blobs behind the solid sections) ══ */
+.solid .sec{position:relative;z-index:1}
+.mesh{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.mesh::before,.mesh::after{content:"";position:absolute;width:62vw;height:62vw;max-width:900px;max-height:900px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(54,232,255,.13),transparent 70%);animation:drift 24s ease-in-out infinite alternate}
+.mesh::before{left:-18%;top:-24%}
+.mesh::after{right:-16%;bottom:-26%;background:radial-gradient(closest-side,rgba(138,107,255,.14),transparent 70%);animation-duration:30s;animation-direction:alternate-reverse}
+@keyframes drift{to{transform:translate(16%,10%) scale(1.15)}}
+
+/* ═══ DEMO PLOTS (teaser + demos page) ═══════════════════════ */
+.plots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+.plots.big{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+@media(max-width:1000px){.plots{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.plots,.plots.big{grid-template-columns:1fr}}
+.plot{--c:var(--cyan);position:relative;display:flex;flex-direction:column;border-radius:18px;background:var(--glass);border:1px solid var(--line2);overflow:hidden;color:var(--ink);
+  transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .4s var(--ease),border-color .3s,box-shadow .3s}
+.plot:hover{border-color:var(--c);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.plot-top{position:relative;aspect-ratio:16/10;background:#0b0f1a;overflow:hidden;display:block}
+.plot-top img{width:100%;height:100%;object-fit:cover;object-position:top;transform:scale(1.02);transition:transform .6s var(--ease),filter .5s;filter:saturate(.7)}
+.plot:hover .plot-top img{transform:scale(1.07);filter:none}
+.plot-top::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle,rgba(6,8,15,.9) 1.1px,transparent 1.5px);background-size:5px 5px;opacity:.6;transition:opacity .5s}
+.plot:hover .plot-top::after{opacity:0}
+.plot-body{display:grid;gap:6px;padding:16px 18px 18px;align-content:start}
+.plot-body strong{font:600 1.05rem/1.3 var(--display)}
+.plot-body em{font-style:normal;font-size:13.5px;color:var(--ink2)}
+.plot-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.plot-tags i{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border-radius:999px;border:1px solid var(--line2);color:var(--c);font-style:normal}
+.plot-desc{color:var(--ink2);font-size:14.5px;margin-top:8px;line-height:1.55}
+.plot-cta{margin-top:12px;font:600 14px var(--sans);color:var(--c)}
+.plot-cta::after{content:" \2192"}
+.demos-page{padding-top:64px}
+.demos-hero{position:relative;text-align:center;padding-top:40px}
+.demos-hero .sec{display:grid;justify-items:center;gap:18px;position:relative;z-index:1}
+.demos-hero h1{max-width:16ch;font-size:clamp(2rem,5.4vw,4.4rem)}
+.demos-hero .lede{color:var(--ink2);max-width:42em;font-size:1.08rem}
+.styles-strip{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:60rem;margin-top:8px}
+.styles-strip li{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:7px 11px;border-radius:999px;border:1px solid var(--line2);background:var(--glass);color:var(--ink2)}
+.checks{list-style:none;display:grid;gap:14px;color:var(--ink2);font-size:1.02rem}
+.checks li{padding-left:28px;position:relative}
+.checks li::before{content:"";position:absolute;left:0;top:.45em;width:.6em;height:.6em;background:var(--cyan);clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%)}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   html.js [data-reveal],html.js .rv{opacity:1;transform:none}

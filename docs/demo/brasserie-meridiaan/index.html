@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="nl-BE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Brasserie Meridiaan — Franse brasserie op het Zuid, Antwerpen (fictieve demo)</title>
+<meta name="description" content="Fictieve demo door Star.Tec.Solutions: Brasserie Meridiaan, Franse brasseriekeuken op het Antwerpse Zuid. Bekijk de kaart, zet een tafelaanvraag klaar en vraag het Meridiaan.">
+<meta name="theme-color" content="#07110e">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2307110e'/%3E%3Cpath d='M16 4l3 9 9 3-9 3-3 9-3-9-9-3 9-3z' fill='%23e6c97a'/%3E%3C/svg%3E">
+<link rel="preload" href="fonts/poiret-one-normal-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/limelight-normal-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/josefin-sans-normal-300_700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/cormorant-garamond-normal-300_700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="sections.css">
+</head>
+<body>
+<a class="skip" href="#main">Naar de inhoud</a>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="orn-fan" viewBox="0 0 120 64">
+    <g fill="none" stroke="currentColor" stroke-width="1.3">
+      <path d="M4 60A56 56 0 0 1 116 60"/><path d="M22 60A38 38 0 0 1 98 60"/><path d="M40 60A20 20 0 0 1 80 60"/>
+      <path d="M60 60V4M60 60L32 11.5M60 60L88 11.5M60 60L11.5 32M60 60L108.5 32"/>
+    </g>
+    <circle cx="60" cy="60" r="3" fill="currentColor"/>
+  </symbol>
+  <symbol id="orn-divider" viewBox="0 0 240 24">
+    <path d="M0 12H98M142 12H240" fill="none" stroke="currentColor"/>
+    <path d="M120 2L130 12L120 22L110 12Z" fill="none" stroke="currentColor"/>
+    <path d="M120 7.5L124.5 12L120 16.5L115.5 12Z" fill="currentColor"/>
+  </symbol>
+  <symbol id="star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></symbol>
+  <symbol id="check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<header class="top" id="top">
+  <a class="wordmark" href="#top"><i aria-hidden="true"></i>Brasserie Meridiaan</a>
+  <nav aria-label="Hoofdmenu">
+    <a href="#kaart">De kaart</a>
+    <a href="#reserveren">Reserveren</a>
+    <a href="#vraag">Vraag het Meridiaan</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a class="btn btn-solid btn-sm" href="#reserveren">Reserveer</a>
+</header>
+
+<main id="main">
+
+  <section class="hero" aria-labelledby="hero-title">
+    <svg class="sunburst" viewBox="0 0 1600 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+      <defs>
+        <radialGradient id="ray-grad" gradientUnits="userSpaceOnUse" cx="800" cy="800" r="900">
+          <stop offset="0" stop-color="#c9a24e" stop-opacity="0"/>
+          <stop offset=".14" stop-color="#c9a24e" stop-opacity=".55"/>
+          <stop offset=".55" stop-color="#c9a24e" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#c9a24e" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <g data-rays fill="none" stroke="url(#ray-grad)" stroke-width="1"></g>
+    </svg>
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-frame" aria-hidden="true"></div>
+
+    <div class="hero-inner">
+      <p class="eyebrow rise" style="--i:0"><span>Sterrenplein 4</span><span class="dot" aria-hidden="true"></span><span>Antwerpen-Zuid</span></p>
+      <h1 id="hero-title" class="neon-wrap">
+        <span class="sr-only">Brasserie Meridiaan</span>
+        <span class="neon" aria-hidden="true">Meridiaan</span>
+      </h1>
+      <svg class="orn orn-hero rise" style="--i:1" aria-hidden="true" focusable="false"><use href="#orn-fan"/></svg>
+      <p class="hero-tagline rise" style="--i:2">Franse brasseriekeuken op het Zuid, <em>van het middaguur tot laat.</em></p>
+      <p class="status rise" id="status" style="--i:3"><span class="status-dot" aria-hidden="true"></span><span class="status-text">Openingsuren worden berekend</span></p>
+      <div class="hero-cta rise" style="--i:4">
+        <a class="btn btn-solid" href="#reserveren">Reserveer een tafel</a>
+        <a class="btn btn-ghost" href="#kaart">Bekijk de kaart</a>
+      </div>
+    </div>
+    <a class="scroll-cue" href="#vandaag" aria-label="Scroll naar de kaart van vandaag">Scroll</a>
+  </section>
+
+  <section class="marquee" id="vandaag" aria-label="Vandaag op de kaart">
+    <div class="marquee-track" data-marquee></div>
+  </section>
+
+  <section class="section kaart" id="kaart" aria-labelledby="kaart-title">
+    <div class="section-head has-aside">
+      <p class="section-num"><b>01</b> De kaart</p>
+      <h2 id="kaart-title" class="kinetic" data-kinetic>Klassiekers met een scherp randje.</h2>
+      <p class="lede" data-reveal>Bruine boter, dubbel gebakken frieten en een kaart die wisselt met het seizoen. <em>Tik op een gerecht</em> voor de uitleg van de chef.</p>
+      <div class="head-aside chips" role="group" aria-label="Filter de kaart" data-reveal>
+        <button type="button" class="chip" data-filter="alles" aria-pressed="true">Alles</button>
+        <button type="button" class="chip" data-filter="veg" aria-pressed="false">Vegetarisch</button>
+        <button type="button" class="chip" data-filter="vis" aria-pressed="false">Vis</button>
+        <button type="button" class="chip" data-filter="vlees" aria-pressed="false">Vlees</button>
+      </div>
+    </div>
+    <div class="menu-grid" data-menu>
+      <section class="menu-col" data-cat="voor" aria-labelledby="cat-voor" data-reveal>
+        <h3 id="cat-voor"><svg class="orn-sm" aria-hidden="true" focusable="false"><use href="#orn-fan"/></svg>Voorgerechten</h3>
+        <ul class="dishes"></ul>
+        <p class="empty" hidden>Niets in deze selectie.</p>
+      </section>
+      <section class="menu-col" data-cat="hoofd" aria-labelledby="cat-hoofd" data-reveal>
+        <h3 id="cat-hoofd"><svg class="orn-sm" aria-hidden="true" focusable="false"><use href="#orn-fan"/></svg>Hoofdgerechten</h3>
+        <ul class="dishes"></ul>
+        <p class="empty" hidden>Niets in deze selectie.</p>
+      </section>
+      <section class="menu-col" data-cat="na" aria-labelledby="cat-na" data-reveal>
+        <h3 id="cat-na"><svg class="orn-sm" aria-hidden="true" focusable="false"><use href="#orn-fan"/></svg>Desserts</h3>
+        <ul class="dishes"></ul>
+        <p class="empty" hidden>Niets in deze selectie.</p>
+      </section>
+    </div>
+    <p class="menu-note" data-reveal><span class="tag-v" aria-hidden="true">V</span> staat voor vegetarisch. Prijzen in euro, btw inbegrepen. Allergenen of een menu voor de kinderen? Vraag het aan het team.</p>
+  </section>
+
+  <section class="section reserveren" id="reserveren" aria-labelledby="res-title">
+    <div class="section-head">
+      <p class="section-num"><b>02</b> Reserveren</p>
+      <h2 id="res-title" class="kinetic" data-kinetic>Een tafel voor vanavond?</h2>
+      <p class="lede" data-reveal>Kies een dag en een moment. Het team bekijkt elke <em>aanvraag</em> persoonlijk en laat snel iets weten.</p>
+    </div>
+
+    <form class="res-form" id="res-form" novalidate data-reveal>
+      <div class="res-fields">
+        <div class="field">
+          <label for="res-date">Datum</label>
+          <input class="input" type="date" id="res-date" name="date" required aria-describedby="res-date-hint">
+          <p class="hint" id="res-date-hint">Vanaf vandaag. Op maandag zijn we gesloten.</p>
+        </div>
+        <fieldset class="field">
+          <legend>Tijdstip</legend>
+          <div class="slot-groups" id="res-slots"></div>
+          <p class="hint" id="res-slots-hint">Kies eerst een datum.</p>
+        </fieldset>
+        <div class="field">
+          <span class="label" id="res-size-label">Aantal personen</span>
+          <div class="stepper" role="group" aria-labelledby="res-size-label">
+            <button type="button" class="step" data-step="-1" aria-label="Een persoon minder">&minus;</button>
+            <output id="res-size" aria-live="polite" aria-labelledby="res-size-label">2</output>
+            <button type="button" class="step" data-step="1" aria-label="Een persoon meer">+</button>
+          </div>
+          <p class="hint">Tot 8 personen online. Groter gezelschap? Bel ons even.</p>
+        </div>
+        <div class="field two">
+          <div>
+            <label for="res-name">Naam</label>
+            <input class="input" type="text" id="res-name" name="name" autocomplete="name" required aria-describedby="res-name-hint">
+            <p class="hint" id="res-name-hint"></p>
+          </div>
+          <div>
+            <label for="res-phone">Telefoon</label>
+            <input class="input" type="tel" id="res-phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="+32 4.." required aria-describedby="res-phone-hint">
+            <p class="hint" id="res-phone-hint">Voor een kort berichtje als er iets wijzigt.</p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="res-note">Bijzonderheden <span>(optioneel)</span></label>
+          <textarea class="input" id="res-note" name="note" rows="2" placeholder="Allergie, verjaardag, kinderstoel, raamtafel..."></textarea>
+        </div>
+      </div>
+
+      <aside class="ticket" aria-labelledby="ticket-kicker">
+        <p class="ticket-kicker" id="ticket-kicker">Je aanvraag</p>
+        <p class="ticket-title" id="ticket-title" aria-live="polite">Nog geen datum gekozen</p>
+        <dl class="ticket-rows">
+          <div><dt>Datum</dt><dd data-sum="date">&mdash;</dd></div>
+          <div><dt>Tijd</dt><dd data-sum="time">&mdash;</dd></div>
+          <div><dt>Gezelschap</dt><dd data-sum="size">2 personen</dd></div>
+          <div><dt>Naam</dt><dd data-sum="name">&mdash;</dd></div>
+          <div><dt>Telefoon</dt><dd data-sum="phone">&mdash;</dd></div>
+        </dl>
+        <p class="ticket-note">Dit is een aanvraag, nog geen reservatie. Het team antwoordt persoonlijk.</p>
+      </aside>
+
+      <div class="res-actions">
+        <button class="btn btn-solid" type="submit">Aanvraag klaarzetten</button>
+        <p class="form-error" id="res-error" role="alert"></p>
+      </div>
+    </form>
+
+    <div class="res-done" id="res-done" hidden tabindex="-1">
+      <span class="done-icon" aria-hidden="true"><svg focusable="false"><use href="#check"/></svg></span>
+      <h3 id="done-title">Aanvraag klaar.</h3>
+      <p class="done-summary" id="done-summary"></p>
+      <p class="done-demo">Dit is een demo: er wordt niets verzonden. In de echte versie bevestigt het team via WhatsApp binnen het uur.</p>
+      <button class="btn btn-ghost" type="button" id="res-reset">Nieuwe aanvraag</button>
+    </div>
+  </section>
+
+  <section class="section vraag" id="vraag" aria-labelledby="vraag-title">
+    <div class="vraag-copy">
+      <p class="section-num"><b>03</b> Vraag het Meridiaan</p>
+      <h2 id="vraag-title" class="kinetic" data-kinetic>Stel je vraag, krijg een eerlijk antwoord.</h2>
+      <p class="lede" data-reveal>Geen chatbot die dingen verzint. Deze assistent antwoordt alleen met wat de zaak zeker weet: uren, kaart, terras en parkeren. De rest geeft ze door aan het team.</p>
+      <ul class="facts" data-reveal>
+        <li>Antwoordt uit de gegevens van de zaak, niet uit de lucht.</li>
+        <li>Weet ze het niet, dan zegt ze dat en geeft ze je vraag door.</li>
+        <li>In de echte versie draait dit op WhatsApp, 24 op 7.</li>
+      </ul>
+      <span class="tag is-outline" data-reveal>Gescripte demo: de antwoorden zijn vooraf geschreven</span>
+    </div>
+
+    <div class="chat" id="chat" aria-busy="false" data-reveal>
+      <div class="chat-head">
+        <span class="chat-avatar" aria-hidden="true">M</span>
+        <div>
+          <strong>Brasserie Meridiaan</strong>
+          <small>Antwoordt meestal binnen het uur</small>
+        </div>
+        <span class="tag">Gescripte demo</span>
+      </div>
+      <div class="chat-log" id="chat-log" role="log" aria-live="off" aria-label="Gesprek"></div>
+      <p class="sr-only" id="chat-sr" aria-live="polite"></p>
+      <div class="chat-chips" id="chat-chips" role="group" aria-label="Kies een vraag"></div>
+      <form class="chat-form" id="chat-form">
+        <label class="sr-only" for="chat-input">Typ je vraag</label>
+        <input class="input" type="text" id="chat-input" name="q" placeholder="Typ zelf een vraag..." autocomplete="off" maxlength="160">
+        <button class="chat-send" type="submit" aria-label="Verstuur je vraag"><svg aria-hidden="true" focusable="false"><use href="#arrow"/></svg></button>
+      </form>
+    </div>
+  </section>
+
+  <section class="section reviews" aria-labelledby="rev-title">
+    <div class="reviews-head">
+      <svg class="orn-div" aria-hidden="true" focusable="false"><use href="#orn-divider"/></svg>
+      <h2 id="rev-title">Wat gasten zeggen</h2>
+    </div>
+    <ul class="review-strip">
+      <li class="review" data-reveal>
+        <span class="stars" role="img" aria-label="5 op 5 sterren"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></span>
+        <blockquote>De steak-frites is precies wat hij moet zijn, en de béarnaise wordt aan tafel bijgeschept. We kwamen voor een snelle lunch en bleven tot de koffie.</blockquote>
+        <cite><b>Lies V.</b> na een zondagslunch</cite>
+      </li>
+      <li class="review" data-reveal>
+        <span class="stars" role="img" aria-label="5 op 5 sterren"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></span>
+        <blockquote>Om tien uur ’s avonds een tafel voor acht gevraagd via WhatsApp, tien minuten later antwoord van het team. Zo hoort het.</blockquote>
+        <cite><b>Karim B.</b> verjaardag met acht</cite>
+      </li>
+      <li class="review" data-reveal>
+        <span class="stars" role="img" aria-label="5 op 5 sterren"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></span>
+        <blockquote>Het terras bij zonsondergang, een sole meunière en die neonletters die aangaan. Antwerpen op zijn best.</blockquote>
+        <cite><b>Margot D.</b> terras in september</cite>
+      </li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="footer" id="contact">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="hours">
+        <h2>Openingsuren</h2>
+        <dl class="hours-grid" id="hours-grid">
+          <div data-days="1"><dt>Maandag</dt><dd>gesloten</dd></div>
+          <div data-days="2 3 4"><dt>Dinsdag – donderdag</dt><dd>11:30 – 22:30</dd></div>
+          <div data-days="5 6"><dt>Vrijdag – zaterdag</dt><dd>11:30 – 23:30</dd></div>
+          <div data-days="0"><dt>Zondag</dt><dd>11:30 – 21:30</dd></div>
+        </dl>
+        <p class="hours-fine">Keuken doorlopend open. Laatste tafel anderhalf uur voor sluitingstijd.</p>
+      </div>
+      <div class="map">
+        <svg class="map-svg" viewBox="0 0 400 300" role="img" aria-labelledby="map-title map-desc">
+          <title id="map-title">Gestileerde kaart</title>
+          <desc id="map-desc">Brasserie Meridiaan op het Sterrenplein, vlak bij de Schelde, Antwerpen-Zuid. Geen echte kaart.</desc>
+          <rect width="400" height="300" fill="#0b1a16"/>
+          <path d="M-10 30C70 60 30 150 90 190S60 290 120 320" fill="none" stroke="#17302a" stroke-width="44"/>
+          <path d="M-10 30C70 60 30 150 90 190S60 290 120 320" fill="none" stroke="#2c5247" stroke-width="1.5" stroke-dasharray="5 9"/>
+          <text class="map-label" x="44" y="128" transform="rotate(62 44 128)">Schelde</text>
+          <g stroke="#23423a" stroke-width="2" fill="none"><path d="M150 0V300M225 0V300M330 0V300M110 70H400M110 150H400M110 230H400"/></g>
+          <path d="M140 300L400 40" stroke="#c9a24e" stroke-opacity=".4" stroke-width="2" fill="none"/>
+          <circle cx="262" cy="150" r="36" fill="none" stroke="#c9a24e" stroke-opacity=".55"/>
+          <circle cx="262" cy="150" r="24" fill="none" stroke="#c9a24e" stroke-opacity=".3"/>
+          <g transform="translate(262 150)"><path d="M0-28L7-7 28 0 7 7 0 28-7 7-28 0-7-7Z" fill="#e6c97a"/><circle r="4.5" fill="#07110e"/></g>
+          <text class="map-label" x="262" y="207" text-anchor="middle">Sterrenplein 4</text>
+          <text class="map-label" x="345" y="56">Zuid</text>
+          <g transform="translate(360 258)" fill="none" stroke="#c9a24e"><circle r="14"/><path d="M0-14V14M-14 0H14"/><path d="M0-14L4 0H-4Z" fill="#c9a24e" stroke="none"/></g>
+          <text class="map-label" x="360" y="236" text-anchor="middle">N</text>
+        </svg>
+        <p class="map-caption">Gestileerde kaart, geen externe kaartdienst</p>
+      </div>
+      <div class="contact">
+        <h2>Contact</h2>
+        <address>
+          <p><small>Adres</small>Sterrenplein 4<br>2000 Antwerpen</p>
+          <p><small>Telefoon</small><a href="tel:+3230000000">+32 3 000 00 00</a></p>
+          <p><small>Mail</small><a href="mailto:tafel@meridiaan.example">tafel@meridiaan.example</a></p>
+          <p><small>Reserveren</small><a href="#reserveren">Zet een aanvraag klaar</a></p>
+        </address>
+      </div>
+    </div>
+    <p class="footer-fine">
+      <span>Brasserie Meridiaan is een fictieve zaak. Adres, nummer, kaart en recensies zijn verzonnen voor deze demo.</span>
+      <span>Ontwerp en bouw: <a href="../../index.html">Star.Tec.Solutions</a>, Antwerpen. Geen cookies, geen trackers.</span>
+    </p>
+  </div>
+</footer>
+
+<div class="sts-bar" role="note"><span>Fictief voorbeeld &middot; gemaakt door <a href="../../index.html">Star.Tec.Solutions</a></span><nav><a href="../../demos.html">Alle demo's</a><a href="../../index.html#contact">Dit wil ik voor mijn zaak</a></nav></div>
+
+<script src="../../assets/vendor/gsap.min.js"></script>
+<script src="../../assets/vendor/ScrollTrigger.min.js"></script>
+<script src="../../assets/vendor/lenis.min.js"></script>
+<script src="app.js"></script>
+<script src="forms.js"></script>
+</body>
+</html>

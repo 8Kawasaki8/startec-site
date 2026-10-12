@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="nl-BE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Radar — onderzoeksconcept van Star.Tec.Solutions (fictieve data)</title>
+<meta name="description" content="Radar is het onderzoeksconcept van Star.Tec.Solutions: het vindt zaken in Antwerpen zonder (goede) website, meet hoe vindbaar ze zijn en zet de beste kandidaten klaar voor een gratis voorbeeld. Demo met fictieve data.">
+<meta name="theme-color" content="#05070E">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/unbounded-normal-400_900.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/instrument-sans-normal-400_700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/jetbrains-mono-normal-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="panels.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#main">Naar de inhoud</a>
+<div class="sts-bar" role="note"><span>Fictief voorbeeld &middot; gemaakt door <a href="../../index.html">Star.Tec.Solutions</a></span><nav><a href="../../demos.html">Alle demo's</a><a href="../../index.html#contact">Dit wil ik voor mijn zaak</a></nav></div>
+
+<div class="aurora" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i><i class="a4"></i></div>
+<div class="gridlines" aria-hidden="true"></div>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<div class="page">
+<header class="top rv">
+  <a class="brand" href="../../index.html" aria-label="Star.Tec.Solutions, naar de echte site">
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="47" fill="#0B0F1A" stroke="rgba(242,245,255,.18)" stroke-width="2"/>
+      <g fill="#36E8FF" transform="translate(50 50) scale(.8) translate(-50 -50)">
+        <path d="M19,61 Q20.8,72.2 32,74 Q20.8,75.8 19,87 Q17.2,75.8 6,74 Q17.2,72.2 19,61Z"/>
+        <path d="M49,39 Q51.1,51.9 64,54 Q51.1,56.1 49,69 Q46.9,56.1 34,54 Q46.9,51.9 49,39Z"/>
+        <path d="M77,19 Q78.5,28.5 88,30 Q78.5,31.5 77,41 Q75.5,31.5 66,30 Q75.5,28.5 77,19Z"/>
+      </g>
+    </svg>
+    <span>Star.Tec.Solutions</span>
+  </a>
+  <span class="sep" aria-hidden="true">/</span>
+  <span class="product">Radar <span class="ver">v0.3 &middot; concept</span></span>
+  <span class="chip chip-status"><i class="pulse" aria-hidden="true"></i>verkenner actief <span class="dim">&middot; gesimuleerd</span></span>
+</header>
+<p class="concept rv" data-delay=".05"><b>Concept met fictieve data</b><span>Alle zaken, namen en cijfers op deze pagina zijn verzonnen; niets is live. In de echte pipeline keurt Snymis elk bericht goed voor er iets verstuurd wordt.</span></p>
+
+<main id="main">
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-copy">
+    <p class="kicker rv" data-delay=".1">Onderzoekstool &middot; Antwerpen</p>
+    <h1 id="hero-title" class="rv" data-delay=".15">Radar<span class="st" aria-hidden="true"></span></h1>
+    <p class="lede rv" data-delay=".2">Radar vindt zaken zonder (goede) website, meet hoe vindbaar ze zijn en zet de beste kandidaten klaar voor een gratis voorbeeld.</p>
+    <div class="hero-meta rv" data-delay=".25"><span>gebied <b>10 districten</b></span><span>scanronde <b>#12</b></span><span>bronnen <b>kaarten &middot; gidsen &middot; sociale media</b></span></div>
+    <div class="hero-actions rv" data-delay=".3"><a class="btn" href="#kandidaten">Bekijk de kandidaten</a><a class="btn ghost" href="#werkwijze">Hoe het werkt</a></div>
+  </div>
+  <figure class="glass holo panel radar-panel rv" data-delay=".2">
+    <figcaption class="panel-head"><span class="label">ASCII-radar</span><span class="meta">sweep 4,0 s &middot; 8 signalen</span></figcaption>
+    <div class="ascii-host"><div class="ascii-wrap" aria-hidden="true"><pre id="r-base" class="l-base"></pre><pre id="r-sweep" class="l-sweep"></pre><pre id="r-blip" class="l-blip"></pre></div></div>
+    <p class="sr">Decoratieve radaranimatie in tekst: een draaiende sweep die acht fictieve signalen laat oplichten.</p>
+    <div class="radar-foot"><span>contacten <b id="radar-hits">0</b></span><span>bereik <b>9 km</b></span><span>modus <b>verkennen</b></span></div>
+  </figure>
+</section>
+
+<section class="kpis" aria-label="Kerncijfers, fictief">
+  <article class="kpi glass holo rv" data-delay=".05"><span class="label">Zaken gescand</span><strong class="num" data-count="1284">0</strong><span class="delta"><b>+153</b> in week 41</span><span class="spark" data-spark="scans" aria-hidden="true"></span></article>
+  <article class="kpi glass holo rv" data-delay=".12"><span class="label">Zonder website</span><strong class="num" data-count="412">0</strong><span class="delta"><b>+51</b> &middot; 32% van gescand</span><span class="spark" data-spark="noSite" aria-hidden="true"></span></article>
+  <article class="kpi glass holo rv" data-delay=".19"><span class="label">Voorbeeld gebouwd</span><strong class="num" data-count="37">0</strong><span class="delta"><b>+4</b> in week 41</span><span class="spark" data-spark="demos" aria-hidden="true"></span></article>
+  <article class="kpi glass holo rv" data-delay=".26"><span class="label">Gesprekken</span><strong class="num" data-count="19">0</strong><span class="delta"><b>+3</b> in week 41</span><span class="spark" data-spark="talks" aria-hidden="true"></span></article>
+</section>
+
+<section class="grid-2">
+  <article class="panel glass map-panel rv" aria-labelledby="map-title">
+    <div class="panel-head"><h2 id="map-title">Kaart van de scan</h2><span class="meta">24 kandidaten &middot; 10 districten &middot; abstracte vormen, fictieve posities</span></div>
+    <div id="map" class="map-wrap">
+      <svg viewBox="0 0 600 560" aria-hidden="true" focusable="false"></svg>
+      <div class="map-sweep" aria-hidden="true"></div>
+      <div class="map-labels" aria-hidden="true"></div>
+      <div class="map-dots" role="group" aria-label="Zaken op de kaart. Kies een stip voor details."></div>
+      <div class="map-tip" aria-live="polite"></div>
+    </div>
+    <div class="legend"><span class="st-scan"><i aria-hidden="true"></i>Gescand</span><span class="st-demo"><i aria-hidden="true"></i>Voorbeeld klaar</span><span class="st-talk"><i aria-hidden="true"></i>Gesprek</span><span class="st-live"><i aria-hidden="true"></i>Live</span></div>
+  </article>
+  <article class="panel glass log-panel rv" data-delay=".08" aria-labelledby="log-title">
+    <div class="panel-head"><h2 id="log-title">Agent-log</h2><span class="meta">gesimuleerd &middot; 4 agenten + 1 mens</span></div>
+    <div id="agents" class="agents" aria-label="Belasting per agent, fictief"></div>
+    <div id="term" class="term" role="log" aria-live="off"></div>
+    <p class="note">Elke regel is een voorbeeld van wat de agenten rapporteren. Verzenden gebeurt nooit automatisch: Snymis keurt elk bericht goed.</p>
+  </article>
+</section>
+
+<section id="kandidaten" class="panel glass list-panel rv" aria-labelledby="list-title">
+  <div class="panel-head"><h2 id="list-title">Kandidaten</h2><span class="meta">24 fictieve zaken &middot; score = vindbaarheid bij de scan (0 tot 100, lager is minder vindbaar)</span></div>
+  <form class="filters" onsubmit="return false">
+    <div class="field"><label for="f-q">Zoek</label><input id="f-q" type="search" placeholder="naam, sector of district" autocomplete="off"></div>
+    <div class="field"><label for="f-sector">Sector</label><select id="f-sector"><option value="">Alle sectoren</option></select></div>
+    <div class="field"><label for="f-district">District</label><select id="f-district"><option value="">Alle districten</option></select></div>
+    <div class="field"><label for="f-status">Status</label><select id="f-status"><option value="">Alle statussen</option></select></div>
+    <div class="field"><label for="f-sort">Sorteer</label><select id="f-sort"><option value="score-desc">Score hoog-laag</option><option value="score-asc">Score laag-hoog</option><option value="name">Naam A-Z</option></select></div>
+  </form>
+  <div class="list-meta"><span id="list-count" aria-live="polite">24 van 24 zaken</span><button id="f-reset" type="button" class="lnk">Filters wissen</button></div>
+  <div class="row-h" aria-hidden="true"><span>Zaak</span><span>Sector</span><span>District</span><span>Vindbaarheid</span><span class="sc">Score</span><span>Status</span></div>
+  <ul id="rows" class="rows" aria-label="Kandidaten"></ul>
+</section>
+
+<section class="grid-2 charts" aria-label="Grafieken, fictief">
+  <figure id="chart-weeks" class="panel glass chart rv">
+    <figcaption class="panel-head"><h2>Scans per week</h2><span class="meta">week 30 tot 41 &middot; 2026 &middot; fictief</span></figcaption>
+    <div class="plot"></div>
+    <details><summary>Toon als tabel</summary><table></table></details>
+  </figure>
+  <figure id="chart-sectors" class="panel glass chart rv" data-delay=".08">
+    <figcaption class="panel-head"><h2>Zonder website, per sector</h2><span class="meta">412 zaken &middot; fictief</span></figcaption>
+    <div class="plot"></div>
+    <details><summary>Toon als tabel</summary><table></table></details>
+  </figure>
+</section>
+
+<section id="werkwijze" class="steps" aria-labelledby="steps-title">
+  <div class="sec-head rv"><h2 id="steps-title">Hoe het werkt</h2><span class="label">vier stappen, een mens beslist</span></div>
+  <ol class="steps-grid">
+    <li class="step glass holo rv"><span class="no">01 &middot; Zoeken</span><pre aria-hidden="true"> .--.
+(  o )--
+ '--'</pre><h3>Zoeken</h3><p>De verkenner doorzoekt kaarten, gidsen en sociale media per district en vindt zaken zonder website, of met een die niemand vindt.</p><span class="arrow" aria-hidden="true">&rarr;</span></li>
+    <li class="step glass holo rv" data-delay=".08"><span class="no">02 &middot; Meten</span><pre aria-hidden="true">|    .:
+| .::::
++------</pre><h3>Meten</h3><p>De meter geeft elke zaak een vindbaarheidsscore: vermeldingen, reviews, laadtijd, mobiel, https. Lager is een sterkere kandidaat.</p><span class="arrow" aria-hidden="true">&rarr;</span></li>
+    <li class="step glass holo rv" data-delay=".16"><span class="no">03 &middot; Bouwen</span><pre aria-hidden="true">+-----+
+| ### |
++-----+</pre><h3>Bouwen</h3><p>Voor de beste kandidaten bouwt de bouwer een gratis voorbeeld met de echte gegevens: adres, uren, foto's, menu of diensten.</p><span class="arrow" aria-hidden="true">&rarr;</span></li>
+    <li class="step glass holo rv" data-delay=".24"><span class="no">04 &middot; Bellen</span><pre aria-hidden="true"> (( ))
+  ( )
+   []</pre><h3>Bellen</h3><p>Pas na goedkeuring door Snymis wordt de zaak gecontacteerd, met het voorbeeld in de hand. Geen interesse? Dan stopt het daar.</p></li>
+  </ol>
+  <div class="human glass rv"><span class="glyph" aria-hidden="true">[mens]</span><div><h3>Snymis keurt elk bericht goed</h3><p>Radar stelt voor, een mens beslist. In de echte pipeline wordt niets automatisch verstuurd: elk voorbeeld en elk bericht passeert eerst langs Snymis voor er iets de deur uit gaat.</p></div></div>
+</section>
+</main>
+
+<footer class="foot">
+  <p>Alle zaken, namen en cijfers op deze pagina zijn verzonnen. Radar is een productconcept van Star.Tec.Solutions en geen live systeem; in de echte pipeline keurt Snymis elk bericht goed voor er iets verstuurd wordt.</p>
+  <div class="row"><span>Gemaakt door <a href="../../index.html">Star.Tec.Solutions</a> &middot; STS Digital, Antwerpen</span><span><a href="../../demos.html">Alle demo's</a> &middot; <a href="../../index.html#contact">Dit wil ik voor mijn zaak</a></span><span>&copy; <span data-year>2026</span></span></div>
+</footer>
+</div>
+
+<script src="../../assets/vendor/gsap.min.js"></script>
+<script src="../../assets/vendor/lenis.min.js"></script>
+<script src="data.js"></script>
+<script src="bg.js"></script>
+<script src="ascii.js"></script>
+<script src="map.js"></script>
+<script src="list.js"></script>
+<script src="chart.js"></script>
+</body>
+</html>
