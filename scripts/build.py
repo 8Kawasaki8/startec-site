@@ -7,7 +7,7 @@ Page front matter (HTML comment at the top):
   title, description, nav (section id to mark active), scripts (space-separated
   names in docs/assets/js), scene: yes (loads the 3D scene module).
 """
-import argparse, pathlib, re
+import argparse, json, pathlib, re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC, OUT = ROOT / "src", ROOT / "docs"
@@ -46,6 +46,27 @@ def og_tags(base, slug, meta):
     ])
 
 
+def json_ld(base, slug):
+    """Organization markup for Google, only on the home page; the e-mail comes from config.js so it lives in one place."""
+    if slug != "index":
+        return ""
+    cfg = (OUT / "assets" / "js" / "config.js").read_text(encoding="utf-8")
+    email = (re.search(r'email:\s*"([^"]*)"', cfg) or [None, ""])[1]
+    data = {
+        "@context": "https://schema.org", "@type": "ProfessionalService",
+        "name": "Star.Tec.Solutions", "legalName": "STS Digital", "alternateName": "STS Digital",
+        "description": "Websites, AI-systemen en automatisering voor zaken in Vlaanderen. Eerst een gratis voorbeeld, dan een offerte op maat.",
+        "areaServed": ["Antwerpen", "Vlaanderen", "Brussel"], "address": {"@type": "PostalAddress", "addressLocality": "Antwerpen", "addressCountry": "BE"},
+        "founder": {"@type": "Person", "name": "Snymis"}, "knowsLanguage": "nl-BE", "priceRange": "Offerte op maat",
+    }
+    if base:
+        data["url"] = base
+        data["logo"] = base + "assets/img/logo.svg"
+    if email:
+        data["email"] = email
+    return '<script type="application/ld+json">%s</script>' % json.dumps(data, ensure_ascii=False)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--base", default="")
@@ -67,9 +88,13 @@ def main():
         if meta.get("scene") == "yes":
             scripts += ['<script type="module" src="assets/js/scene.js"></script>']
         scripts += ['<script src="assets/js/%s.js"></script>' % s for s in meta.get("scripts", "").split()]
-        html = (head.replace("{{title}}", meta["title"])
+        page_head = head
+        if slug == "404" and base:   # served for any missing URL, so relative assets need an anchor
+            page_head = head.replace("<head>", '<head>\n<base href="%s">' % base, 1)
+        html = (page_head.replace("{{title}}", meta["title"])
                     .replace("{{description}}", meta["description"])
                     .replace("{{og}}", og_tags(base, slug, meta))
+                    .replace("{{jsonld}}", json_ld(base, slug))
                 + nav.replace("{{links}}", links).replace("{{home}}", home or "index.html")
                 + body.strip() + "\n"
                 + foot.replace("{{scripts}}", "\n".join(scripts)).replace("{{home}}", home or "index.html"))

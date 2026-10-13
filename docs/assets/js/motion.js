@@ -5,6 +5,7 @@
   var body = document.body, C = window.STS_CONFIG || {};
   var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });   // the address bar on phones must not re-layout the chapters
 
   /* ── contact details from config (empty → hidden) ─────────── */
   document.querySelectorAll("[data-c]").forEach(function (el) {
@@ -121,7 +122,8 @@
         trigger: ch, start: "top top", end: "bottom bottom",
         onUpdate: function (self) {
           var i = Math.min(copies.length - 1, Math.floor(self.progress * copies.length));
-          copies.forEach(function (c, k) { c.classList.toggle("is-active", k === i); });
+          var ending = self.progress > 0.94;                 // fade the text before the chapter scrolls out
+          copies.forEach(function (c, k) { c.classList.toggle("is-active", k === i && !ending); });
           meter.forEach(function (m, k) { m.classList.toggle("on", k <= i); });
           if (card) card.classList.toggle("is-active", self.progress > 0.3 && self.progress < 0.95);
         },
@@ -258,13 +260,35 @@
     });
   });
 
-  /* ── cursor follower (desktop only) ────────────────────────── */
+  /* ── "minder animatie": remembered per browser, reloads in lite mode ── */
+  document.querySelectorAll("[data-lite-toggle]").forEach(function (b) {
+    var on = false; try { on = localStorage.getItem("sts-lite") === "1"; } catch (e) { /* storage blocked */ }
+    b.textContent = on ? "Meer animatie" : "Minder animatie";
+    b.addEventListener("click", function () { try { on ? localStorage.removeItem("sts-lite") : localStorage.setItem("sts-lite", "1"); } catch (e) { /* storage blocked */ } location.reload(); });
+  });
+
+  /* ── cursor follower + comet tail (desktop only) ───────────── */
   if (matchMedia("(hover:hover) and (pointer:fine)").matches && !reduce) {
     var dot = document.createElement("i"), ring = document.createElement("i");
     dot.className = "cur-dot"; ring.className = "cur-ring"; body.append(dot, ring);
     var dx = gsap.quickTo(dot, "x", { duration: 0.05 }), dy = gsap.quickTo(dot, "y", { duration: 0.05 });
     var rx = gsap.quickTo(ring, "x", { duration: 0.22, ease: "power3" }), ry = gsap.quickTo(ring, "y", { duration: 0.22, ease: "power3" });
-    addEventListener("pointermove", function (e) { dx(e.clientX); dy(e.clientY); rx(e.clientX); ry(e.clientY); }, { passive: true });
+    // the tail: the last ~20 pointer positions, drawn as a tapered cyan stroke that fades within 0.45 s
+    var trail = document.createElement("canvas"), tctx = trail.getContext("2d"), pts = [];
+    trail.className = "cur-trail"; body.appendChild(trail);
+    function sizeTrail() { trail.width = innerWidth; trail.height = innerHeight; } sizeTrail(); addEventListener("resize", sizeTrail);
+    addEventListener("pointermove", function (e) { dx(e.clientX); dy(e.clientY); rx(e.clientX); ry(e.clientY); pts.push({ x: e.clientX, y: e.clientY, t: performance.now() }); if (pts.length > 22) pts.shift(); }, { passive: true });
+    gsap.ticker.add(function () {
+      var now = performance.now(); while (pts.length && now - pts[0].t > 450) pts.shift();
+      tctx.clearRect(0, 0, trail.width, trail.height);
+      if (pts.length < 3) return;
+      tctx.lineCap = "round"; tctx.lineJoin = "round";
+      for (var i = 1; i < pts.length; i++) {
+        var k = i / pts.length, age = 1 - (now - pts[i].t) / 450;
+        tctx.beginPath(); tctx.moveTo(pts[i - 1].x, pts[i - 1].y); tctx.lineTo(pts[i].x, pts[i].y);
+        tctx.strokeStyle = "rgba(54,232,255," + (0.5 * k * age).toFixed(3) + ")"; tctx.lineWidth = 1 + 5 * k * age; tctx.stroke();
+      }
+    });
     document.querySelectorAll("a, button, .card, .tag, .acc-head, .plot").forEach(function (el) {
       el.addEventListener("pointerenter", function () { ring.classList.add("big"); });
       el.addEventListener("pointerleave", function () { ring.classList.remove("big"); });

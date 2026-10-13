@@ -14,7 +14,8 @@ import { createIntro } from "./scene/intro.js";
 const canvas = document.getElementById("scene");
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const params = new URLSearchParams(location.search);
-const lite = params.has("lite") || ((navigator.hardwareConcurrency || 8) <= 4) || (matchMedia("(pointer:coarse)").matches && innerWidth < 900);
+let liteStored = null; try { liteStored = localStorage.getItem("sts-lite"); } catch (e) { /* storage blocked */ }
+const lite = params.has("lite") || liteStored === "1" || ((navigator.hardwareConcurrency || 8) <= 4) || (matchMedia("(pointer:coarse)").matches && innerWidth < 900);
 let renderer;
 try {
   renderer = new THREE.WebGLRenderer({ canvas, antialias: lite, powerPreference: "high-performance" });
@@ -82,15 +83,23 @@ const look = new THREE.Vector3(), pos = new THREE.Vector3(), clock = new THREE.C
 const overlay = document.getElementById("intro");
 const wantIntro = !!overlay && !reduce && !sessionStorage.getItem("sts-pre");
 const intro = wantIntro ? createIntro({ scene, camera, overlay }) : null;
-if (intro) { intro.state.active = true; camera.position.set(0, 130, 430); camera.lookAt(0, 72, 0); scene.fog.near = 260; scene.fog.far = 1500; }
+if (intro) { intro.state.active = true; camera.position.set(0, 62, 120); camera.lookAt(0, 14, 0); scene.fog.near = 52; scene.fog.far = 260; }
 
-function resize() {
-  const w = innerWidth, h = innerHeight;
+/* On phones the address bar shows and hides constantly; the canvas is sized to
+   the large viewport (100lvh) and height-only changes are ignored, so the city
+   never jumps while scrolling. */
+const coarse = matchMedia("(pointer:coarse)").matches;
+const probe = document.createElement("div"); probe.style.cssText = "position:fixed;top:0;left:0;width:0;height:100lvh;visibility:hidden;pointer-events:none"; document.body.appendChild(probe);
+let lastW = 0, lastH = 0;
+function resize(force) {
+  const w = innerWidth, h = coarse ? Math.max(innerHeight, probe.offsetHeight || 0) : innerHeight;
+  if (!force && coarse && w === lastW && Math.abs(h - lastH) < 200) return;
+  lastW = w; lastH = h;
   renderer.setSize(w, h, false); camera.aspect = w / h; camera.fov = w / h < 1 ? 58 : 42; camera.updateProjectionMatrix();
   if (composer) { composer.setSize(w, h); bloom.setSize(w / 2, h / 2); }
   needs = true;
 }
-addEventListener("resize", resize); resize();
+addEventListener("resize", () => resize(false)); resize(true);
 addEventListener("pointermove", e => { mx = e.clientX / innerWidth - 0.5; my = e.clientY / innerHeight - 0.5; needs = true; }, { passive: true });
 document.addEventListener("visibilitychange", () => { visible = !document.hidden; if (visible && !raf) tick(); });
 
@@ -116,7 +125,7 @@ function guard(dt) {
   if (samples >= 150) { guarded = true; if (acc / samples > 0.028) degrade(); }
 }
 function degrade() {
-  composer = null; bloom = null; city.dropMirror(); dpr = 1; renderer.setPixelRatio(1); resize();
+  composer = null; bloom = null; city.dropMirror(); dpr = 1; renderer.setPixelRatio(1); resize(true);
   document.documentElement.classList.add("lite-gpu");
 }
 
@@ -129,11 +138,11 @@ function render(t) {
     pos.x += smx * 3 + Math.sin(t * 0.37) * 0.25; pos.y += -smy * 1.5 + Math.cos(t * 0.29) * 0.18;
     camera.position.copy(pos); camera.lookAt(look);
   }
-  const lit = inIntro ? 0.6 * Math.sin(Math.PI * intro.state.dive) : ease(0.05, 0.33, progress);
+  const lit = inIntro ? 0 : ease(0.05, 0.33, progress);
   const rise = ease(0.88, 1, progress), heroGrow = ease(0.66, 0.76, progress), heroSolid = ease(0.77, 0.86, progress);
   sky.group.position.copy(camera.position); sky.update(t, dpr, rise);
   city.update(t, lit, px, heroGrow, heroSolid);
-  beacon.scale.setScalar((8 + Math.sin(t * 2) * 1.2) * (1 - ease(0.04, 0.2, progress)) * (inIntro ? intro.state.dive : 1));
+  beacon.scale.setScalar((8 + Math.sin(t * 2) * 1.2) * (1 - ease(0.04, 0.2, progress)) * (inIntro ? intro.state.glide : 1));
   const tr = ease(0.36, 0.62, progress);
   trail.geometry.setDrawRange(0, Math.floor(TRAIL_INDEX * tr));
   head.visible = tr > 0 && tr < 1; if (head.visible) head.position.copy(path.getPoint(tr)).setY(0.9);
