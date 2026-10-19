@@ -1,0 +1,21 @@
+/* Zichtbaarheidscheck on the tools page. */
+.band{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.zc fieldset{border:0;padding:0;margin:0 0 18px}
+.zc legend{font-size:15.5px;font-weight:500;margin-bottom:10px;color:var(--ink)}
+.zc-opts{display:flex;gap:8px;flex-wrap:wrap}
+.zc-opts label{position:relative}
+.zc-opts input{position:absolute;opacity:0;width:1px;height:1px}
+.zc-opts span{display:inline-block;padding:9px 14px;border-radius:999px;border:1px solid var(--line2);background:var(--glass);font-size:14px;cursor:pointer;transition:border-color .2s,background .2s,color .2s;min-width:64px;text-align:center}
+.zc-opts input:checked+span{background:var(--cyan);color:#06080F;border-color:var(--cyan);font-weight:600}
+.zc-opts input:focus-visible+span{outline:2px solid var(--cyan);outline-offset:3px}
+.zc .pill{margin-top:8px}
+.zc-out{position:sticky;top:90px}
+.zc-ring{position:relative;width:150px;height:150px}
+.zc-ring svg{width:100%;height:100%}
+.zc-ring #zc-arc{transition:stroke-dashoffset 1.2s var(--ease)}
+.zc-score{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.zc-score b{font:700 2.2rem/1 var(--display)}
+.zc-score span{font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-top:4px}
+.zc-tips{padding-left:20px;display:grid;gap:10px;margin-top:10px;color:var(--ink2);font-size:15px}
+.zc-tips li::marker{color:var(--cyan);font-weight:600}
+@media(max-width:860px){.zc-out{position:static}}

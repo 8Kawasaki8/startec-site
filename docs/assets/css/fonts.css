@@ -1,51 +1,51 @@
-/* Self-hosted: Clash Display + Satoshi (Fontshare, ITF Free Font License), JetBrains Mono, Unbounded. No requests to third parties. */
+/* Self-hosted: Panchang + Switzer (Fontshare, ITF Free Font License), JetBrains Mono, Unbounded. No requests to third parties. */
 
 @font-face {
-  font-family: 'Clash Display';
+  font-family: 'Panchang';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(../fonts/clash-display-normal-500.woff2) format('woff2');
+  src: url(../fonts/panchang-normal-500.woff2) format('woff2');
 }
 
 @font-face {
-  font-family: 'Clash Display';
+  font-family: 'Panchang';
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url(../fonts/clash-display-normal-600.woff2) format('woff2');
+  src: url(../fonts/panchang-normal-600.woff2) format('woff2');
 }
 
 @font-face {
-  font-family: 'Clash Display';
+  font-family: 'Panchang';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(../fonts/clash-display-normal-700.woff2) format('woff2');
+  src: url(../fonts/panchang-normal-700.woff2) format('woff2');
 }
 
 @font-face {
-  font-family: 'Satoshi';
+  font-family: 'Switzer';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(../fonts/satoshi-normal-400.woff2) format('woff2');
+  src: url(../fonts/switzer-normal-400.woff2) format('woff2');
 }
 
 @font-face {
-  font-family: 'Satoshi';
+  font-family: 'Switzer';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(../fonts/satoshi-normal-500.woff2) format('woff2');
+  src: url(../fonts/switzer-normal-500.woff2) format('woff2');
 }
 
 @font-face {
-  font-family: 'Satoshi';
+  font-family: 'Switzer';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(../fonts/satoshi-normal-700.woff2) format('woff2');
+  src: url(../fonts/switzer-normal-700.woff2) format('woff2');
 }
 
 @font-face {

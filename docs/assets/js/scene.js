@@ -83,7 +83,7 @@ const look = new THREE.Vector3(), pos = new THREE.Vector3(), clock = new THREE.C
 const overlay = document.getElementById("intro");
 const wantIntro = !!overlay && !reduce && !sessionStorage.getItem("sts-pre");
 const intro = wantIntro ? createIntro({ scene, camera, overlay }) : null;
-if (intro) { intro.state.active = true; camera.position.set(0, 62, 120); camera.lookAt(0, 14, 0); scene.fog.near = 52; scene.fog.far = 260; }
+if (intro) { intro.state.active = true; camera.position.set(0, 34, 60); camera.lookAt(0, 6, 0); }
 
 /* On phones the address bar shows and hides constantly; the canvas is sized to
    the large viewport (100lvh) and height-only changes are ignored, so the city
@@ -142,7 +142,7 @@ function render(t) {
   const rise = ease(0.88, 1, progress), heroGrow = ease(0.66, 0.76, progress), heroSolid = ease(0.77, 0.86, progress);
   sky.group.position.copy(camera.position); sky.update(t, dpr, rise);
   city.update(t, lit, px, heroGrow, heroSolid);
-  beacon.scale.setScalar((8 + Math.sin(t * 2) * 1.2) * (1 - ease(0.04, 0.2, progress)) * (inIntro ? intro.state.glide : 1));
+  beacon.scale.setScalar((8 + Math.sin(t * 2) * 1.2) * (1 - ease(0.04, 0.2, progress)) * (inIntro ? 0.3 + 0.7 * intro.state.glide : 1));
   const tr = ease(0.36, 0.62, progress);
   trail.geometry.setDrawRange(0, Math.floor(TRAIL_INDEX * tr));
   head.visible = tr > 0 && tr < 1; if (head.visible) head.position.copy(path.getPoint(tr)).setY(0.9);

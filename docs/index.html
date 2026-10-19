@@ -7,21 +7,14 @@
 <meta name="description" content="Wij bouwen eerst een gratis voorbeeld van jouw website, met je echte gegevens. Jij beslist daarna. Elke offerte op maat.">
 <meta name="theme-color" content="#06080F">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="canonical" href="https://8kawasaki8.github.io/startec-site/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Star.Tec.Solutions">
-<meta property="og:title" content="Star.Tec.Solutions — websites, AI-systemen en automatisering uit Antwerpen">
-<meta property="og:description" content="Wij bouwen eerst een gratis voorbeeld van jouw website, met je echte gegevens. Jij beslist daarna. Elke offerte op maat.">
-<meta property="og:url" content="https://8kawasaki8.github.io/startec-site/">
-<meta property="og:image" content="https://8kawasaki8.github.io/startec-site/assets/img/og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "name": "Star.Tec.Solutions", "legalName": "STS Digital", "alternateName": "STS Digital", "description": "Websites, AI-systemen en automatisering voor zaken in Vlaanderen. Eerst een gratis voorbeeld, dan een offerte op maat.", "areaServed": ["Antwerpen", "Vlaanderen", "Brussel"], "address": {"@type": "PostalAddress", "addressLocality": "Antwerpen", "addressCountry": "BE"}, "founder": {"@type": "Person", "name": "Snymis"}, "knowsLanguage": "nl-BE", "priceRange": "Offerte op maat", "url": "https://8kawasaki8.github.io/startec-site/", "logo": "https://8kawasaki8.github.io/startec-site/assets/img/logo.svg", "email": "rubyghosty@gmail.com"}</script>
-<link rel="preload" href="assets/fonts/clash-display-normal-600.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/satoshi-normal-400.woff2" as="font" type="font/woff2" crossorigin>
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "name": "Star.Tec.Solutions", "legalName": "STS Digital", "alternateName": "STS Digital", "description": "Websites, AI-systemen en automatisering voor zaken in Vlaanderen. Eerst een gratis voorbeeld, dan een offerte op maat.", "areaServed": ["Antwerpen", "Vlaanderen", "Brussel"], "address": {"@type": "PostalAddress", "addressLocality": "Antwerpen", "addressCountry": "BE"}, "founder": {"@type": "Person", "name": "Snymis"}, "knowsLanguage": "nl-BE", "priceRange": "Offerte op maat", "email": "rubyghosty@gmail.com"}</script>
+<link rel="preload" href="assets/fonts/panchang-normal-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/switzer-normal-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/preview.css">
 </head>
 <body>
 <a class="skip" href="#main">Naar de inhoud</a>
@@ -36,6 +29,7 @@
       <li><a href="#lab">Lab</a></li>
       <li><a href="#werkwijze">Werkwijze</a></li>
       <li><a href="demos.html">Demo's</a></li>
+      <li><a href="simulatie.html">Simulatie</a></li>
       <li><a href="gereedschap.html">Gereedschap</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -51,6 +45,7 @@
       <li><a href="#lab">Lab</a></li>
       <li><a href="#werkwijze">Werkwijze</a></li>
       <li><a href="demos.html">Demo's</a></li>
+      <li><a href="simulatie.html">Simulatie</a></li>
       <li><a href="gereedschap.html">Gereedschap</a></li>
       <li><a href="#contact">Contact</a></li>
   </ul>
@@ -75,6 +70,7 @@
   <li><a href="#oplossingen">Oplossingen</a></li>
   <li><a href="#lab">Lab</a></li>
   <li><a href="#werkwijze">Werkwijze</a></li>
+  <li><a href="#probeer">Probeer</a></li>
   <li><a href="#bouwen">Bouwen</a></li>
   <li><a href="#onderzoek">Onderzoek</a></li>
   <li><a href="#demos">Demo's</a></li>
@@ -135,6 +131,43 @@
   </section>
 
 </div>
+
+<section class="solid" id="probeer" data-section>
+  <div class="mesh" aria-hidden="true"></div>
+  <div class="sec">
+    <div class="split">
+      <div>
+        <span class="label" data-reveal>Probeer het nu</span>
+        <h2 data-split>Typ je zaak. Zie je site.</h2>
+        <p data-reveal style="margin-top:16px;color:var(--ink2);font-size:1.05rem">Een eerste schets, meteen op het scherm. Het echte voorbeeld bouwen we daarna met je echte uren, foto&rsquo;s en reviews. Er wordt niets verstuurd.</p>
+        <form class="panel gen" id="gen" data-reveal style="margin-top:26px" novalidate>
+          <label class="field"><span>Naam van je zaak</span><input name="name" maxlength="40" placeholder="Bakkerij Noordpool" autocomplete="organization"></label>
+          <label class="field"><span>Wat doe je?</span><select name="sector">
+            <option value="horeca">Restaurant, caf&eacute; of brasserie</option>
+            <option value="kapper">Kapper of barbier</option>
+            <option value="garage">Garage of bandencentrale</option>
+            <option value="bakkerij">Bakkerij of slagerij</option>
+            <option value="winkel">Winkel</option>
+            <option value="diensten">Aannemer, schilder, loodgieter</option>
+            <option value="praktijk">Praktijk (kine, tandarts, schoonheid)</option>
+            <option value="anders">Iets anders</option>
+          </select></label>
+          <label class="field"><span>Gemeente <span class="small">(optioneel)</span></span><input name="city" maxlength="30" placeholder="Borgerhout"></label>
+          <button class="pill" type="submit">Toon mijn schets <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
+          <p class="gen-note">Blijft in je browser. Geen account, geen e-mail nodig.</p>
+        </form>
+      </div>
+      <div class="phone-wrap" data-reveal>
+        <div class="phone" aria-live="polite" aria-label="Schets van een website voor jouw zaak">
+          <div class="phone-screen" id="gen-screen">
+            <div class="ps-empty"><div><b>Hier verschijnt je schets.</b>Typ de naam van je zaak en kies wat je doet.</div></div>
+          </div>
+        </div>
+        <a class="pill ghost" id="gen-cta" href="#contact" hidden>Dit echt laten bouwen <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="solid" id="bouwen" data-section>
   <div class="mesh" aria-hidden="true"></div>
@@ -205,7 +238,10 @@
       <a class="plot" href="demo/barbier-boris/" style="--c:#F5C400"><span class="plot-top"><img src="assets/img/demo/barbier-boris.jpg" alt="Demo: Barbier Boris" loading="lazy" width="1200" height="750"></span><span class="plot-body"><strong>Barbier Boris</strong><em>Barbier &middot; Neo-brutalism, halftone, comic</em></span></a>
       <a class="plot" href="demo/radar/" style="--c:#36E8FF"><span class="plot-top"><img src="assets/img/demo/radar.jpg" alt="Demo: Radar, onderzoekstool" loading="lazy" width="1200" height="750"></span><span class="plot-body"><strong>Radar</strong><em>Onderzoekstool &middot; Holographic, glass, ASCII</em></span></a>
     </div>
-    <div class="ctas center" data-reveal><a class="pill ghost" href="demos.html">Alle demo's bekijken <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
+    <div class="ctas center" data-reveal>
+      <a class="pill cyan" href="simulatie.html">Simulatieruimte: kijk een agent aan het werk <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="pill ghost" href="demos.html">Alle demo's bekijken <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    </div>
   </div>
 </section>
 
@@ -274,7 +310,17 @@
         <li><a href="index.html#lab">Lab</a></li>
         <li><a href="index.html#werkwijze">Werkwijze</a></li>
         <li><a href="demos.html">Demo's</a></li>
+        <li><a href="simulatie.html">Simulatieruimte</a></li>
         <li><a href="gereedschap.html">Gratis gereedschap</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Juridisch</h4>
+      <ul>
+        <li><a href="juridisch.html">Wettelijke vermeldingen</a></li>
+        <li><a href="voorwaarden.html">Algemene voorwaarden</a></li>
+        <li><a href="privacy.html">Privacyverklaring</a></li>
+        <li><a href="cookies.html">Cookiebeleid</a></li>
       </ul>
     </div>
     <div>
@@ -288,8 +334,8 @@
     </div>
   </div>
   <div class="foot-base">
-    <span>&copy; <span data-year></span> STS Digital<span data-c-wrap> &middot; KBO <span data-c="kbo"></span></span></span>
-    <span>Geen cookies, geen trackers &middot; <a href="privacy.html">Privacy</a> &middot; <button type="button" data-lite-toggle>Minder animatie</button></span>
+    <span>&copy; <span data-year></span> <span data-c="legalName"></span><span data-c-wrap> &middot; <span data-c="address"></span></span><span data-c-wrap> &middot; KBO <span data-c="kbo"></span></span></span>
+    <span>Geen cookies, geen trackers &middot; <a href="cookies.html">Cookies</a> &middot; <button type="button" data-lite-toggle>Minder animatie</button></span>
   </div>
 </footer>
 <script src="assets/vendor/gsap.min.js"></script>
@@ -299,5 +345,6 @@
 <script type="module" src="assets/js/scene.js"></script>
 <script src="assets/js/motion.js"></script>
 <script src="assets/js/contact.js"></script>
+<script src="assets/js/preview.js"></script>
 </body>
 </html>

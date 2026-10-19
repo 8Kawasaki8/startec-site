@@ -17,6 +17,9 @@
     else el.textContent = v;
   });
   document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
+  // privacy page: the EmailJS paragraphs only apply when direct sending is configured
+  var ej = C.emailjs || {}, ejOn = !!(ej.serviceId && ej.templateId && ej.publicKey);
+  ["pv-emailjs", "pv-emailjs-li"].forEach(function (id) { var el = document.getElementById(id); if (el) el.hidden = !ejOn; });
 
   /* ── smooth scroll ─────────────────────────────────────────── */
   var lenis = null, scrollVel = 0;

@@ -1,6 +1,6 @@
 /* Intro: "STS" made of particles gathers in the night sky above the city, the
-   wordmark appears, then the letters release softly while the camera glides
-   down to the hero view. Calm by design: no warp, no dive. GSAP timeline;
+   wordmark appears, then the letters release softly and the page fades in.
+   The camera never moves: it already stands on the hero view. GSAP timeline;
    skippable; once per session. */
 import * as THREE from "../../vendor/three.module.min.js";
 import { glowTex } from "./city.js";
@@ -29,11 +29,11 @@ const P_FRAG = `
   }`;
 
 async function sampleLetters(text, width) {
-  try { await Promise.race([document.fonts.load("700 230px 'Clash Display'"), new Promise(r => setTimeout(r, 1500))]); } catch (e) { /* system font fallback */ }
+  try { await Promise.race([document.fonts.load("700 230px 'Panchang'"), new Promise(r => setTimeout(r, 1500))]); } catch (e) { /* system font fallback */ }
   const W = 1024, H = 360, c = document.createElement("canvas"); c.width = W; c.height = H;
   const g = c.getContext("2d", { willReadFrequently: true });
-  g.fillStyle = "#fff"; g.font = "700 250px 'Clash Display', 'Unbounded', system-ui, sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
-  if ("letterSpacing" in g) g.letterSpacing = "14px";
+  g.fillStyle = "#fff"; g.font = "700 230px 'Panchang', 'Unbounded', system-ui, sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
+  if ("letterSpacing" in g) g.letterSpacing = "6px";
   g.fillText(text, W / 2, H / 2 + 10);
   const d = g.getImageData(0, 0, W, H).data, pts = [], k = width / W;
   for (let y = 0; y < H; y += 4) for (let x = 0; x < W; x += 4) if (d[(y * W + x) * 4 + 3] > 110) pts.push((x - W / 2) * k + (rnd() - 0.5) * 0.15, (H / 2 - y) * k + (rnd() - 0.5) * 0.15, (rnd() - 0.5) * 1.2);
@@ -42,14 +42,12 @@ async function sampleLetters(text, width) {
 
 export function createIntro({ scene, camera, overlay }) {
   const state = { veil: 1, morph: 0, release: 0, glide: 0, active: false, done: false };
-  const START = new THREE.Vector3(0, 62, 120), K0 = new THREE.Vector3(0, 34, 60);
-  const path = new THREE.CatmullRomCurve3([START, new THREE.Vector3(1, 48, 90), K0], false, "catmullrom", 0.3);
-  const lookA = new THREE.Vector3(0, 14, 0), lookB = new THREE.Vector3(0, 6, 0), look = new THREE.Vector3();
-
-  const letters = new THREE.Group(); letters.position.set(0, 49.9, 71); letters.lookAt(START); letters.visible = false; scene.add(letters);
+  // the hero camera: position (0,34,60) looking at (0,6,0); the letters float above the city on that line of sight
+  const CAM = new THREE.Vector3(0, 34, 60), LOOK = new THREE.Vector3(0, 6, 0);
+  const letters = new THREE.Group(); letters.position.set(0, 23.6, 15.2); letters.lookAt(CAM); letters.visible = false; scene.add(letters);
   let points = null;
   async function build() {
-    const width = innerWidth / innerHeight < 1 ? 22 : 38;
+    const width = innerWidth / innerHeight < 1 ? 20 : 38;
     const target = await sampleLetters("STS", width), n = target.length / 3, start = new Float32Array(target.length), seeds = new Float32Array(n), sizes = new Float32Array(n);
     for (let i = 0; i < n; i++) {
       const a = rnd() * Math.PI * 2, b = Math.acos(rnd() * 2 - 1), r = 18 + rnd() * 70;
@@ -72,10 +70,7 @@ export function createIntro({ scene, camera, overlay }) {
 
   function update(t, px) {
     if (!state.active) return;
-    const d = state.glide;
-    camera.position.copy(path.getPoint(d));
-    look.copy(lookA).lerp(lookB, d); camera.lookAt(look);
-    if (scene.fog) { scene.fog.near = 52 - 14 * d; scene.fog.far = 260 - 150 * d; }
+    camera.position.copy(CAM); camera.lookAt(LOOK);
     if (points) { const u = points.material.uniforms; u.uMorph.value = state.morph; u.uRelease.value = state.release; u.uTime.value = t; u.uPx.value = px; }
     letters.rotation.y = Math.sin(t * 0.35) * 0.05; letters.rotation.x = Math.cos(t * 0.3) * 0.03;
     if (veil) veil.style.opacity = state.veil;
@@ -87,15 +82,14 @@ export function createIntro({ scene, camera, overlay }) {
     tl = gsap.timeline({ onComplete: finish });
     tl.to(state, { veil: 0, duration: 1.1, ease: "power2.out" }, 0)
       .to(state, { morph: 1, duration: 1.9, ease: "power3.inOut" }, 0.2)
-      .to(state, { release: 1, duration: 1.6, ease: "power2.inOut" }, 2.6)
-      .to(state, { glide: 1, duration: 2.1, ease: "power2.inOut" }, 2.7);
-    if (lock) tl.fromTo(lock, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" }, 1.1).to(lock, { opacity: 0, y: -8, duration: 0.6, ease: "power2.in" }, 2.7);
-    if (hint) tl.fromTo(hint, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0.8).to(hint, { opacity: 0, duration: 0.3 }, 3.9);
-    if (bar) tl.fromTo(bar, { scaleX: 0 }, { scaleX: 1, duration: 4.7, ease: "none" }, 0.1);
+      .to(state, { release: 1, duration: 1.5, ease: "power2.inOut" }, 2.8)
+      .to(state, { glide: 1, duration: 1.5, ease: "power2.inOut" }, 2.8);
+    if (lock) tl.fromTo(lock, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" }, 1.1).to(lock, { opacity: 0, y: -8, duration: 0.6, ease: "power2.in" }, 3.0);
+    if (hint) tl.fromTo(hint, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0.8).to(hint, { opacity: 0, duration: 0.3 }, 3.6);
+    if (bar) tl.fromTo(bar, { scaleX: 0 }, { scaleX: 1, duration: 4.2, ease: "none" }, 0.1);
   }
   function finish() {
     state.active = false; state.done = true;
-    if (scene.fog) { scene.fog.near = 38; scene.fog.far = 110; }
     letters.visible = false;
     if (points) { points.geometry.dispose(); points.material.dispose(); }
     scene.remove(letters);

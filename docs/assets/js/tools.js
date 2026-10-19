@@ -52,6 +52,37 @@
     update();
   }
 
+  /* ── Zichtbaarheidscheck: six questions → score + three steps ── */
+  if ($("zc")) {
+    var zc = $("zc"), TIPS = {
+      q1: "Claim je Google-bedrijfsprofiel. Het is wat klanten als eerste zien, nog voor je website.",
+      q2: "Zet overal dezelfde openingsuren, ook voor feestdagen. Een klant die voor een gesloten deur staat, komt niet terug.",
+      q3: "Zet een bel- en WhatsApp-knop bovenaan je site. Eén tik, geen nummer overtypen.",
+      q4: "Laat je site op een gsm meten. Meer dan drie seconden laden kost je de helft van je bezoekers.",
+      q5: "Beantwoord elke review binnen 24 uur, ook de slechte. Lezers kijken naar je reactie, niet naar de score.",
+      q6: "Plaats elke maand een recente foto van je zaak of je werk. Oude foto's wekken de indruk dat je dicht bent."
+    };
+    zc.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var keys = Object.keys(TIPS), vals = {}, missing = false;
+      keys.forEach(function (k) { var r = zc.querySelector('input[name=' + k + ']:checked'); if (!r) missing = true; else vals[k] = +r.value; });
+      $("zc-err").hidden = !missing;
+      if (missing) return;
+      var score = Math.round(keys.reduce(function (s, k) { return s + vals[k]; }, 0) / keys.length);
+      var title, text;
+      if (score < 40) { title = "Onzichtbaar voor wie 's avonds zoekt."; text = "Klanten vinden je niet, of vinden verkeerde informatie. Het goede nieuws: dit is in een paar dagen rechtgezet."; }
+      else if (score < 75) { title = "Zichtbaar, maar je laat klanten liggen."; text = "De basis staat er. Een paar gerichte stappen maken het verschil tussen gevonden worden en gebeld worden."; }
+      else { title = "Sterk. Nu is het tijd voor automatisering."; text = "Je bent vindbaar en bereikbaar. De volgende winst zit in werk dat vanzelf gebeurt: antwoorden, reservaties, offertes."; }
+      var worst = keys.slice().sort(function (a, b) { return vals[a] - vals[b]; }).slice(0, 3);
+      $("zc-num").textContent = score; $("zc-title").textContent = title; $("zc-text").textContent = text;
+      $("zc-tips").innerHTML = worst.map(function (k) { return "<li>" + TIPS[k] + "</li>"; }).join("");
+      $("zc-cta").href = "index.html?onderwerp=" + encodeURIComponent("Zichtbaarheidscheck, score " + score + " op 100") + "#contact";
+      $("zc-res").hidden = false; $("zc-hint").hidden = true;
+      requestAnimationFrame(function () { $("zc-arc").style.strokeDashoffset = (326.7 * (1 - score / 100)).toFixed(1); });
+      if (innerWidth < 860) $("zc-res").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
   /* ── Google result preview ────────────────────────────── */
   if ($("sp-title")) {
     var tIn = $("sp-title"), dIn = $("sp-desc"), uIn = $("sp-url");
