@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://8kawasaki8.github.io/startec-site/sitemap.xml

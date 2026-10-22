@@ -281,6 +281,8 @@
     reset(); S.status = "running"; prepareRun(); S.tl = buildTimeline(); S.tl.timeScale(S.speed);
     E.stage.classList.remove("idle"); E.room.classList.add("running"); E.skips.forEach(function (a) { a.hidden = false; });
     E.start.disabled = true; E.reset.disabled = false;
+    var r = E.room.getBoundingClientRect();                   /* bring the whole room into view when the start button sat above it */
+    if (r.top < 60 || r.bottom > innerHeight) scrollTo({ top: scrollY + r.top - 84, behavior: reduce ? "auto" : "smooth" });
     if (reduce) finish(); else { syncPause(); if (!S.hidden && !S.off) S.tl.play(0); }
   }
   function syncPause() {
