@@ -1,174 +1,206 @@
-/* Night city — the 3D world behind the site.
-   The intro drives the camera first; afterwards scroll progress (0..1) from
-   motion.js does, via window.STSScene.setProgress(). Bloom + tone mapping run
-   through an EffectComposer unless the device is weak ("lite"). */
+/* Night city: the Three.js world behind the site, with the sign on the
+   landmark as the subject of the camera. The city reacts to state (sign text,
+   sector colour, one place per room), never to scroll position. Frames are
+   drawn on demand only.
+
+   PROFILES (the inline loader in src/partials/scene.html decides; same table in README.md)
+   | profile | test                              | route                                              |
+   | phone   | coarse pointer and width < 900    | no Three.js: inline SVG skyline + #sign-dom        |
+   | tablet  | coarse pointer, width >= 900      | Three.js, DPR 1.0, no bloom, rust = 0 frames       |
+   | desktop | fine pointer                      | Three.js, DPR min(dpr, 1.5), bloom only after a    |
+   |         |                                   | 60-frame probe averages < 14 ms, rust = 0 frames   |
+   | lite    | ?lite or localStorage sts-lite=1  | no Three.js (SVG route)                            |
+   | weak    | hardwareConcurrency <= 4          | SVG route                                          |
+   | failure | no WebGL, module error, context   | SVG route, sts:scene-failed                        |
+   |         | lost, or guard() second trap      | (guard: sts:scene-degraded first)                  |
+
+   RENDER STATES: vlucht (full rate while a flight or the intro runs), settle
+   (600 ms after landing), rust (zero frames). Sign or sector changes and a
+   resize draw one frame; pointer parallax (desktop) wakes at most 400 ms.
+   The loop also stops when STSScene.cover(f) > 0.6, the canvas leaves the
+   viewport or the tab is hidden. guard(): 150 frames averaging > 28 ms drop
+   the composer and the DPR; a second such window swaps to the SVG route.
+
+   API: window.STSScene = { lite, profile, flyTo, setSign, signText, setSector,
+   cover, setParallax, places, intro, debug: { frames, longTasks, camera(),
+   landmarkVisible, bloom, probe, state, signBox(), info() } }. */
 import * as THREE from "../vendor/three.module.min.js";
 import { EffectComposer } from "../vendor/three-addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "../vendor/three-addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "../vendor/three-addons/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "../vendor/three-addons/postprocessing/OutputPass.js";
-import { createCity, glowTex, HERO } from "./scene/city.js";
-import { createSky } from "./scene/sky.js";
+import { createCity } from "./scene/city.js";
+import { createSky, NIGHT } from "./scene/sky.js";
 import { createIntro } from "./scene/intro.js";
+import { places } from "./scene/places.js";
+import { createFlight } from "./scene/flight.js";
+import { createSign } from "./scene/sign.js";
+import { writeSignDom, placeSignDom, countLongTasks } from "./scene/signdom.js";
+import { mountDebug } from "./scene/debug.js";
 
 const canvas = document.getElementById("scene");
-const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const params = new URLSearchParams(location.search);
-let liteStored = null; try { liteStored = localStorage.getItem("sts-lite"); } catch (e) { /* storage blocked */ }
-const lite = params.has("lite") || liteStored === "1" || ((navigator.hardwareConcurrency || 8) <= 4) || (matchMedia("(pointer:coarse)").matches && innerWidth < 900);
-let renderer;
-try {
-  renderer = new THREE.WebGLRenderer({ canvas, antialias: lite, powerPreference: "high-performance" });
-} catch (e) {
-  document.getElementById("scene-fallback")?.removeAttribute("hidden");
-  window.dispatchEvent(new Event("sts:scene-failed"));
-  throw e;
-}
-let dpr = Math.min(devicePixelRatio, lite ? 1.25 : 1.5);
-renderer.setPixelRatio(dpr);
-renderer.setClearColor(0x06080f, 1);
-renderer.toneMapping = THREE.NeutralToneMapping; renderer.toneMappingExposure = 1.08;
-
-const scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0x06080f, 38, 110);
-const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 1800);
-scene.add(camera);
-
-const sky = createSky(scene, { lite });
-const city = createCity(scene, { lite });
-
-/* the three belt stars (Werkwijze) + the light trail through the streets (Lab) */
-const beltMat = new THREE.SpriteMaterial({ map: glowTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
-const belt = [[-12, 24, -6], [0, 27, 0], [11, 30, 5]].map(p => { const s = new THREE.Sprite(beltMat.clone()); s.position.set(...p); s.scale.setScalar(0.001); scene.add(s); return s; });
-const beacon = new THREE.Sprite(beltMat.clone()); beacon.position.set(0, 9, 0); beacon.scale.setScalar(9); scene.add(beacon);
-const path = new THREE.CatmullRomCurve3([[-40, .35, 10], [-22, .35, 10], [-22, .35, -14], [2, .35, -14], [2, .35, 18], [26, .35, 18], [26, .35, -30], [48, .35, -30]].map(p => new THREE.Vector3(...p)));
-const trailGeo = new THREE.TubeGeometry(path, 240, 0.11, 6, false);
-const trail = new THREE.Mesh(trailGeo, new THREE.MeshBasicMaterial({ color: 0x36e8ff, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false }));
-trail.geometry.setDrawRange(0, 0); scene.add(trail);
-const head = new THREE.Sprite(beltMat.clone()); head.scale.setScalar(5); head.visible = false; scene.add(head);
-const TRAIL_INDEX = trailGeo.index.count;
-
-/* post-processing: bloom makes the windows, lamps and stars actually glow */
-let composer = null, bloom = null;
-function buildComposer() {
-  const w = innerWidth, h = innerHeight;
-  const rt = new THREE.WebGLRenderTarget(w * dpr, h * dpr, { type: THREE.HalfFloatType, samples: 2 });
-  composer = new EffectComposer(renderer, rt);
-  composer.addPass(new RenderPass(scene, camera));
-  bloom = new UnrealBloomPass(new THREE.Vector2(w / 2, h / 2), 0.45, 0.4, 0.72);
-  composer.addPass(bloom);
-  composer.addPass(new OutputPass());
-}
-if (!lite) buildComposer();
-
-/* camera keyframes over scroll progress (position, look-at) */
-const K = [
-  { t: 0.00, p: [0, 34, 60], l: [0, 6, 0] },
-  { t: 0.16, p: [26, 22, 44], l: [0, 4, 0] },
-  { t: 0.33, p: [14, 7, 20], l: [-4, 4, -6] },
-  { t: 0.50, p: [-30, 16, 34], l: [0, 2, -4] },
-  { t: 0.66, p: [14, 8.5, 2], l: [HERO.x, 5, HERO.z] },
-  { t: 0.80, p: [22, 16, 2], l: [HERO.x, 7, HERO.z] },
-  { t: 0.90, p: [4, 22, 40], l: [0, 20, -10] },
-  { t: 1.00, p: [0, 26, 40], l: [0, 27, 0] }
-];
-const camPos = new THREE.CatmullRomCurve3(K.map(k => new THREE.Vector3(...k.p)), false, "catmullrom", 0.3);
-const camLook = new THREE.CatmullRomCurve3(K.map(k => new THREE.Vector3(...k.l)), false, "catmullrom", 0.3);
-function curveT(t) { for (let i = 1; i < K.length; i++) if (t <= K[i].t) { const a = K[i - 1].t, b = K[i].t; return (i - 1 + (t - a) / (b - a)) / (K.length - 1); } return 1; }
-const ease = (a, b, t) => Math.min(1, Math.max(0, (t - a) / (b - a)));
-
-/* state */
-let progress = 0, target = 0, mx = 0, my = 0, smx = 0, smy = 0, needs = true, visible = true, raf = 0;
-const look = new THREE.Vector3(), pos = new THREE.Vector3(), clock = new THREE.Clock();
-const overlay = document.getElementById("intro");
-const wantIntro = !!overlay && !reduce && !sessionStorage.getItem("sts-pre");
-const intro = wantIntro ? createIntro({ scene, camera, overlay }) : null;
-if (intro) { intro.state.active = true; camera.position.set(0, 34, 60); camera.lookAt(0, 6, 0); }
-
-/* On phones the address bar shows and hides constantly; the canvas is sized to
-   the large viewport (100lvh) and height-only changes are ignored, so the city
-   never jumps while scrolling. */
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const coarse = matchMedia("(pointer:coarse)").matches;
-const probe = document.createElement("div"); probe.style.cssText = "position:fixed;top:0;left:0;width:0;height:100lvh;visibility:hidden;pointer-events:none"; document.body.appendChild(probe);
-let lastW = 0, lastH = 0;
-function resize(force) {
-  const w = innerWidth, h = coarse ? Math.max(innerHeight, probe.offsetHeight || 0) : innerHeight;
-  if (!force && coarse && w === lastW && Math.abs(h - lastH) < 200) return;
-  lastW = w; lastH = h;
-  renderer.setSize(w, h, false); camera.aspect = w / h; camera.fov = w / h < 1 ? 58 : 42; camera.updateProjectionMatrix();
-  if (composer) { composer.setSize(w, h); bloom.setSize(w / 2, h / 2); }
-  needs = true;
-}
-addEventListener("resize", () => resize(false)); resize(true);
-addEventListener("pointermove", e => { mx = e.clientX / innerWidth - 0.5; my = e.clientY / innerHeight - 0.5; needs = true; }, { passive: true });
-document.addEventListener("visibilitychange", () => { visible = !document.hidden; if (visible && !raf) tick(); });
+const profile = coarse ? "tablet" : "desktop";
+const debugOn = params.get("debug") === "1" || document.documentElement.dataset.sceneDebug === "1";
+const longTasks = { n: 0 }; countLongTasks(longTasks);
+let dead = false;
 
-/* ASCII mirror: a tiny second render read back as text (Onderzoek section) */
-let asciiEl = null, asciiRT = null, asciiBuf = null, asciiLast = 0, asciiOn = false;
-const RAMP = " .,:;-=+*#%@";
-function renderAscii(t) {
-  if (!asciiOn || t - asciiLast < 0.16) return; asciiLast = t;
-  const W = 96, H = 40;
-  if (!asciiRT) { asciiRT = new THREE.WebGLRenderTarget(W, H); asciiBuf = new Uint8Array(W * H * 4); }
-  renderer.setRenderTarget(asciiRT); renderer.render(scene, camera); renderer.setRenderTarget(null);
-  renderer.readRenderTargetPixels(asciiRT, 0, 0, W, H, asciiBuf);
-  let out = "";
-  for (let y = H - 1; y >= 0; y--) { for (let x = 0; x < W; x++) { const i = (y * W + x) * 4; const l = Math.pow((asciiBuf[i] * 0.3 + asciiBuf[i + 1] * 0.59 + asciiBuf[i + 2] * 0.11) / 255, 0.6); out += RAMP[Math.min(RAMP.length - 1, Math.floor(l * RAMP.length * 1.6))]; } out += "\n"; }
-  asciiEl.textContent = out;
+/* any failure ends in the SVG route, with the sign text carried over */
+async function toSvg(reason, text, color) {
+  if (dead) return; dead = true;
+  const m = await import("./scene/plattegrond.js");
+  m.install({ reason, text, color });
 }
 
-/* quality guard: after the intro, measure; if the device struggles, drop bloom + mirror */
-let samples = 0, acc = 0, guarded = lite;
-function guard(dt) {
-  if (guarded || (intro && intro.state.active)) return;
-  if (dt < 0.2) { acc += dt; samples++; }
-  if (samples >= 150) { guarded = true; if (acc / samples > 0.028) degrade(); }
-}
-function degrade() {
-  composer = null; bloom = null; city.dropMirror(); dpr = 1; renderer.setPixelRatio(1); resize(true);
-  document.documentElement.classList.add("lite-gpu");
-}
+function boot() {
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: "high-performance" }); }
+  catch (e) { toSvg("fout"); return; }
+  let dpr = profile === "tablet" ? 1 : Math.min(devicePixelRatio || 1, 1.5);
+  renderer.setPixelRatio(dpr); renderer.setClearColor(NIGHT, 1);
+  renderer.toneMapping = THREE.NeutralToneMapping; renderer.toneMappingExposure = 1.08;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 1800); scene.add(camera);
+  const sky = createSky(scene);
+  const city = createCity(scene);
+  const sign = createSign(scene, { landmarkUniform: city.sector, onChange: () => wake(0) });
+  const flight = createFlight({ camera, canvas, reduce, onFrame: () => wake(0) });
+  const clock = new THREE.Clock();
 
-function render(t) {
-  const px = 90 * dpr, inIntro = intro && intro.state.active;
-  if (inIntro) intro.update(t, px);
-  else {
-    const u = curveT(progress);
-    pos.copy(camPos.getPoint(u)); look.copy(camLook.getPoint(u));
-    pos.x += smx * 3 + Math.sin(t * 0.37) * 0.25; pos.y += -smy * 1.5 + Math.cos(t * 0.29) * 0.18;
-    camera.position.copy(pos); camera.lookAt(look);
+  /* ── render states ───────────────────────────────────────────────────── */
+  let raf = 0, wakeUntil = 0, lastNow = 0, frames = 0, state = "rust";
+  let covered = 0, offscreen = false, hidden = document.hidden;
+  const canRender = () => !dead && !hidden && !offscreen && covered <= 0.6;
+  function render(t) {
+    const px = 90 * dpr;
+    sky.group.position.copy(camera.position); sky.update(t, dpr);
+    city.update(t, px);
+    if (composer) composer.render(); else renderer.render(scene, camera);
+    frames++;
   }
-  const lit = inIntro ? 0 : ease(0.05, 0.33, progress);
-  const rise = ease(0.88, 1, progress), heroGrow = ease(0.66, 0.76, progress), heroSolid = ease(0.77, 0.86, progress);
-  sky.group.position.copy(camera.position); sky.update(t, dpr, rise);
-  city.update(t, lit, px, heroGrow, heroSolid);
-  beacon.scale.setScalar((8 + Math.sin(t * 2) * 1.2) * (1 - ease(0.04, 0.2, progress)) * (inIntro ? 0.3 + 0.7 * intro.state.glide : 1));
-  const tr = ease(0.36, 0.62, progress);
-  trail.geometry.setDrawRange(0, Math.floor(TRAIL_INDEX * tr));
-  head.visible = tr > 0 && tr < 1; if (head.visible) head.position.copy(path.getPoint(tr)).setY(0.9);
-  belt.forEach((s, i) => { s.scale.setScalar(0.001 + rise * (10 + i * 2) * (1 + 0.08 * Math.sin(t * 1.6 + i))); s.material.opacity = rise; });
-  if (composer) composer.render(); else renderer.render(scene, camera);
-  renderAscii(t);
+  function tick(now) {
+    raf = 0;
+    if (!canRender()) { lastNow = 0; return; }
+    if (lastNow) measure(now - lastNow); lastNow = now;
+    render(clock.getElapsedTime());
+    const flying = flight.state.active || (intro && intro.state.active);
+    state = flying ? "vlucht" : now < wakeUntil ? "settle" : "rust";
+    if (state !== "rust") raf = requestAnimationFrame(tick); else lastNow = 0;
+  }
+  function wake(ms) {
+    wakeUntil = Math.max(wakeUntil, performance.now() + (ms || 0));
+    if (!raf && canRender()) raf = requestAnimationFrame(tick);
+  }
+  function cover(f) { covered = Math.max(0, Math.min(1, +f || 0)); if (covered <= 0.6) wake(0); }
+  document.addEventListener("visibilitychange", () => { hidden = document.hidden; if (!hidden) wake(0); });
+  new IntersectionObserver(en => { offscreen = !en[0].isIntersecting; if (!offscreen) wake(0); }).observe(canvas);
+  /* a flight wakes the loop at once (flight.js only emits the event); after landing the neon settles for
+     600 ms, except under reduced motion where the cut needs exactly one frame */
+  addEventListener("sts:flight-start", () => wake(0));
+  addEventListener("sts:landed", () => { wake(reduce ? 0 : 600); placeSign(); });
+
+  /* ── bloom probe and quality guard ───────────────────────────────────── */
+  let composer = null, bloomPass = null, bloom = false;
+  const probe = { frames: 0, acc: 0, avgMs: 0, done: false, limitMs: 14 };
+  const guard = { frames: 0, acc: 0, stage: 0 };
+  function buildComposer() {
+    const w = innerWidth, h = innerHeight;
+    composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(w * dpr, h * dpr, { type: THREE.HalfFloatType }));
+    composer.addPass(new RenderPass(scene, camera));
+    bloomPass = new UnrealBloomPass(new THREE.Vector2(w / 2, h / 2), 0.45, 0.4, 0.72);
+    composer.addPass(bloomPass); composer.addPass(new OutputPass());
+    bloom = true;
+  }
+  function measure(dt) {
+    if (dt > 200) return;
+    if (!probe.done) {
+      probe.acc += dt; probe.avgMs = probe.acc / ++probe.frames;
+      if (probe.frames >= 60) { probe.done = true; if (profile === "desktop" && probe.avgMs < probe.limitMs) buildComposer(); }
+    }
+    guard.acc += dt; guard.frames++;
+    if (guard.frames < 150) return;
+    const slow = guard.acc / guard.frames > 28; guard.frames = 0; guard.acc = 0;
+    if (!slow) return;
+    if (guard.stage === 0) { guard.stage = 1; dropComposer(); city.dropMirror(); dpr = 1; renderer.setPixelRatio(1); resize(true); return; }
+    guard.stage = 2; degrade("traag");
+  }
+  /* frees the two HalfFloat targets and the bloom mip chain on the GPU that was just measured as slow */
+  function dropComposer() {
+    if (composer) composer.dispose();
+    if (bloomPass) bloomPass.dispose();
+    composer = null; bloomPass = null; bloom = false;
+  }
+  function degrade(reason) {
+    window.dispatchEvent(new CustomEvent("sts:scene-degraded", { detail: { reason } }));
+    if (raf) cancelAnimationFrame(raf); raf = 0;
+    const text = sign.text(), color = "#" + sign.color.getHexString();
+    dropComposer(); sign.dispose(); renderer.dispose();
+    toSvg(reason, text, color);
+  }
+  canvas.addEventListener("webglcontextlost", e => { e.preventDefault(); degrade("contextlost"); }, { once: true });
+
+  /* ── size: tablets keep the large viewport so the address bar never jumps the city ── */
+  const probeEl = document.createElement("div"); probeEl.style.cssText = "position:fixed;top:0;left:0;width:0;height:100lvh;visibility:hidden;pointer-events:none"; document.body.appendChild(probeEl);
+  let lastW = 0, lastH = 0, resizeTimer = 0;
+  function resize(force) {
+    const w = innerWidth, h = coarse ? Math.max(innerHeight, probeEl.offsetHeight || 0) : innerHeight;
+    if (!force && coarse && w === lastW && Math.abs(h - lastH) < 200) return;
+    lastW = w; lastH = h;
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.fov = w / h < 1 ? 58 : 42; camera.updateProjectionMatrix();
+    if (composer) { composer.setSize(w, h); bloomPass.setSize(w / 2, h / 2); }
+    placeSign(); wake(0);
+  }
+  addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => resize(false), 200); }, { passive: true });
+  resize(true);
+
+  /* ── the sign: DOM text follows the projected plane once per landing ────── */
+  function placeSign() { camera.updateMatrixWorld(); const pr = sign.project(camera, innerWidth, innerHeight); placeSignDom(pr.box, sign.text(), pr.visible ? pr.corners : null); }
+  function setSector(color) { if (!color) return; sign.setSector(color); const d = document.getElementById("sign-dom"); if (d) d.style.setProperty("--sign", color); wake(0); }
+  /* the plane does not move when its text changes: writeSignDom re-fits the font to the current box;
+     placeSign runs on sts:landed and resize, and here only while the sign has not been placed yet */
+  function setSign(text, color) { const t = sign.setText(text); writeSignDom(t, color); if (color) setSector(color); const d = document.getElementById("sign-dom"); if (!d || !d.classList.contains("is-placed")) placeSign(); return t; }
+
+  /* ── pointer parallax: desktop only, at most 400 ms of frames ───────────── */
+  if (profile === "desktop") {
+    let lastMove = 0;
+    addEventListener("pointermove", e => {
+      const now = performance.now(); if (now - lastMove < 50 || flight.state.active) return; lastMove = now;
+      flight.setParallax(e.clientX / innerWidth - 0.5, e.clientY / innerHeight - 0.5); wake(400);
+    }, { passive: true });
+  }
+
+  /* ── intro once per session, otherwise straight to places.start ─────────── */
+  const overlay = document.getElementById("intro");
+  let pre = null; try { pre = sessionStorage.getItem("sts-pre"); } catch (e) { /* storage blocked */ }
+  const intro = overlay && !reduce && !pre ? createIntro({ scene, flight, overlay, onFrame: () => wake(0) }) : null;
+  flight.jump("start");
+  renderer.compile(scene, camera);
+  if (intro) addEventListener("sts:intro-done", () => { flight.jump("start"); wake(600); placeSign(); }, { once: true });
+  else if (overlay) overlay.remove();
+  placeSign(); wake(0);
+
+  const frustum = new THREE.Frustum(), pv = new THREE.Matrix4();
+  const debug = {
+    get frames() { return frames; }, get longTasks() { return longTasks.n; },
+    camera: () => camera.position.toArray(),
+    get landmarkVisible() { camera.updateMatrixWorld(); city.landmark.updateWorldMatrix(true, false); frustum.setFromProjectionMatrix(pv.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse)); return city.landmark.visible && frustum.intersectsObject(city.landmark); },
+    get bloom() { return bloom; }, get probe() { return { ...probe }; }, get state() { return state; }, get profile() { return profile; }, get dpr() { return dpr; }, get guard() { return guard.stage; },
+    signBox: () => sign.project(camera, innerWidth, innerHeight).box,
+    info: () => renderer.info.render
+  };
+  window.STSScene = {
+    lite: false, profile, places, flyTo: id => flight.flyTo(id), setSign, signText: () => sign.text(), setSector, cover,
+    setParallax: (x, y) => { if (profile === "desktop") { flight.setParallax(x, y); wake(400); } },
+    intro: intro ? { play: cb => intro.play(cb), skip: () => intro.skip(), debug: () => intro.debug() } : null,
+    debug
+  };
+  if (debugOn) mountDebug(window.STSScene, () => ({ profile, state, dpr, probe, guard: guard.stage, at: flight.state.at }));
+  /* first frame now; "ready" (and the intro clock) one composited frame later, so the
+     browser's first canvas composite (slow on software GL) is not charged to the intro */
+  render(clock.getElapsedTime());
+  requestAnimationFrame(() => requestAnimationFrame(() => { if (intro) { intro.play(); wake(0); } window.dispatchEvent(new Event("sts:scene-ready")); }));
 }
 
-let lastT = 0;
-function tick() {
-  if (!visible) { raf = 0; return; }
-  const t = clock.getElapsedTime(), dt = t - lastT; lastT = t;
-  progress += (target - progress) * 0.12;
-  smx += (mx - smx) * 0.06; smy += (my - smy) * 0.06;
-  const moving = Math.abs(target - progress) > 0.0005 || Math.abs(mx - smx) > 0.001 || (intro && intro.state.active);
-  if (moving || needs || !reduce) render(t);
-  guard(dt);
-  needs = false;
-  if (!reduce || moving) raf = requestAnimationFrame(tick); else raf = 0;
-}
-tick();
-
-window.STSScene = {
-  lite,
-  setProgress(p) { target = Math.min(1, Math.max(0, p)); needs = true; if (!raf) tick(); },
-  intro: intro ? { play(cb) { return intro.play(cb); }, skip() { intro.skip(); }, debug() { return intro.debug(); }, seek(t) { intro.seek(t); } } : null,
-  ascii(el) { asciiEl = el; return { set(on) { asciiOn = on && !!asciiEl; } }; }
-};
-window.dispatchEvent(new Event("sts:scene-ready"));
+try { boot(); } catch (e) { console.warn("scene: " + (e && e.message)); toSvg("fout"); }

@@ -1,25 +1,50 @@
 // Headless QA gate for the static site in docs/.
-// Usage: node scripts/qa/qa.mjs [--pages a.html,b.html] [--out DIR] [--port 8765]
-// Checks per page x viewport: console errors, page errors, failed requests,
-// requests to foreign hosts, horizontal overflow, reduced-motion load, basic html hygiene.
+// Usage: node scripts/qa/qa.mjs [--quick] [--pages a.html,b.html] [--profile phone|desktop|tablet]
+//        [--mode gl|gl-swift|nogl] [--variant default|reduced|lite] [--shots] [--no-lint]
+//        [--out DIR] [--port N] [--report-only]
+// Serves docs/ with python3 http.server, runs the matrix from profiles.mjs in three Chromium
+// launch modes, classifies every finding (fail / known with WP / notice) with budget.mjs,
+// writes .qa/report.json and renders docs/qa-report.html. Exit 1 when any run or lint fails.
 import { createRequire } from 'node:module';
-import { spawn } from 'node:child_process';
-import { readdirSync, statSync, mkdirSync, writeFileSync, existsSync } from 'node:fs';
+import { spawn, execSync } from 'node:child_process';
+import { readdirSync, statSync, mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import { GL_MODES, PAGES_BASE, buildMatrix, runLabel } from './profiles.mjs';
+import { loadBudget, KNOWN } from './budget.mjs';
+import { loadWoordenlijst, serialise } from './woorden.mjs';
+import { lintCssFiles, defaultFiles as cssFiles } from './lint-css.mjs';
+import { lintCopy, defaultFiles as copyFiles } from './lint-copy.mjs';
+import { lintLines } from './lint-lines.mjs';
+import { checkFixtures } from './fixtures.mjs';
+import { runOne } from './runner.mjs';
+import { writeReportHtml } from './report.mjs';
 
 const req = createRequire(import.meta.url);
-function loadPlaywright() { for (const c of ['playwright', '/usr/lib/node_modules/playwright', '/usr/local/lib/node_modules/playwright']) { try { return req(c); } catch {} } throw new Error('playwright not found: npm i playwright'); }
-const { chromium } = loadPlaywright();
 const args = Object.fromEntries(process.argv.slice(2).map((a, i, arr) => a.startsWith('--') ? [a.slice(2), arr[i + 1] && !arr[i + 1].startsWith('--') ? arr[i + 1] : true] : []).filter(x => x.length));
 const ROOT = process.cwd();
 const DOCS = join(ROOT, 'docs');
-const PORT = Number(args.port || 8765);
-const OUT = args.out || join(ROOT, '.qa');
-const BASE = `http://127.0.0.1:${PORT}/`;
-const VIEWPORTS = [
-  { name: 'desktop', width: 1440, height: 900, isMobile: false },
-  { name: 'phone', width: 390, height: 844, isMobile: true, deviceScaleFactor: 2, hasTouch: true },
-];
+const OUT = args.out ? String(args.out) : join(ROOT, '.qa');
+const REPORT = join(OUT, 'report.json');
+const HTML = join(DOCS, 'qa-report.html');
+mkdirSync(OUT, { recursive: true });
+
+if (args['report-only']) {
+  if (!existsSync(REPORT)) { console.error(`geen ${REPORT}; draai eerst npm run qa`); process.exit(1); }
+  writeReportHtml(JSON.parse(readFileSync(REPORT, 'utf8')), HTML);
+  console.log(`docs/qa-report.html vernieuwd uit ${relative(ROOT, REPORT)}`);
+  process.exit(0);
+}
+
+function loadPlaywright() {
+  for (const c of ['playwright', '/usr/lib/node_modules/playwright', '/usr/local/lib/node_modules/playwright']) { try { return req(c); } catch { /* next */ } }
+  throw new Error('playwright niet gevonden: npm ci');
+}
+const { chromium } = loadPlaywright();
+const exe = chromium.executablePath();
+if (!existsSync(exe)) {
+  console.error(`Chromium ontbreekt (${exe}).\nInstalleer met: npx playwright install --with-deps chromium\nOf wijs PLAYWRIGHT_BROWSERS_PATH naar een bestaande installatie.`);
+  process.exit(2);
+}
 
 function listPages(dir) {
   const out = [];
@@ -31,93 +56,88 @@ function listPages(dir) {
   return out.sort();
 }
 
-const pages = args.pages ? String(args.pages).split(',') : listPages(DOCS);
-mkdirSync(OUT, { recursive: true });
+function git(cmd) { try { return execSync(`git ${cmd}`, { cwd: ROOT, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim(); } catch { return ''; } }
 
-const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', DOCS], { stdio: 'ignore' });
-await new Promise(r => setTimeout(r, 800));
-
-const browser = await chromium.launch();
-const results = [];
-let failures = 0;
-
-async function runPage(page, vp, reduced) {
-  const issues = [];
-  const ctx = await browser.newContext({
-    viewport: { width: vp.width, height: vp.height }, isMobile: vp.isMobile, hasTouch: !!vp.hasTouch,
-    deviceScaleFactor: vp.deviceScaleFactor || 1, reducedMotion: reduced ? 'reduce' : 'no-preference', locale: 'nl-BE',
-  });
-  const tab = await ctx.newPage();
-  if (page === '404.html') await tab.route(/8kawasaki8\.github\.io/, r => r.abort());
-  tab.on('console', m => { if (m.type() === 'error' && !(allowLive && /Failed to load resource/.test(m.text()))) issues.push(`console.error: ${m.text().slice(0, 300)}`); });
-  tab.on('pageerror', e => issues.push(`pageerror: ${String(e.message || e).slice(0, 300)}`));
-  tab.on('requestfailed', r => { if (allowLive && r.url().includes('8kawasaki8.github.io')) return; if (!r.failure()?.errorText.includes('ERR_ABORTED')) issues.push(`requestfailed: ${r.url()} ${r.failure()?.errorText}`); });
-  const allowLive = page === '404.html';
-  tab.on('request', r => { const u = new URL(r.url()); if (allowLive && u.hostname === '8kawasaki8.github.io') return; if (!['127.0.0.1', 'localhost'].includes(u.hostname) && u.protocol.startsWith('http')) issues.push(`external request: ${r.url()}`); });
-  tab.on('response', r => { if (r.status() >= 400) issues.push(`http ${r.status()}: ${r.url()}`); });
-  let timing = 0;
-  try {
-    const t0 = Date.now();
-    await tab.goto(BASE + page, { waitUntil: 'load', timeout: 30000 });
-    timing = Date.now() - t0;
-    await tab.waitForTimeout(reduced ? 1200 : 2500);
-    // scroll through the page to trigger lazy work
-    await tab.evaluate(async () => { const h = document.documentElement.scrollHeight; for (let y = 0; y < h; y += 700) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 60)); } window.scrollTo(0, 0); });
-    await tab.waitForTimeout(500);
-    const info = await tab.evaluate(() => {
-      const de = document.documentElement;
-      const sw = Math.max(de.scrollWidth, document.body ? document.body.scrollWidth : 0);
-      const wide = [];
-      for (const el of document.querySelectorAll('body *')) {
-        const r = el.getBoundingClientRect();
-        if (r.width > 0 && (r.right > window.innerWidth + 1 || r.left < -1) && getComputedStyle(el).position !== 'fixed' && getComputedStyle(el).overflow !== 'hidden') {
-          const anc = el.closest('[style*="overflow"], .scroller, pre, canvas'); if (!anc) wide.push(`${el.tagName.toLowerCase()}${el.id ? '#' + el.id : ''}${el.className && typeof el.className === 'string' ? '.' + el.className.split(' ')[0] : ''} right=${Math.round(r.right)}`);
-        }
-        if (wide.length > 5) break;
-      }
-      return {
-        scrollWidth: sw, innerWidth: window.innerWidth, wide,
-        lang: de.getAttribute('lang'), title: document.title,
-        hasViewport: !!document.querySelector('meta[name=viewport]'),
-        hasDesc: !!document.querySelector('meta[name=description]'),
-        undefinedText: /\bundefined\b|\[object Object\]|NaN\b/.test(document.body.innerText),
-        emoji: /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(document.body.innerText),
-        euro: /€\s?\d|\d\s?€|\beuro\b/i.test(document.body.innerText),
-        h1: document.querySelectorAll('h1').length,
-        imgsNoAlt: [...document.images].filter(i => !i.hasAttribute('alt')).length,
-        canvases: document.querySelectorAll('canvas').length,
-      };
-    });
-    if (info.scrollWidth > info.innerWidth + 1) issues.push(`horizontal overflow: scrollWidth ${info.scrollWidth} > ${info.innerWidth} (${info.wide.join('; ')})`);
-    if (!info.lang || !info.lang.startsWith('nl')) issues.push(`lang is ${info.lang}`);
-    if (!info.title) issues.push('missing <title>');
-    if (!info.hasViewport) issues.push('missing viewport meta');
-    if (!info.hasDesc) issues.push('missing meta description');
-    if (info.undefinedText) issues.push('literal undefined/NaN/[object Object] visible in text');
-    if (info.emoji) issues.push('emoji found in visible text');
-    if (info.euro && !page.startsWith('demo/') && page !== 'voorwaarden.html') issues.push('possible price (euro) in visible text');
-    if (info.h1 !== 1) issues.push(`h1 count ${info.h1}`);
-    if (info.imgsNoAlt) issues.push(`${info.imgsNoAlt} <img> without alt`);
-    if (!reduced) await tab.screenshot({ path: join(OUT, `${page.replace(/[\/]/g, '_')}.${vp.name}.png`), fullPage: vp.name === 'phone' });
-  } catch (e) { issues.push(`navigation: ${String(e.message || e).slice(0, 200)}`); }
-  await ctx.close();
-  return { page, viewport: vp.name, reducedMotion: reduced, loadMs: timing, issues };
-}
-
-for (const page of pages) {
-  for (const vp of VIEWPORTS) {
-    for (const reduced of [false, true]) {
-      if (reduced && vp.name === 'desktop') continue; // reduced motion is checked on phone; desktop normal + phone both
-      const r = await runPage(page, vp, reduced);
-      results.push(r);
-      if (r.issues.length) { failures++; console.log(`FAIL ${page} [${vp.name}${reduced ? ' reduced' : ''}]\n  - ${r.issues.join('\n  - ')}`); }
-      else console.log(`ok   ${page} [${vp.name}${reduced ? ' reduced' : ''}] ${r.loadMs}ms`);
+async function startServer(port) {
+  for (let p = port; p < port + 10; p++) {
+    const server = spawn('python3', ['-m', 'http.server', String(p), '--bind', '127.0.0.1', '--directory', DOCS], { stdio: 'ignore' });
+    for (let i = 0; i < 30; i++) {
+      await new Promise(r => setTimeout(r, 100));
+      try { const r = await fetch(`http://127.0.0.1:${p}/index.html`, { method: 'HEAD' }); if (r.ok) return { server, port: p }; } catch { /* not yet */ }
+      if (server.exitCode !== null) break;
     }
+    server.kill();
   }
+  throw new Error(`geen vrije poort vanaf ${port}`);
 }
 
-await browser.close();
+const allPages = listPages(DOCS);
+const pages = args.pages ? String(args.pages).split(',').map(s => s.trim()).filter(Boolean) : allPages;
+for (const p of pages) if (!allPages.includes(p)) { console.error(`pagina ontbreekt in docs/: ${p}`); process.exit(2); }
+const only = (k) => args[k] ? String(args[k]).split(',') : null;
+const { runs, notices } = buildMatrix(pages, { quick: !!args.quick, modes: only('mode'), profiles: only('profile'), all: allPages });
+const wantVariants = only('variant');
+const matrix = wantVariants ? runs.filter(r => wantVariants.includes(r.variant)) : runs;
+
+const budget = loadBudget(ROOT);
+const rules = serialise(loadWoordenlijst(ROOT));
+const { server, port } = await startServer(Number(args.port || 8765));
+const base = `http://127.0.0.1:${port}/`;
+const env = { base, pagesBase: PAGES_BASE, budget, rules, root: ROOT, out: OUT, shots: !!args.shots };
+
+const browsers = {};
+async function browserFor(mode) {
+  if (!browsers[mode]) browsers[mode] = await chromium.launch({ args: GL_MODES[mode].args });
+  return browsers[mode];
+}
+
+const started = Date.now();
+const results = [];
+console.log(`QA: ${pages.length} pagina's, ${matrix.length} runs${args.quick ? ' (quick)' : ''}, budget: ${budget.source}, woordenlijst: ${rules.source || 'inline'}`);
+for (const n of notices) console.log(`notitie: ${n}`);
+for (const run of matrix) {
+  const browser = await browserFor(run.mode);
+  const t0 = Date.now();
+  const rec = await runOne(browser, run, env);
+  rec.ms = Date.now() - t0;
+  results.push(rec);
+  const fails = rec.issues.filter(i => i.severity === 'fail'), known = rec.issues.filter(i => i.severity === 'known');
+  const tag = rec.status === 'fail' ? 'FOUT  ' : rec.status === 'known' ? 'BEKEND' : 'ok    ';
+  console.log(`${tag} ${runLabel(run)} ${rec.loadMs}ms raf=${rec.rafCount} scene=${rec.scene ? rec.scene.event : '-'} ${known.length ? `bekend=${known.length} ` : ''}${fails.length ? `fouten=${fails.length}` : ''}`);
+  for (const i of fails) console.log(`   - ${i.text}`);
+}
+for (const b of Object.values(browsers)) await b.close();
 server.kill();
-writeFileSync(join(OUT, 'qa-report.json'), JSON.stringify({ pages: pages.length, failures, results }, null, 2));
-console.log(`\n${failures ? 'QA FAILED' : 'QA PASSED'}: ${pages.length} pages, ${results.length} runs, ${failures} failing runs. Report: ${join(OUT, 'qa-report.json')}`);
-process.exit(failures ? 1 : 0);
+
+// static lints ride along so one report covers everything the publish guard needs
+let lint = { skipped: true };
+if (!args['no-lint']) {
+  const css = lintCssFiles(cssFiles(), { root: ROOT });
+  const copy = lintCopy(copyFiles(), { root: ROOT }).results;
+  const lines = lintLines({ root: ROOT }).results;
+  const fixtures = checkFixtures({ root: ROOT });
+  lint = { css, copy, lines, fixtures, fails: [...css, ...copy, ...lines, ...fixtures].filter(i => i.severity === 'fail').length };
+  console.log(`lint: css ${css.length} bevindingen, copy ${copy.length}, regels ${lines.length}, fixtures ${fixtures.length}; ${lint.fails} fout(en)`);
+}
+
+const knownSummary = {};
+for (const r of results) for (const i of r.issues) if (i.severity === 'known') { const k = `${i.wp}|${i.note}`; knownSummary[k] = (knownSummary[k] || 0) + 1; }
+for (const list of [lint.css, lint.copy, lint.lines, lint.fixtures]) for (const i of list || []) if (i.severity === 'known') { const k = `${i.wp}|${i.note}`; knownSummary[k] = (knownSummary[k] || 0) + 1; }
+const failing = results.filter(r => r.status === 'fail').length + (lint.fails || 0);
+const report = {
+  generated: new Date().toISOString(), commit: git('rev-parse HEAD'), branch: git('branch --show-current'),
+  node: process.version, playwright: req('playwright/package.json').version, chromium: exe, durationMs: Date.now() - started,
+  budget: budget.source, woordenlijst: rules.source || 'inline',
+  // partial: a subset (--pages, --profile, --mode or --variant) is never a publishable report, whatever its colour
+  matrix: { quick: !!args.quick, partial: pages.length < allPages.length || !!(args.profile || args.mode || args.variant), pages: pages.length, pagesTotal: allPages.length, runs: matrix.length, modes: Object.keys(GL_MODES) },
+  notices, summary: {
+    runs: results.length, pass: results.filter(r => r.status === 'pass').length, known: results.filter(r => r.status === 'known').length,
+    fail: results.filter(r => r.status === 'fail').length, lintFails: lint.fails || 0, status: failing ? 'red' : 'green',
+  },
+  known: Object.entries(knownSummary).map(([k, count]) => { const [wp, note] = k.split('|'); return { wp, note, count }; }).sort((a, b) => a.wp.localeCompare(b.wp)),
+  knownRules: KNOWN.map(k => ({ wp: k.wp, note: k.note })), lint, runs: results,
+};
+writeFileSync(REPORT, JSON.stringify(report, null, 2));
+writeReportHtml(report, HTML);
+console.log(`\n${failing ? 'QA ROOD' : 'QA GROEN'}: ${results.length} runs, ${report.summary.fail} rode runs, ${report.summary.known} met bekende punten, lint ${lint.fails || 0} fout(en), ${Math.round(report.durationMs / 1000)} s. Rapport: ${relative(ROOT, REPORT)} en docs/qa-report.html`);
+process.exit(failing ? 1 : 0);

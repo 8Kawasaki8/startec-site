@@ -1,6 +1,8 @@
 /* Sky: thousands of stars with colour temperatures and twinkle, a Milky Way
-   band, a slow gradient-mesh nebula, a moon and the odd shooting star.
-   The group follows the camera so the sky reads as infinitely far away. */
+   band, a slow value-noise nebula and a moon. The group follows the camera so
+   the sky reads as infinitely far away. The scene fog lives here too (night
+   colour, 38..110 units) so the city, sign and sky share one horizon. Nothing
+   here depends on page state: the stars only twinkle while frames are drawn. */
 import * as THREE from "../../vendor/three.module.min.js";
 import { glowTexture } from "./city.js";
 
@@ -77,7 +79,10 @@ function moonTexture() {
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
 }
 
-export function createSky(scene, { lite }) {
+export const NIGHT = 0x06080f;
+
+export function createSky(scene) {
+  scene.fog = new THREE.Fog(NIGHT, 38, 110);
   const group = new THREE.Group(); scene.add(group);
 
   const nebula = new THREE.Mesh(new THREE.SphereGeometry(R + 22, 72, 36), new THREE.ShaderMaterial({
@@ -86,11 +91,11 @@ export function createSky(scene, { lite }) {
   }));
   nebula.renderOrder = -10; group.add(nebula);
 
-  const stars = starLayer(lite ? 2600 : 5200, () => { const d = onSphere(-0.08); return { p: d.map(v => v * R), size: 1.0 + Math.pow(rnd(), 4) * 4.2, c: temp() }; }, 0.9);
+  const stars = starLayer(5200, () => { const d = onSphere(-0.08); return { p: d.map(v => v * R), size: 1.0 + Math.pow(rnd(), 4) * 4.2, c: temp() }; }, 0.9);
   // Milky Way: points scattered around a tilted great circle, plus soft clouds
   const bn = new THREE.Vector3(0.55, 0.65, -0.52).normalize(), u = new THREE.Vector3(1, 0, 0).cross(bn).normalize(), v = bn.clone().cross(u).normalize();
   const band = (spread) => { const a = rnd() * Math.PI * 2; return u.clone().multiplyScalar(Math.cos(a)).add(v.clone().multiplyScalar(Math.sin(a))).add(bn.clone().multiplyScalar(gauss() * spread)).normalize(); };
-  const milky = starLayer(lite ? 1200 : 3000, () => { let p = band(0.16); while (p.y < -0.05) p = band(0.16); return { p: [p.x * R, p.y * R, p.z * R], size: 0.7 + rnd() * 1.1, c: [0.78, 0.84, 1.0] }; }, 0.5);
+  const milky = starLayer(3000, () => { let p = band(0.16); while (p.y < -0.05) p = band(0.16); return { p: [p.x * R, p.y * R, p.z * R], size: 0.7 + rnd() * 1.1, c: [0.78, 0.84, 1.0] }; }, 0.5);
   group.add(stars, milky);
   const cloudTex = glowTexture("rgba(150,170,230,0.35)", "rgba(90,110,200,0)");
   for (let k = 0; k < 9; k++) {
@@ -105,36 +110,11 @@ export function createSky(scene, { lite }) {
   const moonGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture("rgba(220,225,240,0.5)", "rgba(180,190,230,0)"), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.1, fog: false }));
   moonGlow.position.copy(moon.position); moonGlow.scale.setScalar(84); group.add(moonGlow);
 
-  /* shooting star: a short line that streaks across the upper sky */
-  const sg = new THREE.BufferGeometry(); sg.setAttribute("position", new THREE.Float32BufferAttribute([0, 0, 0, 0, 0, 0], 3));
-  const shoot = new THREE.Line(sg, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
-  group.add(shoot);
-  const head = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture("rgba(255,255,255,0.9)", "rgba(200,230,255,0)"), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0 }));
-  head.scale.setScalar(3); group.add(head);
-  let next = 4 + rnd() * 5, s0 = 0, sLen = 50, active = false;
-  const sStart = new THREE.Vector3(), sDir = new THREE.Vector3(), tmp = new THREE.Vector3();
-
-  function update(t, px, rise) {
-    stars.material.uniforms.uTime.value = t; stars.material.uniforms.uPx.value = px; stars.material.uniforms.uAlpha.value = 0.6 + 0.4 * rise;
-    milky.material.uniforms.uTime.value = t; milky.material.uniforms.uPx.value = px; milky.material.uniforms.uAlpha.value = 0.3 + 0.35 * rise;
+  function update(t, px) {
+    stars.material.uniforms.uTime.value = t; stars.material.uniforms.uPx.value = px;
+    milky.material.uniforms.uTime.value = t; milky.material.uniforms.uPx.value = px;
     nebula.material.uniforms.uTime.value = t;
     group.rotation.y = t * 0.003;                               // the whole sky turns, very slowly
-    if (lite) return;
-    if (!active && t > next) {
-      active = true; s0 = t;
-      const d = onSphere(0.35); sStart.set(d[0], d[1], d[2]).multiplyScalar(R - 30);
-      sDir.set(rnd() - 0.5, -0.25 - rnd() * 0.3, rnd() - 0.5).normalize(); sLen = 40 + rnd() * 40;
-    }
-    if (active) {
-      const k = (t - s0) / 0.65;
-      if (k >= 1) { active = false; next = t + 5 + rnd() * 7; shoot.material.opacity = 0; head.material.opacity = 0; return; }
-      const fade = Math.sin(k * Math.PI);
-      tmp.copy(sStart).addScaledVector(sDir, sLen * k);
-      const a = sg.attributes.position.array; a[0] = tmp.x; a[1] = tmp.y; a[2] = tmp.z;
-      tmp.addScaledVector(sDir, -sLen * 0.3 * fade); a[3] = tmp.x; a[4] = tmp.y; a[5] = tmp.z;
-      sg.attributes.position.needsUpdate = true; shoot.material.opacity = 0.9 * fade;
-      head.position.set(a[0], a[1], a[2]); head.material.opacity = fade;
-    }
   }
   return { group, update };
 }

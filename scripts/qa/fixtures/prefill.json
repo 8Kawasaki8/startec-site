@@ -1,0 +1,18 @@
+{
+  "_doel": "Het bevroren conversiecontract (docs/assets/js/contact-prefill.js): per sleutel de zin die STSBericht.phrase(key) teruggeeft en die in het Bericht-tekstvak moet staan na een klik op [data-bericht=key]. Opening: 'Dag Snymis, ik ben van {zaak} in {gemeente} ({Sectorlabel}). ' of 'Dag Snymis,' met een witregel zonder naam. Controle: node scripts/qa/fixtures.mjs.",
+  "opening": "Dag Snymis, ik ben van Frituur 't Pleintje in Deurne (Horeca). ",
+  "openingZonderNaam": "Dag Snymis,\n\n",
+  "sleutels": {
+    "gevel": "Ik heb mijn naam op het uithangbord getypt en de schets gezien. Mag ik het echte voorbeeld van mijn site, met mijn uren en foto's?",
+    "telefoon": "Ik heb de dinsdag van de verzonnen zaak gespeeld. Als de telefoon bij mij ook overgaat terwijl ik bezig ben: kan je me tonen wat een site daaraan verandert, met mijn echte uren?",
+    "doorlichting": "Ik heb de doorlichting van de fictieve zaak bekeken. Mag ik dezelfde doorlichting voor mijn eigen zaak, op basis van wat er publiek over mij te vinden is?",
+    "kaartje": "Ik heb het Google-kaartje om 19 u geprobeerd. Wil je eens kijken hoe mijn eigen Google-profiel er 's avonds uitziet, en wat ik eraan kan verbeteren?",
+    "radar": "Ik las hoe een zaak bij jou op de radar komt. Je mag mijn zaak bekijken en een voorbeeld maken; ik beslis daarna zelf.",
+    "straat": "Ik heb de oude en de nieuwe gevel in de straat vergeleken. Ik wil weten hoe mijn eigen gevel er nu uitziet voor een klant, en wat een nieuwe zou veranderen.",
+    "reviews": "Ik zag de proef met reviews beantwoorden in mijn eigen toon. Hou me op de hoogte als dit verder raakt dan onderzoek; ik wil het graag mee uitproberen.",
+    "assistent": "Ik zag de schets van een assistent die buiten de uren antwoordt. Dat zou mij helpen. Laat het me weten als dit verder raakt dan onderzoek.",
+    "zichtbaarheid": "Ik heb de zichtbaarheidscheck ingevuld. Wil je mijn resultaat eens bekijken en zeggen welke stap ik eerst moet zetten?",
+    "uren": "Ik heb de openingsuren-check gedaan. Als mijn uren niet overal hetzelfde staan, kan je me helpen om dat in orde te brengen?",
+    "algemeen": "Ik heb een vraag over mijn zaak en mijn site. Wanneer past het om even te bellen of te schrijven?"
+  }
+}

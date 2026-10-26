@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="nl-BE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testpagina voor lint-copy</title>
+<meta name="description" content="Opzettelijk foute pagina: lint-copy moet hier precies drie fouten melden.">
+</head>
+<body>
+<main>
+  <h1>Opzettelijk fout, voor de zelftest van lint-copy</h1>
+  <!-- 1. een prijs in STS-stem -->
+  <p class="prijs">Een website vanaf 499 € per jaar.</p>
+  <!-- 2. vijf gevulde sterren zonder het woord voorbeeld -->
+  <p class="sterren" aria-label="vijf sterren">★★★★★ Beoordeeld door klanten</p>
+  <!-- 3. 'jullie' in STS-stem -->
+  <p class="aanspreking">Wij bouwen jullie site in een week.</p>
+  <!-- geen fout: bezoekersstem, zo schrijft een uitbater zelf -->
+  <p class="visitor" data-voice="visitor">Dag Snymis, kunnen jullie eens naar onze zaak kijken?</p>
+  <!-- geen fout: vraag van de bezoeker in een FAQ-kop -->
+  <details><summary>Werken jullie ook in Mortsel?</summary><p>Ja.</p></details>
+  <!-- geen fout: sterren met het woord voorbeeld -->
+  <p class="sterren-ok">★★★★★ <span>voorbeeld van een beoordeling</span></p>
+</main>
+</body>
+</html>

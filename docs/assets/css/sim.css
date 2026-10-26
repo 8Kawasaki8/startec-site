@@ -203,3 +203,5 @@
   .running .live,.human.wait .hum-state::before,.log li.typing .tx::after{animation:none}
   .stage-prog{box-shadow:none}
 }
+/* QA golf 1 (eind-QA): klikdoelen van minstens 44 px op grove aanwijzers (zaakkeuze, snelheid, tabs) */
+@media(pointer:coarse){.chip,.seg button,.tabs button{min-height:44px}.tabs button{min-width:44px;justify-content:center}}

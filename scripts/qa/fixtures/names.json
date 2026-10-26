@@ -1,0 +1,149 @@
+{
+  "_doel": "32 zaaknamen voor STSNames.sanitise (names.js): hoofdletters blijven, apostrofs blijven, ook '<' en '>' blijven letterlijk (elke schrijfactie is textContent of canvas fillText), stuurtekens en nulbreedtetekens verdwijnen voor het samenvoegen van witruimte, maximaal 40 tekens (afgekapt op een woordgrens als dat minstens 24 tekens overhoudt, anders hard op 40). 'verwacht' is de uitkomst; 'aanspreek' test de u/je-regel per sector; 'bij' test de terugval van bij(zaak, sector) zonder naam. Controle: node scripts/qa/fixtures.mjs.",
+  "namen": [
+    {
+      "in": "Frituur 't Pleintje",
+      "verwacht": "Frituur 't Pleintje"
+    },
+    {
+      "in": "BAKKERIJ NOORDPOOL",
+      "verwacht": "BAKKERIJ NOORDPOOL"
+    },
+    {
+      "in": "kapsalon lumen",
+      "verwacht": "kapsalon lumen"
+    },
+    {
+      "in": "Garage Verhulst",
+      "verwacht": "Garage Verhulst"
+    },
+    {
+      "in": "Dakwerken Pauwels",
+      "verwacht": "Dakwerken Pauwels"
+    },
+    {
+      "in": "Brasserie 't Meridiaan",
+      "verwacht": "Brasserie 't Meridiaan"
+    },
+    {
+      "in": "Café De Zwarte Kat",
+      "verwacht": "Café De Zwarte Kat"
+    },
+    {
+      "in": "Praktijk Dr. Van den Broeck",
+      "verwacht": "Praktijk Dr. Van den Broeck"
+    },
+    {
+      "in": "D'Oude Smidse",
+      "verwacht": "D'Oude Smidse"
+    },
+    {
+      "in": "L'Atelier du Pain",
+      "verwacht": "L'Atelier du Pain"
+    },
+    {
+      "in": "Frituur <b>x</b>",
+      "verwacht": "Frituur <b>x</b>"
+    },
+    {
+      "in": "<script>alert(1)</script>Bakker Jan",
+      "verwacht": "<script>alert(1)</script>Bakker Jan"
+    },
+    {
+      "in": "<img src=x onerror=alert(1)>Kapper Mo",
+      "verwacht": "<img src=x onerror=alert(1)>Kapper Mo"
+    },
+    {
+      "in": "Garage &amp; Co",
+      "verwacht": "Garage &amp; Co"
+    },
+    {
+      "in": "  Slagerij   Peeters  ",
+      "verwacht": "Slagerij Peeters"
+    },
+    {
+      "in": "Bloemen\tVan\nHove",
+      "verwacht": "Bloemen Van Hove"
+    },
+    {
+      "in": "Apotheek\u0000Centrum\u001f",
+      "verwacht": "ApotheekCentrum"
+    },
+    {
+      "in": "Fiets​Shop﻿ Deurne",
+      "verwacht": "FietsShop Deurne"
+    },
+    {
+      "in": "Schoonheidssalon Belle Époque",
+      "verwacht": "Schoonheidssalon Belle Époque"
+    },
+    {
+      "in": "Tuinaanleg Müller & Zonen",
+      "verwacht": "Tuinaanleg Müller & Zonen"
+    },
+    {
+      "in": "Restaurant De Gouden Lepel van Borgerhout en omstreken",
+      "verwacht": "Restaurant De Gouden Lepel van"
+    },
+    {
+      "in": "Elektriciteitswerken Vandenberghe-Janssens Merksem bv",
+      "verwacht": "Elektriciteitswerken Vandenberghe-Jansse"
+    },
+    {
+      "in": "AAAAAAAAAABBBBBBBBBBCCCCCCCCCCDDDDDDDDDDEEEEEEEEEEFFFFFFFFFF",
+      "verwacht": "AAAAAAAAAABBBBBBBBBBCCCCCCCCCCDDDDDDDDDD"
+    },
+    {
+      "in": "Kinesist Els",
+      "verwacht": "Kinesist Els"
+    },
+    {
+      "in": "",
+      "verwacht": ""
+    },
+    {
+      "in": "   ",
+      "verwacht": ""
+    },
+    {
+      "in": "<b></b>",
+      "verwacht": "<b></b>"
+    },
+    {
+      "in": "123 Pizza",
+      "verwacht": "123 Pizza"
+    },
+    {
+      "in": "Snack 2000",
+      "verwacht": "Snack 2000"
+    },
+    {
+      "in": "Nagelstudio Nails & More by Sofie Wilrijk",
+      "verwacht": "Nagelstudio Nails & More by Sofie"
+    },
+    {
+      "in": "Café <3 Jo> en Co",
+      "verwacht": "Café <3 Jo> en Co"
+    },
+    {
+      "in": "a ​ b",
+      "verwacht": "a b"
+    }
+  ],
+  "aanspreek": {
+    "horeca": "je",
+    "kapper": "je",
+    "garage": "je",
+    "bakker": "je",
+    "aannemer": "je",
+    "praktijk": "u",
+    "winkel": "je",
+    "anders": "je",
+    "": "je"
+  },
+  "bij": {
+    "praktijk": "bij uw zaak",
+    "horeca": "bij je zaak",
+    "": "bij je zaak"
+  }
+}

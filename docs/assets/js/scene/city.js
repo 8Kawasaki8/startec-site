@@ -1,13 +1,16 @@
 /* City: instanced towers with tiers and spires, lit windows in mixed colour
-   temperatures, neon signage on landmarks, street lamps, traffic, a mirrored
-   reflection in the wet ground, and one landmark that is built as a wireframe
-   during "Werkwijze". One draw call per layer. */
+   temperatures, neon trims on the tall ones, street lamps, traffic, a mirrored
+   reflection in the wet ground, and the landmark: one solid tower under the
+   sign, visible from the first frame, with one emissive uniform (uSector)
+   that takes the visitor's sector colour. The city is always lit; nothing in
+   it follows the scroll position or any page state. One draw call per layer. */
 import * as THREE from "../../vendor/three.module.min.js";
+import { HERO } from "./places.js";
+export { HERO };
 
 let seed = 1337;
 const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
 const N = 24, STEP = 4;
-export const HERO = { x: 6, z: -2, w: 5.4, h: 15 };
 
 export function glowTexture(inner, outer) {
   const c = document.createElement("canvas"); c.width = c.height = 64;
@@ -37,7 +40,7 @@ const VERT = `
     #include <fog_vertex>
   }`;
 const FRAG = `
-  uniform float uLit; uniform float uTime; uniform vec3 uCyan; uniform vec3 uViolet; uniform vec3 uBase; uniform float uMirror; uniform float uAlpha;
+  uniform float uTime; uniform vec3 uCyan; uniform vec3 uViolet; uniform vec3 uBase; uniform float uMirror; uniform float uAlpha; uniform vec3 uSector; uniform float uHero;
   varying vec3 vN; varying vec3 vW; varying vec3 vL; varying float vSeed; varying float vH; varying float vKind; varying float vLand;
   #include <fog_pars_fragment>
   float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)))*43758.5453); }
@@ -47,7 +50,6 @@ const FRAG = `
     float ao = 0.45 + 0.55*smoothstep(0.0, 0.4, vL.y);
     float sky = 0.55 + 0.45*max(0.0, dot(n, normalize(vec3(0.3,0.8,0.5))));
     vec3 col = uBase * sky * ao;
-    float lit = smoothstep(vSeed-0.14, vSeed+0.02, uLit);
     vec3 em = vec3(0.0);
     if (vKind < 1.5) {
       vec2 uv = abs(n.x) > 0.5 ? vL.zy : vL.xy;
@@ -64,14 +66,16 @@ const FRAG = `
       em += pane*on*(0.45+0.7*b)*flick*wc*side*(1.0+tv);
       float sign = vLand * step(0.5, n.x) * step(0.1,uv.x+0.5)*step(uv.x+0.5,0.9) * step(0.42,uv.y)*step(uv.y,0.6);
       float stripe = 0.5+0.5*sin(uTime*1.4 + (uv.x+0.5)*12.0 - uv.y*30.0);
-      em += sign * mix(uCyan, uViolet, stripe) * (0.6 + 0.5*stripe) * 1.4;
-      em += vLand * side * step(0.975, vL.y) * uCyan * 1.6;
+      vec3 neon = mix(mix(uCyan, uViolet, stripe), uSector, uHero);
+      em += sign * neon * (0.6 + 0.5*stripe) * 1.4;
+      em += vLand * side * step(0.975, vL.y) * mix(uCyan, uSector, uHero) * 1.6;
+      em += uHero * side * step(0.90, vL.y) * step(vL.y, 0.93) * uSector * 1.2;
     }
     em += (1.0-side) * 0.035 * uCyan;
     float edge = smoothstep(0.975,1.0,max(abs(vL.x*2.0),abs(vL.z*2.0)))*side;
-    em += edge * uCyan * 0.12;
+    em += edge * uCyan * 0.12;                       // tints the whole side face: the teal body of every tower
     float mirrorFade = uMirror < 0.99 ? clamp(1.0 + vW.y*0.09, 0.0, 1.0) : 1.0;
-    col = col * (0.4 + 0.6*uMirror) + em * lit * uMirror * mirrorFade;
+    col = col * (0.4 + 0.6*uMirror) + em * uMirror * mirrorFade;
     gl_FragColor = vec4(col, uAlpha);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
@@ -79,8 +83,8 @@ const FRAG = `
   }`;
 function towerMaterial(extra) {
   return new THREE.ShaderMaterial({
-    uniforms: THREE.UniformsUtils.merge([THREE.UniformsLib.fog, { uLit: { value: 0 }, uTime: { value: 0 }, uCyan: { value: new THREE.Color(0x36e8ff) }, uViolet: { value: new THREE.Color(0x8a6bff) },
-      uBase: { value: new THREE.Color(0x0c1222) }, uMirror: { value: 1 }, uAlpha: { value: 1 } }]),
+    uniforms: THREE.UniformsUtils.merge([THREE.UniformsLib.fog, { uTime: { value: 0 }, uCyan: { value: new THREE.Color(0x36e8ff) }, uViolet: { value: new THREE.Color(0x8a6bff) },
+      uBase: { value: new THREE.Color(0x0c1222) }, uMirror: { value: 1 }, uAlpha: { value: 1 }, uSector: { value: new THREE.Color(0x36e8ff) }, uHero: { value: 0 } }]),
     vertexShader: VERT, fragmentShader: FRAG, fog: true, ...extra
   });
 }
@@ -128,28 +132,28 @@ function pointLayer(d, mode, alpha) {
   return new THREE.Points(g, m);
 }
 
-export function createCity(scene, { lite }) {
+export function createCity(scene) {
   const group = new THREE.Group(); scene.add(group);
   const isStreetX = i => i % 4 === 1, isStreetZ = j => j % 5 === 2;
 
   /* ground: wet asphalt (semi-transparent so the mirror shows) + blueprint grid */
   const gridMat = new THREE.ShaderMaterial({
-    uniforms: { uColor: { value: new THREE.Color(0x36e8ff) }, uDark: { value: new THREE.Color(0x0a1220) }, uFade: { value: 0 }, uBoost: { value: 0 } },
+    uniforms: { uColor: { value: new THREE.Color(0x36e8ff) }, uDark: { value: new THREE.Color(0x0a1220) } },
     vertexShader: `varying vec3 vP; void main(){ vP = (modelMatrix*vec4(position,1.)).xyz; gl_Position = projectionMatrix*viewMatrix*vec4(vP,1.); }`,
-    fragmentShader: `uniform vec3 uColor; uniform vec3 uDark; uniform float uFade; uniform float uBoost; varying vec3 vP;
+    fragmentShader: `uniform vec3 uColor; uniform vec3 uDark; varying vec3 vP;
       void main(){
         vec2 g = abs(fract(vP.xz/4.0-0.5)-0.5)/fwidth(vP.xz/4.0);
         float line = 1.0-min(min(g.x,g.y),1.0);
         float d = length(vP.xz);
-        float a = line*(0.16+0.5*uBoost)*(1.0-smoothstep(28.0,80.0,d));
-        gl_FragColor = vec4(mix(uDark,uColor,0.65), a*(0.5+0.5*uFade));
+        float a = line*0.16*(1.0-smoothstep(28.0,80.0,d));
+        gl_FragColor = vec4(mix(uDark,uColor,0.65), a);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
       }`,
     transparent: true, depthWrite: false
   });
   const grid = new THREE.Mesh(new THREE.PlaneGeometry(300, 300), gridMat); grid.rotation.x = -Math.PI / 2; grid.position.y = 0.01; group.add(grid);
-  const base = new THREE.Mesh(new THREE.PlaneGeometry(300, 300), new THREE.MeshBasicMaterial({ color: 0x05070d, transparent: !lite, opacity: lite ? 1 : 0.74, fog: true }));
+  const base = new THREE.Mesh(new THREE.PlaneGeometry(300, 300), new THREE.MeshBasicMaterial({ color: 0x05070d, transparent: true, opacity: 0.74, fog: true }));
   base.rotation.x = -Math.PI / 2; base.position.y = -0.02; base.renderOrder = 1; group.add(base);
 
   /* plots */
@@ -187,7 +191,7 @@ export function createCity(scene, { lite }) {
 
   /* the reflection: the same instances flipped under the ground */
   let mirror = null;
-  if (!lite) {
+  {
     const mm = towerMaterial({ side: THREE.DoubleSide }); mm.uniforms.uMirror.value = 0.32;
     mirror = new THREE.InstancedMesh(geo, mm, cells.length); mirror.instanceMatrix = city.instanceMatrix;
     mirror.scale.y = -1; mirror.renderOrder = 0; group.add(mirror);
@@ -211,21 +215,11 @@ export function createCity(scene, { lite }) {
   group.add(lampPts, carPts, warnPts);
 
   /* light pollution dome on the horizon */
-  const dome = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture("rgba(54,160,220,0.25)", "rgba(20,60,120,0)"), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.05, fog: false }));
+  const dome = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture("rgba(54,160,220,0.25)", "rgba(20,60,120,0)"), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.15, fog: false }));
   dome.scale.set(300, 70, 1); dome.position.set(0, 8, -46); group.add(dome);
 
-  /* landmark (Werkwijze): wireframe that rises, then the solid tower fades in */
-  const wire = (() => {
-    const p = [], ring = (y) => { p.push(-.5, y, -.5, .5, y, -.5, .5, y, -.5, .5, y, .5, .5, y, .5, -.5, y, .5, -.5, y, .5, -.5, y, -.5); };
-    for (let k = 0; k <= 14; k++) ring(k / 14);
-    for (const [x, z] of [[-.5, -.5], [.5, -.5], [.5, .5], [-.5, .5], [-.17, -.5], [.17, -.5], [-.5, .17], [-.5, -.17], [.17, .5], [-.17, .5], [.5, .17], [.5, -.17]]) p.push(x, 0, z, x, 1, z);
-    const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.Float32BufferAttribute(p, 3));
-    const l = new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: 0x36e8ff, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending, fog: true }));
-    l.position.set(HERO.x, 0.02, HERO.z); l.scale.set(HERO.w, 0.001, HERO.w); group.add(l); return l;
-  })();
-  const scan = new THREE.Mesh(new THREE.PlaneGeometry(HERO.w + 1.2, HERO.w + 1.2), new THREE.MeshBasicMaterial({ color: 0x36e8ff, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
-  scan.rotation.x = -Math.PI / 2; scan.position.set(HERO.x, 0, HERO.z); group.add(scan);
-  const heroMat = towerMaterial({ transparent: true }); heroMat.uniforms.uAlpha.value = 0; heroMat.uniforms.uLit.value = 1;
+  /* the landmark: solid from the first frame; uSector is its emissive colour */
+  const heroMat = towerMaterial(); heroMat.uniforms.uHero.value = 1;
   const heroGeo = geo.clone();
   ["aSeed", "aH", "aKind", "aLand"].forEach(n => heroGeo.deleteAttribute(n));
   const nv = heroGeo.attributes.position.count;
@@ -233,22 +227,16 @@ export function createCity(scene, { lite }) {
   heroGeo.setAttribute("aH", new THREE.Float32BufferAttribute(new Float32Array(nv).fill(HERO.h), 1));
   heroGeo.setAttribute("aKind", new THREE.Float32BufferAttribute(new Float32Array(nv).fill(0), 1));
   heroGeo.setAttribute("aLand", new THREE.Float32BufferAttribute(new Float32Array(nv).fill(1), 1));
-  const hero = new THREE.Mesh(heroGeo, heroMat); hero.position.set(HERO.x, 0, HERO.z); hero.scale.set(HERO.w, HERO.h, HERO.w); hero.visible = false; group.add(hero);
-  const heroLight = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0 }));
+  const hero = new THREE.Mesh(heroGeo, heroMat); hero.position.set(HERO.x, 0, HERO.z); hero.scale.set(HERO.w, HERO.h, HERO.w); hero.visible = true; group.add(hero);
+  /* static glow under the sign */
+  const heroLight = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.45 }));
   heroLight.position.set(HERO.x, HERO.h + 0.6, HERO.z); heroLight.scale.setScalar(3.2); group.add(heroLight);
 
-  function update(t, lit, px, heroGrow, heroSolid) {
-    mat.uniforms.uLit.value = lit; mat.uniforms.uTime.value = t;
-    if (mirror) { mirror.material.uniforms.uLit.value = lit; mirror.material.uniforms.uTime.value = t; }
-    gridMat.uniforms.uFade.value = lit; gridMat.uniforms.uBoost.value = heroGrow * (1 - heroSolid);
+  function update(t, px) {
+    mat.uniforms.uTime.value = t; heroMat.uniforms.uTime.value = t;
+    if (mirror) mirror.material.uniforms.uTime.value = t;
     for (const p of [lampPts, carPts, warnPts]) { p.material.uniforms.uTime.value = t; p.material.uniforms.uPx.value = px; }
-    lampPts.material.uniforms.uAlpha.value = 0.25 + 0.65 * lit; carPts.material.uniforms.uAlpha.value = 0.35 + 0.5 * lit;
-    dome.material.opacity = 0.03 + 0.12 * lit;
-    wire.scale.y = Math.max(0.001, HERO.h * heroGrow); wire.material.opacity = heroGrow > 0 ? 0.9 * (1 - heroSolid) : 0;
-    scan.position.y = HERO.h * heroGrow + 0.05; scan.material.opacity = heroGrow > 0.01 && heroGrow < 0.999 ? 0.5 : 0;
-    hero.visible = heroSolid > 0.001; heroMat.uniforms.uAlpha.value = heroSolid; heroMat.uniforms.uTime.value = t;
-    heroLight.material.opacity = heroSolid * (0.5 + 0.15 * Math.sin(t * 2));
   }
   function dropMirror() { if (mirror) { group.remove(mirror); mirror = null; base.material.transparent = false; base.material.opacity = 1; base.material.needsUpdate = true; } }
-  return { group, update, dropMirror, count: cells.length };
+  return { group, update, dropMirror, count: cells.length, landmark: hero, sector: heroMat.uniforms.uSector, heroLight };
 }

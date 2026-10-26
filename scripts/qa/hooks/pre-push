@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+# Thin wrapper so 'git config core.hooksPath scripts/qa/hooks' enables the publish guard.
+exec "$(dirname "$0")/../prepush.sh" "$@"

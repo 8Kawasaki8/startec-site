@@ -1,0 +1,113 @@
+<!--
+title: Scene-testpagina — Star.Tec.Solutions
+description: Testpagina voor de nachtstad: plekken, uithangbord, sectorkleur, renderstaten en de SVG-route. Niet geïndexeerd.
+nav: dev
+scene: yes
+noindex: yes
+scripts: lite
+-->
+{{scene}}
+<main id="main" class="page">
+<section class="scene-dev" aria-labelledby="dev-titel">
+  <p class="label">Ontwikkelpagina · niet geïndexeerd</p>
+  <h1 id="dev-titel">De nachtstad, getest</h1>
+  <p class="small">Deze pagina stuurt de scène aan via <code>window.STSScene</code> en toont de cijfers van <code>STSScene.debug</code>. Route: <strong data-dev="route">…</strong>, profiel: <strong data-dev="profile">…</strong>.</p>
+
+  <h2 class="label">Plekken</h2>
+  <div class="row" data-dev="places"></div>
+
+  <h2 class="label">Uithangbord</h2>
+  <div class="row">
+    <label class="field" for="dev-naam">Naam van de zaak
+      <input id="dev-naam" type="text" maxlength="40" autocomplete="organization" placeholder="Frituur 't Pleintje">
+    </label>
+  </div>
+  <div class="row" role="group" aria-label="Sectorkleur" data-dev="sectors"><!-- one button per STSNames.SECTORS entry, so the page tests the palette of the site --></div>
+
+  <h2 class="label">Renderstaten</h2>
+  <div class="row">
+    <button type="button" class="btn" data-cover="0.7">Bedek 70 %</button>
+    <button type="button" class="btn" data-cover="0">Bedek 0 %</button>
+    <button type="button" class="btn" data-dev="tests">Voer controles uit</button>
+  </div>
+  <pre data-dev="out" aria-live="polite">Nog geen cijfers.</pre>
+</section>
+</main>
+<script>
+(function () {
+  var $ = function (s) { return document.querySelector('[data-dev="' + s + '"]'); };
+  var out = $("out"), ev = window.__stsEvents = window.__stsEvents || [];
+  ["sts:scene-ready", "sts:scene-failed", "sts:scene-degraded", "sts:flight-start", "sts:landed", "sts:intro-done"].forEach(function (n) {
+    addEventListener(n, function (e) { ev.push({ name: n, id: e.detail && e.detail.id, t: Math.round(performance.now()) }); });
+  });
+  function ready(cb) { if (window.STSScene) return cb(window.STSScene); addEventListener("sts:scene-ready", function () { cb(window.STSScene); }, { once: true }); addEventListener("sts:scene-failed", function () { cb(window.STSScene); }, { once: true }); }
+  function show(s) {
+    var d = s.debug, cam = d.camera(), box = d.signBox(), info = d.info() || {};
+    out.textContent = ["route " + (s.lite ? "svg" : "gl") + "  profiel " + s.profile + "  staat " + d.state,
+      "frames " + d.frames + "  longtasks " + d.longTasks + "  bloom " + d.bloom + (d.probe ? "  probe " + d.probe.avgMs.toFixed(1) + " ms/" + d.probe.frames : ""),
+      "camera " + cam.map(function (v) { return v.toFixed(1); }).join(" ") + "  landmark zichtbaar " + d.landmarkVisible,
+      "bord " + (box ? Math.round(box.width) + " x " + Math.round(box.height) + " px" : "-") + '  tekst "' + s.signText() + '"',
+      "draw calls " + (info.calls == null ? "-" : info.calls) + "  driehoeken " + (info.triangles == null ? "-" : info.triangles),
+      "events " + ev.slice(-6).map(function (e) { return e.name.replace("sts:", "") + (e.id ? ":" + e.id : "") + "@" + e.t; }).join(" ")].join("\n");
+  }
+  ready(function (s) {
+    if (!s) { out.textContent = "Geen scène: STSScene ontbreekt."; return; }
+    $("route").textContent = s.lite ? "SVG-plattegrond" : "Three.js"; $("profile").textContent = s.profile;
+    var row = $("places");
+    Object.keys(s.places).forEach(function (id) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "btn"; b.textContent = s.places[id].label; b.dataset.place = id;
+      b.addEventListener("click", function () { s.flyTo(id).then(function () { show(s); }); });
+      row.appendChild(b);
+    });
+    var naam = document.getElementById("dev-naam");
+    naam.addEventListener("input", function () { s.setSign(naam.value); show(s); });
+    var sectors = $("sectors"), list = (window.STSNames && window.STSNames.SECTORS) || [{ id: "anders", label: "Standaard", colour: "#36E8FF" }];
+    list.forEach(function (sec) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "btn"; b.textContent = sec.label; b.dataset.sector = sec.colour; b.dataset.sectorId = sec.id;
+      b.addEventListener("click", function () { s.setSector(sec.colour); show(s); });
+      sectors.appendChild(b);
+    });
+    document.querySelectorAll("[data-cover]").forEach(function (b) { b.addEventListener("click", function () { s.cover(+b.dataset.cover); show(s); }); });
+    $("tests").addEventListener("click", function () { window.stsDevChecks().then(function (r) { out.innerHTML = r.map(function (c) { return '<span class="' + (c.ok ? "ok" : "nok") + '">' + (c.ok ? "ok  " : "NOK ") + c.name + (c.info ? "  " + c.info : "") + "</span>"; }).join("\n"); }); });
+    addEventListener("sts:landed", function () { show(s); });
+    show(s);
+  });
+  /* the acceptance checks of WP-03, runnable in the browser and from Playwright */
+  window.stsDevChecks = function () {
+    var s = window.STSScene, d = s.debug, r = [], wait = function (ms) { return new Promise(function (res) { setTimeout(res, ms); }); };
+    var near = function (a, b) { return Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]); };
+    var overlap = function (a, b) { var x = Math.max(0, Math.min(a.right, b.x + b.width) - Math.max(a.left, b.x)), y = Math.max(0, Math.min(a.bottom, b.y + b.height) - Math.max(a.top, b.y)); return (x * y) / Math.max(1, b.width * b.height); };
+    var t0 = performance.now();
+    return s.flyTo("gevel").then(function (id) {
+      var ms = Math.round(performance.now() - t0), cam = d.camera();
+      r.push({ name: "flyTo('gevel') landt met id gevel", ok: id === "gevel", info: ms + " ms" });
+      r.push({ name: "camera binnen 0,5 van places.gevel.p", ok: s.lite || near(cam, s.places.gevel.p) < 0.5, info: near(cam, s.places.gevel.p).toFixed(2) });
+      r.push({ name: "landmark zichtbaar", ok: d.landmarkVisible === true });
+      var box = d.signBox(), dom = document.getElementById("sign-dom").getBoundingClientRect();
+      r.push({ name: "bord >= 420 x 60 px (1440x900) of >= 60 % breed (telefoon)", ok: innerWidth < 900 ? box.width >= innerWidth * 0.6 : (box.width >= 420 && box.height >= 60), info: Math.round(box.width) + "x" + Math.round(box.height) });
+      r.push({ name: "#sign-dom overlapt het bord >= 80 %", ok: overlap(dom, box) >= 0.8, info: Math.round(overlap(dom, box) * 100) + " %" });
+      s.setSign("Frituur 't Pleintje", "#FFB347");
+      var txt = document.getElementById("sign-dom").textContent;
+      r.push({ name: "setSign: signText en #sign-dom gelijk", ok: s.signText() === "Frituur 't Pleintje" && txt === "Frituur 't Pleintje", info: txt });
+      /* #sign-sr (aria-live) follows 600 ms after the last change, so a typed name is announced once */
+      var f0, reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      return wait(700).then(function () {
+        var sr = document.getElementById("sign-sr").textContent;
+        r.push({ name: "#sign-sr draagt de naam na de wachttijd van 600 ms", ok: sr.indexOf("Frituur 't Pleintje") >= 0, info: sr });
+        return wait(2300);
+      }).then(function () { f0 = d.frames; return wait(1000); }).then(function () {
+        r.push({ name: "rust: geen frames na 3 s stilte", ok: d.frames === f0, info: "delta " + (d.frames - f0) });
+        r.push({ name: "bloom uit op tablet / uit bij probe > 14 ms", ok: s.profile === "tablet" ? d.bloom === false : (!d.probe || !d.probe.done || d.probe.avgMs >= 14 ? d.bloom === false : true), info: "bloom " + d.bloom + (d.probe ? " probe " + d.probe.avgMs.toFixed(1) : "") });
+        if (s.lite || reduce) { r.push({ name: "vlucht vanuit rust tekent frames (overgeslagen: SVG-route of minder beweging)", ok: true }); return r; }
+        /* a flight from rust must wake the loop itself: frames at +300 ms and +900 ms of a 1.2 s flight */
+        var g0 = d.frames, g1, g2; s.flyTo("telefoon");
+        return wait(300).then(function () { g1 = d.frames; return wait(600); }).then(function () {
+          g2 = d.frames;
+          r.push({ name: "vlucht vanuit rust tekent frames (+300 ms en +900 ms)", ok: g1 > g0 && g2 > g1, info: "frames " + g0 + " > " + g1 + " > " + g2 });
+          return r;
+        });
+      });
+    });
+  };
+})();
+</script>

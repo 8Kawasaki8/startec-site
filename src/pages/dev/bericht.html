@@ -1,0 +1,43 @@
+<!--
+title: Berichtcontract, testpagina — Star.Tec.Solutions
+description: Testpagina voor het conversiecontract: het Bericht-formulier met een knop per sleutel, zodat de QA-harnas elke voorinvulling kan aanklikken. Niet geïndexeerd.
+nav: none
+noindex: yes
+scripts: lite contact
+-->
+<main id="main" class="page" style="padding-top:72px">
+<section class="sec" aria-labelledby="bc-titel">
+  <p class="label">Ontwikkelpagina · niet geïndexeerd</p>
+  <h1 id="bc-titel">Het bericht, elf keer voorbereid</h1>
+  <p class="lede">Elke knop hieronder staat voor een plek op de site die in het Bericht uitkomt. De tekst wordt geschreven zoals een uitbater ze zou schrijven, met de naam, het vak en de gemeente uit <code>sts-zaak</code>: nu <strong data-zaak="nog geen naam"></strong> (<span data-sector-label="geen vak"></span>, <span data-gemeente="geen gemeente"></span>).</p>
+  <div class="ctas" style="flex-wrap:wrap;gap:10px">
+    <a class="pill ghost" style="min-height:44px" href="#bericht" data-bericht="gevel">Jouw gevel</a>
+    <a class="pill ghost" style="min-height:44px" href="#bericht" data-bericht="telefoon">De telefoon om 19 u</a>
+    <a class="pill ghost" style="min-height:44px" href="#bericht" data-bericht="doorlichting">Doorlichting</a>
+    <a class="pill ghost" style="min-height:44px" href="#bericht" data-bericht="kaartje">Google-kaartje</a>
+    <a class="pill ghost" style="min-height:44px" href="#bericht" data-bericht="radar">Radar</a>
+    <a class="pill ghost" style="min-height:44px" href="#bericht" data-bericht="straat">De straat</a>
+    <a class="pill ghost" style="min-height:44px" href="#bericht" data-bericht="reviews">Reviews</a>
+    <a class="pill ghost" style="min-height:44px" href="#bericht" data-bericht="assistent">Assistent</a>
+    <a class="pill ghost" style="min-height:44px" href="#bericht" data-bericht="zichtbaarheid">Zichtbaarheidscheck</a>
+    <a class="pill ghost" style="min-height:44px" href="#bericht" data-bericht="uren">Openingsuren</a>
+    <button class="pill ghost" style="min-height:44px" type="button" data-bericht="algemeen">Algemene vraag</button>
+  </div>
+</section>
+<section class="sec" id="bericht" aria-labelledby="bc-form">
+  <h2 id="bc-form">Bericht aan Snymis</h2>
+  <p class="small" style="color:var(--ink2)">Het formulier van de startpagina, met een extra onderwerpveld voor de test. Dit opent je mail- of WhatsApp-app. Snymis leest het zelf.</p>
+  <form id="contact-form" class="panel" novalidate style="margin-top:18px">
+    <label class="field"><span>Je naam</span><input name="name" required autocomplete="name"></label>
+    <label class="field"><span>Naam van je zaak <span class="small">(optioneel)</span></span><input name="business" autocomplete="organization"></label>
+    <label class="field"><span>E-mail of gsm-nummer</span><input name="reach" required autocomplete="email" placeholder="Zo kunnen we je antwoorden"></label>
+    <label class="field"><span>Hoe mogen we je contacteren?</span><select name="prefer"><option>WhatsApp</option><option>Telefoon</option><option>E-mail</option></select></label>
+    <label class="field"><span>Onderwerp</span><input name="onderwerp" maxlength="80"></label>
+    <label class="field"><span>Je bericht</span><textarea name="message" required rows="6" placeholder="Wat doet je zaak, en waar loop je tegenaan?"></textarea></label>
+    <div aria-hidden="true" style="position:absolute;left:-9999px"><label>Laat dit leeg<input name="company_site" tabindex="-1" autocomplete="off"></label></div>
+    <p id="form-err" class="warn" hidden></p>
+    <p id="form-ok" hidden tabindex="-1">Je mail- of WhatsApp-app staat open met je bericht.</p>
+    <button class="pill" type="submit" style="min-height:44px">Stuur een berichtje</button>
+  </form>
+</section>
+</main>

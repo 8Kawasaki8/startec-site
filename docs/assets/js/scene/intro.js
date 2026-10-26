@@ -1,102 +1,75 @@
-/* Intro: "STS" made of particles gathers in the night sky above the city, the
-   wordmark appears, then the letters release softly and the page fades in.
-   The camera never moves: it already stands on the hero view. GSAP timeline;
-   skippable; once per session. */
+/* Intro: at most 1.5 s. The veil lifts, the slogan shows once, a comet crosses
+   the sky towards the landmark and the camera settles at places.start. One
+   small "Overslaan" button ends it early. Dispatches sts:intro-done, writes
+   sessionStorage sts-pre so it plays once per session, and removes the
+   overlay. The H1, arrival lines and strip are already in the DOM: the overlay
+   is aria-hidden and only covers them visually. No intro under
+   prefers-reduced-motion or when sts-pre is set (scene.js decides). */
 import * as THREE from "../../vendor/three.module.min.js";
 import { glowTex } from "./city.js";
+import { HERO, places } from "./places.js";
 
-let seed = 777;
-const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+export const INTRO_MAX = 1.5;      // ceiling: sts:intro-done is dispatched by then, whatever the frame rate
+const INTRO_TL = 1.3;              // length of the timeline on a machine that keeps up
 
-const P_VERT = `
-  attribute vec3 aStart; attribute float aSeed; attribute float aSize;
-  uniform float uMorph; uniform float uRelease; uniform float uTime; uniform float uPx; varying float vA;
-  void main(){
-    vec3 p = mix(aStart, position, uMorph);
-    p += 0.22 * vec3(sin(uTime*1.3 + aSeed*20.0), cos(uTime*1.1 + aSeed*13.0), sin(uTime*0.9 + aSeed*7.0));
-    float s = fract(aSeed*7.0), s2 = fract(aSeed*13.0);
-    p += uRelease * vec3((aSeed-0.5)*5.0, 1.5 + s*4.0, (s2-0.5)*5.0);
-    vec4 mv = modelViewMatrix * vec4(p, 1.0);
-    gl_PointSize = aSize * uPx / max(1.0, -mv.z);
-    gl_Position = projectionMatrix * mv;
-    vA = (0.5 + 0.5*s2) * smoothstep(0.0, 0.25, uMorph) * (1.0 - smoothstep(0.0, 0.7, uRelease));
-  }`;
-const P_FRAG = `
-  uniform sampler2D uMap; uniform float uAlpha; varying float vA;
-  void main(){ vec4 t = texture2D(uMap, gl_PointCoord); float a = t.a * vA * uAlpha; if (a < 0.01) discard; gl_FragColor = vec4(t.rgb, a);
-    #include <tonemapping_fragment>
-    #include <colorspace_fragment>
-  }`;
+export function createIntro({ scene, flight, overlay, onFrame }) {
+  const state = { active: false, done: false, t: 0 };
+  const veil = overlay.querySelector(".veil"), slogan = overlay.querySelector(".intro-slogan"), skipBtn = overlay.querySelector(".intro-skip");
+  let tl = null, onDone = null, playing = null, deadline = 0;
 
-async function sampleLetters(text, width) {
-  try { await Promise.race([document.fonts.load("700 230px 'Panchang'"), new Promise(r => setTimeout(r, 1500))]); } catch (e) { /* system font fallback */ }
-  const W = 1024, H = 360, c = document.createElement("canvas"); c.width = W; c.height = H;
-  const g = c.getContext("2d", { willReadFrequently: true });
-  g.fillStyle = "#fff"; g.font = "700 230px 'Panchang', 'Unbounded', system-ui, sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
-  if ("letterSpacing" in g) g.letterSpacing = "6px";
-  g.fillText(text, W / 2, H / 2 + 10);
-  const d = g.getImageData(0, 0, W, H).data, pts = [], k = width / W;
-  for (let y = 0; y < H; y += 4) for (let x = 0; x < W; x += 4) if (d[(y * W + x) * 4 + 3] > 110) pts.push((x - W / 2) * k + (rnd() - 0.5) * 0.15, (H / 2 - y) * k + (rnd() - 0.5) * 0.15, (rnd() - 0.5) * 1.2);
-  return pts;
-}
-
-export function createIntro({ scene, camera, overlay }) {
-  const state = { veil: 1, morph: 0, release: 0, glide: 0, active: false, done: false };
-  // the hero camera: position (0,34,60) looking at (0,6,0); the letters float above the city on that line of sight
-  const CAM = new THREE.Vector3(0, 34, 60), LOOK = new THREE.Vector3(0, 6, 0);
-  const letters = new THREE.Group(); letters.position.set(0, 23.6, 15.2); letters.lookAt(CAM); letters.visible = false; scene.add(letters);
-  let points = null;
-  async function build() {
-    const width = innerWidth / innerHeight < 1 ? 20 : 38;
-    const target = await sampleLetters("STS", width), n = target.length / 3, start = new Float32Array(target.length), seeds = new Float32Array(n), sizes = new Float32Array(n);
-    for (let i = 0; i < n; i++) {
-      const a = rnd() * Math.PI * 2, b = Math.acos(rnd() * 2 - 1), r = 18 + rnd() * 70;
-      start.set([Math.sin(b) * Math.cos(a) * r, Math.sin(b) * Math.sin(a) * r, Math.cos(b) * r * 0.5 - 20], i * 3);
-      seeds[i] = rnd(); sizes[i] = 2.0 + rnd() * 2.4;
-    }
-    const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.Float32BufferAttribute(target, 3));
-    g.setAttribute("aStart", new THREE.BufferAttribute(start, 3));
-    g.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 1));
-    g.setAttribute("aSize", new THREE.BufferAttribute(sizes, 1));
-    points = new THREE.Points(g, new THREE.ShaderMaterial({ uniforms: { uMorph: { value: 0 }, uRelease: { value: 0 }, uTime: { value: 0 }, uPx: { value: 1 }, uMap: { value: glowTex }, uAlpha: { value: 0.5 } },
-      vertexShader: P_VERT, fragmentShader: P_FRAG, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
-    letters.add(points);
+  /* the comet: a glow sprite with a short additive tail, flying towards the sign */
+  const comet = new THREE.Group(); comet.visible = false; scene.add(comet);
+  const head = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.95 }));
+  head.scale.setScalar(2.2); comet.add(head);
+  const tail = [];
+  for (let i = 1; i <= 6; i++) {
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.6 - i * 0.08 }));
+    s.scale.setScalar(1.8 - i * 0.22); comet.add(s); tail.push(s);
+  }
+  const from = new THREE.Vector3(HERO.x - 34, HERO.h + 26, HERO.z - 30), to = new THREE.Vector3(HERO.x - 1, HERO.h + 4.5, HERO.z + 1), dir = to.clone().sub(from).normalize();
+  function placeComet(k) {
+    const p = from.clone().lerp(to, k); p.y += Math.sin(k * Math.PI) * 4;
+    head.position.copy(p);
+    tail.forEach((s, i) => s.position.copy(p).addScaledVector(dir, -(i + 1) * 1.1));
   }
 
-  const el = s => overlay && overlay.querySelector(s);
-  const veil = el(".veil"), lock = el(".intro-lock"), hint = el(".intro-hint"), bar = el(".bar");
-  let tl = null, onDone = null;
-
-  function update(t, px) {
-    if (!state.active) return;
-    camera.position.copy(CAM); camera.lookAt(LOOK);
-    if (points) { const u = points.material.uniforms; u.uMorph.value = state.morph; u.uRelease.value = state.release; u.uTime.value = t; u.uPx.value = px; }
-    letters.rotation.y = Math.sin(t * 0.35) * 0.05; letters.rotation.x = Math.cos(t * 0.3) * 0.03;
-    if (veil) veil.style.opacity = state.veil;
-  }
-
-  async function play(cb) {
-    onDone = cb; state.active = true;
-    await build(); letters.visible = true;
-    tl = gsap.timeline({ onComplete: finish });
-    tl.to(state, { veil: 0, duration: 1.1, ease: "power2.out" }, 0)
-      .to(state, { morph: 1, duration: 1.9, ease: "power3.inOut" }, 0.2)
-      .to(state, { release: 1, duration: 1.5, ease: "power2.inOut" }, 2.8)
-      .to(state, { glide: 1, duration: 1.5, ease: "power2.inOut" }, 2.8);
-    if (lock) tl.fromTo(lock, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" }, 1.1).to(lock, { opacity: 0, y: -8, duration: 0.6, ease: "power2.in" }, 3.0);
-    if (hint) tl.fromTo(hint, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0.8).to(hint, { opacity: 0, duration: 0.3 }, 3.6);
-    if (bar) tl.fromTo(bar, { scaleX: 0 }, { scaleX: 1, duration: 4.2, ease: "none" }, 0.1);
+  function play(cb) {
+    if (cb) onDone = cb;
+    if (playing) return playing;
+    state.active = true;
+    /* the camera starts a little higher and farther than start, then settles */
+    const s = places.start.p;
+    flight.pos.set(s[0] + 3, s[1] + 7, s[2] + 11); flight.look.set(...places.start.l); flight.apply();
+    const cam = { x: flight.pos.x, y: flight.pos.y, z: flight.pos.z }, c = { k: 0 };
+    playing = new Promise(resolve => {
+      tl = gsap.timeline({ onComplete() { finish(); resolve(); } });
+      /* wall-clock ceiling: a stalled first frame (shader compile) must not stretch the intro */
+      deadline = setTimeout(skip, (INTRO_MAX - 0.15) * 1000);
+      tl.to(cam, { x: s[0], y: s[1], z: s[2], duration: INTRO_TL, ease: "power2.out", onUpdate() { flight.pos.set(cam.x, cam.y, cam.z); flight.apply(); } }, 0);
+      if (veil) tl.to(veil, { opacity: 0, duration: 0.5, ease: "power2.out" }, 0);
+      tl.call(() => { comet.visible = true; }, null, 0.2)
+        .to(c, { k: 1, duration: 0.8, ease: "power2.in", onUpdate() { placeComet(c.k); } }, 0.2)
+        .call(() => { comet.visible = false; }, null, 1.0);
+      if (slogan) tl.fromTo(slogan, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 0.1).to(slogan, { opacity: 0, duration: 0.3, ease: "power2.in" }, 0.95);
+      if (skipBtn) skipBtn.addEventListener("click", skip, { once: true });
+      addEventListener("keydown", onKey);
+    });
+    return playing;
   }
   function finish() {
-    state.active = false; state.done = true;
-    letters.visible = false;
-    if (points) { points.geometry.dispose(); points.material.dispose(); }
-    scene.remove(letters);
+    if (state.done) return;
+    state.active = false; state.done = true; clearTimeout(deadline); removeEventListener("keydown", onKey);
+    try { sessionStorage.setItem("sts-pre", "1"); } catch (e) { /* storage blocked */ }
+    comet.visible = false; scene.remove(comet);
+    head.material.dispose(); tail.forEach(s => s.material.dispose());
+    overlay.remove();
+    onFrame && onFrame();
+    window.dispatchEvent(new Event("sts:intro-done"));
     if (onDone) onDone();
   }
-  function skip() { if (tl && state.active && tl.progress() < 0.97) tl.timeScale(3); }
-  function seek(t) { if (!tl) return; if (t < 0) { tl.play(); return; } tl.pause(); tl.seek(t, false); }
-  function debug() { return { active: state.active, done: state.done, morph: +state.morph.toFixed(3), release: +state.release.toFixed(3), glide: +state.glide.toFixed(3), tl: tl ? +tl.progress().toFixed(3) : null, scale: tl ? tl.timeScale() : null, points: points ? points.geometry.attributes.position.count : 0, cam: camera.position.toArray().map(v => Math.round(v)) }; }
-  return { play, skip, update, state, debug, seek };
+  function onKey(e) { if (e.key === "Escape") skip(); }
+  /* skip: jump to the end of the timeline (camera lands at start, overlay goes) */
+  function skip() { if (tl && state.active) { tl.seek(tl.duration(), false); finish(); } }
+  function debug() { return { active: state.active, done: state.done, time: tl ? +tl.time().toFixed(2) : null }; }
+  return { play, skip, finish, state, debug };
 }

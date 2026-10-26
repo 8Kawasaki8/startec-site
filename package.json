@@ -1,0 +1,25 @@
+{
+  "name": "startec-site",
+  "version": "5.0.0",
+  "private": true,
+  "description": "Star.Tec.Solutions (STS Digital, Antwerpen): statische site, gebouwd met python3 scripts/build.py, getest met Playwright.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "bootstrap": "npx playwright install --with-deps chromium",
+    "build": "python3 scripts/build.py --base https://8kawasaki8.github.io/startec-site/",
+    "serve": "python3 -m http.server 8899 -d docs",
+    "qa": "node scripts/qa/qa.mjs",
+    "qa:quick": "node scripts/qa/qa.mjs --quick",
+    "lint": "node scripts/qa/lint-css.mjs && node scripts/qa/lint-copy.mjs",
+    "lint:selftest": "node scripts/qa/lint-copy.mjs --selftest",
+    "lines": "node scripts/qa/lint-lines.mjs",
+    "report": "node scripts/qa/qa.mjs --report-only",
+    "audit": "npm run lines && npm run lint && npm run qa"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}

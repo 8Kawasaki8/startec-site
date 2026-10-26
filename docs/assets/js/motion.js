@@ -1,25 +1,24 @@
-/* Motion layer: intro hand-over, smooth scroll (Lenis), scroll-driven 3D
-   progress, text reveals, chapter copy, flick deck with holographic sheen,
-   kinetic marquee, split-flap board, ASCII mirror, accordion, rail, cursor. */
+/* Motion layer of the old UI, kept only until WP-04 removes the chapters, deck, marquee,
+   flap board, accordion, rail, menu and cursor. Config hydration, reveals and the lite
+   toggle moved to hydrate.js, reveal.js and lite.js (WP-02). */
 (function () {
-  var body = document.body, C = window.STS_CONFIG || {};
+  var body = document.body;
   var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  gsap.registerPlugin(ScrollTrigger);
-  ScrollTrigger.config({ ignoreMobileResize: true });   // the address bar on phones must not re-layout the chapters
-
-  /* ── contact details from config (empty → hidden) ─────────── */
-  document.querySelectorAll("[data-c]").forEach(function (el) {
-    var key = el.getAttribute("data-c"), v = C[key], wrap = el.closest("[data-c-wrap]") || el;
-    if (!v) { wrap.hidden = true; return; }
-    if (key === "email") { el.href = "mailto:" + v; if (!el.hasAttribute("data-keep")) el.textContent = v; }
-    else if (key === "whatsapp") { el.href = "https://wa.me/" + v; el.target = "_blank"; el.rel = "noopener"; }
-    else if (key === "phone") { el.href = "tel:" + v.replace(/[^\d+]/g, ""); if (!el.hasAttribute("data-keep")) el.textContent = v; }
-    else el.textContent = v;
-  });
-  document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
-  // privacy page: the EmailJS paragraphs only apply when direct sending is configured
-  var ej = C.emailjs || {}, ejOn = !!(ej.serviceId && ej.templateId && ej.publicKey);
-  ["pv-emailjs", "pv-emailjs-li"].forEach(function (id) { var el = document.getElementById(id); if (el) el.hidden = !ejOn; });
+  /* WP-01: ScrollTrigger and Lenis are no longer loaded on STS pages. Without the plugin, enter/toggle triggers run
+     on an IntersectionObserver; progress-driven ones (the chapters) keep their first state until WP-04 removes them. */
+  var ScrollTrigger = window.ScrollTrigger || {
+    create: function (o) {
+      if (!o.trigger || !("IntersectionObserver" in window)) return;
+      var io = new IntersectionObserver(function (en) {
+        var on = en[0].isIntersecting, passed = en[0].boundingClientRect.bottom < 0;   // jumped past (anchor link) counts as entered
+        if (o.onEnter && (on || passed)) { o.onEnter(); if (o.once) io.disconnect(); }
+        if (o.onToggle) o.onToggle({ isActive: on });
+      }, { rootMargin: o.onToggle ? "-50% 0px -50% 0px" : "0px 0px -12% 0px" });
+      io.observe(o.trigger);
+    },
+    refresh: function () {}, update: function () {}, config: function () {}
+  };
+  if (window.ScrollTrigger) { gsap.registerPlugin(ScrollTrigger); ScrollTrigger.config({ ignoreMobileResize: true }); }   // the address bar on phones must not re-layout the chapters
 
   /* ── smooth scroll ─────────────────────────────────────────── */
   var lenis = null, scrollVel = 0;
@@ -84,24 +83,29 @@
     });
   }
   if (intro) {
-    if (sessionStorage.getItem("sts-pre") || reduce) { intro.remove(); start(); }
+    var pre = null; try { pre = sessionStorage.getItem("sts-pre"); } catch (e) { /* storage blocked */ }
+    if (pre || reduce) { intro.remove(); start(); }
     else {
       if (lenis) lenis.stop();
       body.classList.add("introing");
       var finished = false;
       function finish() {
         if (finished) return; finished = true;
-        sessionStorage.setItem("sts-pre", "1");
+        try { sessionStorage.setItem("sts-pre", "1"); } catch (e) { /* storage blocked */ }
         gsap.to(intro, { opacity: 0, duration: 0.5, onComplete: function () { intro.remove(); } });
         body.classList.remove("introing");
         start();
       }
       whenScene(function (s) {
         if (s && s.intro) {
+          /* the SVG route ends the intro at install and the GL intro has a wall-clock ceiling; whichever
+             way it ends, sts:intro-done also calls finish (belt and braces, finish is idempotent) */
+          addEventListener("sts:intro-done", finish, { once: true });
           s.intro.play(finish);
+          if (s.intro.debug && s.intro.debug().done) finish();
           var skip = function () { s.intro.skip(); };
           intro.addEventListener("click", skip);
-          addEventListener("keydown", skip, { once: true });
+          /* no keydown skip: Tab must be able to reach the 'Intro overslaan' button; intro.js handles Escape */
           addEventListener("wheel", skip, { once: true, passive: true });
           addEventListener("touchstart", skip, { once: true, passive: true });
         } else {
@@ -112,13 +116,9 @@
     }
   } else start();
 
-  /* ── 3D progress across the chapters ───────────────────────── */
+  /* ── chapter copy over scroll (WP-03: the city no longer follows scroll; flights come from STSScene.flyTo) ── */
   var chapters = document.getElementById("chapters");
   if (chapters) {
-    ScrollTrigger.create({
-      trigger: chapters, start: "top top", end: "bottom bottom", scrub: 0.6,
-      onUpdate: function (self) { if (window.STSScene) window.STSScene.setProgress(self.progress); }
-    });
     document.querySelectorAll(".chapter").forEach(function (ch) {
       var copies = ch.querySelectorAll(".copy"), meter = ch.querySelectorAll(".meter i"), card = ch.querySelector(".city-card");
       ScrollTrigger.create({
@@ -143,10 +143,7 @@
     new IntersectionObserver(function (en) { ctl.set(en[0].isIntersecting); }, { threshold: 0.05 }).observe(asciiEl);
   });
 
-  /* ── reveals + headline splits in later sections ───────────── */
-  document.querySelectorAll("[data-reveal], .rv").forEach(function (el) {
-    ScrollTrigger.create({ trigger: el, start: "top 88%", once: true, onEnter: function () { el.classList.add("in"); } });
-  });
+  /* ── headline splits (the reveals themselves live in reveal.js) ── */
   if (!reduce) document.querySelectorAll("[data-split]").forEach(function (el) {
     var lines = splitLines(el); gsap.set(lines, { yPercent: 110 });
     ScrollTrigger.create({ trigger: el, start: "top 85%", once: true, onEnter: function () { gsap.to(lines, { yPercent: 0, duration: 1, ease: "power4.out", stagger: 0.08 }); } });
@@ -164,7 +161,8 @@
     });
   });
   var nav = document.querySelector(".nav"), cta = document.querySelector(".fixed-cta");
-  ScrollTrigger.create({ start: 80, onUpdate: function (s) { nav.classList.toggle("scrolled", s.scroll() > 80); if (cta) cta.classList.toggle("show", s.scroll() > innerHeight * 0.8); } });
+  function onScroll() { if (nav) nav.classList.toggle("scrolled", scrollY > 80); if (cta) cta.classList.toggle("show", scrollY > innerHeight * 0.8); }
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
   var burger = document.querySelector(".burger");
   if (burger) burger.addEventListener("click", function () { var o = body.classList.toggle("menu-open"); burger.setAttribute("aria-expanded", o); if (lenis) o ? lenis.stop() : lenis.start(); });
   document.querySelectorAll(".menu a").forEach(function (a) { a.addEventListener("click", function () { body.classList.remove("menu-open"); if (lenis) lenis.start(); }); });
@@ -246,14 +244,6 @@
     card.addEventListener("pointerleave", function () { card.style.setProperty("--rx", "0deg"); card.style.setProperty("--ry", "0deg"); });
   });
 
-  /* Lab links prefill the contact form on the same page */
-  document.querySelectorAll("[data-subject]").forEach(function (a) {
-    a.addEventListener("click", function () {
-      var m = document.querySelector("#contact-form [name=message]");
-      if (m && !m.value) m.value = "Hallo, ik ben geïnteresseerd in: " + a.getAttribute("data-subject") + ".\n\n";
-    });
-  });
-
   /* ── accordion ─────────────────────────────────────────────── */
   document.querySelectorAll(".acc-item").forEach(function (item) {
     var head = item.querySelector(".acc-head"), bodyEl = item.querySelector(".acc-body");
@@ -261,13 +251,6 @@
       var open = item.classList.toggle("open"); head.setAttribute("aria-expanded", open);
       gsap.to(bodyEl, { height: open ? "auto" : 0, duration: 0.5, ease: "power3.inOut", onComplete: ScrollTrigger.refresh });
     });
-  });
-
-  /* ── "minder animatie": remembered per browser, reloads in lite mode ── */
-  document.querySelectorAll("[data-lite-toggle]").forEach(function (b) {
-    var on = false; try { on = localStorage.getItem("sts-lite") === "1"; } catch (e) { /* storage blocked */ }
-    b.textContent = on ? "Meer animatie" : "Minder animatie";
-    b.addEventListener("click", function () { try { on ? localStorage.removeItem("sts-lite") : localStorage.setItem("sts-lite", "1"); } catch (e) { /* storage blocked */ } location.reload(); });
   });
 
   /* ── cursor follower + comet tail (desktop only) ───────────── */
