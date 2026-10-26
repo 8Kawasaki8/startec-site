@@ -2,7 +2,9 @@
      The loader picks the route (see the profile table in docs/assets/js/scene.js and README.md). The intro overlay
      (#intro) is inserted by the loader only on the path where the intro plays (Three.js route, no reduced motion, no
      sts-pre): everywhere else, and without JavaScript, the arrival lines are in the first frame and nothing covers the
-     page; if the module fails to load, the loader removes the overlay itself. -->
+     page; if the module fails to load, the loader removes the overlay itself. The slogan of the intro is
+     not in this partial: the loader reads <template id="intro-tekst"> from the page (index.html has it once,
+     dev/scene.html has none), so the leus counts twice on index (intro, voet) and once elsewhere (WP-12). -->
 <canvas id="scene" aria-hidden="true"></canvas>
 <div id="scene-fallback" hidden aria-hidden="true">{{svg:plattegrond}}</div>
 <div id="sign-dom" aria-hidden="true" data-lines="0"></div>
@@ -21,7 +23,8 @@
   try { reduce = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { reduce = false; }
   if (!why && !reduce && !pre) {
     var o = document.createElement("div"); o.id = "intro";
-    o.innerHTML = '<div class="veil" aria-hidden="true"></div><p class="intro-slogan" aria-hidden="true">Where imagination can reach up to the stars.</p><button type="button" class="intro-skip">Intro overslaan</button>';
+    o.innerHTML = '<div class="veil" aria-hidden="true"></div><p class="intro-slogan" aria-hidden="true"></p><button type="button" class="intro-skip">Intro overslaan</button>';
+    var t = document.getElementById("intro-tekst"); if (t && t.content) o.querySelector(".intro-slogan").textContent = t.content.textContent.trim();
     document.getElementById("scene").parentNode.insertBefore(o, document.getElementById("scene"));
   }
   var l = document.querySelector('link[href*="assets/css/"]'), root = l ? l.href.slice(0, l.href.indexOf("assets/")) : "";

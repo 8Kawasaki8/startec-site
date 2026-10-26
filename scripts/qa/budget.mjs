@@ -32,8 +32,6 @@ export function loadBudget(root = process.cwd()) {
  * question, now <details><summary>) theirs: those checks fail for real from now on.
  */
 export const KNOWN = [
-  { wp: 'WP-09', note: 'de oude demos.html weegt op de telefoon ~778 kB (afbeeldingen 495 kB); ze wordt een redirect-stub naar werkwijze.html#straat',
-    when: (i) => i.check === 'bytes' && i.page === 'demos.html' },
   { wp: 'WP-15', note: 'strengere regellimieten (scene < 300, CSS < 400) worden pas bij de eindaudit afgedwongen',
     when: (i) => i.check === 'lines-strict' },
 ];

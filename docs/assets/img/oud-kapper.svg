@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Verzonnen oude site van een kapsalon: klein lettertype, geen belknop, een foto uit 2011 die niet laadt en een laadbalk die op 60 procent blijft staan" font-family="Arial, Helvetica, sans-serif">
+  <rect width="800" height="500" fill="#d9d9d2"/>
+  <rect x="0" y="0" width="800" height="26" fill="#bfbfb8"/>
+  <circle cx="16" cy="13" r="5" fill="#9a9a93"/><circle cx="34" cy="13" r="5" fill="#9a9a93"/><circle cx="52" cy="13" r="5" fill="#9a9a93"/>
+  <rect x="80" y="6" width="420" height="14" rx="3" fill="#eceae3"/>
+  <text x="90" y="17" font-size="10" fill="#8a8a84">www.oud-kapper-2011.be/index.htm</text>
+  <rect x="0" y="26" width="800" height="92" fill="#6b1f7a"/>
+  <text x="34" y="66" font-size="30" font-weight="bold" fill="#fffdf4" font-family="Times New Roman, serif">Kapsalon Chez Nous</text>
+  <text x="34" y="96" font-size="13" fill="#fffdf4" font-style="italic">Welkom op onze website!!! Laatste update: 2011</text>
+  <rect x="0" y="118" width="800" height="22" fill="#5a5a55"/>
+  <text x="28" y="133" font-size="11" fill="#eee">Home</text><text x="88" y="133" font-size="11" fill="#eee">Over ons</text><text x="168" y="133" font-size="11" fill="#eee">Fotoalbum</text><text x="252" y="133" font-size="11" fill="#eee">Gastenboek</text><text x="346" y="133" font-size="11" fill="#eee">Links</text>
+  <rect x="34" y="170" width="300" height="200" fill="#c4c3bb" stroke="#9a9a93"/>
+  <line x1="34" y1="170" x2="334" y2="370" stroke="#9a9a93"/><line x1="334" y1="170" x2="34" y2="370" stroke="#9a9a93"/>
+  <text x="184" y="275" font-size="12" fill="#6e6e68" text-anchor="middle">foto (2011) laadt niet</text>
+  <text x="370" y="190" font-size="9" fill="#55554f">Dames, heren en kinderen. Zonder afspraak welkom op zaterdag</text>
+  <text x="370" y="206" font-size="9" fill="#55554f">(wachttijd mogelijk). Nieuwe collectie haarproducten in de winkel.</text>
+  <text x="370" y="222" font-size="9" fill="#55554f">Openingsuren: zie onze Facebook-pagina of bel ons tijdens de kantooruren.</text>
+  <text x="370" y="238" font-size="9" fill="#55554f">Deze site is best te bekijken in Internet Explorer op 1024 x 768.</text>
+  <rect x="370" y="262" width="390" height="22" fill="#eceae3" stroke="#9a9a93"/>
+  <rect x="371" y="263" width="233" height="20" fill="#9fbf8f"/>
+  <text x="565" y="278" font-size="10" fill="#333" text-anchor="middle">Laden... 60%</text>
+  <text x="370" y="320" font-size="9" fill="#2a4dbf" text-decoration="underline">klik hier voor meer info</text>
+  <text x="370" y="340" font-size="9" fill="#55554f">Bezoekers: 004213</text>
+  <rect x="0" y="470" width="800" height="30" fill="#bfbfb8"/>
+  <text x="400" y="489" font-size="9" fill="#6e6e68" text-anchor="middle">(c) 2011 - alle rechten voorbehouden - gemaakt door de neef van de baas</text>
+</svg>

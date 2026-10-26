@@ -25,7 +25,7 @@ Een kamer is één bestand, `src/rooms/<naam>.html`, zonder front matter, met é
 Een pagina somt kamers op in haar front matter (`rooms: gevel telefoon bericht`) en zet `{{rooms}}` op de plek waar ze moeten komen.
 `scripts/build.py` plakt elke kamer in die volgorde in `<section id="<naam>" data-room>…</section>`; de id is dus ook het anker (`index.html#gevel`) en de deur in de strip.
 Dezelfde kamer kan op meer dan één pagina staan: op `index.html` als sectie en, zodra een andere pagina ze opsomt, als eigen pagina met een canonieke URL; de bron blijft dat ene bestand.
-Kamers laden zelf geen CSS of JS: de pagina die ze opsomt noemt die in `styles:` en `scripts:`; inhoud die data is staat in `src/data/*.json` en komt in `docs/assets/data/`.
+Kamers laden zelf geen CSS of JS: de pagina die ze opsomt noemt die in `styles:` en `scripts:`; inhoud die data is staat in `src/data/` (JSON die de build rendert, `.js` die een pagina als script laadt); alleen die `.js` komt in `docs/assets/data/`.
 `{{svg:naam}}`, `{{date}}` en `{{home}}` werken in een kamer zoals op een pagina.
 Een kamer die cijfers of gesprekken verzint draagt `data-sim` en zegt in zichtbare tekst 'gesimuleerd' of 'fictief'; de zaak in die kamer heeft een verzonnen naam.
 Een kamer die een gesprek wil starten linkt naar `index.html#bericht?onderwerp=<sleutel>` uit de vaste sleutellijst (WP-02).

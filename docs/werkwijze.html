@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hoe wij werken: eerst een gratis voorbeeld, dan pas praten — Star.Tec.Solutions</title>
-<meta name="description" content="Een verkenner zoekt zaken die klanten 's avonds slecht vinden, een bouwer maakt met publieke gegevens een werkend voorbeeld, en Snymis leest elk bericht voor het vertrekt. Wat vandaag werkt, wat prototype is en wat nog onderzoek is.">
+<meta name="description" content="Een verkenner zoekt zaken die klanten 's avonds slecht vinden, een bouwer maakt met publieke gegevens een werkend voorbeeld, en Snymis leest elk bericht voor het vertrekt. Speel de radar na op een verzonnen buur, vergelijk oude en nieuwe gevel, en lees wat vandaag werkt, wat prototype is en wat nog onderzoek is.">
 <meta name="theme-color" content="#06080F">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://8kawasaki8.github.io/startec-site/werkwijze.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Star.Tec.Solutions">
 <meta property="og:title" content="Hoe wij werken: eerst een gratis voorbeeld, dan pas praten — Star.Tec.Solutions">
-<meta property="og:description" content="Een verkenner zoekt zaken die klanten 's avonds slecht vinden, een bouwer maakt met publieke gegevens een werkend voorbeeld, en Snymis leest elk bericht voor het vertrekt. Wat vandaag werkt, wat prototype is en wat nog onderzoek is.">
+<meta property="og:description" content="Een verkenner zoekt zaken die klanten 's avonds slecht vinden, een bouwer maakt met publieke gegevens een werkend voorbeeld, en Snymis leest elk bericht voor het vertrekt. Speel de radar na op een verzonnen buur, vergelijk oude en nieuwe gevel, en lees wat vandaag werkt, wat prototype is en wat nog onderzoek is.">
 <meta property="og:url" content="https://8kawasaki8.github.io/startec-site/werkwijze.html">
 <meta property="og:image" content="https://8kawasaki8.github.io/startec-site/assets/img/og.png">
 <meta property="og:image:width" content="1200">
@@ -25,6 +25,8 @@
 <link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/uithangbord.css">
+<link rel="stylesheet" href="assets/css/rooms.css">
+<link rel="stylesheet" href="assets/css/preview.css">
 <link rel="stylesheet" href="assets/css/werkwijze.css">
 </head>
 <body>
@@ -73,14 +75,14 @@
       <div class="ub-sheet-acties">
         <button class="pill" type="submit">Zet op het bord</button>
         <button class="btn" type="button" data-ub-wis>Wis</button>
-        <button class="btn ub-lite" type="button" role="switch" aria-checked="false" data-lite-switch>Rustige modus <i data-lite-state>uit</i></button>
+        <button class="btn ub-lite" type="button" role="switch" aria-checked="false" data-lite-switch>Minder animatie <i data-lite-state>uit</i></button>
       </div>
-      <p class="note">Blijft in je browser en verdwijnt als je het tabblad sluit. We sturen niets. Rustige modus zet de stad en de animaties uit.</p>
+      <p class="note">Blijft in je browser en verdwijnt als je het tabblad sluit. We sturen niets. Minder animatie zet de stad en de animaties uit, net als de knop in de voet.</p>
     </form>
   </div>
 </header>
 <main id="main" class="page" style="padding-top:72px">
-<section class="sec" aria-labelledby="ww-h1">
+<section class="sec ww-kop" aria-labelledby="ww-h1">
   <p class="label">Hoe wij werken</p>
   <h1 id="ww-h1">Eerst bouwen, dan pas praten.</h1>
   <p class="lede">STS Digital is een jong bedrijf uit Antwerpen. E&eacute;n persoon, Snymis, en een paar agents die hem helpen. Geen kantoor, geen verkopers. Hij doet onderzoek naar AI die werk overneemt van kleine zaken en gebruikt dat onderzoek elke dag voor zijn eigen werk. Waar op deze site &lsquo;wij&rsquo; staat, bedoelen we Snymis en zijn agents.</p>
@@ -91,64 +93,316 @@
   <ol class="stappen">
     <li><strong>Een verkenner zoekt.</strong> Hij zoekt in Vlaanderen zaken die klanten &rsquo;s avonds op hun gsm niet of slecht vinden. Alleen met wat die zaak zelf openbaar maakte: haar Google-profiel, openingsuren en adres.</li>
     <li><strong>Een bouwer maakt het voorbeeld.</strong> Een werkende site op naam van de zaak, zonder kosten en zonder verplichting, niet opgenomen in zoekmachines en enkel met de zaak zelf gedeeld. Bij dat voorbeeld hoort een eerlijke blik op het Google-profiel en op hoe de huidige site op een gsm laadt.</li>
-    <li><strong>Dan stopt de machine.</strong> Snymis leest elk bericht dat naar een zaak vertrekt en keurt het goed of niet. Er vertrekt niets dat hij niet gelezen heeft; dat staat ook zo in onze <a href="privacy.html">privacyverklaring</a>. Bevalt het voorbeeld, dan volgt een vast bedrag op papier en blijf jij eigenaar van domeinnaam en inhoud. Bevalt het niet, dan verdwijnt het weer.</li>
+    <li><strong>Dan stopt de machine.</strong> Snymis leest elk bericht dat naar een zaak vertrekt en keurt het goed of niet. Er vertrekt niets dat hij niet gelezen heeft; dat staat ook zo in onze <a href="privacy.html">privacyverklaring</a>. Bevalt het voorbeeld, dan volgt een vast bedrag op papier en blijf jij eigenaar van domeinnaam en inhoud. Bevalt het niet, dan verdwijnt het weer. <a href="#radar">Speel ze hieronder na</a>, op een verzonnen buur.</li>
   </ol>
 </section>
+<section id="radar" data-room>
+<div class="kamer kamer-radar" data-sim>
+  <p class="label">Van radar tot gesprek</p>
+  <h2>Zo komt een zaak bij ons op tafel: vier stappen, en op het einde een mens.</h2>
+  <p class="uitleg">Hieronder spelen we onze echte werkwijze na op een verzonnen buur uit de sector op het bord. Wat de verkenner bekijkt, welke publieke gegevens de bouwer gebruikt, hoe het voorbeeld eruitziet, en dat het eerste bericht wacht tot Snymis het gelezen heeft. De buur is fictief en de score is een illustratie; de stappen zijn echt.</p>
 
-<section class="sec" style="padding-top:0" id="kaart" aria-labelledby="ww-kaart">
-  <h2 id="ww-kaart">Wat werkt vandaag, wat is prototype, wat is onderzoek</h2>
-  <p class="lede">We noemen de dingen zoals ze zijn. Drie lijsten, geen lampjes die harder branden dan de werkelijkheid.</p>
-  <div class="kaart">
-    <div>
-      <p class="label">Werkt vandaag</p>
-      <ul>
-        <li>De werkwijze hierboven: een verkenner, een bouwer en Snymis die elk bericht goedkeurt voor het vertrekt.</li>
-        <li>Een gratis, werkend voorbeeld van een website, gemaakt met publieke gegevens.</li>
-        <li>De <a href="simulatie.html">Doorlichting</a>: een agent leest de cijfers van een verzonnen zaak, op deze site.</li>
-        <li>Drie verzonnen zaken als voorbeeld van wat we bouwen (zie hieronder) en het Radar-concept, met fictieve cijfers.</li>
-        <li>Gratis <a href="gereedschap.html">gereedschap</a> dat in je browser blijft: zichtbaarheidscheck, WhatsApp-knop met QR-code, Google-voorbeeld.</li>
-      </ul>
-    </div>
-    <div>
-      <p class="label">Prototype</p>
-      <p class="small">Draait bij ons, niet op deze site, nog geen klantproduct.</p>
-      <ul>
-        <li>Kawa: een assistent die lokaal bij ons draait en onthoudt wat hij leert.</li>
-        <li>sts-world: een 3D-overzicht van het werk van de agents.</li>
-        <li>webshot: fotografeert een site op een gsm.</li>
-      </ul>
-    </div>
-    <div>
-      <p class="label">In onderzoek</p>
-      <ul>
-        <li>Antwoorden buiten de uren, met je echte openingsuren.</li>
-        <li>Reviews beantwoorden in jouw toon, met jouw goedkeuring voor er iets online gaat.</li>
-        <li>Een offerte-opzet uit een foto of een spraakbericht.</li>
-        <li>Jouw probleem, als we het nog niet kennen: wat we vaak horen, onderzoeken we eerst.</li>
-      </ul>
-    </div>
+  <form class="rs-ctl" data-rs-form novalidate>
+    <fieldset class="keuze" data-rs-sector>
+      <legend>Welke verzonnen buur speelt mee?</legend>
+      <label><input type="radio" name="rs-sector" value="horeca"><span>Horeca</span></label>
+      <label><input type="radio" name="rs-sector" value="kapper"><span>Kapper</span></label>
+      <label><input type="radio" name="rs-sector" value="garage"><span>Garage</span></label>
+      <label><input type="radio" name="rs-sector" value="bakker"><span>Bakker</span></label>
+      <label><input type="radio" name="rs-sector" value="aannemer"><span>Aannemer</span></label>
+      <label><input type="radio" name="rs-sector" value="praktijk"><span>Praktijk</span></label>
+      <label><input type="radio" name="rs-sector" value="winkel"><span>Winkel</span></label>
+      <label><input type="radio" name="rs-sector" value="anders" checked><span>Andere zaak</span></label>
+    </fieldset>
+  </form>
+  <p class="rs-context" data-rs-context>Hieronder: een verzonnen buur. De echte cijfers van een zaak kennen we niet.</p>
+  <div class="rs-speler">
+    <button type="button" class="btn" data-rs-replay>Speel de vier stappen opnieuw</button>
+    <span class="small" data-rs-status role="status">De stappen openen vanzelf. Klik op een stap om ze meteen te openen.</span>
   </div>
-  <p class="lede">Wat wij niet zijn: geen team van tien, geen klantenlogo&rsquo;s die we niet mogen tonen, geen tellers die niet kloppen. Wel iemand van hier die eerst bouwt en dan pas praat.</p>
+
+  <ol class="rs-stappen" data-rs-stappen aria-label="Vier stappen, van radar tot gesprek">
+    <li class="rs-stap" data-stap="1">
+      <h3 class="rs-stap-kop"><button type="button" data-rs-open="1" aria-expanded="false" aria-controls="rs-body-1"><span class="rs-nr">01</span><span class="rs-titel">Zoeken</span><span class="rs-wie">de verkenner</span></button></h3>
+      <div class="rs-body" id="rs-body-1">
+        <p class="uitleg">De verkenner zoekt in Vlaanderen zaken die klanten &rsquo;s avonds op hun gsm niet of slecht vinden. Hij leest enkel wat een zaak zelf publiek maakte. Wat hij bij deze buur noteerde:</p>
+        <ul class="rs-vondst" data-rs-vondst></ul>
+      </div>
+    </li>
+    <li class="rs-stap" data-stap="2">
+      <h3 class="rs-stap-kop"><button type="button" data-rs-open="2" aria-expanded="false" aria-controls="rs-body-2"><span class="rs-nr">02</span><span class="rs-titel">Meten</span><span class="rs-wie">zes publieke signalen</span></button></h3>
+      <div class="rs-body" id="rs-body-2">
+        <div class="rs-meten">
+          <div class="rs-signalen" role="group" aria-label="Zes publieke signalen, aan of uit" data-rs-signalen></div>
+          <div class="rs-ring-wrap">
+            <div class="rs-ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(242,245,255,.12)" stroke-width="8"/><circle data-rs-arc cx="60" cy="60" r="52" fill="none" stroke="var(--cyan)" stroke-width="8" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)"/></svg><div class="rs-score"><b data-rs-score>0</b><span>op 100</span></div></div>
+            <p class="small rs-ring-label">illustratie van hoe we kijken, geen meting</p>
+            <p class="sr" data-rs-score-live aria-live="polite"></p>
+          </div>
+        </div>
+        <p class="small uitleg">Dezelfde zes vragen als in de zichtbaarheidscheck van Gereedschap en dezelfde rekenregel. Zet een signaal aan of uit en de ring volgt. De stand van de buur is verzonnen.</p>
+      </div>
+    </li>
+    <li class="rs-stap" data-stap="3">
+      <h3 class="rs-stap-kop"><button type="button" data-rs-open="3" aria-expanded="false" aria-controls="rs-body-3"><span class="rs-nr">03</span><span class="rs-titel">Bouwen</span><span class="rs-wie">de bouwer</span></button></h3>
+      <div class="rs-body" id="rs-body-3">
+        <p class="uitleg">De bouwer gebruikt enkel wat de zaak zelf publiek maakte en zet er een werkend voorbeeld van een site mee in elkaar. Het staat niet in zoekmachines en wordt enkel met de zaak gedeeld.</p>
+        <div class="rs-bouw">
+          <ul class="rs-kaarten" data-rs-kaarten aria-label="Publieke gegevens die de bouwer gebruikt"></ul>
+          <div class="phone-wrap"><div class="phone" role="group" aria-label="Voorbeeld van een site, schets"><div class="phone-screen" data-rs-screen></div></div></div>
+        </div>
+      </div>
+    </li>
+    <li class="rs-stap" data-stap="4">
+      <h3 class="rs-stap-kop"><button type="button" data-rs-open="4" aria-expanded="false" aria-controls="rs-body-4"><span class="rs-nr">04</span><span class="rs-titel">Lezen</span><span class="rs-wie">Snymis</span></button></h3>
+      <div class="rs-body" id="rs-body-4">
+        <p class="uitleg">Dan stopt de machine. Het eerste bericht aan de zaak staat klaar, in u-vorm en zonder prijs, en wacht tot Snymis het gelezen heeft. Hij stuurt het, past het aan of schrapt het.</p>
+        <div class="rs-brief" data-rs-brief>
+          <p class="rs-brief-status" data-rs-brief-status><i class="rs-stip" aria-hidden="true"></i><span>Wacht op goedkeuring van Snymis</span></p>
+          <p class="rs-brief-label" data-radar-label data-echt="false">voorbeeldbericht (ontwerp)</p><p class="rs-brief-onderwerp"><span class="label">Onderwerp</span> <span data-radar-onderwerp>Een werkend voorbeeld van een site voor {zaak}</span></p><div class="rs-brief-tekst" data-radar-tekst><p>Dag,</p><p>Ik ben Snymis van STS Digital in Antwerpen. {aanleiding}</p><p>Met wat u zelf publiek maakte, uw openingsuren, uw adres en uw profiel, heb ik een werkend voorbeeld van een site op naam van uw zaak gebouwd. Het staat niet in zoekmachines; enkel u krijgt de link.</p><p>Wilt u het bekijken? Eén antwoord volstaat, ook een nee. Vraagt u het, dan verwijder ik het voorbeeld binnen vijf werkdagen en krijgt u geen tweede bericht.</p><p>Vriendelijke groeten,</p><p>Snymis, STS Digital, Antwerpen</p></div>
+          <div class="rs-acties">
+            <button type="button" class="pill" data-rs-keur="ja">Goedkeuren (simulatie)</button>
+            <button type="button" class="btn" data-rs-keur="nee">Niet sturen (simulatie)</button>
+          </div>
+          <p class="rs-uitkomst" data-rs-uitkomst aria-live="polite"></p>
+          <p class="rs-readout small" data-rs-readout hidden>Reageert een zaak niet, dan geldt wat in privacy 2.2 staat: enkel publieke gegevens &middot; niet ge&iuml;ndexeerd &middot; &eacute;&eacute;n contact &middot; weg na 30 dagen zonder reactie of binnen 5 werkdagen op vraag.</p>
+        </div>
+      </div>
+    </li>
+  </ol>
+
+  <div class="ctas rs-ctas">
+    <a class="pill primair" href="index.html#bericht?onderwerp=radar" data-bericht="radar"><span>Zet <span data-zaak="mijn zaak">mijn zaak</span> zelf op de lijst</span></a>
+    <a class="btn" href="demo/radar/" target="_blank" rel="noopener">Kijk binnen bij het Radar-concept (fictieve cijfers)</a>
+  </div>
+  <p class="small rs-voet">De buur, de signalen en de score in deze kamer zijn verzonnen. De vier stappen en de goedkeuring door een mens zijn echt: er vertrekt niets dat Snymis niet gelezen heeft.</p>
+</div>
 </section>
 
-<section class="sec" style="padding-top:0" id="straat" aria-labelledby="ww-straat">
-  <h2 id="ww-straat">De straat: drie verzonnen zaken en een concept, echte techniek</h2>
-  <p class="lede">Elke zaak hieronder is verzonnen en volledig door ons gebouwd. Namen, prijzen en adressen zijn fictief; wat je aanklikt, werkt.</p>
-  <ul class="panden">
-    <li><a href="demo/brasserie-meridiaan/">Brasserie Meridiaan</a> <span>brasserie, met een kaart, een reservatie-aanvraag en de openingsuren die zeggen of ze open is</span></li>
-    <li><a href="demo/garage-verhulst/">Garage Verhulst</a> <span>garage in Mortsel, met een werkplaatsbord en een afspraak-aanvraag</span></li>
-    <li><a href="demo/barbier-boris/">Barbier Boris</a> <span>barbier in Berchem, boeken in vier stappen</span></li>
-    <li><a href="demo/radar/">Radar</a> <span>ons concept om zaken zonder goede site te vinden en te meten; alle cijfers fictief</span></li>
-  </ul>
+<section id="straat" data-room>
+<div class="kamer kamer-straat" data-sim>
+  <p class="label">De straat</p>
+  <h2>Oude gevel, nieuwe gevel: drie verzonnen zaken, echte techniek.</h2>
+  <p>Links een verzonnen oude site zoals er nog veel zijn: klein lettertype, geen belknop, een foto uit 2011 die niet laadt. Rechts de demo die we voor dezelfde verzonnen zaak bouwden. Schuif, vergelijk, en stap binnen op je gsm.</p>
+  <form class="straat-ctl" data-straat-form novalidate hidden>
+    <fieldset class="keuze" data-straat-tabs>
+      <legend>Welke zaak?</legend>
+    </fieldset>
+  </form>
+  <p class="small straat-label">Fictieve zaak, fictieve oude site, fictief adres. De techniek erachter is echt.</p>
+  <div class="panden-straat" data-panden>
+<article class="pand" id="pand-brasserie-meridiaan" data-pand="brasserie-meridiaan" data-sector="horeca" style="--c:#C9A24C" aria-labelledby="pand-h-brasserie-meridiaan">
+  <div class="pand-kop"><h3 id="pand-h-brasserie-meridiaan">Brasserie Meridiaan</h3><p class="small">Antwerpen-Zuid &middot; Horeca &middot; verzonnen zaak</p></div>
+  <div class="gevels" data-gevels>
+    <div class="oud" data-voice="pand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Verzonnen oude site van een brasserie: klein lettertype, geen belknop, een foto uit 2011 die niet laadt en een laadbalk die op 60 procent blijft staan" font-family="Arial, Helvetica, sans-serif">
+  <rect width="800" height="500" fill="#d9d9d2"/>
+  <rect x="0" y="0" width="800" height="26" fill="#bfbfb8"/>
+  <circle cx="16" cy="13" r="5" fill="#9a9a93"/><circle cx="34" cy="13" r="5" fill="#9a9a93"/><circle cx="52" cy="13" r="5" fill="#9a9a93"/>
+  <rect x="80" y="6" width="420" height="14" rx="3" fill="#eceae3"/>
+  <text x="90" y="17" font-size="10" fill="#8a8a84">www.oud-horeca-2011.be/index.htm</text>
+  <rect x="0" y="26" width="800" height="92" fill="#7a1f1f"/>
+  <text x="34" y="66" font-size="30" font-weight="bold" fill="#fffdf4" font-family="Times New Roman, serif">Brasserie De Oude Hoek</text>
+  <text x="34" y="96" font-size="13" fill="#fffdf4" font-style="italic">Welkom op onze website!!! Laatste update: 2011</text>
+  <rect x="0" y="118" width="800" height="22" fill="#5a5a55"/>
+  <text x="28" y="133" font-size="11" fill="#eee">Home</text><text x="88" y="133" font-size="11" fill="#eee">Over ons</text><text x="168" y="133" font-size="11" fill="#eee">Fotoalbum</text><text x="252" y="133" font-size="11" fill="#eee">Gastenboek</text><text x="346" y="133" font-size="11" fill="#eee">Links</text>
+  <rect x="34" y="170" width="300" height="200" fill="#c4c3bb" stroke="#9a9a93"/>
+  <line x1="34" y1="170" x2="334" y2="370" stroke="#9a9a93"/><line x1="334" y1="170" x2="34" y2="370" stroke="#9a9a93"/>
+  <text x="184" y="275" font-size="12" fill="#6e6e68" text-anchor="middle">foto (2011) laadt niet</text>
+  <text x="370" y="190" font-size="9" fill="#55554f">Gezellig tafelen in een huiselijke sfeer sinds 1987. Onze kaart vindt u in</text>
+  <text x="370" y="206" font-size="9" fill="#55554f">het restaurant. Reserveren kan enkel telefonisch tijdens de openingsuren.</text>
+  <text x="370" y="222" font-size="9" fill="#55554f">Openingsuren: zie onze Facebook-pagina of bel ons tijdens de kantooruren.</text>
+  <text x="370" y="238" font-size="9" fill="#55554f">Deze site is best te bekijken in Internet Explorer op 1024 x 768.</text>
+  <rect x="370" y="262" width="390" height="22" fill="#eceae3" stroke="#9a9a93"/>
+  <rect x="371" y="263" width="233" height="20" fill="#9fbf8f"/>
+  <text x="565" y="278" font-size="10" fill="#333" text-anchor="middle">Laden... 60%</text>
+  <text x="370" y="320" font-size="9" fill="#2a4dbf" text-decoration="underline">klik hier voor meer info</text>
+  <text x="370" y="340" font-size="9" fill="#55554f">Bezoekers: 004213</text>
+  <rect x="0" y="470" width="800" height="30" fill="#bfbfb8"/>
+  <text x="400" y="489" font-size="9" fill="#6e6e68" text-anchor="middle">(c) 2011 - alle rechten voorbehouden - gemaakt door de neef van de baas</text>
+</svg></div>
+    <div class="nieuw" data-nieuw style="clip-path:inset(0 0 0 40%)"><img src="assets/img/straat/brasserie-meridiaan.jpg" alt="Nieuwe gevel: de demo van Brasserie Meridiaan op een scherm" width="800" height="500" loading="lazy" decoding="async"></div>
+    <span class="gevel-tag gevel-tag-oud" aria-hidden="true">oude gevel</span><span class="gevel-tag gevel-tag-nieuw" aria-hidden="true">nieuwe gevel</span>
+  </div>
+  <label class="gevel-range"><span>Schuif van de oude naar de nieuwe gevel: <output data-gevel-out>60 % nieuw</output></span><input type="range" min="0" max="100" step="1" value="60" data-gevel-range aria-valuetext="60 procent nieuwe gevel"></label>
+  <p class="label probeer-label">Wat je hier kunt proberen</p>
+  <ul class="probeer"><li>Kijk of ze nu open is: de openingsuren beslissen dat in de pagina zelf.</li><li>Filter de kaart en vraag een tafel aan via het reservatieformulier.</li><li>Stel de gescripte WhatsApp-assistent een vraag; hij antwoordt met de uren van de zaak.</li></ul>
+  <div class="pand-acties"><a class="pill" href="demo/brasserie-meridiaan/" target="_blank" rel="noopener">Stap binnen bij Brasserie Meridiaan</a><span class="small">opent in een nieuw tabblad</span></div>
+</article>
+<article class="pand" id="pand-garage-verhulst" data-pand="garage-verhulst" data-sector="garage" style="--c:#7FB4FF" aria-labelledby="pand-h-garage-verhulst">
+  <div class="pand-kop"><h3 id="pand-h-garage-verhulst">Garage Verhulst</h3><p class="small">Mortsel &middot; Garage &middot; verzonnen zaak</p></div>
+  <div class="gevels" data-gevels>
+    <div class="oud" data-voice="pand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Verzonnen oude site van een garage: klein lettertype, geen belknop, een foto uit 2011 die niet laadt en een laadbalk die op 60 procent blijft staan" font-family="Arial, Helvetica, sans-serif">
+  <rect width="800" height="500" fill="#d9d9d2"/>
+  <rect x="0" y="0" width="800" height="26" fill="#bfbfb8"/>
+  <circle cx="16" cy="13" r="5" fill="#9a9a93"/><circle cx="34" cy="13" r="5" fill="#9a9a93"/><circle cx="52" cy="13" r="5" fill="#9a9a93"/>
+  <rect x="80" y="6" width="420" height="14" rx="3" fill="#eceae3"/>
+  <text x="90" y="17" font-size="10" fill="#8a8a84">www.oud-garage-2011.be/index.htm</text>
+  <rect x="0" y="26" width="800" height="92" fill="#1f3a7a"/>
+  <text x="34" y="66" font-size="30" font-weight="bold" fill="#fffdf4" font-family="Times New Roman, serif">Garage Autocenter</text>
+  <text x="34" y="96" font-size="13" fill="#fffdf4" font-style="italic">Welkom op onze website!!! Laatste update: 2011</text>
+  <rect x="0" y="118" width="800" height="22" fill="#5a5a55"/>
+  <text x="28" y="133" font-size="11" fill="#eee">Home</text><text x="88" y="133" font-size="11" fill="#eee">Over ons</text><text x="168" y="133" font-size="11" fill="#eee">Fotoalbum</text><text x="252" y="133" font-size="11" fill="#eee">Gastenboek</text><text x="346" y="133" font-size="11" fill="#eee">Links</text>
+  <rect x="34" y="170" width="300" height="200" fill="#c4c3bb" stroke="#9a9a93"/>
+  <line x1="34" y1="170" x2="334" y2="370" stroke="#9a9a93"/><line x1="334" y1="170" x2="34" y2="370" stroke="#9a9a93"/>
+  <text x="184" y="275" font-size="12" fill="#6e6e68" text-anchor="middle">foto (2011) laadt niet</text>
+  <text x="370" y="190" font-size="9" fill="#55554f">Onderhoud en herstelling van alle merken. Vraag naar onze voorwaarden</text>
+  <text x="370" y="206" font-size="9" fill="#55554f">in de garage. E-mail wordt niet dagelijks gelezen.</text>
+  <text x="370" y="222" font-size="9" fill="#55554f">Openingsuren: zie onze Facebook-pagina of bel ons tijdens de kantooruren.</text>
+  <text x="370" y="238" font-size="9" fill="#55554f">Deze site is best te bekijken in Internet Explorer op 1024 x 768.</text>
+  <rect x="370" y="262" width="390" height="22" fill="#eceae3" stroke="#9a9a93"/>
+  <rect x="371" y="263" width="233" height="20" fill="#9fbf8f"/>
+  <text x="565" y="278" font-size="10" fill="#333" text-anchor="middle">Laden... 60%</text>
+  <text x="370" y="320" font-size="9" fill="#2a4dbf" text-decoration="underline">klik hier voor meer info</text>
+  <text x="370" y="340" font-size="9" fill="#55554f">Bezoekers: 004213</text>
+  <rect x="0" y="470" width="800" height="30" fill="#bfbfb8"/>
+  <text x="400" y="489" font-size="9" fill="#6e6e68" text-anchor="middle">(c) 2011 - alle rechten voorbehouden - gemaakt door de neef van de baas</text>
+</svg></div>
+    <div class="nieuw" data-nieuw style="clip-path:inset(0 0 0 40%)"><img src="assets/img/straat/garage-verhulst.jpg" alt="Nieuwe gevel: de demo van Garage Verhulst op een scherm" width="800" height="500" loading="lazy" decoding="async"></div>
+    <span class="gevel-tag gevel-tag-oud" aria-hidden="true">oude gevel</span><span class="gevel-tag gevel-tag-nieuw" aria-hidden="true">nieuwe gevel</span>
+  </div>
+  <label class="gevel-range"><span>Schuif van de oude naar de nieuwe gevel: <output data-gevel-out>60 % nieuw</output></span><input type="range" min="0" max="100" step="1" value="60" data-gevel-range aria-valuetext="60 procent nieuwe gevel"></label>
+  <p class="label probeer-label">Wat je hier kunt proberen</p>
+  <ul class="probeer"><li>Volg een wagen op het werkplaatsbord, van binnenkomst tot klaar.</li><li>Vraag een afspraak aan voor een onderhoud of een keuring.</li><li>Loop de keuringschecklist af voor een wagen naar de keuring gaat.</li></ul>
+  <div class="pand-acties"><a class="pill" href="demo/garage-verhulst/" target="_blank" rel="noopener">Stap binnen bij Garage Verhulst</a><span class="small">opent in een nieuw tabblad</span></div>
+</article>
+<article class="pand" id="pand-barbier-boris" data-pand="barbier-boris" data-sector="kapper" style="--c:#F5C400" aria-labelledby="pand-h-barbier-boris">
+  <div class="pand-kop"><h3 id="pand-h-barbier-boris">Barbier Boris</h3><p class="small">Berchem &middot; Kapper &middot; verzonnen zaak</p></div>
+  <div class="gevels" data-gevels>
+    <div class="oud" data-voice="pand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Verzonnen oude site van een kapsalon: klein lettertype, geen belknop, een foto uit 2011 die niet laadt en een laadbalk die op 60 procent blijft staan" font-family="Arial, Helvetica, sans-serif">
+  <rect width="800" height="500" fill="#d9d9d2"/>
+  <rect x="0" y="0" width="800" height="26" fill="#bfbfb8"/>
+  <circle cx="16" cy="13" r="5" fill="#9a9a93"/><circle cx="34" cy="13" r="5" fill="#9a9a93"/><circle cx="52" cy="13" r="5" fill="#9a9a93"/>
+  <rect x="80" y="6" width="420" height="14" rx="3" fill="#eceae3"/>
+  <text x="90" y="17" font-size="10" fill="#8a8a84">www.oud-kapper-2011.be/index.htm</text>
+  <rect x="0" y="26" width="800" height="92" fill="#6b1f7a"/>
+  <text x="34" y="66" font-size="30" font-weight="bold" fill="#fffdf4" font-family="Times New Roman, serif">Kapsalon Chez Nous</text>
+  <text x="34" y="96" font-size="13" fill="#fffdf4" font-style="italic">Welkom op onze website!!! Laatste update: 2011</text>
+  <rect x="0" y="118" width="800" height="22" fill="#5a5a55"/>
+  <text x="28" y="133" font-size="11" fill="#eee">Home</text><text x="88" y="133" font-size="11" fill="#eee">Over ons</text><text x="168" y="133" font-size="11" fill="#eee">Fotoalbum</text><text x="252" y="133" font-size="11" fill="#eee">Gastenboek</text><text x="346" y="133" font-size="11" fill="#eee">Links</text>
+  <rect x="34" y="170" width="300" height="200" fill="#c4c3bb" stroke="#9a9a93"/>
+  <line x1="34" y1="170" x2="334" y2="370" stroke="#9a9a93"/><line x1="334" y1="170" x2="34" y2="370" stroke="#9a9a93"/>
+  <text x="184" y="275" font-size="12" fill="#6e6e68" text-anchor="middle">foto (2011) laadt niet</text>
+  <text x="370" y="190" font-size="9" fill="#55554f">Dames, heren en kinderen. Zonder afspraak welkom op zaterdag</text>
+  <text x="370" y="206" font-size="9" fill="#55554f">(wachttijd mogelijk). Nieuwe collectie haarproducten in de winkel.</text>
+  <text x="370" y="222" font-size="9" fill="#55554f">Openingsuren: zie onze Facebook-pagina of bel ons tijdens de kantooruren.</text>
+  <text x="370" y="238" font-size="9" fill="#55554f">Deze site is best te bekijken in Internet Explorer op 1024 x 768.</text>
+  <rect x="370" y="262" width="390" height="22" fill="#eceae3" stroke="#9a9a93"/>
+  <rect x="371" y="263" width="233" height="20" fill="#9fbf8f"/>
+  <text x="565" y="278" font-size="10" fill="#333" text-anchor="middle">Laden... 60%</text>
+  <text x="370" y="320" font-size="9" fill="#2a4dbf" text-decoration="underline">klik hier voor meer info</text>
+  <text x="370" y="340" font-size="9" fill="#55554f">Bezoekers: 004213</text>
+  <rect x="0" y="470" width="800" height="30" fill="#bfbfb8"/>
+  <text x="400" y="489" font-size="9" fill="#6e6e68" text-anchor="middle">(c) 2011 - alle rechten voorbehouden - gemaakt door de neef van de baas</text>
+</svg></div>
+    <div class="nieuw" data-nieuw style="clip-path:inset(0 0 0 40%)"><img src="assets/img/straat/barbier-boris.jpg" alt="Nieuwe gevel: de demo van Barbier Boris op een scherm" width="800" height="500" loading="lazy" decoding="async"></div>
+    <span class="gevel-tag gevel-tag-oud" aria-hidden="true">oude gevel</span><span class="gevel-tag gevel-tag-nieuw" aria-hidden="true">nieuwe gevel</span>
+  </div>
+  <label class="gevel-range"><span>Schuif van de oude naar de nieuwe gevel: <output data-gevel-out>60 % nieuw</output></span><input type="range" min="0" max="100" step="1" value="60" data-gevel-range aria-valuetext="60 procent nieuwe gevel"></label>
+  <p class="label probeer-label">Wat je hier kunt proberen</p>
+  <ul class="probeer"><li>Boek een stoel in vier stappen, zonder account.</li><li>Schuif de voor-en-na-slider over een kapsel.</li><li>Lees de reviews als tekstballonnen en maak kennis met de ploeg.</li></ul>
+  <div class="pand-acties"><a class="pill" href="demo/barbier-boris/" target="_blank" rel="noopener">Stap binnen bij Barbier Boris</a><span class="small">opent in een nieuw tabblad</span></div>
+</article>
+  </div>
+  <div class="straat-vierde">
+    <h3>Jouw zaak als vierde pand in de straat?</h3>
+    <p>Typ je naam op het bord en je ziet eerst een schets op jouw naam. Daarna bouwt Snymis het echte voorbeeld met jouw echte gegevens, zonder kosten en zonder verplichting; pas daarna beslis jij.</p>
+    <div class="ctas">
+      <a class="pill" href="index.html#gevel">Typ mijn naam op het bord</a>
+      <a class="btn" href="index.html#bericht?onderwerp=straat" data-bericht="straat">Vraag Snymis naar mijn gevel</a>
+    </div>
+  </div>
+</div>
 </section>
 
-<section class="sec" style="padding-top:0" id="radar" aria-labelledby="ww-radar">
-  <h2 id="ww-radar">Zo komt u op onze radar</h2>
-  <p class="lede">Misschien vond onze verkenner uw zaak. Dan gebruikten we enkel wat u zelf openbaar maakte, en kreeg u van ons &eacute;&eacute;n bericht, gelezen en goedgekeurd door Snymis. Het voorbeeld dat erbij hoort staat niet in zoekmachines en wordt enkel met u gedeeld. Reageert u niet, dan verwijderen we het na 30 dagen; vraagt u het, dan binnen 5 werkdagen. Wilt u zelf de eerste stap zetten: dat kan met &eacute;&eacute;n berichtje.</p>
-  <div class="ctas">
-    <a class="pill primair" href="index.html#bericht?onderwerp=radar" data-bericht="radar">Zet mijn zaak op de radar</a>
-    <a class="pill ghost" href="index.html#gevel">Typ eerst uw naam op het bord</a>
+<section id="kaart" data-room>
+<div class="kamer kamer-kaart">
+  <p class="label">Capaciteitenkaart</p>
+  <h2>Wat werkt vandaag, wat is prototype, wat is onderzoek</h2>
+  <p>We noemen de dingen zoals ze zijn. Drie lampen, en geen enkele brandt harder dan de werkelijkheid: vijf dingen die vandaag werken, drie prototypes die enkel bij Snymis draaien en nog bij geen klant, vier vragen die we onderzoeken.</p>
+  <div class="kaart" data-kaart>
+<div class="kaart-kolom kaart-vandaag"><p class="label kaart-kop" id="kaart-vandaag-h">Werkt vandaag</p><ul aria-labelledby="kaart-vandaag-h">
+<li data-lamp="vandaag"><span class="lamp">Werkt vandaag</span><p>De werkwijze hierboven: een verkenner zoekt, een bouwer maakt het voorbeeld en Snymis keurt elk bericht goed voor het vertrekt.</p></li>
+<li data-lamp="vandaag"><span class="lamp">Werkt vandaag</span><p>Een gratis, werkend voorbeeld van een website, gemaakt met publieke gegevens, met een eerlijke blik op het Google-profiel en op hoe de huidige site op een gsm laadt.</p></li>
+<li data-lamp="vandaag"><span class="lamp">Werkt vandaag</span><p>De <a href="simulatie.html">Doorlichting</a>: een agent leest de cijfers van een verzonnen zaak, op deze site.</p></li>
+<li data-lamp="vandaag"><span class="lamp">Werkt vandaag</span><p>Drie verzonnen zaken in <a href="#straat">de straat</a> en het <a href="demo/radar/" target="_blank" rel="noopener">Radar-concept</a>, met fictieve cijfers.</p></li>
+<li data-lamp="vandaag"><span class="lamp">Werkt vandaag</span><p>Gratis <a href="gereedschap.html">gereedschap</a> dat in je browser blijft: zichtbaarheidscheck, WhatsApp-knop met QR-code, Google-voorbeeld en het Google-kaartje om 19 u.</p></li>
+</ul></div>
+<div class="kaart-kolom kaart-prototype"><p class="label kaart-kop" id="kaart-prototype-h">Prototype</p><ul aria-labelledby="kaart-prototype-h">
+<li data-lamp="prototype"><span class="lamp">Prototype</span><p>Kawa: een assistent die lokaal bij ons draait en onthoudt wat hij leert.</p><p class="small">Prototype, niet op deze site, nog geen klantproduct.</p></li>
+<li data-lamp="prototype"><span class="lamp">Prototype</span><p>sts-world: een 3D-overzicht van het werk van de agents.</p><p class="small">Prototype, niet op deze site, nog geen klantproduct.</p></li>
+<li data-lamp="prototype"><span class="lamp">Prototype</span><p>webshot: fotografeert een site op een gsm.</p><p class="small">Prototype, niet op deze site, nog geen klantproduct.</p></li>
+</ul></div>
+<div class="kaart-kolom kaart-onderzoek"><p class="label kaart-kop" id="kaart-onderzoek-h">In onderzoek</p><ul aria-labelledby="kaart-onderzoek-h">
+<li data-lamp="onderzoek"><details id="onderzoek-assistent"><summary><h3><span class="lamp">In onderzoek</span><span class="kaart-titel">Antwoord buiten de uren</span></h3></summary><p>Een klant stuurt om 21 u een vraag. Een assistent die enkel weet wat jij hem leerde, zou kunnen antwoorden met je echte openingsuren en de rest aan jou overlaten. Dit bestaat nog niet als product; wat er vandaag is, staat onder Werkt vandaag.</p><div class="proef" data-proef="assistent" id="proef-assistent"></div></details><p class="kaart-meer"><a href="index.html#bericht?onderwerp=assistent" data-bericht="assistent" data-bericht-subject="Antwoord buiten de uren (onderzoek)">Hou me op de hoogte van dit onderzoek</a></p></li>
+<li data-lamp="onderzoek"><details id="onderzoek-reviews"><summary><h3><span class="lamp">In onderzoek</span><span class="kaart-titel">Reviews in jouw toon</span></h3></summary><p>Een voorstel per review, in jouw woorden, en niets gaat online voor jij het goedkeurt. Ook dit is onderzoek, geen product. Eerst brengen we de gewone dingen in orde: een belknop, juiste uren, een site die op een gsm laadt.</p><div class="proef" data-proef="reviews" id="proef-reviews"></div></details><p class="kaart-meer"><a href="index.html#bericht?onderwerp=reviews" data-bericht="reviews" data-bericht-subject="Reviews in mijn toon (onderzoek)">Hou me op de hoogte van dit onderzoek</a></p></li>
+<li data-lamp="onderzoek"><details id="onderzoek-offerte"><summary><h3><span class="lamp">In onderzoek</span><span class="kaart-titel">Een offerte-opzet uit een foto of een spraakbericht</span></h3></summary><p>Een klant stuurt een foto van de werf of een spraakbericht van twee minuten. Daaruit zou een eerste opzet kunnen komen die jij nakijkt en aanvult voor er iets vertrekt. We onderzoeken het; we beloven het niet.</p></details><p class="kaart-meer"><a href="index.html#bericht?onderwerp=algemeen" data-bericht="algemeen" data-bericht-subject="Offerte-opzet uit een foto (onderzoek)">Vertel Snymis hoe jij offertes maakt</a></p></li>
+<li data-lamp="onderzoek"><details id="onderzoek-probleem"><summary><h3><span class="lamp">In onderzoek</span><span class="kaart-titel">Jouw probleem, als we het nog niet kennen</span></h3></summary><p>Wat we vaak horen, onderzoeken we eerst. Kost iets jou elke week een avond, schrijf het dan in een paar zinnen; misschien staat het al op de lijst, misschien komt het erop.</p></details><p class="kaart-meer"><a href="index.html#bericht?onderwerp=algemeen" data-bericht="algemeen" data-bericht-subject="Wat mij tijd kost (onderzoek)">Schrijf wat jou tijd kost</a></p></li>
+</ul></div>
   </div>
+  <!-- WP-10: de twee proeven. Ze staan hier in de bron zodat lint-copy de klantvragen (data-voice=customer)
+       leest; lab-assistent.js en lab-reviews.js verhuizen elk blok naar zijn punt In onderzoek (net na de
+       <details> met het aanknopingspunt [data-proef]) en tonen het zolang dat punt open staat. Zonder
+       JavaScript blijven ze verborgen. -->
+  <div class="proef-paneel lab-assistent" data-proef-bron="assistent" data-sim hidden>
+    <p class="proef-kop" data-la-kop>In onderzoek &middot; gescripte simulatie, geen live AI. Zo zou het kunnen werken; dit bestaat nog niet als product.</p>
+    <p class="small proef-zaak">Fictieve zaak: Brasserie Meridiaan (verzonnen). Alles hieronder is gesimuleerd.</p>
+    <p class="small proef-scenario" data-la-scenario></p>
+    <div class="la-split">
+      <div class="la-kennis" data-la-kennis>
+        <p class="label">Wat de assistent weet, en niets meer</p>
+      </div>
+      <div class="la-gesprek">
+        <p class="label">Klantvragen, aanklikbaar</p>
+        <div class="la-chips" data-voice="customer" data-la-chips>
+          <button type="button" class="btn btn-sm la-chip" data-vraag="open">Zijn jullie vanavond open?</button>
+          <button type="button" class="btn btn-sm la-chip" data-vraag="taart">Kan ik een taart bestellen voor zaterdag?</button>
+          <button type="button" class="btn btn-sm la-chip" data-vraag="parking">Is er parking?</button>
+          <button type="button" class="btn btn-sm la-chip" data-vraag="glutenvrij">Hebben jullie glutenvrij?</button>
+          <button type="button" class="btn btn-sm la-chip" data-vraag="twintig">Kan ik met twintig man komen?</button>
+        </div>
+        <div class="la-log" data-la-log aria-live="polite" aria-label="Gesprek, gesimuleerd"></div>
+        <p class="small la-slot" data-la-slot></p>
+      </div>
+    </div>
+    <div class="proef-voet" data-la-voet></div>
+  </div>
+  <div class="proef-paneel lab-reviews" data-proef-bron="reviews" data-sim hidden>
+    <p class="proef-kop" data-lr-kop>In onderzoek &middot; gescripte simulatie, geen live AI. De teksten zijn vooraf geschreven.</p>
+    <p class="small proef-zaak">Fictieve zaak: Kapsalon Lumen (verzonnen). Reviews en antwoorden zijn gesimuleerd.</p>
+    <p class="small proef-scenario" data-lr-uitleg></p>
+    <p class="lr-readout" data-lr-readout aria-live="polite"></p>
+    <div class="lr-lijst" data-lr-lijst></div>
+    <p class="small la-slot" data-lr-slot></p>
+    <div class="proef-voet" data-lr-voet></div>
+  </div>
+  <!-- data, geen code: de dialoogboom en de reviews (src/data, gekopieerd naar assets/data) -->
+  <script src="assets/data/assistent-dialoog.js"></script>
+  <script src="assets/data/lab-reviews-data.js"></script>
+</div>
+</section>
+
+<section id="snymis" data-room>
+<div class="kamer kamer-snymis">
+  <p class="label">Wie is Snymis</p>
+  <h2>E&eacute;n persoon, een paar agents, en elk bericht gelezen voor het vertrekt.</h2>
+  <div class="snymis-split">
+    <div class="snymis-tekst">
+      <p>Ik ben Snymis. Ik werk vanuit Antwerpen, zonder kantoor en zonder verkopers, en STS Digital is een jonge zaak. Ik doe onderzoek naar AI die werk overneemt van kleine zaken, en ik gebruik dat onderzoek elke dag voor mijn eigen werk: een verkenner zoekt, een bouwer maakt het voorbeeld, en ik lees elk bericht voor het naar een zaak gaat.</p>
+      <p>Er zit geen team achter de schermen. De agents zoeken en bouwen; beslissen doe ik. Wat je me schrijft, lees ik zelf, en wat ik terugstuur, heb ik zelf geschreven.</p>
+      <p>Liever eerst kijken dan praten? Dat begrijp ik. Daarom staat het voorbeeld er altijd eerst, en beslis jij daarna.</p>
+      <p class="snymis-wijken" data-c-wrap hidden><span class="label">Deze maand</span> <span data-c="wijken"></span></p>
+    </div>
+    <div class="snymis-niet">
+      <h3>Wat wij niet zijn</h3>
+      <p>Geen team van tien, geen klantenlogo&rsquo;s die we niet mogen tonen, geen tellers die niet kloppen, geen verkoper die terugbelt. Wel iemand van hier die eerst bouwt en dan pas praat.</p>
+    </div>
+  </div>
+  <div class="snymis-radar" role="region" aria-labelledby="snymis-radar-h">
+    <p class="label">Zo komt u op onze radar</p>
+    <h3 id="snymis-radar-h">Kreeg u een bericht van ons zonder dat u iets vroeg?</h3>
+    <p>Dan vond mijn verkenner uw zaak, en gebruikte ik enkel wat u zelf openbaar maakte: uw Google-profiel, uw openingsuren en uw adres. U kreeg van mij &eacute;&eacute;n bericht, en dat las en keurde ik zelf goed voor het vertrok. Het voorbeeld dat erbij hoort staat niet in zoekmachines en deel ik enkel met u. Reageert u niet, dan verwijder ik het na 30 dagen; vraagt u het, dan binnen 5 werkdagen. Zo staat het in de <a href="privacy.html">privacyverklaring</a>, en zo speelt <a href="#radar">de simulatie hierboven</a> het na.</p>
+  </div>
+</div>
 </section>
 </main>
 <footer class="foot">
@@ -156,6 +410,7 @@
     <div>
       <p class="motto">Where imagination can reach up to the <em>stars</em>.</p>
       <p class="small merkregel">Star.Tec.Solutions is het merk van STS Digital, Antwerpen. E&eacute;n persoon, Snymis, en een paar agents die hem helpen.</p>
+      <p class="small foot-contact"><span data-c-wrap><a data-c="whatsapp" data-keep href="#">WhatsApp</a></span><span data-c-wrap> &middot; <a data-c="phone" href="#"></a></span></p>
     </div>
     <div>
       <p class="label foot-h">Deuren</p>
@@ -190,5 +445,14 @@
 <script src="assets/js/reveal.js"></script>
 <script src="assets/js/lite.js"></script>
 <script src="assets/js/uithangbord.js"></script>
+<script src="assets/js/score.js"></script>
+<script src="assets/js/preview-data.js"></script>
+<script src="assets/js/preview.js"></script>
+<script src="assets/js/sim-radar-data.js"></script>
+<script src="assets/js/sim-radar.js"></script>
+<script src="assets/js/straat.js"></script>
+<script src="assets/js/kaart.js"></script>
+<script src="assets/js/lab-assistent.js"></script>
+<script src="assets/js/lab-reviews.js"></script>
 </body>
 </html>

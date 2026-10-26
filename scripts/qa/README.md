@@ -78,12 +78,19 @@ horizontale overflow, `lang` begint met `nl`, precies een `h1`, geen emoji, geen
 Bijzonderheden:
 
 - Opslag: `sessionStorage` binnen `{sts-pre, sts-zaak}` en `localStorage` binnen `{sts-lite}`; `docs/demo` is vrijgesteld.
-- Woordenlijst: zie `woorden.mjs` (inline tot WP-12 `src/data/woordenlijst.json` levert). In STS-stem verboden:
-  euroteken, 'euro' buiten de juridische pagina's, 'gegarandeerd', 'nog N plaatsen', 'ons team', 'een medewerker',
-  'mobieltje', 'leuk', 'AI-powered', 'leads', 'funnel', 'jullie'. Vrijgesteld: tekst in `[data-voice=visitor]`,
+- Woordenlijst: `src/data/woordenlijst.json` is sinds WP-12 de enige bron (`woorden.mjs` laadt ze; uitleg in
+  `copy-regels.md`). In STS-stem verboden: euroteken, 'euro' buiten de juridische pagina's, prijsankers, 'gegarandeerd',
+  schaarste en urgentie, tellers, een 'Verzonden'-staat, 'ons team', 'een medewerker', nl-NL-woorden (mobieltje, leuk,
+  hartstikke, KvK, iDEAL), Engels marketingjargon (leads, funnel, conversie, smart, boost, KPI), 'AI-powered', 'slim',
+  'AI-systemen' en 'automatisering' buiten de juridische pagina's, 'jullie'. Vrijgesteld: tekst in `[data-voice=visitor]`,
   `[data-voice=customer]` en FAQ-vragen in `<details><summary>`. In `[data-sim]` verboden: 'studie', 'onderzoek toont',
-  'rapport'; verplicht: 'gesimuleerd' of 'fictief'. Vijf gevulde sterren alleen met 'voorbeeld' in hetzelfde blok.
+  'rapport', 'statistiek'; verplicht: 'gesimuleerd' of 'fictief', en per kamer de woorden uit `sim.perRoom` (lint-copy,
+  sleutel = `data-proef-bron`, het id of de bestandsnaam van de kamer). Vijf gevulde sterren alleen met 'voorbeeld' in
+  hetzelfde blok.
   `docs/demo` is vrijgesteld van prijs-, sterren- en opslagscans, niet van de externe-verzoekwacht.
+- Wijkpagina's (`docs/wijk/*.html`, WP-13): de regels met `scope: 'wijk'` (gezellig, bruisend, authentiek, levendig en
+  tellers als 'N zaken') gelden alleen daar en nooit binnen `[data-sfeerzin]`, de ene zin van de oprichter; `lint-copy`
+  en de gerenderde scan (`checks.mjs`, `cfg.wijk`) passen dezelfde uitzondering toe.
 - Conversiecontract: de harnas klikt elk `[data-bericht]` met een proefzaak in `sessionStorage.sts-zaak`
   (`{naam:'Proefzaak QA', ...}`) en controleert dat het Bericht-tekstvak de zaaknaam en de sleutelzin
   (`STSBericht.phrase(key)`) bevat (`window.STSBericht.prefill` bestaat sinds WP-02).
@@ -98,8 +105,9 @@ Bijzonderheden:
 ## Fout, bekend, notitie
 
 `budget.mjs` deelt elke bevinding in. `fail` blokkeert. `known` is een bevinding van de huidige site die
-een genoemd werkpakket oplost (lijst `KNOWN`): het gewicht van de oude demos.html (WP-09) en de strenge
-regellimieten (WP-15). De WP-04-regels (style.css, backdrop-filter, de rAF-lus van motion.js, timers, het
+een genoemd werkpakket oplost (lijst `KNOWN`): alleen nog de strenge regellimieten (WP-15); de regel voor het
+gewicht van de oude demos.html verviel met de redirect-stub van WP-09. `checkDataFiles` (checks.mjs) toetst
+`src/data/panden.json`, `capabilities.json` en `radar-bericht.json` aan een klein schema, naast de fixtures. De WP-04-regels (style.css, backdrop-filter, de rAF-lus van motion.js, timers, het
 gewicht en de overflow van de oude index, 'Data & leads', het eerste scherm), de WP-02-regel (de conversiecheck
 zonder STSBericht) en de WP-11-regel ('jullie' in de FAQ-vraag, nu `<details><summary>`) zijn met die pakketten
 verwijderd: die controles falen nu echt. Een bekende bevinding houdt het rapport groen maar staat in het rapport met zijn
@@ -148,7 +156,8 @@ scripts/qa/runner.mjs      een run: context, routes, metingen, classificatie
 scripts/qa/checks.mjs      init-script en page.evaluate-functies
 scripts/qa/profiles.mjs    GL-modi, profielen, varianten, matrix, toegestane hosts en sleutels
 scripts/qa/budget.mjs      budgetten, poorten, KNOWN-lijst, classify()
-scripts/qa/woorden.mjs     woordregels (inline tot WP-12) en scanText()
+scripts/qa/woorden.mjs     laadt src/data/woordenlijst.json (WP-12) en scanText()
+scripts/qa/copy-check.mjs  WP-12: leus-telling, euroteken, 'AI-systemen', persona, og.png, cyaan op één regel en de 'jullie'-scope op de gebouwde site; `--shots` schrijft schermafbeeldingen naar .qa/shots/
 scripts/qa/html-lite.mjs   kleine HTML-parser voor lint-copy
 scripts/qa/lint-css.mjs    lint-copy.mjs  lint-lines.mjs
 scripts/qa/report.mjs      docs/qa-report.html

@@ -24,16 +24,20 @@ Page front matter (HTML comment at the top of src/pages/<slug>.html):
                          visible link, query and hash carried along); not in the sitemap.
 Pages in sub-folders of src/pages (dev/scene.html) are built to the same sub-folder of docs/
 with their relative links prefixed. {{svg:name}} anywhere inlines docs/assets/img/name.svg;
-{{home}} is the address of the start page. src/data/*.json and *.js are copied to
-docs/assets/data/. When src/data/wijken.json exists, buildlib.build_wijken() runs (WP-13).
+{{home}} is the address of the start page. {{panden}}, {{panden-kaarten}}, {{capabilities}} and
+{{radar-bericht}} render src/data/panden.json, capabilities.json and radar-bericht.json (builddata.py).
+src/data/*.js (and the JSON listed in buildlib.DATA_PUBLIC_JSON, today none) are copied to docs/assets/data/; the other JSON is build-time input only. When src/data/wijken.json exists, buildwijk.build_wijken()
+renders src/templates/wijk.html once per entry into docs/wijk/<slug>.html, in the sitemap (WP-13).
 The strip (src/partials/uithangbord.html) is rendered from DOORS and ACTION in buildlib.py; the
 footer (src/partials/foot.html) repeats the same DOORS through {{doors}} (WP-04).
 """
 import argparse, datetime, json
 
-from buildlib import (DOORS, OUT, SRC, VENDOR_DEFAULT, build_wijken, copy_data, dutch_date, front_matter,
-                      inline_svg, json_ld, og_tags, page_date, prefix_links, redirect_stub, render_action,
-                      render_doors, rooms_html, selftest, write_sitemap)
+from buildlib import (DOORS, OUT, SRC, VENDOR_DEFAULT, copy_data, dutch_date, front_matter, inline_svg, json_ld,
+                      og_tags, page_date, prefix_links, redirect_stub, render_action, render_doors, rooms_html,
+                      selftest, write_sitemap)
+from builddata import fill as fill_data   # WP-09: {{panden}}, {{panden-kaarten}}, {{capabilities}}, {{radar-bericht}}
+from buildwijk import build_wijken        # WP-13: docs/wijk/<slug>.html from src/data/wijken.json and src/templates/wijk.html
 
 NOT_IN_SITEMAP = {"404"}
 # WP-02: the state core on every page, in this order (state needs names; hydrate and the prefill contract need state).
@@ -60,6 +64,7 @@ def render_page(ctx, slug, meta, body):
         if "{{rooms}}" not in body:
             raise SystemExit("src/pages/%s.html lists rooms but has no {{rooms}} placeholder" % slug)
         body = body.replace("{{rooms}}", rooms_html(meta), 1)
+    body = fill_data(body)   # content from src/data/*.json, in a room or in the page body
     strip = part["uithangbord"].replace("{{doors}}", render_doors(DOORS, slug, meta, kort=True)).replace("{{action}}", render_action(slug, meta))
     scripts = ['<script src="assets/vendor/%s.js"></script>' % v for v in meta.get("vendor", VENDOR_DEFAULT).split()]   # 'vendor:' empty = none
     scripts += ['<script src="assets/js/config.js"></script>']
@@ -115,7 +120,7 @@ def main():
         def write(slug, html, date):
             write_page(slug, html)
             indexed.append((slug, date))
-        built = build_wijken(json.loads(wijken.read_text(encoding="utf-8")), render, write)
+        built = build_wijken(json.loads(wijken.read_text(encoding="utf-8")), render, write, ctx["today"], front_matter, page_date)
         print("wijk pages: %d" % len(built))
 
     if base:

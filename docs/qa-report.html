@@ -46,382 +46,570 @@ footer{margin-top:48px;color:var(--ink3);font-size:13px}
 <p>Elke pagina in docs/ getest in Chromium zonder GPU, op telefoon, tablet en desktop. Bekende punten dragen het werkpakket dat ze oplost en blokkeren niet; fouten wel.</p>
 <span class="status green">GROEN: klaar om te publiceren</span>
 <div class="meta">
-<div><span class="label">runs</span><strong>91</strong></div>
-<div><span class="label">in orde</span><strong class="ok">89</strong></div>
-<div><span class="label">met bekende punten</span><strong class="bekend">2</strong></div>
+<div><span class="label">runs</span><strong>138</strong></div>
+<div><span class="label">in orde</span><strong class="ok">138</strong></div>
+<div><span class="label">met bekende punten</span><strong class="bekend">0</strong></div>
 <div><span class="label">fout</span><strong class="">0</strong></div>
 <div><span class="label">lintfouten</span><strong class="">0</strong></div>
-<div><span class="label">duur</span><strong>674 s</strong></div>
+<div><span class="label">duur</span><strong>992 s</strong></div>
 </div>
-<p style="margin-top:16px;font-size:14px">Gegenereerd 2026-10-26T12:12:48.013Z · commit <code>0388460c1d</code> op <code>v5</code> · Node v22.22.0 · Playwright 1.63.0 · budget: standaardwaarden (budget.json komt met WP-15) · woordenlijst: inline</p>
-<h2>Notities</h2><ul style="padding-left:18px;color:var(--ink2);font-size:14px"><li>geen wijk/*.html gevonden (WP-13); gl-swift en nogl slaan de wijkpagina over</li></ul>
+<p style="margin-top:16px;font-size:14px">Gegenereerd 2026-10-26T15:35:54.705Z · commit <code>99e1a179de</code> op <code>v5</code> · Node v22.22.0 · Playwright 1.63.0 · budget: standaardwaarden (budget.json komt met WP-15) · woordenlijst: src/data/woordenlijst.json</p>
+
 <h2>Bekende punten en wie ze oplost</h2>
-<div class="scroller"><table><thead><tr><th>werkpakket</th><th>wat</th><th>aantal</th></tr></thead><tbody><tr><td><span class="wp">WP-09</span></td><td>de oude demos.html weegt op de telefoon ~778 kB (afbeeldingen 495 kB); ze wordt een redirect-stub naar werkwijze.html#straat</td><td class="mono">2</td></tr></tbody></table></div>
+<p>Geen bekende punten meer.</p>
 <h2>Matrix</h2>
 <div class="scroller"><table><thead><tr><th>pagina</th><th>profiel</th><th>modus</th><th>variant</th><th>status</th><th>laad ms</th><th>rAF 3 s</th><th>intervals</th><th>scene</th><th>WebGL</th><th>extern</th><th>console</th><th>overflow</th><th>bytes</th></tr></thead><tbody><tr><td class="mono">404.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">189</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">1097</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">217 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">219 kB</td></tr>
 <tr><td class="mono">404.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">90</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">109</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">217 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">219 kB</td></tr>
 <tr><td class="mono">404.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">102</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">95</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">217 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">219 kB</td></tr>
 <tr><td class="mono">404.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">1045</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">125</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">217 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">219 kB</td></tr>
 <tr><td class="mono">cookies.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">79</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">81</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">199 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">201 kB</td></tr>
 <tr><td class="mono">cookies.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">88</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">101</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">199 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">201 kB</td></tr>
 <tr><td class="mono">cookies.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">80</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">91</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">218 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">220 kB</td></tr>
 <tr><td class="mono">cookies.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">113</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">118</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">218 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">220 kB</td></tr>
 <tr><td class="mono">demo/barbier-boris/index.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">144</td><td class="mono">193</td><td class="mono">1</td>
+<td class="ok">ok</td><td class="mono">147</td><td class="mono">275</td><td class="mono">1</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
 <td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">278 kB</td></tr>
 <tr><td class="mono">demo/barbier-boris/index.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">92</td><td class="mono">191</td><td class="mono">1</td>
+<td class="ok">ok</td><td class="mono">117</td><td class="mono">192</td><td class="mono">1</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
 <td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">278 kB</td></tr>
 <tr><td class="mono">demo/barbier-boris/index.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">126</td><td class="mono">273</td><td class="mono">1</td>
+<td class="ok">ok</td><td class="mono">137</td><td class="mono">274</td><td class="mono">1</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
 <td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">278 kB</td></tr>
 <tr><td class="mono">demo/barbier-boris/index.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">139</td><td class="mono">272</td><td class="mono">1</td>
+<td class="ok">ok</td><td class="mono">153</td><td class="mono">269</td><td class="mono">1</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
 <td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">278 kB</td></tr>
 <tr><td class="mono">demo/brasserie-meridiaan/index.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">146</td><td class="mono">266</td><td class="mono">2</td>
+<td class="ok">ok</td><td class="mono">141</td><td class="mono">265</td><td class="mono">2</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
 <td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">338 kB</td></tr>
 <tr><td class="mono">demo/brasserie-meridiaan/index.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">140</td><td class="mono">193</td><td class="mono">2</td>
+<td class="ok">ok</td><td class="mono">127</td><td class="mono">192</td><td class="mono">2</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
 <td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">338 kB</td></tr>
 <tr><td class="mono">demo/brasserie-meridiaan/index.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">174</td><td class="mono">374</td><td class="mono">2</td>
+<td class="ok">ok</td><td class="mono">175</td><td class="mono">372</td><td class="mono">2</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
 <td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">338 kB</td></tr>
 <tr><td class="mono">demo/brasserie-meridiaan/index.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">165</td><td class="mono">191</td><td class="mono">2</td>
+<td class="ok">ok</td><td class="mono">168</td><td class="mono">190</td><td class="mono">2</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
 <td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">338 kB</td></tr>
 <tr><td class="mono">demo/garage-verhulst/index.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">244</td><td class="mono">421</td><td class="mono">2</td>
+<td class="ok">ok</td><td class="mono">285</td><td class="mono">420</td><td class="mono">2</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
 <td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">398 kB</td></tr>
 <tr><td class="mono">demo/garage-verhulst/index.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">220</td><td class="mono">190</td><td class="mono">2</td>
+<td class="ok">ok</td><td class="mono">282</td><td class="mono">187</td><td class="mono">2</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
 <td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">398 kB</td></tr>
 <tr><td class="mono">demo/garage-verhulst/index.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">252</td><td class="mono">360</td><td class="mono">2</td>
+<td class="ok">ok</td><td class="mono">288</td><td class="mono">364</td><td class="mono">2</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
 <td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">398 kB</td></tr>
 <tr><td class="mono">demo/garage-verhulst/index.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">278</td><td class="mono">411</td><td class="mono">2</td>
+<td class="ok">ok</td><td class="mono">328</td><td class="mono">398</td><td class="mono">2</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
 <td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">398 kB</td></tr>
 <tr><td class="mono">demo/radar/index.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">196</td><td class="mono">420</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">211</td><td class="mono">427</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
 <td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">304 kB</td></tr>
 <tr><td class="mono">demo/radar/index.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">184</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">228</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
 <td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">304 kB</td></tr>
 <tr><td class="mono">demo/radar/index.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">245</td><td class="mono">414</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">225</td><td class="mono">387</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
 <td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">304 kB</td></tr>
 <tr><td class="mono">demo/radar/index.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">239</td><td class="mono">258</td><td class="mono">1</td>
+<td class="ok">ok</td><td class="mono">309</td><td class="mono">264</td><td class="mono">1</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
 <td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">304 kB</td></tr>
 <tr><td class="mono">demos.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="bekend">bekend</td><td class="mono">107</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">194</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">707 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">391 kB</td></tr>
 <tr><td class="mono">demos.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="bekend">bekend</td><td class="mono">110</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">176</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">707 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">391 kB</td></tr>
 <tr><td class="mono">demos.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">107</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">206</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">707 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">391 kB</td></tr>
 <tr><td class="mono">demos.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">217</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">445 kB</td></tr>
+<tr><td class="mono">dev/bericht.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">105</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">228 kB</td></tr>
+<tr><td class="mono">dev/bericht.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
+<td class="ok">ok</td><td class="mono">115</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">228 kB</td></tr>
+<tr><td class="mono">dev/bericht.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">116</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">228 kB</td></tr>
+<tr><td class="mono">dev/bericht.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
 <td class="ok">ok</td><td class="mono">120</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">707 kB</td></tr>
-<tr><td class="mono">dev/bericht.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">113</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">226 kB</td></tr>
-<tr><td class="mono">dev/bericht.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">108</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">226 kB</td></tr>
-<tr><td class="mono">dev/bericht.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">121</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">226 kB</td></tr>
-<tr><td class="mono">dev/bericht.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">114</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">226 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">228 kB</td></tr>
 <tr><td class="mono">dev/scene.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">118</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 97ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">321 kB</td></tr>
+<td class="ok">ok</td><td class="mono">129</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 111ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">324 kB</td></tr>
 <tr><td class="mono">dev/scene.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">118</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 100ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">321 kB</td></tr>
+<td class="ok">ok</td><td class="mono">169</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 145ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">324 kB</td></tr>
 <tr><td class="mono">dev/scene.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">1158</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 1112ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1065 kB</td></tr>
+<td class="ok">ok</td><td class="mono">1146</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 1101ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1067 kB</td></tr>
 <tr><td class="mono">dev/scene.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">1098</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 1046ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1065 kB</td></tr>
+<td class="ok">ok</td><td class="mono">1176</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 1129ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1067 kB</td></tr>
 <tr><td class="mono">dev/scene.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">1001</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 990ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1065 kB</td></tr>
+<td class="ok">ok</td><td class="mono">1140</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 1123ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1067 kB</td></tr>
 <tr><td class="mono">gereedschap.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">179</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">205</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">321 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">348 kB</td></tr>
 <tr><td class="mono">gereedschap.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">146</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">175</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">321 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">348 kB</td></tr>
 <tr><td class="mono">gereedschap.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">147</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">173</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">321 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">348 kB</td></tr>
 <tr><td class="mono">gereedschap.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">166</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">186</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">321 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">348 kB</td></tr>
 <tr><td class="mono">index.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">160</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 142ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">406 kB</td></tr>
+<td class="ok">ok</td><td class="mono">195</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 176ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">412 kB</td></tr>
 <tr><td class="mono">index.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">190</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 169ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">406 kB</td></tr>
+<td class="ok">ok</td><td class="mono">227</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 208ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">412 kB</td></tr>
 <tr><td class="mono">index.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">1073</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 1057ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1149 kB</td></tr>
+<td class="ok">ok</td><td class="mono">1230</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 1168ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1155 kB</td></tr>
 <tr><td class="mono">index.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">1024</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 1007ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1149 kB</td></tr>
+<td class="ok">ok</td><td class="mono">1229</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 1210ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1155 kB</td></tr>
 <tr><td class="mono">index.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">1107</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 1089ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1149 kB</td></tr>
+<td class="ok">ok</td><td class="mono">1222</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 1200ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1155 kB</td></tr>
 <tr><td class="mono">juridisch.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">91</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">119</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">199 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">201 kB</td></tr>
 <tr><td class="mono">juridisch.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">93</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">99</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">199 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">201 kB</td></tr>
 <tr><td class="mono">juridisch.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">123</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">84</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">218 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">220 kB</td></tr>
 <tr><td class="mono">juridisch.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">95</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">218 kB</td></tr>
-<tr><td class="mono">privacy.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">110</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
-<tr><td class="mono">privacy.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
 <td class="ok">ok</td><td class="mono">94</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">220 kB</td></tr>
+<tr><td class="mono">privacy.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">102</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">224 kB</td></tr>
+<tr><td class="mono">privacy.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
+<td class="ok">ok</td><td class="mono">117</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">224 kB</td></tr>
 <tr><td class="mono">privacy.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">77</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">105</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">224 kB</td></tr>
 <tr><td class="mono">privacy.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">98</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">101</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">224 kB</td></tr>
 <tr><td class="mono">qa-report.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">24</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">32</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">8 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">68 kB</td></tr>
 <tr><td class="mono">qa-report.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">22</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">8 kB</td></tr>
-<tr><td class="mono">qa-report.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
 <td class="ok">ok</td><td class="mono">33</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">8 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">68 kB</td></tr>
+<tr><td class="mono">qa-report.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">35</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">68 kB</td></tr>
 <tr><td class="mono">qa-report.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">27</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">33</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">8 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">68 kB</td></tr>
 <tr><td class="mono">simulatie.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">130</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">145</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">393 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">397 kB</td></tr>
 <tr><td class="mono">simulatie.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">160</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">137</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">393 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">397 kB</td></tr>
 <tr><td class="mono">simulatie.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">154</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">393 kB</td></tr>
-<tr><td class="mono">simulatie.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">150</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">393 kB</td></tr>
-<tr><td class="mono">simulatie.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">163</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">393 kB</td></tr>
-<tr><td class="mono">voorwaarden.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">98</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">204 kB</td></tr>
-<tr><td class="mono">voorwaarden.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">88</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">204 kB</td></tr>
-<tr><td class="mono">voorwaarden.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">95</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">223 kB</td></tr>
-<tr><td class="mono">voorwaarden.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">120</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">223 kB</td></tr>
-<tr><td class="mono">werkwijze.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">110</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">224 kB</td></tr>
-<tr><td class="mono">werkwijze.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
-<td class="ok">ok</td><td class="mono">104</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">224 kB</td></tr>
-<tr><td class="mono">werkwijze.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">94</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">224 kB</td></tr>
-<tr><td class="mono">werkwijze.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">125</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">224 kB</td></tr>
-<tr><td class="mono">dev/scene.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">lite</td>
-<td class="ok">ok</td><td class="mono">114</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 93ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">321 kB</td></tr>
-<tr><td class="mono">dev/scene.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">lite</td>
-<td class="ok">ok</td><td class="mono">127</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 108ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">321 kB</td></tr>
-<tr><td class="mono">index.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">lite</td>
-<td class="ok">ok</td><td class="mono">233</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 214ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">406 kB</td></tr>
-<tr><td class="mono">index.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">lite</td>
-<td class="ok">ok</td><td class="mono">223</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 204ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">406 kB</td></tr>
-<tr><td class="mono">simulatie.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">lite</td>
-<td class="ok">ok</td><td class="mono">144</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">393 kB</td></tr>
-<tr><td class="mono">simulatie.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">lite</td>
 <td class="ok">ok</td><td class="mono">152</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">393 kB</td></tr>
-<tr><td class="mono">index.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">intro</td>
-<td class="ok">ok</td><td class="mono">1058</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 1040ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1149 kB</td></tr>
-<tr><td class="mono">index.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">intro</td>
-<td class="ok">ok</td><td class="mono">218</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">sts:intro-done 199ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">406 kB</td></tr>
-<tr><td class="mono">index.html</td><td class="mono">desktop</td><td class="mono">gl-swift</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">572</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 557ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1149 kB</td></tr>
-<tr><td class="mono">index.html</td><td class="mono">phone</td><td class="mono">gl-swift</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">200</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 178ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">406 kB</td></tr>
-<tr><td class="mono">index.html</td><td class="mono">desktop</td><td class="mono">nogl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">225</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">failed 199ms</td><td class="mono">geen</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">406 kB</td></tr>
-<tr><td class="mono">index.html</td><td class="mono">phone</td><td class="mono">nogl</td><td class="mono">default</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">397 kB</td></tr>
+<tr><td class="mono">simulatie.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">reduced</td>
 <td class="ok">ok</td><td class="mono">165</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 147ms</td><td class="mono">geen</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">406 kB</td></tr>
-<tr><td class="mono">dev/scene.html</td><td class="mono">desktop</td><td class="mono">gl-swift</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">502</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 480ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1065 kB</td></tr>
-<tr><td class="mono">dev/scene.html</td><td class="mono">phone</td><td class="mono">gl-swift</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">123</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 104ms</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">321 kB</td></tr>
-<tr><td class="mono">dev/scene.html</td><td class="mono">desktop</td><td class="mono">nogl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">140</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">failed 116ms</td><td class="mono">geen</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">321 kB</td></tr>
-<tr><td class="mono">dev/scene.html</td><td class="mono">phone</td><td class="mono">nogl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">104</td><td class="mono">0</td><td class="mono">0</td>
-<td class="mono">ready 85ms</td><td class="mono">geen</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">321 kB</td></tr>
-<tr><td class="mono">simulatie.html</td><td class="mono">desktop</td><td class="mono">gl-swift</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">128</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">393 kB</td></tr>
-<tr><td class="mono">simulatie.html</td><td class="mono">phone</td><td class="mono">gl-swift</td><td class="mono">default</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">397 kB</td></tr>
+<tr><td class="mono">simulatie.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">160</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">397 kB</td></tr>
+<tr><td class="mono">voorwaarden.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">95</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">206 kB</td></tr>
+<tr><td class="mono">voorwaarden.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
+<td class="ok">ok</td><td class="mono">112</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">206 kB</td></tr>
+<tr><td class="mono">voorwaarden.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">97</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">225 kB</td></tr>
+<tr><td class="mono">voorwaarden.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">96</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">225 kB</td></tr>
+<tr><td class="mono">werkwijze.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">141</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">391 kB</td></tr>
+<tr><td class="mono">werkwijze.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
+<td class="ok">ok</td><td class="mono">168</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">391 kB</td></tr>
+<tr><td class="mono">werkwijze.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">156</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">391 kB</td></tr>
+<tr><td class="mono">werkwijze.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">150</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">445 kB</td></tr>
+<tr><td class="mono">wijk/berchem.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">98</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/berchem.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
+<td class="ok">ok</td><td class="mono">107</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/berchem.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">116</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/berchem.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">reduced</td>
+<td class="ok">ok</td><td class="mono">105</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/berchem.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">114</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/borgerhout.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">99</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/borgerhout.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
+<td class="ok">ok</td><td class="mono">91</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/borgerhout.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">93</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/borgerhout.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">125</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/deurne.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">94</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/deurne.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
+<td class="ok">ok</td><td class="mono">97</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/deurne.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">83</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/deurne.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">96</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/hoboken.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">143</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/hoboken.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
+<td class="ok">ok</td><td class="mono">95</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/hoboken.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">84</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/hoboken.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">86</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/merksem.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">106</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/merksem.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
+<td class="ok">ok</td><td class="mono">101</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/merksem.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">84</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/merksem.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">99</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/mortsel.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">116</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/mortsel.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
+<td class="ok">ok</td><td class="mono">107</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/mortsel.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">75</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/mortsel.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">102</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/wilrijk.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">84</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/wilrijk.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">reduced</td>
+<td class="ok">ok</td><td class="mono">80</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/wilrijk.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">89</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/wilrijk.html</td><td class="mono">tablet</td><td class="mono">gl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">101</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">dev/scene.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">132</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 105ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">324 kB</td></tr>
+<tr><td class="mono">dev/scene.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">125</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 105ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">324 kB</td></tr>
+<tr><td class="mono">index.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">201</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 184ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">412 kB</td></tr>
+<tr><td class="mono">index.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">192</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 174ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">412 kB</td></tr>
+<tr><td class="mono">simulatie.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">157</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">397 kB</td></tr>
+<tr><td class="mono">simulatie.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">151</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">397 kB</td></tr>
+<tr><td class="mono">wijk/berchem.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">101</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/berchem.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">92</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/borgerhout.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">93</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/borgerhout.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">103</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/deurne.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">87</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/deurne.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">88</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/hoboken.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">99</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/hoboken.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">84</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/merksem.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">113</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/merksem.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">84</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/mortsel.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">91</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/mortsel.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">72</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/wilrijk.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">87</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/wilrijk.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">lite</td>
+<td class="ok">ok</td><td class="mono">87</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">index.html</td><td class="mono">desktop</td><td class="mono">gl</td><td class="mono">intro</td>
+<td class="ok">ok</td><td class="mono">1015</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 1002ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1155 kB</td></tr>
+<tr><td class="mono">index.html</td><td class="mono">phone</td><td class="mono">gl</td><td class="mono">intro</td>
+<td class="ok">ok</td><td class="mono">172</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">sts:intro-done 157ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">412 kB</td></tr>
+<tr><td class="mono">index.html</td><td class="mono">desktop</td><td class="mono">gl-swift</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">662</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 636ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1155 kB</td></tr>
+<tr><td class="mono">index.html</td><td class="mono">phone</td><td class="mono">gl-swift</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">191</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 175ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">412 kB</td></tr>
+<tr><td class="mono">index.html</td><td class="mono">desktop</td><td class="mono">nogl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">260</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">failed 230ms</td><td class="mono">geen</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">412 kB</td></tr>
+<tr><td class="mono">index.html</td><td class="mono">phone</td><td class="mono">nogl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">179</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 164ms</td><td class="mono">geen</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">412 kB</td></tr>
+<tr><td class="mono">dev/scene.html</td><td class="mono">desktop</td><td class="mono">gl-swift</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">416</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 399ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">1067 kB</td></tr>
+<tr><td class="mono">dev/scene.html</td><td class="mono">phone</td><td class="mono">gl-swift</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">115</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 97ms</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">324 kB</td></tr>
+<tr><td class="mono">dev/scene.html</td><td class="mono">desktop</td><td class="mono">nogl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">112</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">failed 92ms</td><td class="mono">geen</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">324 kB</td></tr>
+<tr><td class="mono">dev/scene.html</td><td class="mono">phone</td><td class="mono">nogl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">111</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">ready 94ms</td><td class="mono">geen</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">324 kB</td></tr>
+<tr><td class="mono">simulatie.html</td><td class="mono">desktop</td><td class="mono">gl-swift</td><td class="mono">default</td>
 <td class="ok">ok</td><td class="mono">169</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">webgl2</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">393 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">397 kB</td></tr>
+<tr><td class="mono">simulatie.html</td><td class="mono">phone</td><td class="mono">gl-swift</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">135</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">397 kB</td></tr>
 <tr><td class="mono">simulatie.html</td><td class="mono">desktop</td><td class="mono">nogl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">216</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">173</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">geen</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">393 kB</td></tr>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">397 kB</td></tr>
 <tr><td class="mono">simulatie.html</td><td class="mono">phone</td><td class="mono">nogl</td><td class="mono">default</td>
-<td class="ok">ok</td><td class="mono">163</td><td class="mono">0</td><td class="mono">0</td>
+<td class="ok">ok</td><td class="mono">148</td><td class="mono">0</td><td class="mono">0</td>
 <td class="mono">-</td><td class="mono">geen</td>
-<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">393 kB</td></tr></tbody></table></div>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">397 kB</td></tr>
+<tr><td class="mono">wijk/berchem.html</td><td class="mono">desktop</td><td class="mono">gl-swift</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">103</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/berchem.html</td><td class="mono">phone</td><td class="mono">gl-swift</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">82</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">webgl2</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/berchem.html</td><td class="mono">desktop</td><td class="mono">nogl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">90</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">geen</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr>
+<tr><td class="mono">wijk/berchem.html</td><td class="mono">phone</td><td class="mono">nogl</td><td class="mono">default</td>
+<td class="ok">ok</td><td class="mono">104</td><td class="mono">0</td><td class="mono">0</td>
+<td class="mono">-</td><td class="mono">geen</td>
+<td class="mono">0</td><td class="mono">0</td><td class="mono">nee</td><td class="mono">222 kB</td></tr></tbody></table></div>
 <h2>Bevindingen per run</h2>
 <details><summary><span class="ok">ok</span> <code>demo/barbier-boris/index.html [phone gl]</code></summary><div><ul><li><span class="notitie">notitie</span> <code>conversion</code> conversiecheck nog niet actief: geen [data-bericht] en geen STSBericht.prefill (komt met WP-02)</li><li><span class="notitie">notitie</span> <code>targets</code> 12 klikdoelen kleiner dan 44 px op de telefoon</li></ul>
 <p>opslag: sessionStorage [sts-pre], localStorage []; timers: 1 intervals aangemaakt, 1 actief, 0 timeouts hangend</p></div></details>
@@ -455,17 +643,13 @@ footer{margin-top:48px;color:var(--ink3);font-size:13px}
 <p>opslag: sessionStorage [sts-pre], localStorage []; timers: 2 intervals aangemaakt, 0 actief, 0 timeouts hangend</p></div></details>
 <details><summary><span class="ok">ok</span> <code>demo/radar/index.html [tablet gl]</code></summary><div><ul><li><span class="notitie">notitie</span> <code>conversion</code> conversiecheck nog niet actief: geen [data-bericht] en geen STSBericht.prefill (komt met WP-02)</li></ul>
 <p>opslag: sessionStorage [sts-pre], localStorage []; timers: 2 intervals aangemaakt, 1 actief, 1 timeouts hangend</p></div></details>
-<details><summary><span class="bekend">bekend</span> <code>demos.html [phone gl]</code></summary><div><ul><li><span class="bekend">bekend</span> <code>bytes</code> telefoon laadt 707 kB ruw (budget 439 kB) <span class="wp">WP-09</span> <span>de oude demos.html weegt op de telefoon ~778 kB (afbeeldingen 495 kB); ze wordt een redirect-stub naar werkwijze.html#straat</span></li></ul>
-<p>opslag: sessionStorage [sts-pre], localStorage []; timers: 0 intervals aangemaakt, 0 actief, 0 timeouts hangend</p></div></details>
-<details><summary><span class="bekend">bekend</span> <code>demos.html [phone gl reduced]</code></summary><div><ul><li><span class="bekend">bekend</span> <code>bytes</code> telefoon laadt 707 kB ruw (budget 439 kB) <span class="wp">WP-09</span> <span>de oude demos.html weegt op de telefoon ~778 kB (afbeeldingen 495 kB); ze wordt een redirect-stub naar werkwijze.html#straat</span></li></ul>
-<p>opslag: sessionStorage [sts-pre], localStorage []; timers: 0 intervals aangemaakt, 0 actief, 0 timeouts hangend</p></div></details>
 <details><summary><span class="ok">ok</span> <code>dev/bericht.html [phone gl]</code></summary><div><ul><li><span class="notitie">notitie</span> <code>targets</code> 1 klikdoelen kleiner dan 44 px op de telefoon</li></ul>
 <p>opslag: sessionStorage [sts-pre], localStorage []; timers: 0 intervals aangemaakt, 0 actief, 0 timeouts hangend</p></div></details>
 <details><summary><span class="ok">ok</span> <code>dev/bericht.html [phone gl reduced]</code></summary><div><ul><li><span class="notitie">notitie</span> <code>targets</code> 1 klikdoelen kleiner dan 44 px op de telefoon</li></ul>
 <p>opslag: sessionStorage [sts-pre], localStorage []; timers: 0 intervals aangemaakt, 0 actief, 0 timeouts hangend</p></div></details>
-<details><summary><span class="ok">ok</span> <code>gereedschap.html [phone gl]</code></summary><div><ul><li><span class="notitie">notitie</span> <code>targets</code> 22 klikdoelen kleiner dan 44 px op de telefoon</li></ul>
+<details><summary><span class="ok">ok</span> <code>gereedschap.html [phone gl]</code></summary><div><ul><li><span class="notitie">notitie</span> <code>targets</code> 2 klikdoelen kleiner dan 44 px op de telefoon</li></ul>
 <p>opslag: sessionStorage [sts-pre], localStorage []; timers: 0 intervals aangemaakt, 0 actief, 0 timeouts hangend</p></div></details>
-<details><summary><span class="ok">ok</span> <code>gereedschap.html [phone gl reduced]</code></summary><div><ul><li><span class="notitie">notitie</span> <code>targets</code> 22 klikdoelen kleiner dan 44 px op de telefoon</li></ul>
+<details><summary><span class="ok">ok</span> <code>gereedschap.html [phone gl reduced]</code></summary><div><ul><li><span class="notitie">notitie</span> <code>targets</code> 2 klikdoelen kleiner dan 44 px op de telefoon</li></ul>
 <p>opslag: sessionStorage [sts-pre], localStorage []; timers: 0 intervals aangemaakt, 0 actief, 0 timeouts hangend</p></div></details>
 <details><summary><span class="ok">ok</span> <code>index.html [phone gl]</code></summary><div><ul><li><span class="notitie">notitie</span> <code>targets</code> 9 klikdoelen kleiner dan 44 px op de telefoon</li></ul>
 <p>opslag: sessionStorage [sts-pre], localStorage []; timers: 0 intervals aangemaakt, 0 actief, 1 timeouts hangend</p></div></details>

@@ -1,11 +1,12 @@
-// Static copy lint: forbidden words per voice scope, sim labels, filled stars.
+// Static copy lint: forbidden words per voice scope, sim labels (per room since WP-12), filled stars.
+// The rules come from src/data/woordenlijst.json (woorden.mjs); the reasoning is in copy-regels.md.
 // Usage: node scripts/qa/lint-copy.mjs [files...] [--json] [--selftest]
 // Default scope: src/pages, src/partials, src/rooms and the generated-only pages docs/wijk, docs/dev.
 // docs/demo is not STS voice and is not scanned. Exit 1 on failures; 'known' cases print but pass.
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, basename, relative } from 'node:path';
 import { parseHTML, walk, textOf, isSkipped, closest, pathOf } from './html-lite.mjs';
-import { loadWoordenlijst, scanText, hasFiveStars, simLabelPresent } from './woorden.mjs';
+import { loadWoordenlijst, scanText, hasFiveStars, simLabelPresent, simRoomMissing } from './woorden.mjs';
 import { classify, loadBudget } from './budget.mjs';
 import { isLegalPage } from './profiles.mjs';
 
@@ -41,6 +42,7 @@ function ctxFor(node, pageCtx) {
     faq: !!(summary && summary.parent && summary.parent.tag === 'details'),
     sim: !!closest(node, n => n.attrs['data-sim'] !== undefined),
     gevel: !!closest(node, n => n.attrs.id === 'gevel' || n.attrs['data-room'] === 'gevel'),
+    wijk: pageCtx.wijk && !closest(node, n => n.attrs['data-sfeerzin'] !== undefined),   // WP-13: scope 'wijk' skips the founder's sentence
     legal: pageCtx.legal,
   };
 }
@@ -49,7 +51,7 @@ function ctxFor(node, pageCtx) {
 export function lintFile(file, list) {
   const src = readFileSync(join(ROOT, file), 'utf8');
   const page = file.startsWith('docs/') ? relative('docs', file) : basename(file);
-  const pageCtx = { legal: isLegalPage(page) };
+  const pageCtx = { legal: isLegalPage(page), wijk: page.startsWith('wijk/') };   // wijk: docs/wijk/*.html (WP-13)
   const issues = [];
   const seen = new Set();
   const push = (i) => { const k = `${i.rule}|${i.line}|${i.match}`; if (seen.has(k)) return; seen.add(k); issues.push({ page, file, ...i }); };
@@ -80,8 +82,13 @@ export function lintFile(file, list) {
     if (node.tag === 'meta' && node.attrs.name === 'description' && node.attrs.content) {
       for (const hit of scanText(node.attrs.content, { voice: 'sts', legal: pageCtx.legal }, list)) push({ check: 'copy', rule: hit.rule, match: hit.match, line: node.line, where: 'meta description', text: `'${hit.match}' in meta description (${hit.note})` });
     }
-    if (node.attrs['data-sim'] !== undefined && !simLabelPresent(textOf(node), list)) {
-      push({ check: 'sim-required', rule: 'sim-required', match: '', line: node.line, where: pathOf(node), text: `[data-sim] ${pathOf(node)} bevat 'gesimuleerd' noch 'fictief'` });
+    if (node.attrs['data-sim'] !== undefined) {
+      const simText = textOf(node);
+      if (!simLabelPresent(simText, list)) push({ check: 'sim-required', rule: 'sim-required', match: '', line: node.line, where: pathOf(node), text: `[data-sim] ${pathOf(node)} bevat 'gesimuleerd' noch 'fictief'` });
+      // sim.perRoom: the words this particular room must all carry; key = data-proef-bron, the element's id, or the room file name
+      const roomKey = node.attrs['data-proef-bron'] || node.attrs.id || (file.startsWith('src/rooms/') ? basename(file, '.html') : '');
+      const missing = simRoomMissing(simText, roomKey, list);
+      if (missing.length) push({ check: 'sim-required', rule: 'sim-room', match: missing.join(', '), line: node.line, where: pathOf(node), text: `[data-sim] kamer '${roomKey}' mist de verplichte woorden: ${missing.join(', ')} (woordenlijst sim.perRoom)` });
     }
   });
   return issues;

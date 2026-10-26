@@ -1,0 +1,14 @@
+{
+  "regels": "De eerste-contacttekst die de replay Van radar tot gesprek (werkwijze.html#radar) toont, altijd in u-vorm en zonder prijs. echt:false betekent: ontwerp van de bouwploeg, getoond met het label 'voorbeeldbericht (ontwerp)'. Zodra de oprichter de echte tekst aanlevert: zet echt op true en vervang 'regels'; het label wordt dan 'zo schrijven we echt'. {zaak} en {gemeente} vervangt sim-radar.js door de verzonnen buur van de simulatie; {aanleiding} door de openingszin van die buur (veld 'aanleiding' in sim-radar-data.js, in lijn met wat de verkenner bij stap 1 noteerde); de echte tekst mag {aanleiding} gebruiken of weglaten. De naam van de bezoeker komt hier nooit in. De tekst noemt enkel wat privacy 2.2 belooft: publieke gegevens, één bericht, niet geïndexeerd, verwijderen op vraag.",
+  "echt": false,
+  "label": { "ontwerp": "voorbeeldbericht (ontwerp)", "echt": "zo schrijven we echt" },
+  "onderwerp": "Een werkend voorbeeld van een site voor {zaak}",
+  "regels": [
+    "Dag,",
+    "Ik ben Snymis van STS Digital in Antwerpen. {aanleiding}",
+    "Met wat u zelf publiek maakte, uw openingsuren, uw adres en uw profiel, heb ik een werkend voorbeeld van een site op naam van uw zaak gebouwd. Het staat niet in zoekmachines; enkel u krijgt de link.",
+    "Wilt u het bekijken? Eén antwoord volstaat, ook een nee. Vraagt u het, dan verwijder ik het voorbeeld binnen vijf werkdagen en krijgt u geen tweede bericht.",
+    "Vriendelijke groeten,",
+    "Snymis, STS Digital, Antwerpen"
+  ]
+}

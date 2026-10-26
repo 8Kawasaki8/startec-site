@@ -1,23 +1,240 @@
-/* Hoe wij werken (werkwijze.html), de minimale eerlijke versie van WP-04: drie stappen,
-   de capaciteitenkaart als tekst in drie lijsten, de straat met vier verzonnen zaken en
-   'Zo komt u op onze radar'. WP-09 vervangt deze pagina door kamers en breidt dit bestand uit. */
+/* ═════════════════════════════════════════════════════════════
+   HOE WIJ WERKEN (werkwijze.html, WP-09)
+   De kop met de drie stappen (.stappen), dan vier kamers:
+   #radar (de stepper is het dominante element: vier stations op een
+   verticale lijn, de brief van Snymis violet), #straat (twee gevels in
+   één kader, de schuifknop zet een clip-path op de nieuwe gevel; paint,
+   geen layout), #kaart (drie kolommen met één lamp per punt; cyaan enkel
+   voor 'werkt vandaag'), #snymis (tekst, geen foto tot er een is).
+   Vlakke panelen, 1px lijnen, enkel transform/opacity in beweging,
+   geen blur, geen transition op filter of box-shadow. Onder 400 regels.
+═════════════════════════════════════════════════════════════ */
+.ww-kop .lede{max-width:46em}
 .stappen{list-style:none;counter-reset:stap;display:grid;gap:18px;margin-top:26px;max-width:62ch}
 .stappen li{position:relative;padding:18px 0 18px 88px;border-top:1px solid var(--line);color:var(--ink2)}
 .stappen li::before{counter-increment:stap;content:"0" counter(stap);position:absolute;left:0;top:18px;font:600 clamp(1.3rem,2vw,1.7rem)/1 var(--display);color:var(--cyan)}
 .stappen strong{display:block;color:var(--ink);font:600 1.08rem var(--display);margin-bottom:6px}
-.stappen a,.kaart a,.panden a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(54,232,255,.45)}
+.stappen a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(54,232,255,.45)}
+@media(max-width:900px){.stappen li{padding-left:64px}.stappen li::before{font-size:1.2rem}}
+
+/* ═══ KAMER RADAR: de stepper ═══════════════════════════════════ */
+.kamer-radar .uitleg{max-width:62ch}
+.rs-ctl{margin-top:24px}
+.kamer-radar .keuze input{inset:0;width:100%;height:100%;cursor:pointer}   /* de hele chip is het klikdoel */
+.kamer-radar .rs-context{margin-top:16px;font-size:1rem;color:var(--ink)}
+.rs-speler{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-top:14px}
+.rs-speler .small{max-width:46ch}
+.rs-stappen{list-style:none;margin-top:28px;display:grid;gap:0;position:relative;max-width:980px}
+.rs-stappen::before{content:"";position:absolute;left:19px;top:24px;bottom:24px;width:1px;background:var(--line2)}
+.rs-stap{position:relative;padding:0 0 0 60px}
+.rs-stap-kop{font-size:1rem;margin:0}
+.rs-stap-kop button{display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:8px 0;border:0;background:none;color:var(--ink2);text-align:left;cursor:pointer;font:inherit}
+.rs-stap-kop button:hover .rs-titel{color:var(--ink)}
+.rs-nr{position:absolute;left:0;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:1px solid var(--line2);font:500 12px var(--mono);letter-spacing:.06em;color:var(--ink3)}
+.rs-titel{font:600 1.15rem var(--display);color:var(--ink2)}
+.rs-wie{font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.rs-stap.is-open .rs-nr{border-color:var(--cyan);color:var(--ink)}
+.rs-stap.is-open .rs-titel{color:var(--ink)}
+.rs-stap[aria-current="step"] .rs-nr{background:var(--cyan);color:#06080F;border-color:var(--cyan)}
+.rs-stap:nth-child(4).is-open .rs-nr{background:var(--mens);border-color:var(--mens);color:#06080F}
+.rs-body{display:none;padding:4px 0 32px}
+.rs-stap.is-open .rs-body{display:block;animation:rs-in .4s var(--ease) both}
+@keyframes rs-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.rs-body > p{color:var(--ink2);margin-top:6px}
+.rs-vondst{list-style:none;display:grid;gap:10px;margin-top:16px;max-width:62ch}
+.rs-vondst li{position:relative;padding:12px 14px 12px 36px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.035);color:var(--ink);font-size:15px}
+.rs-vondst li::before{content:"";position:absolute;left:14px;top:1.05em;width:.55em;height:.55em;background:var(--ink3);clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%)}
+/* meten: zes schakelaars links, ring rechts */
+.rs-meten{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:24px;align-items:center;margin-top:16px}
+.rs-signalen{display:flex;flex-wrap:wrap;gap:8px}
+.rs-sig[aria-pressed="true"]::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--cyan)}
+.rs-sig[aria-pressed="false"]{color:var(--ink2)}
+.rs-sig[aria-pressed="false"]::before{content:"";width:8px;height:8px;border-radius:50%;border:1px solid var(--ink3)}
+.rs-ring-wrap{display:grid;justify-items:center;gap:8px;text-align:center}
+.rs-ring{position:relative;width:150px;height:150px}
+.rs-ring svg{width:100%;height:100%}
+.rs-ring [data-rs-arc]{transition:stroke-dashoffset .9s var(--ease)}
+.rs-score{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.rs-score b{font:700 2.2rem/1 var(--display);font-variant-numeric:tabular-nums}
+.rs-score span{font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-top:4px}
+.rs-ring-label{max-width:20ch}
+.kamer-radar .rs-body p.small{margin-top:16px;max-width:62ch}
+/* bouwen: drie kaarten schuiven in, telefoon ernaast */
+.rs-bouw{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,330px);gap:clamp(20px,3vw,40px);align-items:start;margin-top:18px}
+.rs-kaarten{list-style:none;display:grid;gap:10px;align-content:start}
+.rs-kaart{display:grid;gap:4px;padding:14px 16px;border:1px solid var(--line2);border-radius:14px;background:rgba(255,255,255,.035);transform:translateX(-14px);opacity:0;transition:transform .5s var(--ease),opacity .5s var(--ease);transition-delay:calc(var(--i,0) * 160ms + 120ms)}
+.rs-stap.is-open .rs-kaart{transform:none;opacity:1}
+.rs-kaart strong{font-weight:600;overflow-wrap:anywhere}
+.rs-kaart .small{color:var(--ink3)}
+.rs-bouw .phone{width:min(300px,100%)}
+/* lezen: de brief wacht op een mens (violet) */
+.rs-brief{margin-top:18px;padding:20px 22px;border-radius:18px;background:rgba(6,8,15,.6);border:1px solid rgba(138,107,255,.5);max-width:62ch}
+.rs-brief-status{display:flex;align-items:center;gap:10px;font:500 13px/1.4 var(--mono);letter-spacing:.04em;color:var(--mens)}   /* geen text-transform: de status leest letterlijk */
+.rs-stip{width:9px;height:9px;border-radius:50%;background:var(--mens);flex:none}
+.rs-brief.is-nee .rs-brief-status{color:var(--ink3)}
+.rs-brief.is-nee .rs-stip{background:var(--ink3)}
+.rs-brief-label{display:inline-block;margin-top:14px;padding:4px 9px;border:1px solid var(--line2);border-radius:6px;font:500 12px var(--mono);letter-spacing:.06em;color:var(--ink2)}
+.rs-brief-onderwerp{margin-top:14px;font-size:15px;color:var(--ink)}
+.rs-brief-onderwerp .label{margin-right:6px}
+.rs-brief-tekst{margin-top:10px;padding:14px 16px;border-radius:12px;background:rgba(0,0,0,.25);border:1px solid var(--line);color:var(--ink2);font-size:15.5px}
+.rs-brief-tekst p+p{margin-top:10px}
+.rs-acties{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.rs-acties .pill,.rs-acties .btn{min-width:200px;justify-content:center}
+.rs-acties [aria-pressed="true"]{outline:2px solid var(--mens);outline-offset:2px}
+.rs-uitkomst{margin-top:14px;color:var(--ink);font-size:1.02rem;min-height:1.6em}
+.rs-readout{margin-top:10px;color:var(--ink3)}
+.rs-ctas{margin-top:12px}
+.kamer-radar .rs-voet{margin-top:18px;max-width:62ch}
+@media(max-width:760px){
+  .rs-meten{grid-template-columns:1fr}
+  .rs-bouw{grid-template-columns:1fr}
+  .rs-bouw .phone-wrap{justify-items:start}
+  .rs-brief{padding:16px 14px}
+  .rs-acties .pill,.rs-acties .btn{min-width:0;flex:1 1 auto}
+}
+
+/* ═══ KAMER DE STRAAT: twee gevels, één schuifknop ══════════════ */
+.straat-ctl{margin-top:24px}
+.kamer-straat .keuze input{inset:0;width:100%;height:100%;cursor:pointer}
+.kamer-straat .straat-label{margin-top:14px}
+.panden-straat{margin-top:18px;display:grid;gap:22px}
+.pand{--c:var(--cyan);padding:clamp(16px,2.4vw,28px);border-radius:20px;background:rgba(255,255,255,.035);border:1px solid var(--line2)}
+.pand-kop{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+.pand-kop h3{font-size:1.3rem}
+.pand-kop h3::before{content:"";display:inline-block;width:.5em;height:.5em;margin-right:10px;background:var(--c);clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%)}
+.gevels{position:relative;margin-top:16px;aspect-ratio:16/10;border-radius:14px;overflow:hidden;border:1px solid var(--line2);background:#d9d9d2;isolation:isolate}
+.gevels .oud,.gevels .nieuw{position:absolute;inset:0}
+.gevels .oud svg,.gevels .nieuw img{width:100%;height:100%;object-fit:cover;display:block}
+.gevels .nieuw{background:var(--bg2)}
+.gevel-tag{position:absolute;top:10px;padding:4px 9px;border-radius:6px;font:500 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;background:rgba(6,8,15,.85);color:var(--ink);z-index:2}
+.gevel-tag-oud{left:10px}
+.gevel-tag-nieuw{right:10px;color:var(--cyan-2)}
+.gevel-range{display:block;margin-top:14px}
+.gevel-range>span{display:block;font-size:13.5px;font-weight:500;color:var(--ink2);margin-bottom:6px}
+.gevel-range output{color:var(--ink);font:500 13px var(--mono);letter-spacing:.04em}
+.gevel-range input{width:100%;height:44px;margin:0;appearance:none;-webkit-appearance:none;background:transparent;cursor:pointer}
+.gevel-range input::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:linear-gradient(90deg,var(--line2),var(--cyan))}
+.gevel-range input::-moz-range-track{height:4px;border-radius:2px;background:linear-gradient(90deg,var(--line2),var(--cyan))}
+.gevel-range input::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:-12px;border-radius:50%;background:var(--ink);border:3px solid var(--bg)}
+.gevel-range input::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--ink);border:3px solid var(--bg)}
+.gevel-range input:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.probeer-label{margin-top:18px}
+.probeer{list-style:none;display:grid;gap:8px;margin-top:10px;color:var(--ink2);font-size:15px;max-width:62ch}
+.probeer li{position:relative;padding-left:18px}
+.probeer li::before{content:"";position:absolute;left:0;top:.6em;width:.5em;height:.5em;background:var(--c);clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%)}
+.pand-acties{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:18px}
+.pand-echt{border-style:dashed}
+.pand-echt-zin{margin-top:12px;color:var(--ink2)}
+.straat-vierde{margin-top:clamp(32px,5vw,56px);padding-top:28px;border-top:1px solid var(--line);max-width:62ch}
+.straat-vierde h3{font-size:1.25rem}
+.straat-vierde p{margin-top:12px;color:var(--ink2)}
+.straat-vierde .ctas{margin-top:20px}
+
+/* ═══ KAMER CAPACITEITENKAART: drie lampen ══════════════════════ */
 .kaart{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:28px}
-.kaart > div{padding:22px;border-radius:18px;background:var(--glass);border:1px solid var(--line2)}
-.kaart .label{display:block;margin-bottom:12px}
-.kaart .small{margin:-6px 0 12px}
-.kaart ul{list-style:none;display:grid;gap:10px;color:var(--ink2);font-size:15px}
-.kaart li{padding-left:18px;position:relative}
-.kaart li::before{content:"";position:absolute;left:0;top:.6em;width:.5em;height:.5em;background:var(--ink3);clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%)}
-.kaart > div:first-child li::before{background:var(--cyan)}
-.kaart + .lede{margin-top:28px}
-@media(max-width:900px){.kaart{grid-template-columns:1fr}.stappen li{padding-left:64px}.stappen li::before{font-size:1.2rem}}
-.panden{list-style:none;display:grid;gap:12px;margin-top:22px;max-width:62ch}
-.panden li{padding:12px 0;border-top:1px solid var(--line);color:var(--ink2)}
-.panden li a{font:600 1.02rem var(--display);display:inline-block;margin-right:8px}
-.panden li span{display:block;margin-top:4px;font-size:15px}
-@media(pointer:coarse){.stappen a,.kaart a,.panden li a{display:inline-block;padding:14px 10px;margin:-14px -10px}}
+.kaart-kolom{padding:22px;border-radius:18px;background:var(--glass);border:1px solid var(--line2);min-width:0}
+.kaart-kop{display:block;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.kaart ul{list-style:none;display:grid;gap:14px}
+.kaart li{color:var(--ink2);font-size:15px}
+.kaart li p{max-width:none}
+.kaart li p+p{margin-top:6px}
+.kaart li a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(54,232,255,.45)}
+.lamp{display:inline-flex;align-items:center;gap:7px;margin-bottom:6px;font:500 10.5px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.lamp::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ink3);flex:none}
+.kaart-vandaag .lamp::before{background:var(--cyan)}
+.kaart-prototype .lamp::before{background:transparent;border:1px solid var(--ink2)}
+.kaart-onderzoek .lamp::before{background:transparent;border:1px dashed var(--mens)}
+.kaart-onderzoek .lamp{color:var(--mens)}
+.kamer-kaart details{border-top:0}
+.kamer-kaart details:last-of-type{border-bottom:0}
+.kamer-kaart summary{display:block;min-height:44px;padding:0}
+.kamer-kaart summary::after{content:none}   /* het plusteken staat in de h3, niet nog eens onder de samenvatting */
+.kamer-kaart details[open] summary::after{content:none}   /* QA wave 3: wint van [data-room] details[open] summary::after in rooms.css, anders staat er bij een open punt een tweede minteken onder de titel */
+.kamer-kaart summary h3{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:0 12px;font-size:1.02rem;color:var(--ink)}   /* de lamp op haar eigen regel, de titel en het plusteken eronder */
+.kamer-kaart summary h3 .lamp{grid-column:1 / -1;justify-self:start;display:inline-flex}
+.kamer-kaart summary h3::after{content:"+";font:500 20px/1 var(--mono);color:var(--ink3)}
+.kamer-kaart details[open] summary h3::after{content:"\2212"}
+.kamer-kaart details > :not(summary){padding:8px 0 4px;max-width:none}
+.proef:empty{display:none}
+.kaart-meer{margin-top:4px;font-size:14px}
+@media(max-width:900px){.kaart{grid-template-columns:1fr}}
+
+/* ═══ KAMER WIE IS SNYMIS ═══════════════════════════════════════ */
+.snymis-split{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);margin-top:28px;align-items:start}
+.snymis-tekst p{color:var(--ink2);font-size:1.05rem}
+.snymis-tekst p+p{margin-top:16px}
+.snymis-wijken{padding:14px 16px;border:1px solid var(--line2);border-radius:12px;color:var(--ink)}
+.snymis-niet{padding:22px;border-radius:18px;background:var(--glass);border:1px solid var(--line2)}
+.snymis-niet h3{font-size:1.15rem}
+.snymis-niet p{margin-top:10px;color:var(--ink2)}
+.snymis-radar{margin-top:clamp(32px,5vw,56px);padding:24px 26px;border-radius:18px;border:1px solid rgba(138,107,255,.45);max-width:62ch}
+.snymis-radar .label{color:var(--mens)}
+.snymis-radar h3{margin-top:10px;font-size:1.2rem}
+.snymis-radar p{margin-top:12px;color:var(--ink2)}
+@media(max-width:900px){.snymis-split{grid-template-columns:1fr}.snymis-radar{padding:18px 16px}}
+@media(pointer:coarse){.stappen a,.kaart li a,.snymis-radar a{display:inline-block;padding:14px 10px;margin:-14px -10px}}
+
+/* ═══ PROEVEN IN ONDERZOEK (WP-10: lab-assistent.js, lab-reviews.js) ═══
+   Twee gescripte schetsen, elk net na de <details> van zijn punt In onderzoek
+   en zichtbaar zolang dat punt open staat. Elk
+   paneel begint met een vaste kop (sticky onder de strip) die zegt dat er
+   geen live AI achter zit. Vlakke panelen, violet voor de mens die beslist,
+   enkel opacity/transform in beweging; de typanimatie is tekst, geen CSS. */
+.kaart-meer:empty{display:none}
+.proef-paneel{margin:6px 0 12px;padding:0 0 4px;border-top:1px solid var(--line2);color:var(--ink);font-size:15px}
+.proef-paneel[hidden]{display:none}
+.proef-kop{position:sticky;top:var(--ub-kop);z-index:2;margin:0 0 10px;padding:12px 0;background:var(--bg);border-bottom:1px solid rgba(138,107,255,.45);
+  font:500 12.5px/1.45 var(--mono);letter-spacing:.02em;color:var(--mens)}   /* --ub-kop: 64px strip, 48px chip bar on the phone */
+.proef-zaak,.proef-scenario{margin-top:6px}
+.proef-paneel .label{display:block;margin-bottom:8px}
+.proef-voet{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.proef-voet .kaart-meer{margin:0}
+/* assistent: kennisblokken boven, gesprek eronder (de kaartkolom is op elk scherm smal) */
+.la-split{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;margin-top:16px}
+.la-blok{padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.03)}
+.la-blok+.la-blok{margin-top:8px}
+.la-blok h4{font:600 13.5px/1.3 var(--sans);color:var(--ink)}
+.la-blok ul{list-style:none;margin-top:6px;display:grid;gap:2px}
+.la-blok li{font-size:13.5px;color:var(--ink2)}
+.la-blok.is-bron{border-color:var(--mens)}
+.la-chips{display:flex;flex-wrap:wrap;gap:8px}
+.la-chip{min-height:44px;text-align:left;white-space:normal}
+.la-chip[aria-pressed="true"]{border-color:var(--ink2)}
+.la-log{display:grid;gap:10px;margin-top:14px;max-height:340px;overflow-y:auto;padding-right:4px}   /* geen scroll-behavior:smooth: lab-assistent.js scrolt per woord, één vloeiende scroll pas in finish() */
+.la-log:empty{display:none}
+.la-bel{max-width:92%;padding:10px 14px;border-radius:14px;font-size:15px;line-height:1.5;color:var(--ink)}
+.la-klant{justify-self:end;background:rgba(255,255,255,.1);border-bottom-right-radius:4px}
+.la-ass{justify-self:start;background:rgba(6,8,15,.75);border:1px solid var(--line2);border-bottom-left-radius:4px}
+.la-ass .la-wie{display:block;font:500 10.5px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
+.la-typ{color:var(--ink2)}
+.la-typ::after{content:"\2026"}
+.la-bron{justify-self:start;display:inline-flex;align-items:center;gap:6px;margin-top:-4px;padding:4px 10px;border-radius:6px;border:1px solid rgba(138,107,255,.45);
+  font:500 12px/1.4 var(--mono);letter-spacing:.02em;color:var(--mens)}
+.la-kaart{justify-self:start;margin-top:-2px;padding:12px 14px;border-radius:12px;border:1px solid rgba(138,107,255,.6);background:rgba(138,107,255,.08);max-width:92%}
+.la-kaart strong{display:block;font:500 12.5px/1.4 var(--mono);letter-spacing:.04em;color:var(--mens)}
+.la-kaart span{display:block;margin-top:4px;font-size:14px;color:var(--ink2)}
+.la-slot{margin-top:12px}
+/* reviews: drie kaarten, per kaart twee tonen, een tekstvak en twee even grote knoppen */
+.lr-readout{margin-top:10px;font:500 12.5px/1.6 var(--mono);letter-spacing:.02em;color:var(--ink2)}
+.lr-readout b{color:var(--ink);font-weight:600}
+.lr-lijst{display:grid;gap:14px;margin-top:14px}
+.lr-review{padding:14px 16px;border:1px solid var(--line2);border-radius:14px;background:rgba(255,255,255,.03)}
+.lr-kop{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.lr-kop strong{font-weight:600;color:var(--ink)}
+.lr-kop .small{font-size:12.5px}
+.lr-tekst{margin-top:8px;font-size:15px;color:var(--ink2)}
+.lr-tonen{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.lr-tonen .btn{min-height:44px}
+.lr-veld{display:block;margin-top:10px}
+.lr-veld span{display:block;font-size:13px;color:var(--ink2);margin-bottom:6px}
+.lr-veld textarea{width:100%;min-height:96px;padding:10px 12px;border:1px solid var(--line2);background:rgba(0,0,0,.25);border-radius:10px;font-size:15px;line-height:1.5;color:var(--ink);resize:vertical}
+.lr-veld textarea:focus{outline:none;border-color:var(--mens);box-shadow:0 0 0 3px rgba(138,107,255,.18)}
+.lr-acties{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.lr-acties .btn{justify-content:center;min-height:46px;text-align:center}
+.lr-acties .btn.is-ja{border-color:var(--mens)}
+.lr-status{margin-top:8px;min-height:1.4em}
+.lr-antwoord{margin-top:12px;padding:12px 14px;border-left:2px solid var(--mens);background:rgba(138,107,255,.06);border-radius:0 10px 10px 0}
+.lr-antwoord p{font-size:15px;color:var(--ink);white-space:pre-line}
+.lr-stempel{display:inline-block;margin-top:8px;padding:3px 8px;border:1px solid rgba(138,107,255,.5);border-radius:6px;font:500 11.5px/1.4 var(--mono);letter-spacing:.04em;color:var(--mens)}
+.lr-antwoord .btn-sm{margin-top:10px}
+@media(pointer:coarse){.lr-acties .btn,.lr-tonen .btn,.la-chip{min-height:48px}}

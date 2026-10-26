@@ -1,30 +1,47 @@
 <!doctype html>
-<!-- Source for docs/assets/img/og.png (link previews). Render at 1200x630 while docs/ is served on :8899. -->
-<html><head><meta charset="utf-8">
-<link rel="stylesheet" href="http://localhost:8899/assets/css/fonts.css">
+<!-- Bron van docs/assets/img/og.png (de afbeelding bij een gedeelde link: WhatsApp, Facebook, LinkedIn).
+     Compositie zoals de startpagina: de SVG-nachtstad van de SVG-route (docs/assets/img/plattegrond.svg) met het
+     uithangbord op het landmark, verlicht met 'Jouw zaak' in Panchang-cyaan, en linksonder het vlakke aankomstpaneel
+     met wat STS is. Fonts en stad komen via relatieve paden uit docs/, dus dit bestand werkt rechtstreeks vanaf schijf.
+     Lokale stap (na elke wijziging hier of aan de skyline): node scripts/og-render.mjs
+     Dat script opent dit bestand in Chromium op 1200x630, wacht op de fonts, schrijft docs/assets/img/og.png en
+     controleert de maat (1200x630) en het gewicht (onder 300 kB). Tekst hier volgt copy-regels.md. -->
+<html lang="nl-BE"><head><meta charset="utf-8">
+<title>og.png: Jouw zaak op het bord</title>
+<link rel="stylesheet" href="../docs/assets/css/fonts.css">
 <style>
   html,body{margin:0;width:1200px;height:630px;overflow:hidden;background:#06080F;color:#F2F5FF}
-  .wrap{position:relative;width:1200px;height:630px;box-sizing:border-box;padding:72px 80px;
-    background:radial-gradient(60% 55% at 72% 45%,rgba(54,232,255,.16),transparent 70%),radial-gradient(45% 45% at 20% 90%,rgba(138,107,255,.14),transparent 70%)}
-  .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(242,245,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(242,245,255,.05) 1px,transparent 1px);background-size:80px 80px;mask-image:linear-gradient(to bottom,transparent,#000 35%)}
-  .label{position:relative;font:500 15px/1 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(242,245,255,.5)}
-  h1{position:relative;font:700 62px/1.04 'Panchang','Unbounded',sans-serif;letter-spacing:-.01em;margin:30px 0 0;max-width:760px}
-  h1 em{font-style:normal;color:#36E8FF;text-shadow:0 0 28px rgba(54,232,255,.45)}
-  .brand{position:absolute;left:80px;bottom:112px;font:600 22px/1 'Panchang','Unbounded',sans-serif;letter-spacing:.04em;display:flex;align-items:center;gap:10px}
-  .slogan{position:absolute;left:80px;bottom:68px;font:500 14px/1 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:rgba(242,245,255,.5)}
+  .wrap{position:relative;width:1200px;height:630px;overflow:hidden}
+  /* de stad: 1,3 keer de viewBox van 1200x800, zo gelegd dat het bord gecentreerd boven het landmark staat */
+  .stad{position:absolute;left:-180px;top:-150px;width:1560px;height:1040px;display:block}
+  /* het bord: de rechthoek van #landmark-bord (440..760 x 190..276 in de viewBox) na die schaal */
+  .bord{position:absolute;left:392px;top:97px;width:416px;height:112px;display:grid;place-items:center;
+    font:700 46px/1 'Panchang','Unbounded',sans-serif;letter-spacing:.01em;color:#36E8FF;white-space:nowrap;
+    text-shadow:0 0 18px #36E8FF,0 0 48px rgba(54,232,255,.55)}
+  .gloed{position:absolute;left:342px;top:47px;width:516px;height:212px;border-radius:50%;
+    background:radial-gradient(closest-side,rgba(54,232,255,.22),rgba(54,232,255,0))}
+  /* het aankomstpaneel: vlak, 1px lijn, zoals .gevel-aankomst op de startpagina */
+  .paneel{position:absolute;left:72px;bottom:64px;width:580px;padding:30px 34px 28px;box-sizing:border-box;
+    background:rgba(6,8,15,.92);border:1px solid rgba(242,245,255,.14);border-radius:22px}
+  .label{font:500 14px/1 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(242,245,255,.52)}
+  h1{margin:16px 0 0;font:600 34px/1.18 'Panchang','Unbounded',sans-serif;letter-spacing:-.005em}
+  p{margin:14px 0 0;font:400 20px/1.45 'Switzer',system-ui,sans-serif;color:rgba(242,245,255,.74);max-width:30em}
+  .merk{position:absolute;right:72px;bottom:64px;text-align:right;padding:16px 20px;border-radius:16px;background:rgba(6,8,15,.8)}
+  .brand{font:600 22px/1 'Panchang','Unbounded',sans-serif;letter-spacing:.04em;display:flex;align-items:center;justify-content:flex-end;gap:10px}
   .st{display:inline-block;width:10px;height:10px;background:#36E8FF;clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%)}
-  svg{position:absolute;right:60px;top:70px;width:420px;height:420px}
+  .slogan{margin-top:14px;font:500 13px/1 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:rgba(242,245,255,.5)}
 </style></head>
-<body><div class="wrap"><div class="grid"></div>
-  <div class="label">STS Digital &middot; Antwerpen</div>
-  <h1>Jouw zaak, zichtbaar tot in de <em>sterren</em>.</h1>
-  <div class="brand">STAR<span class="st"></span>TEC<span class="st"></span>SOLUTIONS</div>
-  <div class="slogan">Where imagination can reach up to the stars.</div>
-  <svg viewBox="0 0 100 100">
-    <defs><linearGradient id="t" gradientUnits="userSpaceOnUse" x1="22" y1="82" x2="72" y2="20"><stop offset="0" stop-color="#36E8FF" stop-opacity="0"/><stop offset=".3" stop-color="#36E8FF" stop-opacity=".55"/><stop offset=".8" stop-color="#36E8FF"/><stop offset="1" stop-color="#FFFFFF"/></linearGradient>
-    <radialGradient id="g"><stop offset="0" stop-color="#36E8FF" stop-opacity=".5"/><stop offset="1" stop-color="#36E8FF" stop-opacity="0"/></radialGradient></defs>
-    <circle cx="72" cy="20" r="26" fill="url(#g)"/>
-    <path d="M21.87,82.38 L26.46,83.92 L30.78,85.10 L34.83,85.94 L38.62,86.44 L42.15,86.63 L45.42,86.54 L48.44,86.17 L51.21,85.56 L53.72,84.71 L55.98,83.64 L58.00,82.37 L59.75,80.92 L61.25,79.31 L62.49,77.55 L63.45,75.68 L64.15,73.72 L64.57,71.68 L64.71,69.59 L64.57,67.48 L64.15,65.38 L63.45,63.31 L62.47,61.29 L61.20,59.36 L59.65,57.54 L57.82,55.85 L55.72,54.32 L53.35,52.98 L50.74,51.86 L48.48,50.89 L46.44,49.76 L44.60,48.48 L42.97,47.09 L41.55,45.59 L40.33,44.01 L39.33,42.38 L38.55,40.72 L37.97,39.05 L37.61,37.40 L37.46,35.78 L37.51,34.22 L37.76,32.74 L38.20,31.34 L38.83,30.02 L39.65,28.80 L40.68,27.66 L41.92,26.61 L43.40,25.66 L45.15,24.81 L47.20,24.10 L49.56,23.54 L52.24,23.17 L55.27,23.01 L58.64,23.09 L62.37,23.43 L66.45,24.07 L70.94,25.04 L73.06,14.96 L68.04,14.13 L63.31,13.63 L58.90,13.47 L54.81,13.62 L51.02,14.08 L47.54,14.82 L44.36,15.84 L41.49,17.12 L38.94,18.66 L36.71,20.42 L34.83,22.39 L33.29,24.53 L32.11,26.80 L31.30,29.16 L30.82,31.57 L30.69,34.00 L30.86,36.40 L31.33,38.77 L32.08,41.08 L33.09,43.30 L34.35,45.43 L35.85,47.44 L37.58,49.33 L39.52,51.06 L41.67,52.63 L44.02,54.01 L46.56,55.19 L49.26,56.14 L51.55,56.94 L53.58,57.90 L55.39,59.03 L56.98,60.28 L58.35,61.66 L59.50,63.13 L60.42,64.69 L61.13,66.31 L61.61,67.99 L61.86,69.69 L61.88,71.41 L61.67,73.12 L61.22,74.80 L60.51,76.45 L59.56,78.02 L58.35,79.51 L56.87,80.89 L55.11,82.14 L53.09,83.23 L50.78,84.13 L48.18,84.83 L45.31,85.28 L42.15,85.47 L38.71,85.37 L34.99,84.97 L30.98,84.22 L26.70,83.12 L22.13,81.62 Z" fill="url(#t)"/>
-    <polygon points="72.00,6.00 74.18,17.82 86.00,20.00 74.18,22.18 72.00,34.00 69.82,22.18 58.00,20.00 69.82,17.82" fill="#FFFFFF"/>
-  </svg>
+<body><div class="wrap">
+  <img class="stad" src="../docs/assets/img/plattegrond.svg" alt="">
+  <div class="gloed"></div>
+  <div class="bord">Jouw zaak</div>
+  <div class="paneel">
+    <div class="label">STS Digital &middot; Antwerpen</div>
+    <h1>Websites met eerst een gratis voorbeeld.</h1>
+    <p>Typ de naam van je zaak op het bord. Gratis gereedschap en onderzoek naar AI die werk overneemt van kleine zaken. Snymis leest elk bericht zelf.</p>
+  </div>
+  <div class="merk">
+    <div class="brand">STAR<span class="st"></span>TEC<span class="st"></span>SOLUTIONS</div>
+    <div class="slogan">Where imagination can reach up to the stars.</div>
+  </div>
 </div></body></html>

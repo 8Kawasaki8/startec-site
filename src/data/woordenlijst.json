@@ -1,0 +1,296 @@
+{
+  "regels": "De woordenlijst van de site (WP-12), de enige bron voor scripts/qa/woorden.mjs: lint-copy.mjs leest ze statisch op src/pages, src/partials, src/rooms, docs/wijk en docs/dev; checks.mjs leest dezelfde regels op de gerenderde tekst van elke pagina in de QA-matrix. De uitleg staat in copy-regels.md (hoofdstuk Stemmen en Gereedschap). Structuur: 'voices.exempt' zijn de data-voice-waarden waarin niet STS spreekt (de regels onder 'sts' gelden er niet; FAQ-vragen in details>summary zijn ook vrij). 'sts' zijn regels in STS-stem: pattern en flags zoals voor RegExp, 'legalOk' staat het woord toe op de vier juridische pagina's, 'scope' beperkt een regel tot een plek: 'gevel' (#gevel of [data-room=gevel]) en 'wijk' (docs/wijk/*.html buiten [data-sfeerzin]). 'sim.forbidden' geldt alleen binnen [data-sim]; 'sim.required' is het label dat elke [data-sim]-kamer zichtbaar moet dragen (een van beide woorden); 'sim.perRoom' zijn de woorden die een bepaalde simulatiekamer allemaal moet bevatten, met als sleutel data-proef-bron, het id van het element of de bestandsnaam van de kamer (src/rooms/<naam>.html). 'stars': vijf gevulde sterren enkel met het woord 'voorbeeld' in hetzelfde blok. Een regel toevoegen: hier, nooit in de code; daarna npm run lint en npm run lint:selftest (de fixture moet precies drie fouten geven).",
+  "voices": {
+    "exempt": [
+      "visitor",
+      "customer",
+      "pand",
+      "qa"
+    ],
+    "uitleg": {
+      "visitor": "tekst die de uitbater zelf schrijft of verstuurt: de voorinvulling van het Bericht, de deeltekst, de titel en beschrijving in het Google-voorbeeld, de afwezigheidstekst van de openingsuren-check; daar mag 'jullie' staan omdat hij het tegen ons zegt",
+      "customer": "wat een klant tegen een zaak zegt: de klantvragen in de proef van de assistent en het WhatsApp-bericht dat de klant naar de zaak stuurt",
+      "qa": "het QA-rapport (docs/qa-report.html) citeert bevindingen en is geen sitecopy",
+      "pand": "de verzonnen oude site van een pand in De straat (docs/assets/img/oud-*.svg, inline via builddata.py): de stem van die zaak uit 2011, met opzet fout ('klik hier', geen belknop); niet onze stem"
+    }
+  },
+  "sts": [
+    {
+      "id": "euro-teken",
+      "pattern": "€",
+      "note": "geen prijzen of prijsankers op de site"
+    },
+    {
+      "id": "euro",
+      "pattern": "\\beuro\\b",
+      "flags": "i",
+      "legalOk": true,
+      "note": "geen prijzen buiten de juridische pagina's"
+    },
+    {
+      "id": "prijsanker",
+      "pattern": "\\bvanaf\\s+\\d+[\\d.,]*\\s*euro\\b|\\bwaarde\\s+(van\\s+)?\\d+[\\d.,]*\\s*euro\\b|\\bgratis!",
+      "flags": "i",
+      "legalOk": true,
+      "note": "geen prijsanker en geen 'gratis!'; schrijf 'kosteloos voorbeeld, zonder verplichting'"
+    },
+    {
+      "id": "gegarandeerd",
+      "pattern": "\\bgegarandeerd\\b|\\bgaranderen\\b|\\bgarandeert\\b",
+      "flags": "i",
+      "legalOk": true,
+      "note": "geen garanties beloven"
+    },
+    {
+      "id": "plaatsen",
+      "pattern": "\\bnog\\s+\\d+\\s+plaatsen\\b|\\bnog\\s+\\d+\\s+plekken\\b",
+      "flags": "i",
+      "note": "geen schaarste"
+    },
+    {
+      "id": "urgentie",
+      "pattern": "\\blaatste kans\\b|\\bbeperkte tijd\\b|\\bnu of nooit\\b|\\b(alleen|enkel) vandaag\\b|\\bop\\s*=\\s*op\\b|\\bwacht niet langer\\b",
+      "flags": "i",
+      "note": "geen urgentie of schaarste"
+    },
+    {
+      "id": "teller",
+      "pattern": "\\breeds\\s+\\d+\\s+(zaken|klanten|websites|sites)\\b|\\bal\\s+\\d+\\s+(zaken|klanten|websites|sites)\\s+(geholpen|gebouwd)\\b",
+      "flags": "i",
+      "note": "geen tellers die niet kloppen"
+    },
+    {
+      "id": "verzonden-staat",
+      "pattern": "\\bVerzonden\\b|\\bVerstuurd!",
+      "flags": "",
+      "note": "nooit een 'Verzonden'-staat zonder echt succes: het formulier opent de mail- of WhatsApp-app"
+    },
+    {
+      "id": "ons-team",
+      "pattern": "\\bons team\\b|\\bons hele team\\b|\\bhet team van\\b",
+      "flags": "i",
+      "note": "STS is een persoon met agents, geen team"
+    },
+    {
+      "id": "medewerker",
+      "pattern": "\\been medewerker\\b|\\bonze medewerkers?\\b|\\been collega van ons\\b",
+      "flags": "i",
+      "note": "Snymis leest zelf; er is geen medewerker"
+    },
+    {
+      "id": "mobieltje",
+      "pattern": "\\bmobieltjes?\\b",
+      "flags": "i",
+      "note": "nl-BE: gsm"
+    },
+    {
+      "id": "leuk",
+      "pattern": "\\bleuk(e|er|st|ste)?\\b",
+      "flags": "i",
+      "note": "nl-BE toonregel: zeg wat het doet, niet dat het leuk is"
+    },
+    {
+      "id": "doei",
+      "pattern": "\\bdoei\\b",
+      "flags": "i",
+      "note": "nl-BE toonregel"
+    },
+    {
+      "id": "nl-nl",
+      "pattern": "\\bhartstikke\\b|\\bgaaf\\b|\\bpinnen\\b|\\bpinpas\\b|\\bpinautomaat\\b|\\bjus d'orange\\b|\\bzeg maar\\b",
+      "flags": "i",
+      "note": "nl-NL: de site spreekt Antwerps Nederlands (Bancontact, fruitsap)"
+    },
+    {
+      "id": "kvk",
+      "pattern": "\\bKvK\\b",
+      "flags": "",
+      "note": "nl-NL: in België is het de KBO"
+    },
+    {
+      "id": "ideal",
+      "pattern": "\\biDEAL\\b",
+      "flags": "",
+      "note": "nl-NL: in België Bancontact of Payconiq"
+    },
+    {
+      "id": "randstad",
+      "pattern": "\\bRandstad\\b",
+      "flags": "i",
+      "note": "nl-NL: de site is voor Antwerpen en Vlaanderen"
+    },
+    {
+      "id": "ai-powered",
+      "pattern": "AI-powered|AI-gedreven|AI-gestuurd|powered by",
+      "flags": "i",
+      "note": "geen marketingjargon"
+    },
+    {
+      "id": "ai-systemen",
+      "pattern": "\\bAI-syste(e)?m(en)?\\b",
+      "flags": "",
+      "legalOk": true,
+      "note": "geen 'AI-systemen' als dienst: wat er is heet verkenner, bouwer, onderzoek (juridische tekst wacht op het OK van de oprichter, CHECKLIST-SAKI punt 4)"
+    },
+    {
+      "id": "automatisering",
+      "pattern": "\\bautomatisering\\b|\\bautomatiseren\\b",
+      "flags": "i",
+      "legalOk": true,
+      "note": "geen 'automatisering' als dienst; zeg wat het werk is dat overgenomen wordt"
+    },
+    {
+      "id": "leads",
+      "pattern": "\\bleads?\\b|\\bleadgeneratie\\b",
+      "flags": "i",
+      "note": "geen verkoopjargon: klanten, aanvragen, berichten"
+    },
+    {
+      "id": "funnel",
+      "pattern": "\\bfunnels?\\b",
+      "flags": "i",
+      "note": "geen verkoopjargon"
+    },
+    {
+      "id": "conversie",
+      "pattern": "\\bconversies?\\b|\\bconverteren\\b",
+      "flags": "i",
+      "note": "geen verkoopjargon"
+    },
+    {
+      "id": "onboarding",
+      "pattern": "\\bonboarding\\b",
+      "flags": "i",
+      "note": "geen verkoopjargon"
+    },
+    {
+      "id": "engels-jargon",
+      "pattern": "\\bsmart\\b|\\bseamless\\b|\\bcutting-edge\\b|\\bstate-of-the-art\\b|\\bgame ?changer\\b|\\bnext level\\b|\\bboost(en|er)?\\b|\\ball-in-one\\b|\\bpremium\\b|\\bROI\\b|\\bKPI's?\\b|\\bcall to action\\b|\\bbooking\\b",
+      "flags": "i",
+      "note": "geen Engelse marketingtermen; schrijf in de woorden van de uitbater"
+    },
+    {
+      "id": "slim",
+      "pattern": "\\bslim(me|mer|ste)?\\b",
+      "flags": "i",
+      "note": "geen marketingjargon ('slimme website')"
+    },
+    {
+      "id": "revolutionair",
+      "pattern": "\\brevolutionair(e)?\\b|\\bbaanbrekend(e)?\\b|\\binnovatie(f|ve)\\b",
+      "flags": "i",
+      "note": "geen marketingjargon"
+    },
+    {
+      "id": "solutions",
+      "pattern": "\\bsolutions\\b",
+      "flags": "",
+      "note": "geen marketingjargon (de merknaam Star.Tec.Solutions schrijft het met hoofdletter)"
+    },
+    {
+      "id": "klik-hier",
+      "pattern": "\\bklik hier\\b",
+      "flags": "i",
+      "note": "een link zegt waar hij heen gaat"
+    },
+    {
+      "id": "jullie",
+      "pattern": "\\bjullie\\b",
+      "flags": "i",
+      "note": "STS spreekt een uitbater nooit met jullie aan (bezoekers- en klantenstem zijn vrij: data-voice)"
+    },
+    {
+      "id": "gevel-belofte",
+      "pattern": "\\bgarantie\\b|\\blive uit je agenda\\b|\\b24 uur\\b|\\b24/7\\b|\\bagenda-koppeling\\b",
+      "flags": "i",
+      "scope": "gevel",
+      "note": "de gevelschets belooft geen garantie, agenda-koppeling of 24 uur"
+    },
+    {
+      "id": "wijk-sfeer",
+      "pattern": "\\b(gezellig|bruisend|authentiek|levendig)(e|er|ste)?\\b",
+      "flags": "i",
+      "scope": "wijk",
+      "note": "geen verzonnen lokale kleur op een wijkpagina; alleen de sfeerzin van de oprichter mag dat zeggen"
+    },
+    {
+      "id": "wijk-teller",
+      "pattern": "\\b\\d+\\s+(zaken|klanten|handelaars|uitbaters|bezoekers)\\b|\\breeds\\s+\\d+\\b",
+      "flags": "i",
+      "scope": "wijk",
+      "note": "geen tellers op een wijkpagina"
+    }
+  ],
+  "sim": {
+    "forbidden": [
+      {
+        "id": "studie",
+        "pattern": "\\bstudies?\\b",
+        "flags": "i",
+        "note": "geen studies aanhalen in een simulatie"
+      },
+      {
+        "id": "onderzoek-toont",
+        "pattern": "\\bonderzoek (toont|wijst uit|bewijst)\\b",
+        "flags": "i",
+        "note": "geen onderzoeksclaims in een simulatie"
+      },
+      {
+        "id": "rapport",
+        "pattern": "\\brapport(en)?\\b",
+        "flags": "i",
+        "note": "geen rapporten aanhalen in een simulatie"
+      },
+      {
+        "id": "statistiek",
+        "pattern": "\\bstatistiek(en)?\\b|\\bvolgens (de )?cijfers van\\b|\\bgemiddeld verliest\\b",
+        "flags": "i",
+        "note": "geen sectorcijfers als dreigement in een simulatie; verzonnen cijfers heten verzonnen"
+      }
+    ],
+    "required": [
+      "gesimuleerd",
+      "fictief"
+    ],
+    "perRoom": {
+      "telefoon": [
+        "gesimuleerd",
+        "verzonnen",
+        "scenario"
+      ],
+      "doorlichting": [
+        "verzonnen",
+        "gesimuleerd",
+        "Snymis"
+      ],
+      "radar": [
+        "verzonnen",
+        "fictief",
+        "simulatie",
+        "Snymis"
+      ],
+      "straat": [
+        "verzonnen",
+        "fictief"
+      ],
+      "kaartje-google": [
+        "fictief",
+        "voorbeeld"
+      ],
+      "assistent": [
+        "gesimuleerd",
+        "gescript",
+        "verzonnen"
+      ],
+      "reviews": [
+        "gesimuleerd",
+        "gescript",
+        "verzonnen"
+      ]
+    }
+  },
+  "stars": {
+    "pattern": "(?:[\\u2605\\u2B50\\uD83C\\uDF1F]\\s*){5}",
+    "required": "voorbeeld"
+  }
+}

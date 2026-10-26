@@ -1,0 +1,22 @@
+/* Wijkpagina's (docs/wijk/<slug>.html, WP-13): een tekstpagina met één dominant element, de titel,
+   en één knop naar de gevel. Geen scène, geen panelen boven de stad; de sfeerzin van de oprichter
+   staat apart met de violette lijn van de mens. Tokens uit base.css. */
+.wijk{padding-bottom:clamp(40px,6vw,72px)}
+.wijk .label{display:block;margin-bottom:16px}
+.wijk h1{max-width:18ch}
+.wijk .lede{max-width:44em}
+.wijk-uitleg{margin-top:22px;color:var(--ink2);max-width:62ch}
+.wijk p a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(54,232,255,.45)}
+.wijk p a:hover{text-decoration-color:var(--cyan)}
+.wijk-sfeer{margin-top:26px;padding:18px 0 18px 22px;border-left:2px solid var(--mens);max-width:52ch;color:var(--ink)}
+.wijk-sfeer .label{display:block;margin-bottom:8px;color:var(--mens)}
+.wijk-langs{margin-top:22px;color:var(--ink2);max-width:62ch}
+.wijk-actie{margin-top:clamp(32px,5vw,56px);padding-top:28px;border-top:1px solid var(--line);max-width:62ch}
+.wijk-actie .ctas{margin-top:18px}
+.wijk-actie .small{margin-top:12px}
+.wijk-teaser{padding-top:0}
+.wijk-teaser-in{padding-top:clamp(32px,5vw,56px);border-top:1px solid var(--line);max-width:62ch}
+.wijk-teaser-in .label{display:block;margin-bottom:12px}
+.wijk-teaser-in h2{font-size:clamp(1.4rem,2.4vw,2rem)}
+.wijk-teaser-in p{margin-top:14px;color:var(--ink2)}
+.wijk-teaser-in .btn{margin-top:20px}

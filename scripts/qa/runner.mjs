@@ -125,7 +125,7 @@ export async function runOne(browser, run, env) {
     if (!demo) for (const k of C.storageViolations(info.storage)) issue('storage', `opslagsleutel buiten de afspraak: ${k}`);
     if (run.page.startsWith('index') && !info.pointer) issue('profile', 'pointer-media niet leesbaar');
 
-    const scan = await tab.evaluate(C.textScan, { rules: env.rules, cfg: { demo, legal } });
+    const scan = await tab.evaluate(C.textScan, { rules: env.rules, cfg: { demo, legal, wijk: run.page.startsWith('wijk/') } });
     rec.forbiddenText = scan.forbidden;
     for (const f of scan.forbidden) issue('copy', `'${f.match}' in ${f.where} (${f.note})`, { rule: f.rule, where: f.where });
     for (const s of scan.simMissing) issue('sim-required', `[data-sim] ${s} bevat 'gesimuleerd' noch 'fictief'`);

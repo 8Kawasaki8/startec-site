@@ -1,6 +1,8 @@
 // In-page checks for the QA harness. Every function here is either an init script
 // or a page.evaluate body; qa.mjs wires them to Playwright.
 import { gzipSync } from 'node:zlib';
+import { readFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { LOCAL_HOSTS, PAGES_HOST, STORAGE_ALLOW } from './profiles.mjs';
 
 /** Injected before any page script: counters, event log, sts-pre (except in the 'intro' variant), hardwareConcurrency. */
@@ -138,11 +140,13 @@ export function textScan({ rules, cfg }) {
     const faq = !!el.closest('details > summary');
     const sim = !!el.closest('[data-sim]');
     const gevel = !!el.closest('#gevel, [data-room=gevel]');
+    const wijk = !!cfg.wijk && !el.closest('[data-sfeerzin]');   // WP-13: scope 'wijk' = a wijk page, outside the founder's sentence
     const where = name(el);
     if (!exempt && !faq && !cfg.demo) {
       for (const r of rules.sts) {
         if (r.legalOk && cfg.legal) continue;
         if (r.scope === 'gevel' && !gevel) continue;
+        if (r.scope === 'wijk' && !wijk) continue;
         const m = new RegExp(r.pattern, r.flags.replace('g', '')).exec(t);
         if (m && !seen.has(r.id + where)) { seen.add(r.id + where); out.push({ rule: r.id, match: m[0], where, note: r.note }); }
       }
@@ -252,4 +256,67 @@ export function measure(bytes, type, body) {
   bytes.byType[type] = (bytes.byType[type] || 0) + n;
   if (type === 'script' && body) bytes.jsGzip += gzipSync(body).length;
   return bytes;
+}
+
+/** WP-09: the small schema of the three content files of werkwijze.html. Each entry returns a list of
+ *  problems for a parsed file; checkDataFiles(root) runs them and reports missing files too. */
+const str = (v) => typeof v === 'string' && v.trim().length > 0;
+export const DATA_SCHEMAS = {
+  'panden.json': (d) => {
+    const out = [];
+    if (!Array.isArray(d.panden) || !d.panden.length) return ['panden moet een niet-lege lijst zijn'];
+    d.panden.forEach((p, i) => {
+      for (const k of ['slug', 'naam', 'gemeente', 'sector', 'kleur', 'ondertitel', 'demo']) if (!str(p[k])) out.push(`panden[${i}].${k} ontbreekt`);
+      if (typeof p.consent !== 'boolean') out.push(`panden[${i}].consent moet true of false zijn (toestemming van een echte klant)`);
+      if (p.consent === true) {   // a real client: only an approved sentence, no invented old-site data
+        if (p.zin !== undefined && typeof p.zin !== 'string') out.push(`panden[${i}].zin moet een tekst zijn (de zin die de klant goedkeurde)`);
+      } else {
+        for (const k of ['oud', 'beeld']) if (!str(p[k])) out.push(`panden[${i}].${k} ontbreekt`);
+        if (!Array.isArray(p.probeer) || p.probeer.length !== 3 || !p.probeer.every(str)) out.push(`panden[${i}].probeer moet precies drie zinnen zijn`);
+      }
+    });
+    if (new Set(d.panden.map(p => p.slug)).size !== d.panden.length) out.push('slugs moeten uniek zijn');
+    return out;
+  },
+  'capabilities.json': (d) => {
+    const out = [], want = { vandaag: 5, prototype: 3, onderzoek: 4 };
+    if (!Array.isArray(d.lampen)) return ['lampen moet een lijst zijn'];
+    for (const [id, n] of Object.entries(want)) {
+      const lamp = d.lampen.find(l => l.id === id);
+      if (!lamp) { out.push(`lamp ${id} ontbreekt`); continue; }
+      if (!str(lamp.token)) out.push(`lamp ${id}: token ontbreekt`);
+      if (!Array.isArray(lamp.items) || lamp.items.length !== n) out.push(`lamp ${id}: precies ${n} punten verwacht, ${Array.isArray(lamp.items) ? lamp.items.length : 0} gevonden`);
+      for (const it of lamp.items || []) {
+        if (id === 'vandaag' && !str(it.html)) out.push('lamp vandaag: punt zonder html');
+        if (id === 'prototype' && (!str(it.naam) || !str(it.zin) || !it.zin.startsWith(it.naam))) out.push(`lamp prototype: punt ${it.naam || '?'} heeft geen zin die met de naam begint`);
+        if (id === 'onderzoek') for (const k of ['id', 'titel', 'tekst', 'bericht', 'onderwerp', 'cta']) if (!str(it[k])) out.push(`lamp onderzoek: punt ${it.id || '?'} mist ${k}`);
+      }
+      if (id === 'prototype' && !(str(lamp.voet) && /niet op deze site/.test(lamp.voet))) out.push("lamp prototype: voet moet 'niet op deze site' bevatten");
+    }
+    if (d.lampen.length !== 3) out.push(`precies drie lampen verwacht, ${d.lampen.length} gevonden`);
+    return out;
+  },
+  'radar-bericht.json': (d) => {
+    const out = [];
+    if (typeof d.echt !== 'boolean') out.push('echt moet true of false zijn');
+    if (!d.label || !str(d.label.ontwerp) || !str(d.label.echt)) out.push('label.ontwerp en label.echt ontbreken');
+    if (!str(d.onderwerp)) out.push('onderwerp ontbreekt');
+    if (!Array.isArray(d.regels) || d.regels.length < 3 || !d.regels.every(str)) out.push('regels moet minstens drie zinnen zijn');
+    const text = [d.onderwerp, ...(d.regels || [])].join(' ');
+    if (/\b(je|jij|jou|jouw)\b/i.test(text)) out.push('de brief is in u-vorm: geen je, jij, jou of jouw');
+    if (/€|\beuro\b|verzonden|de echte formule/i.test(text)) out.push("de brief noemt geen prijs en bevat 'verzonden' noch 'de echte formule'");
+    return out;
+  },
+};
+
+export function checkDataFiles(root = process.cwd()) {
+  const out = [];
+  for (const [name, check] of Object.entries(DATA_SCHEMAS)) {
+    const file = `src/data/${name}`, abs = join(root, file);
+    if (!existsSync(abs)) { out.push({ check: 'data', file, text: `${file} ontbreekt`, severity: 'fail' }); continue; }
+    let data;
+    try { data = JSON.parse(readFileSync(abs, 'utf8')); } catch (e) { out.push({ check: 'data', file, text: `${file} is geen geldige JSON: ${e.message}`, severity: 'fail' }); continue; }
+    for (const text of check(data)) out.push({ check: 'data', file, text, severity: 'fail' });
+  }
+  return out;
 }

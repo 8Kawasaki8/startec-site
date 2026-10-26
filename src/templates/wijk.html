@@ -1,0 +1,38 @@
+<!--
+title: Een website voor je zaak in {{naam}}, eerst een voorbeeld — Star.Tec.Solutions
+description: Een zaak in {{naam}} zonder goede website? STS Digital uit Antwerpen bouwt eerst een werkend voorbeeld met wat je zelf al openbaar maakte, kosteloos en zonder verplichting. Snymis leest elk bericht zelf; er vertrekt niets automatisch.
+nav: none
+updated: 2026-10-26
+styles: wijk
+scripts: reveal lite uithangbord
+-->
+<!-- Template van de wijkpagina's (WP-13): scripts/buildwijk.py vult {{naam}}, {{naam-url}}, {{soortlabel}},
+     {{soortzin}}, {{rond}} en {{sectoren}} uit src/data/wijken.json en laat de regels {{sfeerzin}} en {{langs}}
+     weg wanneer er niets te zeggen valt (lege sfeerzin; config.wijken noemt de naam niet). Geen cijfers,
+     geen verzonnen lokale kleur: lint-copy bewaakt dat op docs/wijk/*.html. -->
+<main id="main" class="page" style="padding-top:72px">
+<section class="sec wijk" aria-labelledby="wijk-h1">
+  <p class="label">{{soortlabel}}</p>
+  <h1 id="wijk-h1">Een website voor je zaak in {{naam}}, eerst een voorbeeld</h1>
+  <p class="lede">{{naam}} is {{soortzin}}. Je vindt er wat je in elke buurt {{rond}} vindt: {{sectoren}}. Zaken waar klanten &rsquo;s avonds, als de deur al dicht is, op hun gsm naar zoeken. Ze willen dan drie dingen: bellen, een berichtje sturen en weten of je morgen open bent.</p>
+  <p class="wijk-uitleg">Zo werkt het bij ons. Een verkenner zoekt in Vlaanderen, dus ook in {{naam}}, zaken die klanten &rsquo;s avonds niet of slecht vinden. Een bouwer maakt daarvan een werkend voorbeeld, kosteloos en zonder verplichting, enkel met wat de zaak zelf al openbaar maakte: haar Google-profiel, openingsuren en adres. Dat voorbeeld staat niet in zoekmachines en wordt alleen met de zaak zelf gedeeld. Snymis leest elk bericht voor het vertrekt; er vertrekt niets automatisch. Hoe we met die publieke gegevens omgaan, staat in onze <a href="privacy.html">privacyverklaring</a>.</p>
+{{sfeerzin}}
+{{langs}}
+  <div class="wijk-actie">
+    <p>Liever niet wachten tot de verkenner bij jou uitkomt? Typ je zaak zelf op de gevel; {{naam}} staat dan al ingevuld.</p>
+    <div class="ctas">
+      <a class="pill primair" href="index.html?gemeente={{naam-url}}#gevel">Typ je zaak op de gevel</a>
+    </div>
+    <p class="small">Blijft in je browser. We sturen niets.</p>
+  </div>
+</section>
+
+<section class="sec wijk-teaser" aria-labelledby="wijk-tel">
+  <div class="wijk-teaser-in">
+    <p class="label">Verder in de straat</p>
+    <h2 id="wijk-tel">De telefoon om 19 u</h2>
+    <p>Wat gebeurt er als een klant om 19 u belt en niemand opneemt? Speel een dinsdag na in een verzonnen zaak uit jouw sector, gesimuleerd, met een belknop en een WhatsApp-knop die je zelf aan- en uitzet.</p>
+    <a class="btn btn-line" href="index.html#telefoon">Speel de dinsdag</a>
+  </div>
+</section>
+</main>

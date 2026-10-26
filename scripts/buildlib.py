@@ -1,6 +1,6 @@
 """Helpers for scripts/build.py, stdlib only: front matter, the Uithangbord (doors), rooms,
-redirect stubs, OG and JSON-LD markup, inline SVG, link prefixing, data copies, the wijk
-hook and the sitemap. build.py owns the page loop and the command line; nothing here
+redirect stubs, OG and JSON-LD markup, inline SVG, link prefixing, data copies and the
+sitemap (the wijk pages live in buildwijk.py, WP-13). build.py owns the page loop and the command line; nothing here
 reads argv or prints."""
 import datetime, json, pathlib, re, shutil
 
@@ -96,13 +96,14 @@ def redirect_stub(target, meta, base, up):
     """A 20-line page for an address that moved: meta refresh 0, canonical to the target, a visible link
     and a short script that carries ?query and #hash along (the visitor's own hash wins over the target's)."""
     href = up + target
-    label = next((d[1] for d in DOORS + [ACTION] if d[0] == target), target)
+    label = next((d[1] for d in DOORS + [ACTION] if d[0].partition("#")[0] == target.partition("#")[0]), target)   # the door of the landing page
     return "\n".join([
         '<!doctype html><html lang="nl-BE">',
         "<head>",
         '<meta charset="utf-8">',
         '<meta name="viewport" content="width=device-width, initial-scale=1">',
         "<title>%s</title>" % meta["title"],
+        '<meta name="description" content="%s">' % meta["description"],
         '<meta name="robots" content="noindex">',
         '<meta http-equiv="refresh" content="0; url=%s">' % href,
         '<link rel="canonical" href="%s">' % ((base + target) if base else href),
@@ -200,22 +201,25 @@ def prefix_links(html, up):
     return re.sub(r'((?:href|src)=")(?!https?:|//|#|/|mailto:|tel:|data:|\.\./)', r"\1" + up, html)
 
 
+DATA_PUBLIC_JSON = ()   # JSON a page fetches at runtime; today none: every JSON is rendered at build time
+
+
 def copy_data():
-    """src/data/*.json and *.js -> docs/assets/data/ (content files stay apart from code). Returns the count."""
+    """src/data/*.js (loaded by a page as a script) and the JSON in DATA_PUBLIC_JSON -> docs/assets/data/.
+    The other JSON (woordenlijst, panden, capabilities, radar-bericht, wijken) is build-time input with
+    internal notes and stays out of docs/; a stale copy from an earlier build is removed. Returns the count."""
     src = SRC / "data"
-    files = sorted(p for p in src.glob("*") if p.suffix in (".json", ".js") and p.is_file()) if src.is_dir() else []
+    files = sorted(p for p in src.glob("*") if p.is_file() and (p.suffix == ".js" or p.name in DATA_PUBLIC_JSON)) if src.is_dir() else []
+    out = OUT / "assets" / "data"
+    if out.is_dir():
+        for old in out.iterdir():
+            if old.is_file() and old.name not in {p.name for p in files}:
+                old.unlink()
     if files:
-        (OUT / "assets" / "data").mkdir(parents=True, exist_ok=True)
+        out.mkdir(parents=True, exist_ok=True)
         for p in files:
-            shutil.copyfile(p, OUT / "assets" / "data" / p.name)
+            shutil.copyfile(p, out / p.name)
     return len(files)
-
-
-def build_wijken(wijken, render, write):
-    """Hook for WP-13: one page per gemeente or district from src/data/wijken.json, each rendered through the
-    same pipeline as a source page (render(slug, meta, body) -> html; write(slug, html, date)). Called only when
-    the data file exists. Returns the built slugs (wijk/<slug>) so the sitemap lists them. Nothing yet."""
-    return []
 
 
 def write_sitemap(base, entries):

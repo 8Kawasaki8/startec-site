@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Star.Tec.Solutions, Antwerpen: websites met eerst een gratis voorbeeld, gratis gereedschap en onderzoek naar AI voor kleine zaken</title>
-<meta name="description" content="Typ de naam van je zaak en zie een voorbeeld op jouw naam. Eerst zien, dan praten. Snymis leest elk bericht zelf.">
+<meta name="description" content="STS Digital, Antwerpen. Typ de naam van je zaak en zie een schets op jouw naam; daarna bouwt Snymis gratis een echt voorbeeld. Eerst zien, dan praten. Hij leest elk bericht zelf.">
 <meta name="theme-color" content="#06080F">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://8kawasaki8.github.io/startec-site/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Star.Tec.Solutions">
 <meta property="og:title" content="Star.Tec.Solutions, Antwerpen: websites met eerst een gratis voorbeeld, gratis gereedschap en onderzoek naar AI voor kleine zaken">
-<meta property="og:description" content="Typ de naam van je zaak en zie een voorbeeld op jouw naam. Eerst zien, dan praten. Snymis leest elk bericht zelf.">
+<meta property="og:description" content="STS Digital, Antwerpen. Typ de naam van je zaak en zie een schets op jouw naam; daarna bouwt Snymis gratis een echt voorbeeld. Eerst zien, dan praten. Hij leest elk bericht zelf.">
 <meta property="og:url" content="https://8kawasaki8.github.io/startec-site/">
 <meta property="og:image" content="https://8kawasaki8.github.io/startec-site/assets/img/og.png">
 <meta property="og:image:width" content="1200">
@@ -75,12 +75,15 @@
       <div class="ub-sheet-acties">
         <button class="pill" type="submit">Zet op het bord</button>
         <button class="btn" type="button" data-ub-wis>Wis</button>
-        <button class="btn ub-lite" type="button" role="switch" aria-checked="false" data-lite-switch>Rustige modus <i data-lite-state>uit</i></button>
+        <button class="btn ub-lite" type="button" role="switch" aria-checked="false" data-lite-switch>Minder animatie <i data-lite-state>uit</i></button>
       </div>
-      <p class="note">Blijft in je browser en verdwijnt als je het tabblad sluit. We sturen niets. Rustige modus zet de stad en de animaties uit.</p>
+      <p class="note">Blijft in je browser en verdwijnt als je het tabblad sluit. We sturen niets. Minder animatie zet de stad en de animaties uit, net als de knop in de voet.</p>
     </form>
   </div>
 </header>
+<!-- de leus van de intro, één keer in de bron: de lader in src/partials/scene.html leest dit sjabloon
+     en toont de tekst in #intro; de voet draagt de leus een tweede keer (copy-regels.md, hoofdstuk 7) -->
+<template id="intro-tekst">Where imagination can reach up to the stars.</template>
 <canvas id="scene" aria-hidden="true"></canvas>
 <div id="scene-fallback" hidden aria-hidden="true"><svg id="plattegrond" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
 <defs>
@@ -127,7 +130,8 @@
   try { reduce = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { reduce = false; }
   if (!why && !reduce && !pre) {
     var o = document.createElement("div"); o.id = "intro";
-    o.innerHTML = '<div class="veil" aria-hidden="true"></div><p class="intro-slogan" aria-hidden="true">Where imagination can reach up to the stars.</p><button type="button" class="intro-skip">Intro overslaan</button>';
+    o.innerHTML = '<div class="veil" aria-hidden="true"></div><p class="intro-slogan" aria-hidden="true"></p><button type="button" class="intro-skip">Intro overslaan</button>';
+    var t = document.getElementById("intro-tekst"); if (t && t.content) o.querySelector(".intro-slogan").textContent = t.content.textContent.trim();
     document.getElementById("scene").parentNode.insertBefore(o, document.getElementById("scene"));
   }
   var l = document.querySelector('link[href*="assets/css/"]'), root = l ? l.href.slice(0, l.href.indexOf("assets/")) : "";
@@ -262,16 +266,23 @@
   <p class="dag-aanname small" data-dag-aanname>Regel in dit scenario: valt een oproep in een drukke band, dan neemt niemand op. Daarbuiten wordt elke oproep opgenomen.</p>
   <div class="ctas">
     <a class="pill" data-dag-kassa href="gereedschap.html#whatsapp?bericht=Dag%2C%20ik%20wil%20graag%20een%20tafel%20reserveren.%20Is%20er%20vanavond%20nog%20plaats%20voor%20vier%3F">Zet die knop vandaag op je kassa</a>
-    <a class="btn" href="#bericht?onderwerp=telefoon" data-bericht="telefoon" data-bericht-subject="Antwoord buiten de uren (onderzoek)" data-dag-bespreek>Bespreek dit voor mijn zaak</a>
+    <a class="btn" href="#bericht?onderwerp=telefoon" data-bericht="telefoon" data-bericht-subject="Antwoord buiten de uren (onderzoek)" data-dag-bespreek>Bespreek dit met Snymis</a>
   </div>
   <p class="small dag-voet">De WhatsApp-knop met QR-code maak je gratis in Gereedschap; het veld daar toont wat de klant naar jou stuurt. Een bericht met je echte uren stel je zelf in bij je telefoonaanbieder; wij sturen niets in jouw naam.</p>
 </div>
 </section>
 
 <section id="buren" data-room>
-<div class="kamer">
-  <h2>De buren</h2>
-  <p>Drie verzonnen zaken uit de buurt die we helemaal zelf bouwden, elk met een eigen gezicht: <a href="demo/brasserie-meridiaan/">Brasserie Meridiaan</a>, <a href="demo/garage-verhulst/">Garage Verhulst</a> en <a href="demo/barbier-boris/">Barbier Boris</a>. Fictieve namen, echte techniek; jouw versie maken we met jouw echte gegevens.</p>
+<div class="kamer kamer-buren">
+  <p class="label">De buren</p>
+  <h2>Drie verzonnen zaken uit de buurt, elk met een eigen gezicht.</h2>
+  <p>Snymis bouwde ze zelf, met zijn agents, van ontwerp tot knoppen, om te tonen wat een site voor een zaak als de jouwe kan doen. Namen en adressen zijn verzonnen; wat je aanklikt, werkt.</p>
+  <div class="buren-rij">
+<a class="buur" href="demo/brasserie-meridiaan/" style="--c:#C9A24C"><span class="buur-gevel" aria-hidden="true"><i></i><i></i><i></i></span><strong>Brasserie Meridiaan</strong><span class="buur-waar">Antwerpen-Zuid &middot; Horeca</span><span class="buur-sub">Kijk of ze nu open is en vraag een tafel aan.</span><span class="buur-fictief">Fictieve zaak. Jouw versie bouwen we met jouw echte gegevens.</span></a>
+<a class="buur" href="demo/garage-verhulst/" style="--c:#7FB4FF"><span class="buur-gevel" aria-hidden="true"><i></i><i></i><i></i></span><strong>Garage Verhulst</strong><span class="buur-waar">Mortsel &middot; Garage</span><span class="buur-sub">Volg een wagen op het werkplaatsbord en vraag een afspraak aan.</span><span class="buur-fictief">Fictieve zaak. Jouw versie bouwen we met jouw echte gegevens.</span></a>
+<a class="buur" href="demo/barbier-boris/" style="--c:#F5C400"><span class="buur-gevel" aria-hidden="true"><i></i><i></i><i></i></span><strong>Barbier Boris</strong><span class="buur-waar">Berchem &middot; Kapper</span><span class="buur-sub">Boek een stoel in vier stappen, ook na sluitingstijd.</span><span class="buur-fictief">Fictieve zaak. Jouw versie bouwen we met jouw echte gegevens.</span></a>
+  </div>
+  <p class="buren-meer">Oude gevel naast nieuwe gevel, met een schuifknop ertussen, in Hoe wij werken: <a href="werkwijze.html#straat">bekijk de straat</a>.</p>
 </div>
 </section>
 
@@ -281,7 +292,7 @@
   <ul class="verder">
     <li><strong><a href="simulatie.html">Doorlichting</a></strong>Kijk mee hoe een agent de cijfers van een verzonnen zaak leest en wacht op Snymis voor er iets vertrekt.</li>
     <li><strong><a href="gereedschap.html">Gereedschap</a></strong>Een zichtbaarheidscheck, een WhatsApp-knop met QR-code en een Google-voorbeeld van je titel, allemaal in je browser.</li>
-    <li><strong><a href="werkwijze.html">Hoe wij werken</a></strong>Wat vandaag werkt, wat een prototype is en wat nog onderzoek is, zonder tellers en zonder kleine lettertjes.</li>
+    <li><strong><a href="werkwijze.html">Hoe wij werken</a></strong>De radar nagespeeld op een verzonnen buur, de straat met oude en nieuwe gevel, en wat vandaag werkt, prototype is of nog onderzoek.</li>
   </ul>
 </div>
 </section>
@@ -322,7 +333,7 @@
         <ol>
           <li><strong>Wij bouwen eerst een gratis voorbeeld.</strong> Met jouw echte gegevens. Je hoeft niets voor te bereiden en niets te betalen.</li>
           <li><strong>Jij beslist daarna.</strong> Goed? Dan maken we een offerte op maat. Niet goed? Dan stopt het daar, zonder kosten.</li>
-          <li><strong>Live, en we blijven erbij.</strong> Onderhoud, updates en uitbreidingen. Je stuurt een bericht; het is geregeld.</li>
+          <li><strong>Online, en we blijven erbij.</strong> Onderhoud, aanpassingen en uitbreidingen. Je stuurt een bericht; het is geregeld.</li>
         </ol>
       </div>
     </aside>
@@ -379,6 +390,7 @@
     <div>
       <p class="motto">Where imagination can reach up to the <em>stars</em>.</p>
       <p class="small merkregel">Star.Tec.Solutions is het merk van STS Digital, Antwerpen. E&eacute;n persoon, Snymis, en een paar agents die hem helpen.</p>
+      <p class="small foot-contact"><span data-c-wrap><a data-c="whatsapp" data-keep href="#">WhatsApp</a></span><span data-c-wrap> &middot; <a data-c="phone" href="#"></a></span></p>
     </div>
     <div>
       <p class="label foot-h">Deuren</p>

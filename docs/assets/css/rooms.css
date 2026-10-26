@@ -124,3 +124,21 @@ html[data-scene="svg"] #gevel[data-room]{background:transparent}
 .deel-tekst:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(54,232,255,.18)}
 .bericht-deel [data-deel-status]{margin-top:10px}
 @media(max-width:899px){.bericht-split{grid-template-columns:1fr}}
+
+/* ═══ KAMER DE BUREN (WP-09, src/rooms/buren.html; kaarten uit panden.json via build.py) ═══
+   Drie gevelkaarten zonder foto's (de telefoon laadt niets extra): een gevelband in de
+   kleur van de zaak, naam, ondertitel in de taal van de koper en de eerlijkheidsregel.
+   Eén kaart = één link naar de demo; de vergelijking oud/nieuw staat in werkwijze.html#straat. */
+.buren-rij{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:28px}
+.buur{--c:var(--cyan);display:grid;gap:6px;align-content:start;padding:0 20px 20px;border-radius:18px;background:var(--glass);border:1px solid var(--line2);color:var(--ink);min-width:0}
+.buur:hover{border-color:var(--c)}
+.buur-gevel{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;height:64px;margin:0 -20px 14px;padding:0 20px 12px;border-radius:18px 18px 0 0;border-bottom:2px solid var(--c);background:linear-gradient(180deg,transparent,rgba(255,255,255,.06))}   /* zonder color-mix (oudere gsm's) */
+.buur-gevel{background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--c) 14%,transparent))}
+.buur-gevel i{display:block;flex:1;height:18px;border-radius:3px 3px 0 0;border:1px solid var(--c);border-bottom:0;opacity:.7}
+.buur-gevel i:nth-child(2){height:26px}
+.buur strong{font:600 1.08rem/1.3 var(--display)}
+.buur-waar{font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.buur-sub{margin-top:6px;color:var(--ink2);font-size:15px}
+.buur-fictief{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:13px;color:var(--ink3)}
+.kamer-buren .buren-meer{margin-top:22px;font-size:1rem}
+@media(max-width:900px){.buren-rij{grid-template-columns:1fr}}

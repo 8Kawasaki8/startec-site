@@ -2,7 +2,7 @@
    - Below 900 px the block moves to the end of <body> (the dock is the last element).
    - Legacy anchors of the old site map to the rooms (#contact -> #bericht, ...).
    - The name chip mirrors STSState; the sheet edits the same record live, 'Wis' clears
-     it, 'Rustige modus' toggles sts-lite like the footer button; Escape closes the sheet
+     it, 'Minder animatie' toggles sts-lite like the footer button; Escape closes the sheet
      and focus returns to the chip.
    - On pages with sections ([data-room] or [data-plek]) one IntersectionObserver names the
      section at the viewport's midline: the matching door gets aria-current, and 300 ms
@@ -83,7 +83,7 @@
   /* keyboard: focus that leaves the sheet (Tab past the last button) closes it, so no stale dialog stays open */
   sheet.addEventListener("focusout", function (e) { var to = e.relatedTarget; if (to && !sheet.contains(to) && !chip.contains(to)) close(false); });
 
-  /* Rustige modus: the same key as the footer button (sts-lite, see lite.js); the page reloads so the scene loader reads it */
+  /* Minder animatie: the same key as the footer button (sts-lite, see lite.js); the page reloads so the scene loader reads it */
   var lite = /[?&]lite\b/.test(location.search), sw = form.querySelector("[data-lite-switch]"), st = sw.querySelector("[data-lite-state]");
   try { lite = lite || localStorage.getItem("sts-lite") === "1"; } catch (e) { /* storage blocked */ }
   sw.setAttribute("aria-checked", lite ? "true" : "false"); st.textContent = lite ? "aan" : "uit";

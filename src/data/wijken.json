@@ -1,0 +1,12 @@
+{
+  "regels": "De zeven wijkpagina's (docs/wijk/<slug>.html), gebouwd door scripts/buildwijk.py uit src/templates/wijk.html. Zes districten van de stad Antwerpen en een gemeente (Mortsel is geen district). 'sectoren' zijn drie vakken die je in elke buurt vindt, als sleutels uit names.js (horeca, kapper, garage, bakker, aannemer, praktijk, winkel); de template schrijft ze in de woorden van de uitbater. Geen cijfers, geen tellers, geen verzonnen lokale kleur: lint-copy weigert gezellig, bruisend, authentiek en levendig op een wijkpagina. 'sfeerzin' is de ene zin van de oprichter over de buurt, in zijn eigen woorden; zolang ze leeg is, staat het element niet op de pagina (docs/CHECKLIST-SAKI.md).",
+  "wijken": [
+    { "slug": "berchem", "naam": "Berchem", "soort": "district", "sectoren": ["kapper", "horeca", "praktijk"], "sfeerzin": "" },
+    { "slug": "borgerhout", "naam": "Borgerhout", "soort": "district", "sectoren": ["bakker", "horeca", "winkel"], "sfeerzin": "" },
+    { "slug": "deurne", "naam": "Deurne", "soort": "district", "sectoren": ["garage", "kapper", "aannemer"], "sfeerzin": "" },
+    { "slug": "merksem", "naam": "Merksem", "soort": "district", "sectoren": ["garage", "bakker", "winkel"], "sfeerzin": "" },
+    { "slug": "hoboken", "naam": "Hoboken", "soort": "district", "sectoren": ["aannemer", "kapper", "horeca"], "sfeerzin": "" },
+    { "slug": "wilrijk", "naam": "Wilrijk", "soort": "district", "sectoren": ["praktijk", "winkel", "garage"], "sfeerzin": "" },
+    { "slug": "mortsel", "naam": "Mortsel", "soort": "gemeente", "sectoren": ["bakker", "praktijk", "kapper"], "sfeerzin": "" }
+  ]
+}

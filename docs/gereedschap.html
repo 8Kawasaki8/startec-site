@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gratis gereedschap voor je zaak: zichtbaarheidscheck, WhatsApp-QR, Google-voorbeeld — Star.Tec.Solutions</title>
-<meta name="description" content="Vier gratis loketten die in je browser blijven: test in één minuut hoe zichtbaar je zaak is, maak een WhatsApp-knop met QR-code voor je kassa, bekijk je resultaat in Google en je Google-kaartje om 19 u. Zonder account, zonder e-mailadres.">
+<meta name="description" content="Vijf gratis loketten die in je browser blijven: test in één minuut hoe zichtbaar je zaak is, maak een WhatsApp-knop met QR-code voor je kassa, bekijk je resultaat in Google, je Google-kaartje om 19 u en of je openingsuren overal kloppen. Zonder account, zonder e-mailadres.">
 <meta name="theme-color" content="#06080F">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://8kawasaki8.github.io/startec-site/gereedschap.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Star.Tec.Solutions">
 <meta property="og:title" content="Gratis gereedschap voor je zaak: zichtbaarheidscheck, WhatsApp-QR, Google-voorbeeld — Star.Tec.Solutions">
-<meta property="og:description" content="Vier gratis loketten die in je browser blijven: test in één minuut hoe zichtbaar je zaak is, maak een WhatsApp-knop met QR-code voor je kassa, bekijk je resultaat in Google en je Google-kaartje om 19 u. Zonder account, zonder e-mailadres.">
+<meta property="og:description" content="Vijf gratis loketten die in je browser blijven: test in één minuut hoe zichtbaar je zaak is, maak een WhatsApp-knop met QR-code voor je kassa, bekijk je resultaat in Google, je Google-kaartje om 19 u en of je openingsuren overal kloppen. Zonder account, zonder e-mailadres.">
 <meta property="og:url" content="https://8kawasaki8.github.io/startec-site/gereedschap.html">
 <meta property="og:image" content="https://8kawasaki8.github.io/startec-site/assets/img/og.png">
 <meta property="og:image:width" content="1200">
@@ -75,9 +75,9 @@
       <div class="ub-sheet-acties">
         <button class="pill" type="submit">Zet op het bord</button>
         <button class="btn" type="button" data-ub-wis>Wis</button>
-        <button class="btn ub-lite" type="button" role="switch" aria-checked="false" data-lite-switch>Rustige modus <i data-lite-state>uit</i></button>
+        <button class="btn ub-lite" type="button" role="switch" aria-checked="false" data-lite-switch>Minder animatie <i data-lite-state>uit</i></button>
       </div>
-      <p class="note">Blijft in je browser en verdwijnt als je het tabblad sluit. We sturen niets. Rustige modus zet de stad en de animaties uit.</p>
+      <p class="note">Blijft in je browser en verdwijnt als je het tabblad sluit. We sturen niets. Minder animatie zet de stad en de animaties uit, net als de knop in de voet.</p>
     </form>
   </div>
 </header>
@@ -89,12 +89,13 @@
 </section>
 <section id="gereedschap" data-room>
 <div class="kamer kamer-tools">
-  <h2 class="tools-h2">Vier loketten. Alles blijft in je browser.</h2>
+  <h2 class="tools-h2">Vijf loketten. Alles blijft in je browser.</h2>
   <nav class="loketten scroller" aria-label="Loketten op deze pagina" data-loketten>
     <a href="#zichtbaarheid">Zichtbaarheidscheck</a>
     <a href="#whatsapp">WhatsApp-knop en QR</a>
     <a href="#google">Google-voorbeeld</a>
     <a href="#kaartje-google">Google-kaartje om 19 u</a>
+    <a href="#uren">Openingsuren-check</a>
   </nav>
 
   <section class="loket" id="zichtbaarheid" aria-labelledby="t-zc">
@@ -242,6 +243,77 @@
     <p class="loket-meer small">Nog niet zeker hoe je ervoor staat? <a href="#zichtbaarheid">Doe eerst de zichtbaarheidscheck</a>.</p>
   </section>
 
+  <section class="loket" id="uren" aria-labelledby="t-ur">
+    <div class="tool">
+      <div>
+        <p class="label">Loket 5 &middot; Openingsuren-check</p>
+        <h3 id="t-ur">Kloppen de uren van <span data-zaak="je zaak">je zaak</span> overal?</h3>
+        <p class="tool-intro">Typ je uren &eacute;&eacute;n keer. Je ziet wat een klant nu op Google zou zien, je krijgt een afwezigheidsbericht voor WhatsApp Business en een urenblok voor je site, met een lijstje van wat nog ontbreekt. Alles blijft in je browser.</p>
+        <form class="ur-form" data-ur-form novalidate>
+          <div class="row ur-snel"><button class="btn btn-sm" type="button" data-ur-vul>Snel invullen: ma&ndash;vr 9 u tot 18 u</button><span class="small">Zaterdag en zondag kies je zelf.</span></div>
+          <div class="ur-dagen" data-ur-dagen></div>
+          <template data-ur-rij>
+            <div class="ur-dag">
+              <p class="ur-naam"></p>
+              <fieldset class="keuze ur-keuze"><legend class="sr"></legend><label><input type="radio" value="open"><span>open</span></label><label><input type="radio" value="dicht"><span>gesloten</span></label></fieldset>
+              <div class="ur-tijden" hidden>
+                <label class="field"><span>van</span><input type="time" data-ur="van" data-ur-label="opent om"></label>
+                <label class="field"><span>tot</span><input type="time" data-ur="tot" data-ur-label="sluit om"></label>
+                <label class="field"><span>pauze van</span><input type="time" data-ur="pvan" data-ur-label="middagpauze van"></label>
+                <label class="field"><span>tot</span><input type="time" data-ur="ptot" data-ur-label="middagpauze tot"></label>
+              </div>
+            </div>
+          </template>
+          <fieldset class="keuze ur-feest" data-ur-feest>
+            <legend>Op feestdagen (Belgische wettelijke feestdagen 2026 en 2027)</legend>
+            <label><input type="radio" name="ur-feest" value="dicht"><span>gesloten</span></label>
+            <label><input type="radio" name="ur-feest" value="open"><span>open zoals anders</span></label>
+          </fieldset>
+          <div class="ur-uitz">
+            <label class="field"><span>Uitzondering deze week</span><select data-ur-uitz-dag><option value="-1">geen</option><option value="0">maandag</option><option value="1">dinsdag</option><option value="2">woensdag</option><option value="3">donderdag</option><option value="4">vrijdag</option><option value="5">zaterdag</option><option value="6">zondag</option></select></label>
+            <div data-ur-uitz-velden hidden>
+              <fieldset class="keuze" data-ur-uitz-st><legend>Die dag</legend><label><input type="radio" name="ur-uitz-st" value="dicht" checked><span>gesloten</span></label><label><input type="radio" name="ur-uitz-st" value="open"><span>andere uren</span></label></fieldset>
+              <div class="ur-tijden ur-tijden-2" data-ur-uitz-uren hidden>
+                <label class="field"><span>van</span><input type="time" data-ur="uvan" aria-label="uitzondering, open van"></label>
+                <label class="field"><span>tot</span><input type="time" data-ur="utot" aria-label="uitzondering, open tot"></label>
+              </div>
+            </div>
+          </div>
+          <label class="check"><input type="checkbox" data-ur-credit><span>Zet &lsquo;<span data-ur-credit-txt>gemaakt op startec</span>&rsquo; onderaan de teksten die je kopieert. Staat standaard uit.</span></label>
+        </form>
+      </div>
+      <div class="out">
+        <div data-ur-out hidden>
+          <p class="label">Nog te doen</p>
+          <ul class="ur-warn" data-ur-warn></ul>
+          <p class="ur-ok" data-ur-ok hidden>Niets op te merken: elke dag heeft een keuze en de feestdagen zijn beslist.</p>
+          <p class="label">Zo zou Google het nu tonen</p>
+          <div class="gk ur-gk" role="group" aria-label="Google-kaartje met je uren, voorbeeldweergave">
+            <div class="gk-kaart">
+              <p class="gk-naam" data-ur-gk-naam></p>
+              <p class="gk-soort"><span data-sector-label="Zaak">Zaak</span> &middot; <span data-gemeente="Antwerpen">Antwerpen</span></p>
+              <p class="gk-uren-lijn" data-ur-gk-lijn></p>
+              <p class="gk-knoppen"><span>Bellen</span><span>Route</span><span>Website</span></p>
+            </div>
+          </div>
+          <p class="gk-zin" data-ur-zin aria-live="polite"></p>
+          <p class="label">Afwezigheidsbericht voor WhatsApp</p>
+          <p class="small ur-zelf">Tekst om zelf in te stellen in WhatsApp Business, onder Bedrijfstools, Afwezigheidsbericht, buiten je openingsuren. Wij sturen niets. De regel &lsquo;opnieuw open&rsquo; klopt vandaag; wil je hem niet bijhouden, schrap die en hou de weekuren.</p>
+          <pre data-ur-wa data-voice="visitor"></pre>
+          <div class="row"><button class="btn btn-sm" type="button" data-ur-copy="wa">Kopieer de WhatsApp-tekst</button></div>
+          <p class="label">Urenblok voor je site</p>
+          <table class="ur-tabel"><tbody data-ur-tabel></tbody></table>
+          <p class="small ur-extra" data-ur-extra></p>
+          <pre data-ur-html></pre>
+          <div class="row"><button class="btn btn-sm" type="button" data-ur-copy="html">Kopieer de HTML</button><button class="btn btn-sm btn-line" type="button" data-ur-copy="tekst">Kopieer als gewone tekst</button></div>
+          <p class="small">De gewone tekst past in je Google-profiel of op Facebook. De vermelding onderaan staat er alleen als jij het vinkje aanzet.</p>
+        </div>
+        <p class="hint" data-ur-hint>Kies voor minstens &eacute;&eacute;n dag open of gesloten. Het Google-kaartje, de WhatsApp-tekst en het urenblok verschijnen hier.</p>
+      </div>
+    </div>
+    <p class="loket-voet">Liever dat Snymis dit mee op je site zet? <a href="index.html#bericht?onderwerp=uren" data-bericht="uren">Stuur hem je uren</a>.</p>
+  </section>
+
   <p class="tools-deel">Ken je een collega die dit ook zou moeten zien? <button class="btn btn-sm" type="button" data-share="tools">Stuur naar een collega</button> <span class="small" data-share-status role="status" hidden></span></p>
 
   <template data-toog-tpl>
@@ -282,12 +354,13 @@
 </section>
 <div class="eenpager" data-eenpager hidden>
   <p class="label">Gratis gereedschap voor zaken zonder goede site</p>
-  <h2>Vier loketten, in de browser van de uitbater</h2>
+  <h2>Vijf loketten, in de browser van de uitbater</h2>
   <ol>
     <li><strong>Zichtbaarheidscheck.</strong> Zes vragen, een score op 100 als zelfinschatting en drie stappen om mee te beginnen.</li>
     <li><strong>WhatsApp-knop en QR-code.</strong> Een knop voor de site en een kaartje voor aan de kassa, met het eigen gsm-nummer.</li>
     <li><strong>Google-voorbeeld.</strong> Hoe de titel en de beschrijving van een site er in Google uitzien, en waar Google afkapt.</li>
     <li><strong>Google-kaartje om 19 u.</strong> Wat een klant &rsquo;s avonds ziet: zonder profiel, met een profiel zonder uren, of met de juiste uren.</li>
+    <li><strong>Openingsuren-check.</strong> De uren &eacute;&eacute;n keer typen, met middagpauze en feestdagen: een Google-kaartje, een afwezigheidsbericht voor WhatsApp Business om zelf in te stellen en een urenblok voor de site.</li>
   </ol>
   <div class="eenpager-qr">
     <canvas role="img" aria-label="QR-code naar deze pagina"></canvas>
@@ -301,6 +374,7 @@
     <div>
       <p class="motto">Where imagination can reach up to the <em>stars</em>.</p>
       <p class="small merkregel">Star.Tec.Solutions is het merk van STS Digital, Antwerpen. E&eacute;n persoon, Snymis, en een paar agents die hem helpen.</p>
+      <p class="small foot-contact"><span data-c-wrap><a data-c="whatsapp" data-keep href="#">WhatsApp</a></span><span data-c-wrap> &middot; <a data-c="phone" href="#"></a></span></p>
     </div>
     <div>
       <p class="label foot-h">Deuren</p>
@@ -345,5 +419,6 @@
 <script src="assets/js/tool-kaart.js"></script>
 <script src="assets/js/tools-share.js"></script>
 <script src="assets/js/tools-toog.js"></script>
+<script src="assets/js/tools-uren.js"></script>
 </body>
 </html>

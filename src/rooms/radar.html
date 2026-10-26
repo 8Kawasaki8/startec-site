@@ -1,0 +1,80 @@
+<div class="kamer kamer-radar" data-sim>
+  <p class="label">Van radar tot gesprek</p>
+  <h2>Zo komt een zaak bij ons op tafel: vier stappen, en op het einde een mens.</h2>
+  <p class="uitleg">Hieronder spelen we onze echte werkwijze na op een verzonnen buur uit de sector op het bord. Wat de verkenner bekijkt, welke publieke gegevens de bouwer gebruikt, hoe het voorbeeld eruitziet, en dat het eerste bericht wacht tot Snymis het gelezen heeft. De buur is fictief en de score is een illustratie; de stappen zijn echt.</p>
+
+  <form class="rs-ctl" data-rs-form novalidate>
+    <fieldset class="keuze" data-rs-sector>
+      <legend>Welke verzonnen buur speelt mee?</legend>
+      <label><input type="radio" name="rs-sector" value="horeca"><span>Horeca</span></label>
+      <label><input type="radio" name="rs-sector" value="kapper"><span>Kapper</span></label>
+      <label><input type="radio" name="rs-sector" value="garage"><span>Garage</span></label>
+      <label><input type="radio" name="rs-sector" value="bakker"><span>Bakker</span></label>
+      <label><input type="radio" name="rs-sector" value="aannemer"><span>Aannemer</span></label>
+      <label><input type="radio" name="rs-sector" value="praktijk"><span>Praktijk</span></label>
+      <label><input type="radio" name="rs-sector" value="winkel"><span>Winkel</span></label>
+      <label><input type="radio" name="rs-sector" value="anders" checked><span>Andere zaak</span></label>
+    </fieldset>
+  </form>
+  <p class="rs-context" data-rs-context>Hieronder: een verzonnen buur. De echte cijfers van een zaak kennen we niet.</p>
+  <div class="rs-speler">
+    <button type="button" class="btn" data-rs-replay>Speel de vier stappen opnieuw</button>
+    <span class="small" data-rs-status role="status">De stappen openen vanzelf. Klik op een stap om ze meteen te openen.</span>
+  </div>
+
+  <ol class="rs-stappen" data-rs-stappen aria-label="Vier stappen, van radar tot gesprek">
+    <li class="rs-stap" data-stap="1">
+      <h3 class="rs-stap-kop"><button type="button" data-rs-open="1" aria-expanded="false" aria-controls="rs-body-1"><span class="rs-nr">01</span><span class="rs-titel">Zoeken</span><span class="rs-wie">de verkenner</span></button></h3>
+      <div class="rs-body" id="rs-body-1">
+        <p class="uitleg">De verkenner zoekt in Vlaanderen zaken die klanten &rsquo;s avonds op hun gsm niet of slecht vinden. Hij leest enkel wat een zaak zelf publiek maakte. Wat hij bij deze buur noteerde:</p>
+        <ul class="rs-vondst" data-rs-vondst></ul>
+      </div>
+    </li>
+    <li class="rs-stap" data-stap="2">
+      <h3 class="rs-stap-kop"><button type="button" data-rs-open="2" aria-expanded="false" aria-controls="rs-body-2"><span class="rs-nr">02</span><span class="rs-titel">Meten</span><span class="rs-wie">zes publieke signalen</span></button></h3>
+      <div class="rs-body" id="rs-body-2">
+        <div class="rs-meten">
+          <div class="rs-signalen" role="group" aria-label="Zes publieke signalen, aan of uit" data-rs-signalen></div>
+          <div class="rs-ring-wrap">
+            <div class="rs-ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(242,245,255,.12)" stroke-width="8"/><circle data-rs-arc cx="60" cy="60" r="52" fill="none" stroke="var(--cyan)" stroke-width="8" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)"/></svg><div class="rs-score"><b data-rs-score>0</b><span>op 100</span></div></div>
+            <p class="small rs-ring-label">illustratie van hoe we kijken, geen meting</p>
+            <p class="sr" data-rs-score-live aria-live="polite"></p>
+          </div>
+        </div>
+        <p class="small uitleg">Dezelfde zes vragen als in de zichtbaarheidscheck van Gereedschap en dezelfde rekenregel. Zet een signaal aan of uit en de ring volgt. De stand van de buur is verzonnen.</p>
+      </div>
+    </li>
+    <li class="rs-stap" data-stap="3">
+      <h3 class="rs-stap-kop"><button type="button" data-rs-open="3" aria-expanded="false" aria-controls="rs-body-3"><span class="rs-nr">03</span><span class="rs-titel">Bouwen</span><span class="rs-wie">de bouwer</span></button></h3>
+      <div class="rs-body" id="rs-body-3">
+        <p class="uitleg">De bouwer gebruikt enkel wat de zaak zelf publiek maakte en zet er een werkend voorbeeld van een site mee in elkaar. Het staat niet in zoekmachines en wordt enkel met de zaak gedeeld.</p>
+        <div class="rs-bouw">
+          <ul class="rs-kaarten" data-rs-kaarten aria-label="Publieke gegevens die de bouwer gebruikt"></ul>
+          <div class="phone-wrap"><div class="phone" role="group" aria-label="Voorbeeld van een site, schets"><div class="phone-screen" data-rs-screen></div></div></div>
+        </div>
+      </div>
+    </li>
+    <li class="rs-stap" data-stap="4">
+      <h3 class="rs-stap-kop"><button type="button" data-rs-open="4" aria-expanded="false" aria-controls="rs-body-4"><span class="rs-nr">04</span><span class="rs-titel">Lezen</span><span class="rs-wie">Snymis</span></button></h3>
+      <div class="rs-body" id="rs-body-4">
+        <p class="uitleg">Dan stopt de machine. Het eerste bericht aan de zaak staat klaar, in u-vorm en zonder prijs, en wacht tot Snymis het gelezen heeft. Hij stuurt het, past het aan of schrapt het.</p>
+        <div class="rs-brief" data-rs-brief>
+          <p class="rs-brief-status" data-rs-brief-status><i class="rs-stip" aria-hidden="true"></i><span>Wacht op goedkeuring van Snymis</span></p>
+          {{radar-bericht}}
+          <div class="rs-acties">
+            <button type="button" class="pill" data-rs-keur="ja">Goedkeuren (simulatie)</button>
+            <button type="button" class="btn" data-rs-keur="nee">Niet sturen (simulatie)</button>
+          </div>
+          <p class="rs-uitkomst" data-rs-uitkomst aria-live="polite"></p>
+          <p class="rs-readout small" data-rs-readout hidden>Reageert een zaak niet, dan geldt wat in privacy 2.2 staat: enkel publieke gegevens &middot; niet ge&iuml;ndexeerd &middot; &eacute;&eacute;n contact &middot; weg na 30 dagen zonder reactie of binnen 5 werkdagen op vraag.</p>
+        </div>
+      </div>
+    </li>
+  </ol>
+
+  <div class="ctas rs-ctas">
+    <a class="pill primair" href="index.html#bericht?onderwerp=radar" data-bericht="radar"><span>Zet <span data-zaak="mijn zaak">mijn zaak</span> zelf op de lijst</span></a>
+    <a class="btn" href="demo/radar/" target="_blank" rel="noopener">Kijk binnen bij het Radar-concept (fictieve cijfers)</a>
+  </div>
+  <p class="small rs-voet">De buur, de signalen en de score in deze kamer zijn verzonnen. De vier stappen en de goedkeuring door een mens zijn echt: er vertrekt niets dat Snymis niet gelezen heeft.</p>
+</div>

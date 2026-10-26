@@ -143,3 +143,42 @@ html.is-eenpager main > :not(.eenpager){display:none}
   .toog-zijde{max-width:320px;width:100%;justify-self:center}
   .eenpager-qr{grid-template-columns:1fr}
 }
+
+/* ═══ LOKET 5: openingsuren per dag, feestdagen, uitzondering, drie uitvoeren (WP-14) ═══ */
+.ur-snel{margin:0 0 14px;align-items:center}
+.ur-dagen{border-top:1px solid var(--line);margin-bottom:18px}
+.ur-dag{display:grid;grid-template-columns:104px minmax(0,1fr);gap:8px 12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.ur-naam{font-size:15px;font-weight:500;color:var(--ink);max-width:none;margin:0}
+.ur-keuze{position:relative}
+.ur-keuze legend{position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip:rect(0 0 0 0)}   /* de dagnaam staat ernaast in .ur-naam */
+.ur-keuze span,.ur-feest span,[data-ur-uitz-st] span{min-height:44px}
+.ur-keuze input,.ur-feest input,[data-ur-uitz-st] input,.zc .keuze input,.gk-ctl .keuze input{inset:0;width:100%;height:100%;cursor:pointer}   /* de hele chip is het klikdoel, zoals in de radarkamer */
+.ur-tijden{grid-column:1 / -1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding-bottom:6px}
+.ur-tijden[hidden]{display:none}
+.ur-tijden .field{margin:0;min-width:0}
+.ur-tijden .field>span{font-size:12.5px;margin-bottom:4px}
+.ur-tijden input{padding:10px 10px;min-height:44px;font-size:15px;color-scheme:dark}
+.ur-tijden-2{grid-template-columns:repeat(2,minmax(0,1fr));max-width:320px}
+.ur-feest{margin-bottom:18px}
+.ur-feest legend{font-size:15px;color:var(--ink)}
+.ur-uitz .field{max-width:320px}
+.ur-uitz .keuze{margin-bottom:12px}
+.ur-warn{padding-left:20px;display:grid;gap:8px;margin-top:8px;color:var(--ink2);font-size:14.5px}
+.ur-warn li::marker{color:var(--mens);font-weight:600}
+.ur-warn li{max-width:none}
+.ur-ok{color:var(--ink2);font-size:14.5px;margin-top:8px}
+.ur-gk{margin-top:10px}
+.ur-gk .gk-kaart{border-top:0;padding-top:0}
+.gk-uren-lijn.is-dicht{color:#d93025}
+.ur-zelf{margin-top:6px;color:var(--ink2);max-width:none}
+.out pre[data-ur-wa]{color:var(--ink);word-break:normal;overflow-wrap:anywhere}
+.ur-tabel{width:100%;border-collapse:collapse;margin-top:8px;font-size:15px}
+.ur-tabel th{text-align:left;font-weight:600;padding:6px 10px 6px 0;vertical-align:top;white-space:nowrap}
+.ur-tabel td{padding:6px 0;color:var(--ink2)}
+.ur-tabel tr+tr>*{border-top:1px solid var(--line)}
+.ur-extra{margin-top:8px;max-width:none}
+.ur-extra:empty{display:none}
+@media(max-width:860px){
+  .ur-dag{grid-template-columns:1fr}
+  .ur-tijden{grid-template-columns:repeat(2,minmax(0,1fr))}
+}

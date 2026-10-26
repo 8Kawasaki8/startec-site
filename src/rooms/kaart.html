@@ -1,0 +1,47 @@
+<div class="kamer kamer-kaart">
+  <p class="label">Capaciteitenkaart</p>
+  <h2>Wat werkt vandaag, wat is prototype, wat is onderzoek</h2>
+  <p>We noemen de dingen zoals ze zijn. Drie lampen, en geen enkele brandt harder dan de werkelijkheid: vijf dingen die vandaag werken, drie prototypes die enkel bij Snymis draaien en nog bij geen klant, vier vragen die we onderzoeken.</p>
+  <div class="kaart" data-kaart>
+{{capabilities}}
+  </div>
+  <!-- WP-10: de twee proeven. Ze staan hier in de bron zodat lint-copy de klantvragen (data-voice=customer)
+       leest; lab-assistent.js en lab-reviews.js verhuizen elk blok naar zijn punt In onderzoek (net na de
+       <details> met het aanknopingspunt [data-proef]) en tonen het zolang dat punt open staat. Zonder
+       JavaScript blijven ze verborgen. -->
+  <div class="proef-paneel lab-assistent" data-proef-bron="assistent" data-sim hidden>
+    <p class="proef-kop" data-la-kop>In onderzoek &middot; gescripte simulatie, geen live AI. Zo zou het kunnen werken; dit bestaat nog niet als product.</p>
+    <p class="small proef-zaak">Fictieve zaak: Brasserie Meridiaan (verzonnen). Alles hieronder is gesimuleerd.</p>
+    <p class="small proef-scenario" data-la-scenario></p>
+    <div class="la-split">
+      <div class="la-kennis" data-la-kennis>
+        <p class="label">Wat de assistent weet, en niets meer</p>
+      </div>
+      <div class="la-gesprek">
+        <p class="label">Klantvragen, aanklikbaar</p>
+        <div class="la-chips" data-voice="customer" data-la-chips>
+          <button type="button" class="btn btn-sm la-chip" data-vraag="open">Zijn jullie vanavond open?</button>
+          <button type="button" class="btn btn-sm la-chip" data-vraag="taart">Kan ik een taart bestellen voor zaterdag?</button>
+          <button type="button" class="btn btn-sm la-chip" data-vraag="parking">Is er parking?</button>
+          <button type="button" class="btn btn-sm la-chip" data-vraag="glutenvrij">Hebben jullie glutenvrij?</button>
+          <button type="button" class="btn btn-sm la-chip" data-vraag="twintig">Kan ik met twintig man komen?</button>
+        </div>
+        <div class="la-log" data-la-log aria-live="polite" aria-label="Gesprek, gesimuleerd"></div>
+        <p class="small la-slot" data-la-slot></p>
+      </div>
+    </div>
+    <div class="proef-voet" data-la-voet></div>
+  </div>
+  <div class="proef-paneel lab-reviews" data-proef-bron="reviews" data-sim hidden>
+    <p class="proef-kop" data-lr-kop>In onderzoek &middot; gescripte simulatie, geen live AI. De teksten zijn vooraf geschreven.</p>
+    <p class="small proef-zaak">Fictieve zaak: Kapsalon Lumen (verzonnen). Reviews en antwoorden zijn gesimuleerd.</p>
+    <p class="small proef-scenario" data-lr-uitleg></p>
+    <p class="lr-readout" data-lr-readout aria-live="polite"></p>
+    <div class="lr-lijst" data-lr-lijst></div>
+    <p class="small la-slot" data-lr-slot></p>
+    <div class="proef-voet" data-lr-voet></div>
+  </div>
+  <!-- data, geen code: de dialoogboom en de reviews (src/data, gekopieerd naar assets/data) -->
+  <script src="assets/data/assistent-dialoog.js"></script>
+  <script src="assets/data/lab-reviews-data.js"></script>
+</div>

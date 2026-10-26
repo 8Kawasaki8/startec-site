@@ -1,0 +1,56 @@
+{
+  "regels": "De drie verzonnen zaken in de straat (werkwijze.html#straat) en de drie gevelkaarten op index.html#buren. Elke zaak is fictief en volledig door ons gebouwd; 'probeer' zijn de drie dingen die in de demo echt werken, in de woorden van een bezoeker. 'oud' is de verzonnen oude site (docs/assets/img/oud-<naam>.svg, inline), 'beeld' de schermafbeelding van de demo (verkleind, docs/assets/img/straat/). consent:false: de zaak is verzonnen. Pas wanneer een echte klant schriftelijk toestemt, krijgt een nieuw pand consent:true (docs/CHECKLIST-SAKI.md); dan rendert build.py het vierde, echte pand, met als enige tekst 'zin': de ene zin die die klant zelf goedkeurde (leeg: geen tekst). Een echt pand heeft geen 'oud', 'beeld' of 'probeer': er worden geen oude-sitegegevens verzonnen. Tot dan verschijnt het niet.",
+  "panden": [
+    {
+      "slug": "brasserie-meridiaan",
+      "naam": "Brasserie Meridiaan",
+      "gemeente": "Antwerpen-Zuid",
+      "sector": "horeca",
+      "kleur": "#C9A24C",
+      "ondertitel": "Kijk of ze nu open is en vraag een tafel aan.",
+      "probeer": [
+        "Kijk of ze nu open is: de openingsuren beslissen dat in de pagina zelf.",
+        "Filter de kaart en vraag een tafel aan via het reservatieformulier.",
+        "Stel de gescripte WhatsApp-assistent een vraag; hij antwoordt met de uren van de zaak."
+      ],
+      "oud": "oud-horeca",
+      "beeld": "assets/img/straat/brasserie-meridiaan.jpg",
+      "demo": "demo/brasserie-meridiaan/",
+      "consent": false
+    },
+    {
+      "slug": "garage-verhulst",
+      "naam": "Garage Verhulst",
+      "gemeente": "Mortsel",
+      "sector": "garage",
+      "kleur": "#7FB4FF",
+      "ondertitel": "Volg een wagen op het werkplaatsbord en vraag een afspraak aan.",
+      "probeer": [
+        "Volg een wagen op het werkplaatsbord, van binnenkomst tot klaar.",
+        "Vraag een afspraak aan voor een onderhoud of een keuring.",
+        "Loop de keuringschecklist af voor een wagen naar de keuring gaat."
+      ],
+      "oud": "oud-garage",
+      "beeld": "assets/img/straat/garage-verhulst.jpg",
+      "demo": "demo/garage-verhulst/",
+      "consent": false
+    },
+    {
+      "slug": "barbier-boris",
+      "naam": "Barbier Boris",
+      "gemeente": "Berchem",
+      "sector": "kapper",
+      "kleur": "#F5C400",
+      "ondertitel": "Boek een stoel in vier stappen, ook na sluitingstijd.",
+      "probeer": [
+        "Boek een stoel in vier stappen, zonder account.",
+        "Schuif de voor-en-na-slider over een kapsel.",
+        "Lees de reviews als tekstballonnen en maak kennis met de ploeg."
+      ],
+      "oud": "oud-kapper",
+      "beeld": "assets/img/straat/barbier-boris.jpg",
+      "demo": "demo/barbier-boris/",
+      "consent": false
+    }
+  ]
+}
