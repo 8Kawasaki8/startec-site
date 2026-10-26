@@ -9,8 +9,12 @@ export const meta = {
   ],
 }
 
-// args: { context: string, packages: [{id,title,scope,files,acceptance,qa,dependsOn}], wave: string, extraReviewFocus?: string }
-const { context, packages, wave, extraReviewFocus = '' } = args
+// args: { context: string, packageIds: ['WP-00',...], depsOverride?: {id: []}, wave: string, extraReviewFocus?: string }
+// Work packages are loaded from scripts/workflows/plan-v5.json by a loader agent (scripts have no fs access).
+const { context, packageIds, depsOverride = {}, wave, extraReviewFocus = '' } = args
+const PKGS = { type: 'object', properties: { packages: { type: 'array', items: { type: 'object', properties: { id: { type: 'string' }, title: { type: 'string' }, scope: { type: 'string' }, files: { type: 'string' }, acceptance: { type: 'string' }, qa: { type: 'string' }, dependsOn: { type: 'array', items: { type: 'string' } } }, required: ['id', 'title', 'scope', 'files', 'acceptance', 'qa', 'dependsOn'] } } }, required: ['packages'] }
+const loaded = await agent(`Read /home/user/startec-site/scripts/workflows/plan-v5.json and return the workPackages whose id is in ${JSON.stringify(packageIds)}, verbatim (full scope, files, acceptance, qa, dependsOn), in the order given.`, { label: 'load-packages', schema: PKGS, effort: 'low' })
+const packages = loaded.packages.map(p => ({ ...p, dependsOn: depsOverride[p.id] || p.dependsOn }))
 const RULES = `
 REPO: /home/user/startec-site (static site; src/pages/*.html + src/partials -> python3 scripts/build.py --base "https://8kawasaki8.github.io/startec-site/" -> docs/). Edit sources in src/ and assets in docs/assets; never hand-edit generated docs/*.html that have a src/pages counterpart. QA gate: node scripts/qa/qa.mjs (serves docs/, desktop 1440x900 + phone 390x844 + reduced motion; zero console errors, zero external requests, no horizontal overflow, nl lang, one h1, no emoji, no euro amounts on STS pages). Run it with --pages a.html,b.html for a subset while iterating, full at the end.
 HARD RULES: Dutch nl-BE copy (Belgium/Antwerpen, no Netherlands); no prices; no emojis; no fake reviews/counters/urgency/'verzonden' states; every simulation labelled gesimuleerd/fictief when data is invented; the human-approval promise is real and stays; cyan #36E8FF accent only; keep legal pages and docs/assets/js/config.js config-driven data; comet-S logo; fonts Panchang/Switzer/JetBrains Mono self-hosted; NO external requests (no CDNs, fonts, analytics, iframes to other hosts); static only; weak-GPU rules: never animate filter/blur/box-shadow/background-position on large layers, no full-page mix-blend-mode, pause rAF loops when tab hidden or element offscreen, DPR cap 1.5, keep lite mode and prefers-reduced-motion paths; every file under 500 lines (split modules); keyboard reachable and focus-visible; touch targets >= 44px on phone.
