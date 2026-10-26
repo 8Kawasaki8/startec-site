@@ -1,38 +1,41 @@
 /* ═════════════════════════════════════════════════════════════
-   SIMULATIERUIMTE — the control room (simulatie.html)
-   Agent chrome = brand cyan. Data = deeper cyan + amber (status:
-   gemist / zonder antwoord) + grey. The human = violet. Nothing
-   in the room animates except transform, opacity, clip and strokes.
+   DOORLICHTING — de controlekamer (simulatie.html, src/rooms/doorlichting.html)
+   Het dominante element: het podium met de grafiek. Agent-chroom = cyaan.
+   Data = dieper cyaan + amber (status: gemist / zonder antwoord) + grijs.
+   De mens = violet. De tweede reeks van het wat-als (.wat) is dezelfde
+   kleur, lichter. Niets hier animeert buiten transform, opacity, clip en
+   SVG-attributen; schaduwen staan stil. Fasenbord: flap.css.
 ═════════════════════════════════════════════════════════════ */
-.sim-zone{
+.kamer-doorlichting{
   --surf:#0B0F1A;                 /* chart surface (also the gap/ring colour) */
   --s1:#119DB3;                   /* data: the measured thing (mobiel, score, zoekopdrachten) */
   --s2:#C97B2C;                   /* status: gemist / zonder antwoord */
   --s0:rgba(242,245,255,.26);     /* de-emphasis series (beantwoord, desktop) */
   --agent:var(--cyan);            /* the reticle, the scan, the tags */
-  --human:var(--violet);
+  --human:var(--mens);
   --sev-hoog:#FF8A8A; --sev-middel:#FFB36B; --sev-laag:rgba(242,245,255,.5);
   --ink25:rgba(242,245,255,.58);  /* secondary data text: clears 4.5:1 on the room surface where --ink3 does not */
+  max-width:1360px;
 }
 
-/* ═══ HERO (compact, left aligned, console header) ═══════════ */
-.sim-hero{position:relative;overflow:hidden}
-.sim-hero .sec{position:relative;z-index:1;padding-top:clamp(36px,6vw,64px);padding-bottom:clamp(26px,4vw,40px)}
-.sim-hero .label{display:block}
-.sim-hero h1{font-size:clamp(2rem,4.6vw,3.6rem);max-width:17ch;margin-top:14px}
-.sim-hero .lede{color:var(--ink2);font-size:clamp(1rem,1.25vw,1.12rem);margin-top:18px;max-width:40em}
-.sim-pick{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:26px}
-.sim-flag{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;border:1px dashed rgba(242,245,255,.35);font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+/* ═══ PAGINAKOP (simulatie.html) EN KAMERINTRO ════════════════ */
+.sim-kop{max-width:1360px;padding-top:clamp(28px,5vw,56px);padding-bottom:clamp(20px,3vw,32px)}
+.sim-kop .label{display:block}
+.sim-kop h1{font-size:clamp(1.9rem,4.2vw,3.4rem);max-width:19ch;margin-top:14px}
+.kamer-doorlichting > .dl-lede{max-width:44em}
+.sim-pick{display:flex;flex-wrap:wrap;align-items:flex-start;gap:12px 14px;margin-top:26px}
+.sim-flag{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:8px 12px;border-radius:999px;border:1px dashed rgba(242,245,255,.35);font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
 .sim-flag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ink3)}
-.sim-chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{display:inline-flex;align-items:baseline;gap:7px;min-height:40px;padding:9px 14px;border-radius:999px;border:1px solid var(--line2);background:var(--glass);color:var(--ink);font:600 14px var(--sans);cursor:pointer;transition:border-color .2s,background .2s}
-.chip small{font:500 12px var(--mono);color:var(--ink3);letter-spacing:.02em}
-.chip:hover{border-color:rgba(54,232,255,.55)}
-.chip[aria-pressed="true"]{border-color:var(--cyan);background:rgba(54,232,255,.1)}
-.chip[aria-pressed="true"] small{color:var(--cyan-2)}
+.sim-keuze{flex:1 1 420px}
+.sim-keuze legend{margin-bottom:8px}
+.sim-keuze span{gap:7px;align-items:baseline}
+.sim-keuze small{font:500 12px var(--mono);color:var(--ink3);letter-spacing:.02em}
+.sim-keuze input:checked+span small{color:rgba(6,8,15,.7)}
+.kamer-doorlichting .keuze input{inset:0;width:100%;height:100%;cursor:pointer}   /* the radio covers the chip: the whole chip is the target */
+.kamer-doorlichting > .sim-context{margin-top:18px;font:500 13px/1.5 var(--mono);letter-spacing:.02em;color:var(--ink2);max-width:62ch;padding:10px 14px;border-left:2px solid var(--line2)}
 .sim-ctrl{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:20px}
 .sim-ctrl .btn[disabled]{opacity:.45;cursor:default}
-.sim-ctrl .pill[disabled]{opacity:.5;cursor:default;transform:none;box-shadow:none}
+.sim-ctrl .pill[disabled]{opacity:.5;cursor:default;transform:none}
 .seg{display:inline-flex;gap:2px;padding:3px;border-radius:999px;border:1px solid var(--line2);background:var(--glass)}
 .seg button{min-height:34px;padding:7px 14px;border-radius:999px;border:0;background:none;color:var(--ink3);font:600 13px var(--mono);cursor:pointer;transition:color .2s}
 .seg button:hover{color:var(--ink)}
@@ -41,12 +44,7 @@
 .sim-skip:hover{text-decoration-color:var(--cyan)}
 
 /* ═══ THE ROOM ═══════════════════════════════════════════════ */
-.sim-zone{position:relative;background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.sim-zone::before{content:"";position:absolute;inset:0;pointer-events:none;
-  background-image:linear-gradient(rgba(242,245,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(242,245,255,.045) 1px,transparent 1px);background-size:56px 56px;
-  -webkit-mask-image:radial-gradient(80% 70% at 50% 40%,#000 30%,transparent 100%);mask-image:radial-gradient(80% 70% at 50% 40%,#000 30%,transparent 100%)}
-.room{position:relative;z-index:1;max-width:1360px;margin:0 auto;padding:clamp(18px,3vw,34px) var(--gut) 14px;
-  display:grid;grid-template-columns:minmax(230px,.8fr) minmax(0,2fr) minmax(250px,.95fr);gap:14px;align-items:stretch}
+.room{position:relative;z-index:1;margin-top:18px;display:grid;grid-template-columns:minmax(230px,.8fr) minmax(0,2fr) minmax(250px,.95fr);gap:14px;align-items:stretch}
 .col{display:flex;flex-direction:column;min-height:0;border:1px solid var(--line2);border-radius:16px;background:rgba(255,255,255,.035)}
 .col-head{display:flex;align-items:center;gap:10px;padding:13px 14px;border-bottom:1px solid var(--line)}
 .col-head .label{white-space:nowrap}
@@ -83,14 +81,15 @@
 .tabs button.can{cursor:pointer}
 .tabs button.can:hover{color:var(--ink)}
 .stage-title{padding:12px 18px 0}
-.stage-title h2{font-size:clamp(1.05rem,1.5vw,1.3rem);letter-spacing:0}
-.stage-title p{font:500 11.5px/1.5 var(--mono);letter-spacing:.04em;color:var(--ink25);margin-top:4px}
+.stage-title h3{font:600 clamp(1.05rem,1.5vw,1.3rem)/1.2 var(--display);letter-spacing:0}
+.stage-title p{font:500 11.5px/1.5 var(--mono);letter-spacing:.04em;color:var(--ink25);margin-top:4px;max-width:none}
 .stage-body{position:relative;padding:8px 14px 6px}
 .legend{list-style:none;display:flex;flex-wrap:wrap;gap:6px 16px;padding:0 4px 6px;font:500 12px var(--sans);color:var(--ink2)}
 .legend li{display:inline-flex;align-items:center;gap:7px}
 .legend i{width:12px;height:12px;border-radius:3px;background:var(--s0);flex:none}
 .legend i.s1{background:var(--s1)} .legend i.s2{background:var(--s2)} .legend i.band{background:rgba(242,245,255,.1);border:1px solid var(--line2)}
 .legend i.line{height:2px;border-radius:1px;width:16px}
+.legend i.wat{opacity:.45} .legend i.band.wat{opacity:1;background:rgba(201,123,44,.28);border-color:rgba(201,123,44,.6)}
 .chart-wrap{position:relative;border-radius:12px;background:var(--surf);transition:opacity .4s}
 .chart-wrap svg{width:100%;height:auto;display:block}
 .ret-layer{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
@@ -99,17 +98,22 @@
 .stage.idle .standby{opacity:1;visibility:visible}
 .standby p{font-size:14px;color:var(--ink2)}
 /* chart marks (inline SVG inherits the page CSS) */
-.sim-zone svg text{font:500 11px var(--mono);fill:var(--ink25)}
-.sim-zone svg text.lbl{fill:var(--ink2)}
-.sim-zone svg text.val{font:600 12px var(--sans);fill:var(--ink)}
-.sim-zone svg .grid{stroke:rgba(242,245,255,.08);stroke-width:1}
-.sim-zone svg .base{stroke:rgba(242,245,255,.2);stroke-width:1}
-.sim-zone svg .ref{stroke:rgba(242,245,255,.35);stroke-width:1}
-.sim-zone svg .s0{fill:var(--s0)} .sim-zone svg .s1{fill:var(--s1)} .sim-zone svg .s2{fill:var(--s2)}
-.sim-zone svg .ln{fill:none;stroke:var(--s1);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
-.sim-zone svg .wash{fill:var(--s1);fill-opacity:.12} .sim-zone svg .wash2{fill:var(--s2);fill-opacity:.22}
-.sim-zone svg .band{fill:rgba(242,245,255,.055)}
-.sim-zone svg .dot{fill:var(--s1);stroke:var(--surf);stroke-width:2}
+#sim-chart svg text{font:500 11px var(--mono);fill:var(--ink25)}
+#sim-chart svg text.lbl{fill:var(--ink2)}
+#sim-chart svg text.lbl.wat{fill:rgba(201,123,44,.9)}
+#sim-chart svg text.val{font:600 12px var(--sans);fill:var(--ink)}
+#sim-chart svg .grid{stroke:rgba(242,245,255,.08);stroke-width:1}
+#sim-chart svg .base{stroke:rgba(242,245,255,.2);stroke-width:1}
+#sim-chart svg .ref{stroke:rgba(242,245,255,.35);stroke-width:1}
+#sim-chart svg .s0{fill:var(--s0)} #sim-chart svg .s1{fill:var(--s1)} #sim-chart svg .s2{fill:var(--s2)}
+#sim-chart svg .ln{fill:none;stroke:var(--s1);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+#sim-chart svg .wash{fill:var(--s1);fill-opacity:.12} #sim-chart svg .wash2{fill:var(--s2);fill-opacity:.22}
+#sim-chart svg .band{fill:rgba(242,245,255,.055)}
+#sim-chart svg .band.wat{fill:rgba(201,123,44,.2)}
+#sim-chart svg .dot{fill:var(--s1);stroke:var(--surf);stroke-width:2}
+/* the wat-als series: same hue, lighter, dashed where it is a line */
+#sim-chart svg .s0.wat,#sim-chart svg .s2.wat{fill-opacity:.45}
+#sim-chart svg .ln.wat{stroke:var(--s2);stroke-dasharray:4 4;stroke-width:1.6}
 /* reticle layer */
 .ret-layer .dim{fill:rgba(11,15,26,.55)}
 .ret-layer .fr{stroke:var(--agent);stroke-width:1;vector-effect:non-scaling-stroke;opacity:.75}
@@ -135,25 +139,24 @@
 .find .sev{display:inline-flex;align-items:center;gap:7px;font:500 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
 .find .sev::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--sev-laag)}
 .find .sev.hoog::before{background:var(--sev-hoog)} .find .sev.middel::before{background:var(--sev-middel)}
-.find h3{font:500 14px/1.35 var(--sans);letter-spacing:0;margin-top:6px;text-wrap:pretty}
+.find h4{font:500 14px/1.35 var(--sans);letter-spacing:0;margin-top:6px;text-wrap:pretty}
 .find .num{font:600 22px/1.1 var(--sans);letter-spacing:-.01em;margin-top:6px}
 .find .proof{font-size:12.5px;line-height:1.4;color:var(--ink25);margin-top:3px}
 
 /* ═══ ADVICE + THE HUMAN STEP ════════════════════════════════ */
-.advies{position:relative;z-index:1;max-width:1360px;margin:0 auto;padding:0 var(--gut) clamp(26px,4vw,44px);display:grid;grid-template-columns:minmax(0,2.15fr) minmax(280px,.95fr);gap:14px;align-items:stretch}
+.advies{position:relative;z-index:1;margin-top:14px;display:grid;grid-template-columns:minmax(0,2.15fr) minmax(280px,.95fr);gap:14px;align-items:stretch}
 .adv-panel{border:1px solid var(--line2);border-radius:20px;background:rgba(255,255,255,.035);padding:clamp(18px,2.4vw,26px)}
 .adv-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px}
-.adv-head h2{font-size:clamp(1.5rem,2.4vw,2rem)}
+.adv-head h3{font:600 clamp(1.4rem,2.2vw,1.9rem)/1.1 var(--display);letter-spacing:-.01em}
 .adv-head .small{font-size:13.5px}
 .adv-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px;min-height:150px}
 .adv{display:flex;flex-direction:column;gap:8px;padding:16px;border-radius:14px;border:1px solid var(--line2);background:rgba(6,8,15,.5);visibility:hidden;opacity:0}
 .adv .n{font:500 11px var(--mono);letter-spacing:.12em;color:var(--agent)}
-.adv h3{font:600 15.5px/1.35 var(--sans);letter-spacing:0}
+.adv h4{font:600 15.5px/1.35 var(--sans);letter-spacing:0}
 .adv p{font-size:14px;color:var(--ink2);flex:1}
 .adv .imp{font:600 15px/1.3 var(--sans);padding-top:10px;border-top:1px solid var(--line)}
 .adv .est{font:500 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
-.human{position:relative;display:flex;flex-direction:column;gap:12px;padding:clamp(18px,2.4vw,26px);border-radius:20px;border:1px solid rgba(138,107,255,.5);
-  background:linear-gradient(165deg,rgba(138,107,255,.16),rgba(138,107,255,.04) 55%,rgba(255,255,255,.02))}
+.human{position:relative;display:flex;flex-direction:column;gap:12px;padding:clamp(18px,2.4vw,26px);border-radius:20px;border:1px solid rgba(138,107,255,.5);background:rgba(138,107,255,.08)}
 .hum-state{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:6px 11px;border-radius:999px;border:1px solid rgba(138,107,255,.55);font:500 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
 .hum-state::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--human)}
 .human.wait .hum-state{color:var(--ink);background:rgba(138,107,255,.18)}
@@ -165,10 +168,25 @@
 .hum-steps span{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
 .hum-steps li:nth-child(2) span{color:var(--cyan-2)}
 
+/* ═══ WAT ALS: één schakelaar per actie, de tweede reeks, de teller ═══ */
+.watals{margin-top:14px;padding:clamp(18px,2.4vw,26px);border:1px solid var(--line2);border-radius:20px;background:rgba(255,255,255,.035)}
+.watals-kop{display:grid;gap:8px;max-width:62ch}
+.watals-kop h3{font:600 clamp(1.15rem,1.7vw,1.4rem)/1.2 var(--display);letter-spacing:-.005em}
+.watals-kop p{font-size:14.5px;color:var(--ink2)}
+.watals-rij{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}
+.watals-knop{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-height:44px;padding:12px 14px;border-radius:14px;text-align:left;font:500 14px/1.35 var(--sans);white-space:normal}
+.watals-knop .n{font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.watals-knop[aria-pressed="true"]{border-color:var(--s2);background:rgba(201,123,44,.12)}
+.watals-knop[aria-pressed="true"] .n{color:var(--s2)}
+.watals-teller{margin-top:14px;min-height:1.6em;font:500 15px/1.5 var(--mono);color:var(--ink);max-width:none}
+.watals .watals-label{margin-top:6px;font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+
 /* ═══ CTA + honesty line ═════════════════════════════════════ */
-.sim-cta{padding-bottom:clamp(40px,6vw,72px)}
-.sim-cta p{color:var(--ink2);margin-top:16px}
-.sim-foot{font-size:13px;color:var(--ink3);margin-top:clamp(32px,5vw,56px)}
+.sim-cta{margin-top:clamp(40px,6vw,64px);max-width:62ch}
+.sim-cta .label{display:block}
+.sim-cta h3{font:600 clamp(1.4rem,2.4vw,2rem)/1.1 var(--display);letter-spacing:-.01em;margin-top:12px}
+.sim-cta p{color:var(--ink2);margin-top:14px}
+.kamer-doorlichting > .sim-foot{font-size:13px;color:var(--ink3);margin-top:clamp(32px,5vw,56px)}
 
 /* ═══ RESPONSIVE ═════════════════════════════════════════════ */
 @media(max-width:1100px){
@@ -176,10 +194,9 @@
   .log-col{grid-column:1/-1;order:3}
   .log-col .col-body{min-height:210px}
   .advies{grid-template-columns:1fr}
-  .adv-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media(max-width:760px){
-  .room{grid-template-columns:1fr;padding-top:16px}
+  .room{grid-template-columns:1fr}
   .stage{order:1}.find-col{order:2}.log-col{order:3}
   .find-col .col-body{position:static}
   .finds{position:static;overflow:visible}
@@ -190,18 +207,18 @@
   .tabs button.active span{display:inline}
   .stage-title{padding:10px 14px 0}
   .stage-body{padding:8px 8px 4px}
-  .callout{position:relative;max-width:none;margin:8px 2px 2px;left:auto!important;top:auto!important;right:auto!important}
+  .callout{position:relative;max-width:none;margin:8px 2px 2px;left:auto!important;top:auto!important;right:auto!important;width:auto!important}
   .stage-foot{padding:8px 14px 10px;flex-wrap:wrap;gap:6px 14px}
-  .adv-grid{grid-template-columns:1fr}
+  .adv-grid,.watals-rij{grid-template-columns:1fr}
   .sim-ctrl .seg{order:3}
 }
 @media(max-width:400px){
-  .chip{padding:8px 12px;font-size:13px}
+  .sim-keuze span{padding:0 12px;font-size:13px}
   .who strong{font-size:14px}
 }
 @media (prefers-reduced-motion:reduce){
   .running .live,.human.wait .hum-state::before,.log li.typing .tx::after{animation:none}
   .stage-prog{box-shadow:none}
 }
-/* QA golf 1 (eind-QA): klikdoelen van minstens 44 px op grove aanwijzers (zaakkeuze, snelheid, tabs) */
-@media(pointer:coarse){.chip,.seg button,.tabs button{min-height:44px}.tabs button{min-width:44px;justify-content:center}}
+/* klikdoelen van minstens 44 px op grove aanwijzers (snelheid, tabs; de keuzechips komen uit base.css) */
+@media(pointer:coarse){.seg button,.tabs button{min-height:44px;min-width:44px}.tabs button{justify-content:center}}

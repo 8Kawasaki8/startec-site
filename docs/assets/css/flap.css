@@ -1,0 +1,27 @@
+/* ═════════════════════════════════════════════════════════════
+   FASENBORD — split-flap (flap.js, src/rooms/doorlichting.html); klassen .fasenbord-*
+   Een rij tekencellen (JetBrains Mono) met een naad in het midden, zoals
+   een vertrekbord; daarnaast de vijf fasen als tekst, de huidige met een
+   cyane stip, de laatste (de mens) violet. flap.js beweegt enkel de
+   transform van het teken; de cellen zelf, de schaduw en de kleuren staan
+   stil. Zonder script blijft de rij leeg en zegt de lijst de volgorde.
+═════════════════════════════════════════════════════════════ */
+.fasenbord{margin-top:18px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px}
+.fasenbord-rij{display:inline-flex;gap:3px;padding:6px;border-radius:10px;background:#06080F;border:1px solid var(--line2)}
+.fasenbord-rij:empty{display:none}
+.fasenbord-cel{position:relative;width:17px;height:26px;display:grid;place-items:center;border-radius:4px;background:#161D30;font:600 15px/1 var(--mono);color:var(--ink);overflow:hidden}
+.fasenbord-cel::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(6,8,15,.95);pointer-events:none}
+.fasenbord-cel.is-leeg{color:transparent;background:#101523}
+.fasenbord-teken{display:block;font-weight:600;font-style:normal;transform-origin:50% 50%;will-change:transform}
+.fasenbord-fasen{list-style:none;display:flex;flex-wrap:wrap;gap:6px 16px;margin:0;padding:0;font:500 11px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.fasenbord-fasen li{display:inline-flex;align-items:center;gap:7px;min-height:24px}
+.fasenbord-fasen li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--line2);flex:none}
+.fasenbord-fasen li.is-done{color:var(--ink2)}
+.fasenbord-fasen li.is-done::before{background:var(--ink3)}
+.fasenbord-fasen li[aria-current]{color:var(--ink)}
+.fasenbord-fasen li[aria-current]::before{background:var(--cyan)}
+.fasenbord-fasen li:last-child[aria-current]::before{background:var(--mens)}
+@media(max-width:480px){
+  .fasenbord-cel{width:15px;height:23px;font-size:13px}
+  .fasenbord-rij{gap:2px;padding:5px}
+}

@@ -52,7 +52,8 @@ Drie profielen: `phone` 390x844 (grove aanwijzer, `hardwareConcurrency` 4, DPR 2
 voor de pagina laadt, dus de intro speelt niet. Varianten: `default`, `reduced` (prefers-reduced-motion),
 `lite` (`?lite`) en `intro` (geen `sts-pre`: de intro speelt; alleen index.html op desktop en telefoon, ook in
 `qa:quick`). De intro-run eist `sts:intro-done` binnen 1600 ms na het eerste scene-event, daarna geen
-`#intro` en geen `body.introing` meer, en `sts-pre` geschreven.
+`#intro` meer en `sts-pre` geschreven; dezelfde run herlaadt daarna de pagina met de scene-module geblokkeerd
+(`dead-module`): binnen 1 s geen `#intro`, `#scene-fallback` zichtbaar, `sts:scene-failed` en een zichtbare H1.
 
 Gesnoeide matrix (`buildMatrix`): elke pagina x drie profielen in `gl`; `reduced` op telefoon voor elke
 pagina en op desktop voor de scenepagina's; `lite` op desktop en telefoon voor index, dev/scene, simulatie
@@ -83,21 +84,26 @@ Bijzonderheden:
   `[data-voice=customer]` en FAQ-vragen in `<details><summary>`. In `[data-sim]` verboden: 'studie', 'onderzoek toont',
   'rapport'; verplicht: 'gesimuleerd' of 'fictief'. Vijf gevulde sterren alleen met 'voorbeeld' in hetzelfde blok.
   `docs/demo` is vrijgesteld van prijs-, sterren- en opslagscans, niet van de externe-verzoekwacht.
-- Conversiecontract: zodra `window.STSBericht.prefill` bestaat (WP-02) klikt de harnas elk `[data-bericht]`
-  met een proefzaak in `sessionStorage.sts-zaak` (`{naam:'Proefzaak QA', ...}`) en controleert dat het
-  Bericht-tekstvak de zaaknaam en de sleutelzin (`STSBericht.phrase(key)`) bevat. Tot dan: notitie.
+- Conversiecontract: de harnas klikt elk `[data-bericht]` met een proefzaak in `sessionStorage.sts-zaak`
+  (`{naam:'Proefzaak QA', ...}`) en controleert dat het Bericht-tekstvak de zaaknaam en de sleutelzin
+  (`STSBericht.phrase(key)`) bevat (`window.STSBericht.prefill` bestaat sinds WP-02).
 - Eerste scherm: `budget.firstViewportWords` (voor index.html: 'onderzoek', 'verkenner', 'Snymis') moet zichtbaar
-  zijn zonder scrollen; bekend tot WP-04. De helper `firstViewport(words)` in `checks.mjs` is herbruikbaar.
+  zijn zonder scrollen. De helper `firstViewport(words)` in `checks.mjs` is herbruikbaar.
+- Dock (`dock`, telefoon): minstens vier van de vijf deuren volledig in beeld (drie op een pagina met een eigen
+  deur, die dan zelf in beeld staat met `aria-current=page`), elke deur minstens 44x44 px, de actie in beeld.
+- Lange naam (`long-name`, telefoon, index.html): `?zaak=Kinesitherapiepraktijk Vanderstraeten` geeft geen
+  horizontale overflow, `#sign-dom` binnen de viewport, geen woord gebroken over de twee regels en `#sign-sr`
+  gelijk aan 'Uithangbord: ' + de naam.
 
 ## Fout, bekend, notitie
 
 `budget.mjs` deelt elke bevinding in. `fail` blokkeert. `known` is een bevinding van de huidige site die
-een genoemd werkpakket oplost (lijst `KNOWN`): de `.nav` blur-transition en `.pill.liquid` (WP-04), de
-permanente rAF-lus en ASCII-spiegel (WP-03), 'een medewerker' in privacy.html (WP-02), de FAQ-vraag met
-'jullie' voor `data-voice` bestaat (WP-11), 'Data & leads' (WP-04), backdrop-filter in niet-juridische CSS
-(WP-04), Three.js op de telefoon (WP-03). Een bekende bevinding houdt het rapport groen maar staat in het
-rapport met zijn werkpakket. Zodra de oorzaak weg is (bijvoorbeeld `style.css` is gesplitst) vervalt de
-regel vanzelf en wordt dezelfde bevinding een fout. Poorten in `budget.gates` (rAF-rust, timers, bytes,
+een genoemd werkpakket oplost (lijst `KNOWN`): het gewicht van de oude demos.html (WP-09) en de strenge
+regellimieten (WP-15). De WP-04-regels (style.css, backdrop-filter, de rAF-lus van motion.js, timers, het
+gewicht en de overflow van de oude index, 'Data & leads', het eerste scherm), de WP-02-regel (de conversiecheck
+zonder STSBericht) en de WP-11-regel ('jullie' in de FAQ-vraag, nu `<details><summary>`) zijn met die pakketten
+verwijderd: die controles falen nu echt. Een bekende bevinding houdt het rapport groen maar staat in het rapport met zijn
+werkpakket. Zodra de oorzaak weg is vervalt de regel en wordt dezelfde bevinding een fout. Poorten in `budget.gates` (rAF-rust, timers, bytes,
 eerste scherm, backdrop-filter, strikte regellimieten) staan uit tot `scripts/qa/budget.json` ze aanzet (WP-15).
 
 ## Statische lints
@@ -148,6 +154,8 @@ scripts/qa/lint-css.mjs    lint-copy.mjs  lint-lines.mjs
 scripts/qa/report.mjs      docs/qa-report.html
 scripts/qa/prepush.sh      publicatiewacht; scripts/qa/hooks/pre-push is de wrapper voor core.hooksPath
 scripts/qa/fixtures/broken.html  opzettelijk foute pagina voor de zelftest
+scripts/qa/fixtures/sign.json    wrapSign: twee regels, nooit een woord gebroken (fixtures.mjs, checkSignFixtures)
+scripts/qa/sim-check.mjs   WP-07: herrekent elke bevinding, callout, logregel en wat-als-teller van de Doorlichting uit de arrays (sim-data.js, sim-data-2.js, sim-whatif.js); `node scripts/qa/sim-check.mjs`
 ```
 
 ## Herziening golf 1: extra poorten
@@ -160,6 +168,6 @@ scripts/qa/fixtures/broken.html  opzettelijk foute pagina voor de zelftest
 - Overflow meet tegen `documentElement.clientWidth`/`visualViewport.width`, niet `innerWidth` (dat groeit
   onder telefoonemulatie mee met de inhoud); kinderen van een inline `<svg>` tellen niet mee.
 - Bytes worden alleen voor de eerste lading geteld (de conversiecheck herlaadt de pagina per sleutel).
-- `fixtures.mjs`: names.json en prefill.json tegen names.js en contact-prefill.js, in node.
+- `fixtures.mjs`: names.json en prefill.json tegen names.js en contact-prefill.js, in node; sign.json tegen signdom.js.
 - Bekende punten zijn gebonden aan het bestand of de pagina die ze beschrijven (style.css, index.html,
   pagina's met motion.js); nieuwe CSS of een nieuwe lus valt er niet onder.

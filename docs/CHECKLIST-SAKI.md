@@ -13,8 +13,21 @@ WP-15 maakt de eindversie.
    Voorstel: aan de dd toevoegen *'en de vier schakelaars van de schets'* en één zin erbij:
    *'Alleen wanneer je zelf een deellink of kaartje maakt, staat de naam in dat adres; wij lezen die niet.'*
 2. **privacy.html, 2.3 (zelfde reden).** Zelfde zin spiegelen na 'ze verlaten je toestel nooit'.
-3. **JSON-LD `areaServed` (scripts/buildlib.py).** Stond op Antwerpen, Vlaanderen, Brussel. Brussel is
-   zonder grond geschrapt; terug toevoegen alleen als je er echt klanten bedient.
+3. **JSON-LD `areaServed` (scripts/buildlib.py) en FAQ 06 in src/rooms/bericht.html.** Stond op Antwerpen,
+   Vlaanderen, Brussel. Brussel is zonder grond geschrapt, ook uit het FAQ-antwoord 'Werken jullie ook buiten
+   Antwerpen?' (nu 'Ja, voor heel Vlaanderen.'); terug toevoegen alleen als je er echt klanten bedient, en dan in
+   beide plaatsen in dezelfde commit.
+4. **juridisch.html, 'Wat we doen' en voorwaarden.html, punt 1 (WP-04).** Beide noemen 'websites,
+   AI-systemen en automatisering' als diensten. De rest van de site verkoopt dat niet meer (alleen websites,
+   gratis gereedschap en onderzoek); de juridische tekst is ongemoeid gelaten tot er een OK is.
+   Voorstel juridisch: *'Star.Tec.Solutions ontwerpt en bouwt websites voor zelfstandigen en kleine bedrijven,
+   maakt gratis gereedschap voor hun zichtbaarheid en doet onderzoek naar AI die werk overneemt van zulke
+   zaken. Elke opdracht begint met een gratis voorbeeld; daarna volgt een offerte op maat.'*
+   Voorstel voorwaarden, punt 1: *'websites en platformen, ontwerp, onderhoud, advies en, zodra ze bestaan,
+   de systemen die uit dat onderzoek volgen'*.
+5. **juridisch.html (1x) en privacy.html (2x): link `index.html#contact` -> `index.html#bericht`.** De sectie
+   `#contact` bestaat niet meer; de link werkt vandaag alleen via de legacy-koppeling in uithangbord.js (met
+   JavaScript). Voorstel: enkel de drie href-waarden vervangen, de zin blijft. Toe te passen samen met punt 4.
 
 ## Aan te leveren (config.js-plaatshouders, geen blokkering)
 

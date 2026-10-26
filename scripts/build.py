@@ -12,12 +12,11 @@ Page front matter (HTML comment at the top of src/pages/<slug>.html):
                          stands in the body, each wrapped in <section id="a" data-room>.
   updated: YYYY-MM-DD    the date {{date}} shows ('Laatst bijgewerkt') and the sitemap reports;
                          the build date is used only when the key is absent.
-  vendor: gsap.min       scripts from docs/assets/vendor, loaded first (default: gsap.min;
-                         an empty value loads none).
+  vendor: gsap.min       scripts from docs/assets/vendor, loaded first (default: none; only
+                         pages with a GSAP timeline declare gsap.min).
   scripts: a b           scripts from docs/assets/js, after config.js and the core scripts
-                         (names, state, hydrate, contact-prefill: on every page, legal included;
-                         'motion' is dropped on the legal pages).
-  styles: a b            stylesheets from docs/assets/css, after style.css.
+                         (names, state, hydrate, contact-prefill: on every page, legal included).
+  styles: a b            stylesheets from docs/assets/css, after fonts, base and uithangbord.
   scene: yes             inserts src/partials/scene.html at {{scene}} (canvas, sign, SVG fallback
                          and the inline loader that decides whether Three.js loads).
   noindex: yes           robots meta 'noindex, nofollow' and no sitemap entry.
@@ -27,18 +26,19 @@ Pages in sub-folders of src/pages (dev/scene.html) are built to the same sub-fol
 with their relative links prefixed. {{svg:name}} anywhere inlines docs/assets/img/name.svg;
 {{home}} is the address of the start page. src/data/*.json and *.js are copied to
 docs/assets/data/. When src/data/wijken.json exists, buildlib.build_wijken() runs (WP-13).
-The strip (src/partials/uithangbord.html) is rendered from DOORS and ACTION in buildlib.py.
+The strip (src/partials/uithangbord.html) is rendered from DOORS and ACTION in buildlib.py; the
+footer (src/partials/foot.html) repeats the same DOORS through {{doors}} (WP-04).
 """
 import argparse, datetime, json
 
-from buildlib import (DOORS, LEGACY_LINKS, OUT, SRC, VENDOR_DEFAULT, build_wijken, copy_data, dutch_date,
-                      front_matter, inline_svg, json_ld, og_tags, page_date, prefix_links, redirect_stub,
-                      render_action, render_doors, rooms_html, write_sitemap)
+from buildlib import (DOORS, OUT, SRC, VENDOR_DEFAULT, build_wijken, copy_data, dutch_date, front_matter,
+                      inline_svg, json_ld, og_tags, page_date, prefix_links, redirect_stub, render_action,
+                      render_doors, rooms_html, selftest, write_sitemap)
 
 NOT_IN_SITEMAP = {"404"}
 # WP-02: the state core on every page, in this order (state needs names; hydrate and the prefill contract need state).
 CORE_SCRIPTS = ["names", "state", "hydrate", "contact-prefill"]
-LEGAL_PAGES = {"juridisch", "privacy", "cookies", "voorwaarden"}   # no motion layer: nothing moves on a legal page
+LEGAL_PAGES = {"juridisch", "privacy", "cookies", "voorwaarden"}
 ROBOTS_NOINDEX = '<meta name="robots" content="noindex, nofollow">'
 
 
@@ -60,11 +60,10 @@ def render_page(ctx, slug, meta, body):
         if "{{rooms}}" not in body:
             raise SystemExit("src/pages/%s.html lists rooms but has no {{rooms}} placeholder" % slug)
         body = body.replace("{{rooms}}", rooms_html(meta), 1)
-    strip = (part["uithangbord"].replace("{{links}}", render_doors(LEGACY_LINKS, slug, meta))
-             .replace("{{doors}}", render_doors(DOORS, slug, meta)).replace("{{action}}", render_action(slug, meta)))
-    scripts = ['<script src="assets/vendor/%s.js"></script>' % v for v in meta.get("vendor", VENDOR_DEFAULT).split()]
+    strip = part["uithangbord"].replace("{{doors}}", render_doors(DOORS, slug, meta, kort=True)).replace("{{action}}", render_action(slug, meta))
+    scripts = ['<script src="assets/vendor/%s.js"></script>' % v for v in meta.get("vendor", VENDOR_DEFAULT).split()]   # 'vendor:' empty = none
     scripts += ['<script src="assets/js/config.js"></script>']
-    page_scripts = [s for s in meta.get("scripts", "").split() if s not in CORE_SCRIPTS and not (slug in LEGAL_PAGES and s == "motion")]
+    page_scripts = [s for s in meta.get("scripts", "").split() if s not in CORE_SCRIPTS]
     scripts += ['<script src="assets/js/%s.js"></script>' % s for s in CORE_SCRIPTS + page_scripts]
     styles = "\n".join('<link rel="stylesheet" href="assets/css/%s.css">' % s for s in meta.get("styles", "").split())
     page_head = part["head"]
@@ -77,7 +76,7 @@ def render_page(ctx, slug, meta, body):
                 .replace("{{jsonld}}", json_ld(base, slug))
                 .replace("{{styles}}", styles)
             + strip + body.strip() + "\n"
-            + part["foot"].replace("{{scripts}}", "\n".join(scripts)))
+            + part["foot"].replace("{{doors}}", render_doors(DOORS, slug, meta, indent="        ")).replace("{{scripts}}", "\n".join(scripts)))   # WP-04: the footer repeats the five doors
     html = html.replace("{{home}}", "index.html").replace("{{date}}", dutch_date(page_date(meta, ctx["today"])))
     return prefix_links(inline_svg(html), up)
 
@@ -94,6 +93,7 @@ def main():
     ap.add_argument("--base", default="")
     args = ap.parse_args()
     base = args.base.rstrip("/") + "/" if args.base else ""
+    selftest()
     ctx = {"base": base, "today": datetime.date.today(), "partials": read_partials()}
     indexed = []     # (slug, date) for the sitemap
 

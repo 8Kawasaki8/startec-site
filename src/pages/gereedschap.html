@@ -1,114 +1,32 @@
 <!--
-title: Gratis gereedschap voor je zaak — Star.Tec.Solutions
-description: Test in één minuut hoe zichtbaar je zaak is, maak gratis een WhatsApp-knop en QR-code, en bekijk hoe je zaak eruitziet in Google. Zonder account.
+title: Gratis gereedschap voor je zaak: zichtbaarheidscheck, WhatsApp-QR, Google-voorbeeld — Star.Tec.Solutions
+description: Vier gratis loketten die in je browser blijven: test in één minuut hoe zichtbaar je zaak is, maak een WhatsApp-knop met QR-code voor je kassa, bekijk je resultaat in Google en je Google-kaartje om 19 u. Zonder account, zonder e-mailadres.
 nav: gereedschap
-styles: tools
-scripts: ../vendor/qrcode.min motion reveal lite tools
+rooms: gereedschap
+vendor: qrcode.min
+styles: rooms tools print
+scripts: reveal lite uithangbord score tools-page tools-check tools-qr tools-serp tool-kaartje tool-kaart tools-share tools-toog
 -->
 <main id="main" class="page" style="padding-top:72px">
-
-<section class="sec" style="padding-bottom:clamp(32px,4vw,48px)">
-  <div class="sec-head" style="margin-bottom:0">
-    <p class="label">Gratis gereedschap</p>
-    <h1>Kleine dingen die <em>meteen</em> helpen.</h1>
-    <p>Geen account, geen e-mailadres nodig. Alles gebeurt in je eigen browser; wat je invult, verlaat je toestel niet.</p>
-  </div>
+<section class="sec tools-kop" aria-labelledby="t-h1">
+  <p class="label">Gratis gereedschap</p>
+  <h1 id="t-h1">Kleine dingen die <em>meteen</em> helpen.</h1>
+  <p class="lede">Geen account, geen e-mailadres. Alles gebeurt in je eigen browser; wat je invult, verlaat je toestel niet. Staat je naam op het bord, dan staat ze ook in elk loket.</p>
 </section>
-
-<div class="band">
-  <section class="sec" aria-labelledby="t-zc" id="zichtbaarheid">
-    <div class="tool">
-      <div>
-        <p class="label">Zichtbaarheidscheck</p>
-        <h2 id="t-zc" style="margin:12px 0 14px">Hoe zichtbaar is je zaak, in &eacute;&eacute;n minuut</h2>
-        <p style="color:var(--ink2);margin-bottom:22px">Zes vragen over wat een klant ziet die je &rsquo;s avonds op zijn gsm zoekt. Eerlijk antwoorden geeft het nuttigste resultaat.</p>
-        <form id="zc" class="zc" novalidate>
-          <fieldset><legend>1. Heb je een Google-bedrijfsprofiel dat jij zelf beheert?</legend><div class="zc-opts"><label><input type="radio" name="q1" value="100"><span>Ja</span></label><label><input type="radio" name="q1" value="50"><span>Deels</span></label><label><input type="radio" name="q1" value="0"><span>Nee</span></label></div></fieldset>
-          <fieldset><legend>2. Staan je openingsuren overal juist (Google, Facebook, website)?</legend><div class="zc-opts"><label><input type="radio" name="q2" value="100"><span>Ja</span></label><label><input type="radio" name="q2" value="50"><span>Deels</span></label><label><input type="radio" name="q2" value="0"><span>Nee</span></label></div></fieldset>
-          <fieldset><legend>3. Kan een klant je in &eacute;&eacute;n tik bellen of WhatsAppen vanaf je site?</legend><div class="zc-opts"><label><input type="radio" name="q3" value="100"><span>Ja</span></label><label><input type="radio" name="q3" value="50"><span>Deels</span></label><label><input type="radio" name="q3" value="0"><span>Nee</span></label></div></fieldset>
-          <fieldset><legend>4. Laadt je site op een gsm binnen drie seconden?</legend><div class="zc-opts"><label><input type="radio" name="q4" value="100"><span>Ja</span></label><label><input type="radio" name="q4" value="50"><span>Weet ik niet</span></label><label><input type="radio" name="q4" value="0"><span>Nee</span></label></div></fieldset>
-          <fieldset><legend>5. Beantwoord je je Google-reviews, ook de slechte?</legend><div class="zc-opts"><label><input type="radio" name="q5" value="100"><span>Ja</span></label><label><input type="radio" name="q5" value="50"><span>Soms</span></label><label><input type="radio" name="q5" value="0"><span>Nee</span></label></div></fieldset>
-          <fieldset><legend>6. Staan er foto&rsquo;s van je zaak online van de laatste zes maanden?</legend><div class="zc-opts"><label><input type="radio" name="q6" value="100"><span>Ja</span></label><label><input type="radio" name="q6" value="50"><span>Oudere</span></label><label><input type="radio" name="q6" value="0"><span>Nee</span></label></div></fieldset>
-          <p id="zc-err" class="warn" hidden>Beantwoord eerst alle zes de vragen.</p>
-          <button class="pill" type="submit">Bereken mijn score <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
-        </form>
-      </div>
-      <div class="out zc-out" aria-live="polite">
-        <div id="zc-res" hidden>
-          <div class="zc-ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(242,245,255,.12)" stroke-width="8"/><circle id="zc-arc" cx="60" cy="60" r="52" fill="none" stroke="var(--cyan)" stroke-width="8" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)"/></svg><div class="zc-score"><b id="zc-num">0</b><span>op 100</span></div></div>
-          <h3 id="zc-title" style="margin-top:18px"></h3>
-          <p id="zc-text" style="color:var(--ink2);margin-top:8px;font-size:15px"></p>
-          <p class="label" style="margin-top:22px">Begin hiermee</p>
-          <ol id="zc-tips" class="zc-tips"></ol>
-          <div class="row"><a class="btn" id="zc-cta" href="index.html#contact"><span class="st" aria-hidden="true"></span> Laat ons dit regelen</a></div>
-        </div>
-        <p class="hint" id="zc-hint">Beantwoord de zes vragen. Je score en drie concrete stappen verschijnen hier.</p>
-      </div>
-    </div>
-  </section>
+{{rooms}}
+<div class="eenpager" data-eenpager hidden>
+  <p class="label">Gratis gereedschap voor zaken zonder goede site</p>
+  <h2>Vier loketten, in de browser van de uitbater</h2>
+  <ol>
+    <li><strong>Zichtbaarheidscheck.</strong> Zes vragen, een score op 100 als zelfinschatting en drie stappen om mee te beginnen.</li>
+    <li><strong>WhatsApp-knop en QR-code.</strong> Een knop voor de site en een kaartje voor aan de kassa, met het eigen gsm-nummer.</li>
+    <li><strong>Google-voorbeeld.</strong> Hoe de titel en de beschrijving van een site er in Google uitzien, en waar Google afkapt.</li>
+    <li><strong>Google-kaartje om 19 u.</strong> Wat een klant &rsquo;s avonds ziet: zonder profiel, met een profiel zonder uren, of met de juiste uren.</li>
+  </ol>
+  <div class="eenpager-qr">
+    <canvas role="img" aria-label="QR-code naar deze pagina"></canvas>
+    <p><strong data-eenpager-url></strong><br>Geen account, geen e-mailadres, niets verlaat het toestel. Star.Tec.Solutions is het merk van STS Digital, Antwerpen: &eacute;&eacute;n persoon, Snymis, die elk bericht zelf leest, en een paar agents die hem helpen. Websites met eerst een gratis voorbeeld, zonder verplichting.</p>
+  </div>
+  <p class="small eenpager-voet">Voor boekhouders, sociale secretariaten en adviseurs die zien welke klanten geen goede site hebben: geef dit blad gerust door. <button class="btn btn-sm" type="button" data-eenpager-print>Druk af</button></p>
 </div>
-
-<section class="sec" style="padding-top:0" aria-labelledby="t-wa">
-  <div class="tool">
-    <div>
-      <p class="label">WhatsApp</p>
-      <h2 id="t-wa" style="margin:12px 0 14px">Een WhatsApp-knop en QR-code</h2>
-      <p style="color:var(--ink2);margin-bottom:22px">Klanten sturen je een bericht met &eacute;&eacute;n tik. Zet de knop op je site of Facebook-pagina, en hang de QR-code aan je kassa of op je etalage.</p>
-      <label class="field"><span>Je gsm-nummer</span><input id="wa-num" inputmode="tel" autocomplete="tel" placeholder="0470 12 34 56"></label>
-      <p id="wa-err" class="warn" hidden>Dat nummer herkennen we niet. Probeer zoals 0470 12 34 56 of +32 470 12 34 56.</p>
-      <label class="field"><span>Bericht dat al klaarstaat <span class="small">(optioneel)</span></span><input id="wa-msg" value="Hallo, ik heb een vraag over"></label>
-      <label class="field"><span>Tekst op de knop</span><input id="wa-label" value="Stuur ons een WhatsApp"></label>
-    </div>
-    <div class="out" aria-live="polite">
-      <div id="wa-out" hidden>
-        <p class="label">Je link</p>
-        <p style="margin-top:6px;word-break:break-all"><a id="wa-link" href="#" target="_blank" rel="noopener"></a></p>
-        <div class="row"><button class="btn btn-sm" type="button" id="wa-copy-link">Kopieer link</button></div>
-        <p class="label" style="margin-top:22px">Knop voor je website</p>
-        <pre id="wa-code"></pre>
-        <div class="row"><button class="btn btn-sm btn-line" type="button" id="wa-copy-code">Kopieer code</button></div>
-        <p class="label" style="margin-top:22px">QR-code</p>
-        <canvas id="wa-qr" class="qr" role="img" aria-label="QR-code die je WhatsApp opent"></canvas>
-        <div class="row"><button class="btn btn-sm btn-line" type="button" id="wa-download">Download als afbeelding</button></div>
-      </div>
-      <p class="hint" id="wa-hint">Vul je nummer in. Je link, knop en QR-code verschijnen hier.</p>
-    </div>
-  </div>
-</section>
-
-<div class="band">
-  <section class="sec" aria-labelledby="t-sp">
-    <div class="tool">
-      <div>
-        <p class="label">Google</p>
-        <h2 id="t-sp" style="margin:12px 0 14px">Zo zien mensen je zaak in Google</h2>
-        <p style="color:var(--ink2);margin-bottom:22px">De titel en beschrijving van je site zijn vaak het eerste wat een klant leest. Typ ze hier en zie meteen of Google ze afkapt.</p>
-        <label class="field"><span>Titel van je pagina</span><input id="sp-title" value="Bakkerij Sterrenhemel | Vers brood en taart in Hoboken"></label>
-        <p class="meter" id="sp-t-meter"></p>
-        <label class="field" style="margin-top:14px"><span>Beschrijving</span><textarea id="sp-desc" rows="3" style="min-height:96px">Elke ochtend vers brood en patisserie uit eigen atelier. Open van dinsdag tot zondag vanaf 7 uur. Bestel je taart online of kom even binnen.</textarea></label>
-        <p class="meter" id="sp-d-meter"></p>
-        <label class="field" style="margin-top:14px"><span>Adres van je site</span><input id="sp-url" value="bakkerijsterrenhemel.be/taarten" inputmode="url"></label>
-      </div>
-      <div>
-        <div class="serp" aria-live="polite">
-          <div class="site"><span class="fav" id="sp-fav" aria-hidden="true">B</span><span><span id="sp-host"></span><br><span class="crumb" id="sp-crumb"></span></span></div>
-          <div class="title" id="sp-out-title"></div>
-          <div class="desc" id="sp-out-desc"></div>
-        </div>
-        <p class="hint">Een benadering: Google kapt af op schermbreedte en past soms zelf je tekst aan. Het voorbeeld is een verzonnen bakkerij.</p>
-      </div>
-    </div>
-  </section>
-</div>
-
-<section class="sec">
-  <div class="split">
-    <div class="rv"><h2>Liever dat iemand het <em>voor je</em> doet?</h2></div>
-    <div class="rv">
-      <p style="color:var(--ink2)">Een WhatsApp-knop en een goede Google-titel zitten standaard in elke site die we bouwen. Je ziet eerst een gratis voorbeeld.</p>
-      <div class="ctas"><a class="btn" href="index.html#contact"><span class="st" aria-hidden="true"></span> Vraag een gratis voorbeeld</a></div>
-    </div>
-  </div>
-</section>
-
 </main>

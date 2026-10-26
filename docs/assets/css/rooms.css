@@ -1,0 +1,126 @@
+/* ═════════════════════════════════════════════════════════════
+   KAMERS — gedeelde kaders voor src/rooms/*.html
+   build.py plakt elke kamer in <section id="<naam>" data-room>; de kamer
+   zelf begint met <div class="kamer"> (breedte, dampen). Een kamer is een
+   vlak paneel boven de stad (rgba, 1px lijn), in de SVG-route volledig
+   dekkend; nooit blur erachter. De aankomst (de twee zinnen in gewone
+   HTML, .gevel-aankomst) staat in de kamer Jouw gevel, eerst in de DOM.
+   Elke kamer: één dominant element, geen iconkaarten, geen gradiëntbollen.
+═════════════════════════════════════════════════════════════ */
+[data-room]{position:relative;background:var(--paneel);border-top:1px solid var(--line)}
+html[data-scene="svg"] [data-room]{background:var(--bg)}
+[data-room] .kamer{max-width:var(--max);margin:0 auto;padding:clamp(56px,8vw,112px) var(--gut)}
+[data-room] h2{font-size:clamp(1.6rem,3vw,2.6rem)}
+[data-room] .kamer > p{color:var(--ink2);margin-top:16px;font-size:1.05rem}
+.kamer p a,.kamer li a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(54,232,255,.45)}
+.kamer p a:hover,.kamer li a:hover{text-decoration-color:var(--cyan)}
+
+/* verder in de straat: drie stille wegwijzers, één zin elk */
+.verder{list-style:none;display:grid;gap:14px;margin-top:22px;max-width:62ch}
+.verder li{padding:14px 0;border-top:1px solid var(--line);color:var(--ink2)}
+.verder li strong{display:block;font:600 1.02rem var(--display);color:var(--ink);margin-bottom:4px}
+
+/* de kamer Bericht: de mens is violet */
+.kamer-bericht .panel{border-color:rgba(138,107,255,.45)}
+.kamer-bericht .split{margin-top:28px}
+.channels{list-style:none;display:grid;gap:16px}
+.channels a{font-weight:600;color:var(--cyan)}
+
+/* uitklapbare antwoorden: native <details>, geen hoogte-animatie */
+[data-room] details{border-top:1px solid var(--line)}
+[data-room] details:last-of-type{border-bottom:1px solid var(--line)}
+[data-room] summary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:52px;padding:12px 0;cursor:pointer;list-style:none;font-weight:600}
+[data-room] summary::-webkit-details-marker{display:none}
+[data-room] summary::after{content:"+";flex:none;font:500 20px/1 var(--mono);color:var(--ink3)}
+[data-room] details[open] summary::after{content:"\2212"}
+[data-room] details > :not(summary){color:var(--ink2);padding:0 0 16px;max-width:62ch}
+
+/* ═══ KAMER JOUW GEVEL (WP-05, src/rooms/gevel.html) ════════════════════════
+   De kamer is glas: de stad en het bord blijven zichtbaar, enkel de aankomst
+   (vlak scherm achter de twee zinnen, zodat ze op elke camerastand en boven het
+   bord leesbaar blijven), het invulpaneel en de schets zijn vlakke panelen. De inhoud begint onder het geprojecteerde
+   bord (56dvh op fijne aanwijzers, 37lvh op de telefoon, waar de SVG-skyline
+   op 100lvh staat). Het bord is het dominante element; geen tweede. */
+#gevel[data-room]{background:transparent;border-top:0}
+html[data-scene="svg"] #gevel[data-room]{background:transparent}
+#gevel .kamer-gevel{padding-top:0;padding-bottom:clamp(56px,8vw,96px)}
+.gevel-eerste{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,520px);gap:clamp(24px,4vw,64px);align-items:start;
+  padding-top:calc(var(--ub-kop) + 56dvh)}
+.gevel-aankomst{padding:18px 20px;border-radius:18px;background:var(--paneel);border:1px solid var(--line);min-width:0}
+.gevel-aankomst h1{font:600 clamp(1.3rem,1vw + .85rem,1.7rem)/1.22 var(--display);letter-spacing:-.005em;max-width:30ch}
+.gevel-aankomst p{margin-top:14px;max-width:44ch;color:var(--ink2);font-size:clamp(1rem,1.1vw,1.12rem)}
+.gevel-entry{padding:18px 20px 16px;border-radius:18px;background:var(--paneel);border:1px solid var(--line2)}
+.gevel-vraag{font-size:clamp(1.2rem,1.4vw,1.45rem);font-weight:600;line-height:1.2}
+[data-room] .gevel-vraag{font-size:clamp(1.2rem,1.4vw,1.45rem)}
+.gevel-vraag label{cursor:text}
+.gevel-naam{margin:10px 0 12px;max-width:none}
+.gevel-naam input{width:100%;padding:11px 15px;border:1px solid var(--line2);background:rgba(0,0,0,.25);border-radius:12px;font-size:16px;line-height:1.4;color:var(--ink)}
+.gevel-naam input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(54,232,255,.18)}
+.gevel-entry .keuze{margin-bottom:12px}
+.gevel-entry .keuze legend{margin-bottom:6px}
+@media(pointer:fine){.gevel-entry .keuze span{min-height:36px;padding:0 12px;font-size:13.5px}}
+.gevel-rij{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+.gevel-rij .field{flex:1 1 200px;margin:0}
+.gevel-rij .pill{flex:none;min-height:46px}
+#gevel .gevel-entry p.small{margin-top:10px;font-size:13px}
+.gevel-buren{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.gevel-buren .label{margin-bottom:8px}
+.gevel-buren-lijst{display:flex;flex-wrap:wrap;gap:8px}
+#gevel .gevel-buren p.small{margin-top:10px}
+
+/* de schets: zin boven, telefoon links, regie rechts */
+.gevel-schets{margin-top:clamp(40px,6vh,72px);padding:clamp(22px,3vw,36px);border-radius:22px;background:var(--paneel);border:1px solid var(--line2)}
+.gevel-zin{font:500 clamp(1.1rem,1.6vw,1.45rem)/1.4 var(--display);letter-spacing:-.005em;max-width:38em;color:var(--ink)}
+.gevel-split{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:start;margin-top:clamp(22px,3vw,32px)}
+.gevel-regie .label{display:block;margin-bottom:10px}
+.gevel-schakels{display:flex;flex-wrap:wrap;gap:8px}
+.gevel-label-19{margin-top:22px}
+.gevel-nacht[aria-pressed="true"]{border-color:var(--cyan);background:rgba(54,232,255,.1)}
+.gevel-nacht-zin{margin-top:10px;max-width:46ch}
+.gevel-uitleg{margin-top:22px;color:var(--ink2);max-width:52ch}
+.gevel-ctas{margin-top:22px}
+.gevel-deel-status{margin-top:12px;overflow-wrap:anywhere;max-width:60ch}
+
+@media(max-width:899px){
+  /* minmax(0,1fr): een lange naam in de schets (nowrap) mag de kolom nooit breder dan het scherm maken */
+  .gevel-eerste{grid-template-columns:minmax(0,1fr);gap:22px;padding-top:calc(var(--ub-kop) + 37lvh)}
+  .gevel-split{grid-template-columns:minmax(0,1fr)}
+  .phone-wrap,.gevel-regie,.gevel-entry{min-width:0}
+  .gevel-aankomst{padding:16px 14px}
+  .gevel-entry{padding:16px 14px 14px}
+  .gevel-schets{padding:18px 14px 20px}
+}
+
+/* ═══ KAMER BERICHT (WP-11, src/rooms/bericht.html) ═════════════════════════
+   De mens is violet (--mens): het label, de stapnummers en de antwoordbelofte.
+   Het formulier is het dominante element; rechts de kanalen en de drie stappen,
+   daaronder de zes vragen als native <details>, de radarbelofte in u-vorm en de
+   deelregel. Geen tweede knop met gloed: de gloed hoort bij de gevel. */
+.kamer-bericht > .label{color:var(--mens)}
+.kamer-bericht h2{max-width:24ch;margin-top:12px}
+.bericht-split{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)}
+.bericht-form{border-color:rgba(138,107,255,.45)}
+.bericht-form .pill{margin-top:4px}
+.bericht-veld label{display:block;font-size:13.5px;font-weight:500;margin-bottom:7px;color:var(--ink2)}
+.bericht-status{margin-top:14px}
+.bericht-belofte{margin-top:10px;color:var(--mens)}
+.bericht-form .form-ok{border-color:rgba(138,107,255,.6);color:var(--ink2)}
+.bericht-form .form-ok a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.bericht-kanalen .label{margin-bottom:12px}
+.bericht-kanalen .channels li .label{margin-bottom:2px}
+.bericht-stappen{margin-top:32px;padding-top:22px;border-top:1px solid var(--line)}
+.bericht-stappen ol{list-style:none;counter-reset:stap;display:grid;gap:14px;margin-top:14px}
+.bericht-stappen li{counter-increment:stap;position:relative;padding-left:40px;color:var(--ink2);font-size:15.5px}
+.bericht-stappen li::before{content:counter(stap,decimal-leading-zero);position:absolute;left:0;top:.25em;font:500 12px/1 var(--mono);letter-spacing:.1em;color:var(--mens)}
+.bericht-stappen li strong{display:block;color:var(--ink);font-weight:600}
+.bericht-blok{margin-top:clamp(40px,6vw,72px);padding-top:28px;border-top:1px solid var(--line);max-width:62ch}
+.bericht-blok h3{font-size:1.2rem;line-height:1.3}
+.bericht-blok > p{margin-top:12px;color:var(--ink2)}
+.bericht-vragen details:first-of-type{margin-top:16px}
+.bericht-vragen summary h3{font-size:1.02rem;font-weight:600;line-height:1.3;text-wrap:pretty}
+.bericht-radar p{color:var(--ink2)}
+.bericht-deel .ctas{margin-top:18px}
+.deel-tekst{width:100%;margin-top:14px;padding:12px 15px;border:1px solid var(--line2);background:rgba(0,0,0,.25);border-radius:12px;font-size:15px;line-height:1.5;color:var(--ink);resize:vertical;min-height:120px}
+.deel-tekst:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(54,232,255,.18)}
+.bericht-deel [data-deel-status]{margin-top:10px}
+@media(max-width:899px){.bericht-split{grid-template-columns:1fr}}

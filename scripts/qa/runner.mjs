@@ -20,6 +20,7 @@ export async function runOne(browser, run, env) {
   const external = [], consoleErrors = [];
   const bytes = { total: 0, jsGzip: 0, byType: {} };
   let counting = true;      // the conversion check reloads the page per key; those bytes are not the first load
+  let muted = false;        // the dead-module check blocks a local script on purpose: its console line is not a site error
   const url = env.base + run.page + variant.query;
   const ctx = await browser.newContext(contextOptions(run.profile, run.variant));
   await ctx.addInitScript(C.initScript, { hardwareConcurrency: profile.hardwareConcurrency, intro: !!variant.intro });
@@ -38,7 +39,7 @@ export async function runOne(browser, run, env) {
     external.push(`${req.resourceType()} ${req.url().slice(0, 160)}`);
     return route.abort('blockedbyclient');
   });
-  tab.on('console', m => { if (m.type() === 'error') consoleErrors.push(short(m.text(), 300)); });
+  tab.on('console', m => { if (m.type() === 'error' && !muted) consoleErrors.push(short(m.text(), 300)); });
   tab.on('pageerror', e => consoleErrors.push('pageerror: ' + short(e.message || e, 300)));
   tab.on('requestfailed', r => { const t = r.failure()?.errorText || ''; if (!/ERR_ABORTED|BLOCKED_BY_CLIENT/.test(t) && C.hostKind(r.url()) === 'local') issue('request-failed', `${r.url()} ${t}`); });
   tab.on('response', async (r) => {
@@ -49,7 +50,8 @@ export async function runOne(browser, run, env) {
   });
 
   const rec = { ...run, url, loadMs: 0, webgl: null, scene: null, rafCount: null, sceneFrames: null, timerCount: null, externalRequests: external,
-    overflow: null, consoleErrors, forbiddenText: [], storageKeys: null, animations: null, bytes, firstViewport: null, intro: null, fallbackResize: null, conversion: null, info: null };
+    overflow: null, consoleErrors, forbiddenText: [], storageKeys: null, animations: null, bytes, firstViewport: null, intro: null, fallbackResize: null, conversion: null, info: null,
+    dock: null, longName: null, deadModule: null };
   try {
     const t0 = Date.now();
     await tab.goto(url, { waitUntil: 'load', timeout: 30000 });
@@ -60,7 +62,7 @@ export async function runOne(browser, run, env) {
     if (hasCanvas && run.mode !== 'nogl') {
       await tab.waitForFunction(() => window.__sts && window.__sts.events.length > 0, null, { timeout: env.budget.sceneEventMs }).catch(() => {});
     }
-    // intro variant: sts:intro-done within the budget after the first scene event, then no overlay and no body.introing
+    // intro variant: sts:intro-done within the budget after the first scene event, then no overlay left
     if (variant.intro && hasCanvas) {
       await tab.waitForFunction(() => window.__sts && window.__sts.events.some(e => e.ev === 'sts:intro-done'), null, { timeout: env.budget.sceneEventMs + INTRO_MAX_MS }).catch(() => {});
       const ev = await tab.evaluate(() => window.__sts.events);
@@ -68,10 +70,9 @@ export async function runOne(browser, run, env) {
       await tab.waitForTimeout(2000);
       const st = await tab.evaluate(C.sceneFrames);
       const pre = await tab.evaluate(() => { try { return sessionStorage.getItem('sts-pre'); } catch (e) { return 'geblokkeerd'; } });
-      rec.intro = { firstEventMs: first ? first.ms : null, introDoneMs: done ? done.ms : null, introing: st.introing, overlay: st.overlay, pre };
+      rec.intro = { firstEventMs: first ? first.ms : null, introDoneMs: done ? done.ms : null, overlay: st.overlay, pre };
       if (!done) issue('intro', `geen sts:intro-done binnen ${env.budget.sceneEventMs + INTRO_MAX_MS} ms (sts-pre afwezig)`);
       else if (first && done.ms - first.ms > INTRO_MAX_MS) issue('intro', `sts:intro-done ${done.ms - first.ms} ms na het eerste scene-event (budget ${INTRO_MAX_MS} ms)`);
-      if (st.introing) issue('intro', 'body.introing staat 2 s na sts:intro-done nog: held en strip blijven onzichtbaar');
       if (st.overlay) issue('intro', '#intro staat 2 s na sts:intro-done nog in de DOM');
       if (done && pre !== '1') issue('intro', `sessionStorage sts-pre is niet geschreven na de intro (${pre})`);
     }
@@ -145,7 +146,50 @@ export async function runOne(browser, run, env) {
         if (moved) issue('fallback-resize', `#landmark-bord verschuift bij een 100 px lagere viewport: ${JSON.stringify(r0)} -> ${JSON.stringify(r1)} (de werkbalk van een telefoon herschaalt de skyline)`);
       }
     }
+    // the phone dock: four doors and the page's own door fully visible, the action pill in view
+    if (run.profile === 'phone' && !demo) {
+      const dk = await tab.evaluate(C.dockState);
+      rec.dock = dk;
+      if (dk.doors.length) {
+        const shown = dk.doors.filter(d => d.visible).length, cur = dk.doors.find(d => d.current);
+        // five short labels do not fit 390 px: four show at rest; a page's own door scrolls into view with its two neighbours
+        if (shown < Math.min(cur ? 3 : 4, dk.doors.length)) issue('dock', `dock toont ${shown} van ${dk.doors.length} deuren volledig op ${dk.vw} px (${dk.doors.map(d => `${d.label} ${d.left}-${d.right}`).join(', ')})`);
+        if (cur && !cur.visible) issue('dock', `de deur van deze pagina (${cur.label}, ${cur.left}-${cur.right}) staat buiten beeld in het dock`);
+        for (const d of dk.doors) if (d.w < 44 || d.h < 44) issue('dock', `deur ${d.label} is ${d.w}x${d.h} px (minstens 44x44)`);
+        if (!dk.pill || !dk.pill.visible) issue('dock', `de actie van het dock staat niet in beeld (${dk.pill ? dk.pill.left + '-' + dk.pill.right : 'ontbreekt'})`);
+      }
+    }
     counting = false;
+    // a 22-character first word on the sign (phone, index): no overflow, the sign inside the viewport, no word cut in two
+    if (run.profile === 'phone' && run.page === 'index.html' && run.variant === 'default' && run.mode === 'gl') {
+      const naam = 'Kinesitherapiepraktijk Vanderstraeten';
+      await tab.goto(env.base + 'index.html?zaak=' + encodeURIComponent(naam) + '&sector=praktijk&gemeente=Deurne', { waitUntil: 'load', timeout: 30000 });
+      await tab.waitForTimeout(1500);
+      const sg = await tab.evaluate(C.signState);
+      rec.longName = sg;
+      if (sg.scrollWidth > sg.clientWidth + 1) issue('long-name', `'${naam}': horizontale overflow, scrollWidth ${sg.scrollWidth} > ${sg.clientWidth}`);
+      if (!sg.sign || !sg.sign.placed) issue('long-name', `'${naam}': #sign-dom is niet geplaatst`);
+      else if (sg.sign.left < -1 || sg.sign.right > sg.innerWidth + 1) issue('long-name', `'${naam}': het bord (${sg.sign.left}-${sg.sign.right}) valt buiten de viewport van ${sg.innerWidth} px`);
+      if (sg.lines.join(' ') !== naam) issue('long-name', `'${naam}' staat als ${JSON.stringify(sg.lines)} op het bord (een woord mag nooit gebroken worden)`);
+      if (sg.sr !== 'Uithangbord: ' + naam) issue('long-name', `#sign-sr zegt ${JSON.stringify(sg.sr)}, verwacht 'Uithangbord: ${naam}'`);
+    }
+    // a dead scene module (blocked on purpose, intro variant): the overlay must not survive, the fallback must show
+    if (variant.intro && hasCanvas) {
+      await tab.evaluate(() => { try { sessionStorage.removeItem('sts-pre'); } catch (e) { /* blocked */ } });
+      const dead = async (route) => route.abort('blockedbyclient');
+      await tab.route('**/assets/js/scene.js', dead); await tab.route('**/assets/js/scene/plattegrond.js', dead);
+      muted = true;
+      await tab.goto(url, { waitUntil: 'load', timeout: 30000 });
+      await tab.waitForTimeout(1000);
+      const dm = await tab.evaluate(() => ({ overlay: !!document.getElementById('intro'), fallback: (() => { const f = document.getElementById('scene-fallback'); return !!f && !f.hidden; })(), failed: !!(window.__sts && window.__sts.events.some(e => e.ev === 'sts:scene-failed')), h1: (() => { const h = document.querySelector('h1'); const r = h && h.getBoundingClientRect(); return !!r && r.width > 0 && r.bottom > 0; })() }));
+      rec.deadModule = dm;
+      if (dm.overlay) issue('dead-module', '#intro blijft de pagina bedekken als de scene-module niet laadt');
+      if (!dm.fallback) issue('dead-module', '#scene-fallback blijft verborgen als de scene-module niet laadt');
+      if (!dm.failed) issue('dead-module', 'geen sts:scene-failed als de scene-module niet laadt');
+      if (!dm.h1) issue('dead-module', 'de H1 is niet zichtbaar als de scene-module niet laadt');
+      await tab.unroute('**/assets/js/scene.js'); await tab.unroute('**/assets/js/scene/plattegrond.js');
+      muted = false;
+    }
     rec.conversion = await conversionCheck(tab, run, env, issue, notice);
     if (env.shots && run.mode === 'gl' && run.variant === 'default' && run.profile !== 'tablet') {
       await tab.screenshot({ path: join(env.out, `${run.page.replace(/\//g, '_')}.${run.profile}.png`), fullPage: run.profile === 'phone' }).catch(() => {});

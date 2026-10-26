@@ -1,0 +1,191 @@
+<div class="kamer kamer-tools">
+  <h2 class="tools-h2">Vier loketten. Alles blijft in je browser.</h2>
+  <nav class="loketten scroller" aria-label="Loketten op deze pagina" data-loketten>
+    <a href="#zichtbaarheid">Zichtbaarheidscheck</a>
+    <a href="#whatsapp">WhatsApp-knop en QR</a>
+    <a href="#google">Google-voorbeeld</a>
+    <a href="#kaartje-google">Google-kaartje om 19 u</a>
+  </nav>
+
+  <section class="loket" id="zichtbaarheid" aria-labelledby="t-zc">
+    <div class="tool">
+      <div>
+        <p class="label">Loket 1 &middot; Zichtbaarheidscheck</p>
+        <h3 id="t-zc">Hoe zichtbaar is <span data-zaak="je zaak">je zaak</span>, in &eacute;&eacute;n minuut</h3>
+        <p class="tool-intro">Zes vragen over wat een klant ziet die je &rsquo;s avonds op zijn gsm zoekt. Eerlijk antwoorden geeft het nuttigste resultaat. De score is een zelfinschatting, geen meting.</p>
+        <form id="zc" class="zc" novalidate>
+          <fieldset class="keuze"><legend>1. Heeft <b data-zaak="je zaak">je zaak</b> een Google-bedrijfsprofiel dat jij zelf beheert?</legend><label><input type="radio" name="q1" value="100"><span>Ja</span></label><label><input type="radio" name="q1" value="50"><span>Deels</span></label><label><input type="radio" name="q1" value="0"><span>Nee</span></label></fieldset>
+          <fieldset class="keuze"><legend>2. Staan de openingsuren van <b data-zaak="je zaak">je zaak</b> overal juist (Google, Facebook, website)?</legend><label><input type="radio" name="q2" value="100"><span>Ja</span></label><label><input type="radio" name="q2" value="50"><span>Deels</span></label><label><input type="radio" name="q2" value="0"><span>Nee</span></label></fieldset>
+          <fieldset class="keuze"><legend>3. Kan een klant je in &eacute;&eacute;n tik bellen of WhatsAppen vanaf de site van <b data-zaak="je zaak">je zaak</b>?</legend><label><input type="radio" name="q3" value="100"><span>Ja</span></label><label><input type="radio" name="q3" value="50"><span>Deels</span></label><label><input type="radio" name="q3" value="0"><span>Nee</span></label></fieldset>
+          <fieldset class="keuze"><legend>4. Laadt de site van <b data-zaak="je zaak">je zaak</b> op een gsm binnen drie seconden?</legend><label><input type="radio" name="q4" value="100"><span>Ja</span></label><label><input type="radio" name="q4" value="50"><span>Weet ik niet</span></label><label><input type="radio" name="q4" value="0"><span>Nee</span></label></fieldset>
+          <fieldset class="keuze"><legend>5. Beantwoord je de Google-reviews van <b data-zaak="je zaak">je zaak</b>, ook de slechte?</legend><label><input type="radio" name="q5" value="100"><span>Ja</span></label><label><input type="radio" name="q5" value="50"><span>Soms</span></label><label><input type="radio" name="q5" value="0"><span>Nee</span></label></fieldset>
+          <fieldset class="keuze"><legend>6. Staan er foto&rsquo;s van <b data-zaak="je zaak">je zaak</b> online van de laatste zes maanden?</legend><label><input type="radio" name="q6" value="100"><span>Ja</span></label><label><input type="radio" name="q6" value="50"><span>Oudere</span></label><label><input type="radio" name="q6" value="0"><span>Nee</span></label></fieldset>
+          <p id="zc-err" class="warn" hidden>Beantwoord eerst alle zes de vragen.</p>
+          <button class="pill" type="submit">Bereken mijn score</button>
+        </form>
+      </div>
+      <div class="out zc-out">
+        <div id="zc-res" hidden>
+          <div class="zc-ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(242,245,255,.12)" stroke-width="8"/><circle id="zc-arc" cx="60" cy="60" r="52" fill="none" stroke="var(--cyan)" stroke-width="8" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)"/></svg><div class="zc-score"><b id="zc-num">0</b><span>op 100</span></div></div>
+          <p class="sr" id="zc-live" aria-live="polite"></p>
+          <h4 id="zc-title"></h4>
+          <p class="zc-text" id="zc-text"></p>
+          <p class="label zc-tips-label">Begin hiermee</p>
+          <ol id="zc-tips" class="zc-tips"></ol>
+          <div class="row">
+            <a class="pill" id="zc-cta" href="index.html#bericht?onderwerp=zichtbaarheid">Laat Snymis meekijken</a>
+            <button class="btn" type="button" id="kaart-maak">Maak mijn scorekaart</button>
+          </div>
+          <div id="kaart-out" hidden>
+            <img id="kaart-img" class="kaart-img" alt="Scorekaart van de zichtbaarheidscheck, zelfinschatting" width="1080" height="1080">
+            <p class="sr" id="kaart-mirror"></p>
+            <div class="row"><a class="btn btn-sm" id="kaart-download" href="#" download="scorekaart.png">Download de scorekaart (PNG)</a><button class="btn btn-sm btn-line" type="button" data-share="score">Stuur naar een collega</button></div>
+            <p class="small">1080 bij 1080, met je naam, je score en je drie stappen. Er staat &lsquo;zelfinschatting&rsquo; op: het is wat jij invulde, geen meting van ons.</p>
+          </div>
+          <p class="small zc-status" data-share-status role="status" hidden></p>
+        </div>
+        <p class="hint" id="zc-hint">Beantwoord de zes vragen. Je score en drie concrete stappen verschijnen hier.</p>
+      </div>
+    </div>
+    <p class="loket-voet">Wil je dat iemand meekijkt naar je resultaat? <a href="index.html#bericht?onderwerp=zichtbaarheid" data-bericht="zichtbaarheid">Stuur Snymis een berichtje</a>.</p>
+  </section>
+
+  <section class="loket" id="whatsapp" aria-labelledby="t-wa">
+    <div class="tool">
+      <div>
+        <p class="label">Loket 2 &middot; WhatsApp</p>
+        <h3 id="t-wa">Een WhatsApp-knop en een QR-code voor je kassa</h3>
+        <p class="tool-intro">Klanten sturen je een bericht met &eacute;&eacute;n tik. Zet de knop op je site of je Facebook-pagina en hang de QR-code aan je kassa of op je etalage.</p>
+        <label class="field"><span>Je gsm-nummer</span><input id="wa-num" inputmode="tel" autocomplete="tel" placeholder="0470 12 34 56"></label>
+        <p id="wa-err" class="warn" hidden>Dat nummer herkennen we niet. Probeer zoals 0470 12 34 56 of +32 470 12 34 56.</p>
+        <label class="field"><span id="wa-msg-label">Dit is wat de klant naar jou stuurt <span class="small">(mag leeg blijven)</span></span><input id="wa-msg" data-tool-bericht="whatsapp" data-voice="customer" maxlength="300" value="Dag, ik heb een vraag over"></label>
+        <label class="field"><span>Tekst op de knop</span><input id="wa-label" maxlength="40" value="Stuur ons een WhatsApp"></label>
+        <label class="check"><input type="checkbox" id="wa-credit"><span>Zet &lsquo;<span id="wa-credit-txt">gemaakt op startec</span>&rsquo; klein onderaan het kaartje. Staat standaard uit.</span></label>
+      </div>
+      <div class="out">
+        <div id="wa-out" hidden>
+          <p class="label">Je link</p>
+          <p class="wa-url"><a id="wa-link" href="#" target="_blank" rel="noopener"></a></p>
+          <div class="row"><button class="btn btn-sm" type="button" id="wa-copy-link">Kopieer link</button></div>
+          <p class="label">Knop voor je website</p>
+          <pre id="wa-code"></pre>
+          <div class="row"><button class="btn btn-sm btn-line" type="button" id="wa-copy-code">Kopieer code</button></div>
+          <p class="label">QR-code</p>
+          <canvas id="wa-qr" class="qr" role="img" aria-label="QR-code die je WhatsApp opent"></canvas>
+          <div class="row"><button class="btn btn-sm" type="button" id="wa-download">Download de QR-code (PNG)</button></div>
+          <p class="label">Kaartje voor aan de kassa (A6)</p>
+          <div class="a6-wrap"><canvas id="wa-a6" class="a6" role="img" aria-describedby="wa-a6-mirror"></canvas></div>
+          <p class="sr" id="wa-a6-mirror"></p>
+          <div class="row"><button class="btn btn-sm" type="button" id="wa-a6-download">Download het kaartje (PNG)</button><button class="btn btn-sm btn-line" type="button" id="wa-a6-print">Druk af op A6</button></div>
+          <p class="small">Op het kaartje: je knoptekst, de QR-code, de naam van je zaak en je nummer. De vermelding onderaan staat er alleen als jij het vinkje aanzet.</p>
+        </div>
+        <p class="hint" id="wa-hint">Vul je nummer in. Je link, de knop, de QR-code en het kaartje verschijnen hier.</p>
+      </div>
+    </div>
+    <p class="loket-voet">Liever dat de knop meteen juist in je site zit? <a href="index.html#bericht?onderwerp=zichtbaarheid" data-bericht="zichtbaarheid">Stuur Snymis een berichtje</a>.</p>
+  </section>
+
+  <section class="loket" id="google" aria-labelledby="t-sp">
+    <div class="tool">
+      <div>
+        <p class="label">Loket 3 &middot; Google-voorbeeld</p>
+        <h3 id="t-sp">Zo zien mensen <span data-zaak="je zaak">je zaak</span> in Google</h3>
+        <p class="tool-intro">De titel en de beschrijving van je site zijn vaak het eerste wat een klant leest. Typ ze hier en zie meteen of Google ze afkapt.</p>
+        <label class="field"><span>Titel van je pagina</span><input id="sp-title" data-voice="visitor" maxlength="120"></label>
+        <p class="meter" id="sp-t-meter"></p>
+        <label class="field"><span>Beschrijving</span><textarea id="sp-desc" data-voice="visitor" rows="3" maxlength="320"></textarea></label>
+        <p class="meter" id="sp-d-meter"></p>
+        <label class="field"><span>Adres van je site</span><input id="sp-url" inputmode="url" maxlength="120"></label>
+      </div>
+      <div>
+        <div class="serp" data-voice="visitor" aria-live="polite">
+          <div class="site"><span class="fav" id="sp-fav" aria-hidden="true">J</span><span><span id="sp-host"></span><br><span class="crumb" id="sp-crumb"></span></span></div>
+          <div class="title" id="sp-out-title"></div>
+          <div class="desc" id="sp-out-desc"></div>
+        </div>
+        <p class="hint" id="sp-hint">Een benadering: Google kapt af op schermbreedte en past soms zelf je tekst aan. Zonder naam op het bord staat hier een verzonnen bakkerij.</p>
+      </div>
+    </div>
+    <p class="loket-voet">Een goede titel zit standaard in elk voorbeeld dat we bouwen. <a href="index.html#bericht?onderwerp=zichtbaarheid" data-bericht="zichtbaarheid">Vraag Snymis ernaar</a>.</p>
+  </section>
+
+  <section class="loket" id="kaartje-google" aria-labelledby="t-gk" data-sim>
+    <div class="tool">
+      <div>
+        <p class="label">Loket 4 &middot; Google-kaartje om 19 u</p>
+        <h3 id="t-gk">Zo ziet een klant <span data-zaak="je zaak">je zaak</span> &rsquo;s avonds op zijn gsm</h3>
+        <p class="tool-intro">Een klant zoekt je om 19 u. Of hij je vindt, hangt af van je Google-profiel en van de uren die erop staan. Kies een stand, schuif het uur en typ je eigen uren. Het kaartje is een voorbeeldweergave; de buur in de eerste stand is fictief.</p>
+        <form class="gk-ctl" data-gk-form novalidate>
+          <fieldset class="keuze" data-gk-stand>
+            <legend>Hoe staat je zaak op Google?</legend>
+            <label><input type="radio" name="gk-stand" value="geen" checked><span>Geen profiel</span></label>
+            <label><input type="radio" name="gk-stand" value="zonder"><span>Profiel zonder uren</span></label>
+            <label><input type="radio" name="gk-stand" value="met"><span>Profiel met juiste uren</span></label>
+          </fieldset>
+          <div class="gk-rij">
+            <label class="field gk-uur"><span>Hoe laat zoekt de klant? <output data-gk-uur-out>19:00</output></span><input type="range" name="gk-uur" min="12" max="21" step="1" value="19" data-gk-uur></label>
+            <label class="field gk-dag"><span>Welke dag</span><select name="gk-dag" data-gk-dag><option value="0">maandag</option><option value="1">dinsdag</option><option value="2">woensdag</option><option value="3">donderdag</option><option value="4">vrijdag</option><option value="5">zaterdag</option><option value="6">zondag</option></select></label>
+          </div>
+          <details class="gk-uren-wrap">
+            <summary>Je openingsuren (voorbeeld per sector, pas ze aan)</summary>
+            <table class="gk-uren"><tbody data-gk-uren></tbody></table>
+            <p class="small">Schrijf ze zoals op je deur: 9:00 &ndash; 18:00, of gesloten. Dit blijft in je browser.</p>
+          </details>
+        </form>
+      </div>
+      <div>
+        <div class="gk" role="group" aria-label="Google-kaartje, voorbeeldweergave">
+          <p class="gk-zoek"><span data-gk-zoek></span></p>
+          <div class="gk-kaart">
+            <p class="gk-naam" data-gk-naam></p>
+            <p class="gk-soort" data-gk-soort></p>
+            <p class="gk-sterren"><span aria-hidden="true">&#9734;&#9734;&#9734;&#9734;&#9734;</span> nog geen beoordelingen &middot; voorbeeld</p>
+            <p class="gk-uren-lijn" data-gk-uren-lijn></p>
+            <p class="gk-knoppen"><span>Bellen</span><span>Route</span><span>Website</span></p>
+          </div>
+          <p class="gk-afwezig" data-gk-afwezig hidden></p>
+        </div>
+        <p class="gk-zin" data-gk-zin aria-live="polite"></p>
+      </div>
+    </div>
+    <p class="loket-voet">Staat je profiel niet of fout op Google? <a href="index.html#bericht?onderwerp=kaartje" data-bericht="kaartje">Ik wil dat dit juist staat</a></p>
+    <p class="loket-meer small">Nog niet zeker hoe je ervoor staat? <a href="#zichtbaarheid">Doe eerst de zichtbaarheidscheck</a>.</p>
+  </section>
+
+  <p class="tools-deel">Ken je een collega die dit ook zou moeten zien? <button class="btn btn-sm" type="button" data-share="tools">Stuur naar een collega</button> <span class="small" data-share-status role="status" hidden></span></p>
+
+  <template data-toog-tpl>
+    <section class="loket loket-toog" id="toog" aria-labelledby="t-toog">
+      <p class="label toog-intern">Intern &middot; voor Snymis &middot; staat niet in de loketten hierboven</p>
+      <div class="tool">
+        <div>
+          <h3 id="t-toog">Kaartje voor aan de toog</h3>
+          <p class="tool-intro">Typ de naam, de sector en de gemeente van de zaak. De QR-code opent de startpagina met die naam al op het bord; het kaartje zegt dat we enkel de naam gebruikten.</p>
+          <form class="toog-form" data-toog-form novalidate>
+            <label class="field"><span>Naam van de zaak</span><input name="zaak" maxlength="40" autocomplete="off"></label>
+            <label class="field"><span>Sector</span><select name="sector"></select></label>
+            <label class="field"><span>Gemeente of district</span><input name="gemeente" maxlength="30" list="toog-gemeenten" autocomplete="off"></label>
+            <datalist id="toog-gemeenten"></datalist>
+          </form>
+          <div class="row"><button class="btn" type="button" data-toog-print>Druk af: voor- en achterkant (A6)</button><button class="btn btn-line" type="button" data-toog-png>Download de QR-code (PNG)</button></div>
+          <p class="small toog-adres">Adres in de code: <code data-toog-url></code></p>
+        </div>
+        <div class="toog-kaart" data-toog-kaart>
+          <div class="toog-zijde toog-voor">
+            <p class="toog-merk">Star<span class="st" aria-hidden="true"></span>Tec<span class="st" aria-hidden="true"></span>Solutions</p>
+            <p class="toog-naam" data-toog-naam>Jouw zaak</p>
+            <p class="toog-sub" data-toog-sub>Antwerpen</p>
+            <canvas class="toog-qr" data-toog-qr role="img" aria-label="QR-code naar het uithangbord met deze naam"></canvas>
+            <p class="toog-scan">Scan. Je naam hangt al op het bord.</p>
+          </div>
+          <div class="toog-zijde toog-achter">
+            <p class="toog-regel">We gebruikten enkel je naam. De rest typ je zelf.</p>
+            <p>Een jonge zaak uit Antwerpen die websites maakt met eerst een gratis voorbeeld, zonder verplichting. Scan, kijk rond en beslis zelf of je iets terugstuurt. Er vertrekt niets automatisch; Snymis leest elk bericht zelf.</p>
+            <p class="toog-contact" data-toog-mail></p>
+            <p class="toog-url" data-toog-url-kort></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</div>

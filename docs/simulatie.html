@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Simulatieruimte — kijk mee hoe een agent een zaak doorlicht | Star.Tec.Solutions</title>
-<meta name="description" content="Een gesimuleerde doorlichting van een fictieve zaak: oproepen, Google, reviews en website gelezen door een STS-agent, met advies en menselijke goedkeuring.">
+<title>Doorlichting van een verzonnen zaak: een agent leest, Snymis beslist — Star.Tec.Solutions</title>
+<meta name="description" content="Kijk mee hoe een agent de oproepen, het Google-profiel, de reviews en de website van een verzonnen zaak leest, drie acties voorstelt en wacht op Snymis. Vier fictieve zaken uit Antwerpen en Mortsel, met een wat-als per actie. Gesimuleerde cijfers, echte methode.">
 <meta name="theme-color" content="#06080F">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://8kawasaki8.github.io/startec-site/simulatie.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Star.Tec.Solutions">
-<meta property="og:title" content="Simulatieruimte — kijk mee hoe een agent een zaak doorlicht | Star.Tec.Solutions">
-<meta property="og:description" content="Een gesimuleerde doorlichting van een fictieve zaak: oproepen, Google, reviews en website gelezen door een STS-agent, met advies en menselijke goedkeuring.">
+<meta property="og:title" content="Doorlichting van een verzonnen zaak: een agent leest, Snymis beslist — Star.Tec.Solutions">
+<meta property="og:description" content="Kijk mee hoe een agent de oproepen, het Google-profiel, de reviews en de website van een verzonnen zaak leest, drie acties voorstelt en wacht op Snymis. Vier fictieve zaken uit Antwerpen en Mortsel, met een wat-als per actie. Gesimuleerde cijfers, echte methode.">
 <meta property="og:url" content="https://8kawasaki8.github.io/startec-site/simulatie.html">
 <meta property="og:image" content="https://8kawasaki8.github.io/startec-site/assets/img/og.png">
 <meta property="og:image:width" content="1200">
@@ -19,77 +19,111 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="preload" href="assets/fonts/panchang-normal-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/panchang-normal-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/switzer-normal-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/css/fonts.css">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/uithangbord.css">
+<link rel="stylesheet" href="assets/css/rooms.css">
 <link rel="stylesheet" href="assets/css/sim.css">
+<link rel="stylesheet" href="assets/css/flap.css">
 </head>
 <body>
 <a class="skip" href="#main">Naar de inhoud</a>
-<header class="nav">
-  <a class="brand" href="index.html" aria-label="Star.Tec.Solutions, naar de startpagina">
-    <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M21.87,82.38 L26.46,83.92 L30.78,85.10 L34.83,85.94 L38.62,86.44 L42.15,86.63 L45.42,86.54 L48.44,86.17 L51.21,85.56 L53.72,84.71 L55.98,83.64 L58.00,82.37 L59.75,80.92 L61.25,79.31 L62.49,77.55 L63.45,75.68 L64.15,73.72 L64.57,71.68 L64.71,69.59 L64.57,67.48 L64.15,65.38 L63.45,63.31 L62.47,61.29 L61.20,59.36 L59.65,57.54 L57.82,55.85 L55.72,54.32 L53.35,52.98 L50.74,51.86 L48.48,50.89 L46.44,49.76 L44.60,48.48 L42.97,47.09 L41.55,45.59 L40.33,44.01 L39.33,42.38 L38.55,40.72 L37.97,39.05 L37.61,37.40 L37.46,35.78 L37.51,34.22 L37.76,32.74 L38.20,31.34 L38.83,30.02 L39.65,28.80 L40.68,27.66 L41.92,26.61 L43.40,25.66 L45.15,24.81 L47.20,24.10 L49.56,23.54 L52.24,23.17 L55.27,23.01 L58.64,23.09 L62.37,23.43 L66.45,24.07 L70.94,25.04 L73.06,14.96 L68.04,14.13 L63.31,13.63 L58.90,13.47 L54.81,13.62 L51.02,14.08 L47.54,14.82 L44.36,15.84 L41.49,17.12 L38.94,18.66 L36.71,20.42 L34.83,22.39 L33.29,24.53 L32.11,26.80 L31.30,29.16 L30.82,31.57 L30.69,34.00 L30.86,36.40 L31.33,38.77 L32.08,41.08 L33.09,43.30 L34.35,45.43 L35.85,47.44 L37.58,49.33 L39.52,51.06 L41.67,52.63 L44.02,54.01 L46.56,55.19 L49.26,56.14 L51.55,56.94 L53.58,57.90 L55.39,59.03 L56.98,60.28 L58.35,61.66 L59.50,63.13 L60.42,64.69 L61.13,66.31 L61.61,67.99 L61.86,69.69 L61.88,71.41 L61.67,73.12 L61.22,74.80 L60.51,76.45 L59.56,78.02 L58.35,79.51 L56.87,80.89 L55.11,82.14 L53.09,83.23 L50.78,84.13 L48.18,84.83 L45.31,85.28 L42.15,85.47 L38.71,85.37 L34.99,84.97 L30.98,84.22 L26.70,83.12 L22.13,81.62 Z" fill="#36E8FF"/><polygon points="72.00,6.00 74.18,17.82 86.00,20.00 74.18,22.18 72.00,34.00 69.82,22.18 58.00,20.00 69.82,17.82" fill="#F2F5FF"/></svg>
-    <span>Star<span class="st" aria-hidden="true"></span>Tec<span class="st" aria-hidden="true"></span>Solutions</span>
-  </a>
-  <nav aria-label="Hoofdmenu">
-    <ul class="nav-links">
-      <li><a href="index.html#oplossingen">Oplossingen</a></li>
-      <li><a href="index.html#lab">Lab</a></li>
-      <li><a href="index.html#werkwijze">Werkwijze</a></li>
-      <li><a href="demos.html">Demo's</a></li>
-      <li><a href="simulatie.html" aria-current="page">Simulatie</a></li>
-      <li><a href="gereedschap.html">Gereedschap</a></li>
-      <li><a href="index.html#contact">Contact</a></li>
-    </ul>
+<header class="uithangbord">
+  <nav class="ub" aria-label="Uithangbord">
+    <div class="ub-kop">
+      <a class="ub-merk" href="index.html" aria-label="Star.Tec.Solutions, naar de startpagina">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M21.87,82.38 L26.46,83.92 L30.78,85.10 L34.83,85.94 L38.62,86.44 L42.15,86.63 L45.42,86.54 L48.44,86.17 L51.21,85.56 L53.72,84.71 L55.98,83.64 L58.00,82.37 L59.75,80.92 L61.25,79.31 L62.49,77.55 L63.45,75.68 L64.15,73.72 L64.57,71.68 L64.71,69.59 L64.57,67.48 L64.15,65.38 L63.45,63.31 L62.47,61.29 L61.20,59.36 L59.65,57.54 L57.82,55.85 L55.72,54.32 L53.35,52.98 L50.74,51.86 L48.48,50.89 L46.44,49.76 L44.60,48.48 L42.97,47.09 L41.55,45.59 L40.33,44.01 L39.33,42.38 L38.55,40.72 L37.97,39.05 L37.61,37.40 L37.46,35.78 L37.51,34.22 L37.76,32.74 L38.20,31.34 L38.83,30.02 L39.65,28.80 L40.68,27.66 L41.92,26.61 L43.40,25.66 L45.15,24.81 L47.20,24.10 L49.56,23.54 L52.24,23.17 L55.27,23.01 L58.64,23.09 L62.37,23.43 L66.45,24.07 L70.94,25.04 L73.06,14.96 L68.04,14.13 L63.31,13.63 L58.90,13.47 L54.81,13.62 L51.02,14.08 L47.54,14.82 L44.36,15.84 L41.49,17.12 L38.94,18.66 L36.71,20.42 L34.83,22.39 L33.29,24.53 L32.11,26.80 L31.30,29.16 L30.82,31.57 L30.69,34.00 L30.86,36.40 L31.33,38.77 L32.08,41.08 L33.09,43.30 L34.35,45.43 L35.85,47.44 L37.58,49.33 L39.52,51.06 L41.67,52.63 L44.02,54.01 L46.56,55.19 L49.26,56.14 L51.55,56.94 L53.58,57.90 L55.39,59.03 L56.98,60.28 L58.35,61.66 L59.50,63.13 L60.42,64.69 L61.13,66.31 L61.61,67.99 L61.86,69.69 L61.88,71.41 L61.67,73.12 L61.22,74.80 L60.51,76.45 L59.56,78.02 L58.35,79.51 L56.87,80.89 L55.11,82.14 L53.09,83.23 L50.78,84.13 L48.18,84.83 L45.31,85.28 L42.15,85.47 L38.71,85.37 L34.99,84.97 L30.98,84.22 L26.70,83.12 L22.13,81.62 Z" fill="#36E8FF"/><polygon points="72.00,6.00 74.18,17.82 86.00,20.00 74.18,22.18 72.00,34.00 69.82,22.18 58.00,20.00 69.82,17.82" fill="#F2F5FF"/></svg>
+        <span>Star<span class="st" aria-hidden="true"></span>Tec<span class="st" aria-hidden="true"></span>Solutions</span>
+      </a>
+      <button class="ub-chip is-leeg" type="button" aria-expanded="false" aria-controls="ub-sheet" data-ub-chip>
+        <span class="st" aria-hidden="true"></span>
+        <span class="ub-chip-txt" data-ub-chip-txt>Hoe heet je zaak?</span>
+        <span class="sr">, naam van je zaak aanpassen</span>
+      </button>
+    </div>
+    <div class="ub-dok">
+      <ul class="ub-deuren scroller">
+      <li><a href="index.html#gevel"><span class="ub-lang">Jouw gevel</span><span class="ub-kort">Gevel</span></a></li>
+      <li><a href="index.html#telefoon"><span class="ub-lang">De telefoon om 19 u</span><span class="ub-kort">Telefoon</span></a></li>
+      <li><a href="simulatie.html" aria-current="page"><span class="ub-lang">Doorlichting</span><span class="ub-kort">Doorlichting</span></a></li>
+      <li><a href="gereedschap.html"><span class="ub-lang">Gereedschap</span><span class="ub-kort">Gereedschap</span></a></li>
+      <li><a href="werkwijze.html"><span class="ub-lang">Hoe wij werken</span><span class="ub-kort">Werkwijze</span></a></li>
+      </ul>
+      <a class="pill" href="index.html#bericht"><span class="ub-lang">Bericht aan Snymis</span><span class="ub-kort">Bericht</span></a>
+    </div>
   </nav>
-  <div class="nav-right">
-    <a class="pill" href="index.html#contact">Gratis voorbeeld <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-    <button class="burger" type="button" aria-expanded="false" aria-label="Menu"><span></span><span></span></button>
+  <div class="ub-sheet" id="ub-sheet" role="dialog" aria-modal="false" aria-labelledby="ub-sheet-titel" hidden>
+    <form data-ub-form novalidate>
+      <p class="label" id="ub-sheet-titel">Jouw zaak op het bord</p>
+      <label class="field"><span>Naam van je zaak</span><input name="zaak" maxlength="40" autocomplete="organization" placeholder="Bijvoorbeeld: Frituur 't Pleintje"></label>
+      <fieldset class="keuze">
+        <legend>Wat voor zaak?</legend>
+        <label><input type="radio" name="sector" value="horeca"><span>Horeca</span></label>
+        <label><input type="radio" name="sector" value="kapper"><span>Kapper</span></label>
+        <label><input type="radio" name="sector" value="garage"><span>Garage</span></label>
+        <label><input type="radio" name="sector" value="bakker"><span>Bakker</span></label>
+        <label><input type="radio" name="sector" value="aannemer"><span>Aannemer</span></label>
+        <label><input type="radio" name="sector" value="praktijk"><span>Praktijk</span></label>
+        <label><input type="radio" name="sector" value="winkel"><span>Winkel</span></label>
+        <label><input type="radio" name="sector" value="anders"><span>Andere zaak</span></label>
+      </fieldset>
+      <label class="field"><span>Gemeente of district</span><input name="gemeente" maxlength="30" autocomplete="address-level2" list="ub-gemeenten" placeholder="Bijvoorbeeld: Deurne"></label>
+      <datalist id="ub-gemeenten" data-gemeenten></datalist>
+      <div class="ub-sheet-acties">
+        <button class="pill" type="submit">Zet op het bord</button>
+        <button class="btn" type="button" data-ub-wis>Wis</button>
+        <button class="btn ub-lite" type="button" role="switch" aria-checked="false" data-lite-switch>Rustige modus <i data-lite-state>uit</i></button>
+      </div>
+      <p class="note">Blijft in je browser en verdwijnt als je het tabblad sluit. We sturen niets. Rustige modus zet de stad en de animaties uit.</p>
+    </form>
   </div>
 </header>
-<div class="menu" aria-label="Menu">
-  <ul>
-      <li><a href="index.html#oplossingen">Oplossingen</a></li>
-      <li><a href="index.html#lab">Lab</a></li>
-      <li><a href="index.html#werkwijze">Werkwijze</a></li>
-      <li><a href="demos.html">Demo's</a></li>
-      <li><a href="simulatie.html" aria-current="page">Simulatie</a></li>
-      <li><a href="gereedschap.html">Gereedschap</a></li>
-      <li><a href="index.html#contact">Contact</a></li>
-  </ul>
-  <a class="pill cyan" href="index.html#contact">Gratis voorbeeld <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-</div>
 <main id="main" class="page" style="padding-top:72px">
+<section class="sec sim-kop" aria-labelledby="sim-h1">
+  <p class="label">Doorlichting</p>
+  <h1 id="sim-h1">Een agent leest de cijfers van een verzonnen zaak. Snymis beslist.</h1>
+  <p class="lede">Vier verzonnen zaken uit Antwerpen en Mortsel, elk met vier grafieken, vier bevindingen en drie acties. De cijfers zijn gesimuleerd; de manier van kijken is dezelfde als in het gratis voorbeeld, waar we enkel lezen wat publiek over een zaak te vinden is.</p>
+</section>
+<section id="doorlichting" data-room>
+<div class="kamer kamer-doorlichting" data-sim>
+  <h2>Kijk mee hoe een agent een verzonnen zaak doorlicht.</h2>
+  <p class="dl-lede">Een verzonnen zaak, onze echte methode. De agent leest de oproepen, Google, de reviews en de website, noteert wat hij vindt en stelt drie acties voor. Dan stopt hij: Snymis keurt alles goed voor er iets naar een zaak gaat.</p>
 
-<section class="sim-hero" aria-labelledby="sim-h1">
-  <div class="mesh" aria-hidden="true"></div>
-  <div class="sec">
-    <p class="label" data-reveal>Simulatieruimte</p>
-    <h1 id="sim-h1" data-split>Kijk mee hoe een agent een zaak doorlicht.</h1>
-    <p class="lede" data-reveal>Een verzonnen zaak, onze echte methode. De agent leest de oproepen, Google, de reviews en de website, noteert wat hij vindt en stelt drie acties voor. Snymis keurt alles goed voor het naar de zaak gaat.</p>
-    <div class="sim-pick" data-reveal>
-      <span class="sim-flag">Gesimuleerde data</span>
-      <div class="sim-chips" role="group" aria-label="Kies een fictieve zaak">
-        <button type="button" class="chip" data-biz="noordpool" aria-pressed="true">Bakkerij Noordpool <small>Borgerhout</small></button>
-        <button type="button" class="chip" data-biz="lumen" aria-pressed="false">Kapsalon Lumen <small>Berchem</small></button>
-        <button type="button" class="chip" data-biz="verhulst" aria-pressed="false">Garage Verhulst <small>Mortsel</small></button>
-      </div>
-    </div>
-    <div class="sim-ctrl" data-reveal>
-      <button type="button" class="pill" id="sim-start">Start analyse <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg></span></button>
-      <button type="button" class="btn" id="sim-reset" disabled>Opnieuw</button>
-      <div class="seg" role="group" aria-label="Snelheid van de simulatie">
-        <button type="button" data-speed="1" aria-pressed="true">1x</button>
-        <button type="button" data-speed="2" aria-pressed="false">2x</button>
-      </div>
+  <form class="sim-pick" data-sim-pick novalidate>
+    <span class="sim-flag">Gesimuleerde data</span>
+    <fieldset class="keuze sim-keuze">
+      <legend>Welke verzonnen zaak leest de agent?</legend>
+      <label><input type="radio" name="sim-biz" value="noordpool" checked><span>Bakkerij Noordpool <small>Borgerhout</small></span></label>
+      <label><input type="radio" name="sim-biz" value="lumen"><span>Kapsalon Lumen <small>Berchem</small></span></label>
+      <label><input type="radio" name="sim-biz" value="verhulst"><span>Garage Verhulst <small>Mortsel</small></span></label>
+      <label><input type="radio" name="sim-biz" value="pauwels"><span>Dakwerken Pauwels <small>Hoboken</small></span></label>
+    </fieldset>
+  </form>
+  <p class="sim-context" id="sim-context">Hieronder: de verzonnen Bakkerij Noordpool, Borgerhout. Jouw echte cijfers kennen we niet.</p>
+  <div class="sim-ctrl">
+    <button type="button" class="pill" id="sim-start">Start de doorlichting <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg></span></button>
+    <button type="button" class="btn" id="sim-reset" disabled>Opnieuw</button>
+    <div class="seg" role="group" aria-label="Snelheid van de simulatie">
+      <button type="button" data-speed="1" aria-pressed="true">1x</button>
+      <button type="button" data-speed="2" aria-pressed="false">2x</button>
     </div>
   </div>
-</section>
 
-<section class="sim-zone" id="sim-zone" aria-label="De simulatieruimte">
-  <div class="room" id="room" data-reveal>
+  <div class="fasenbord" id="sim-flap">
+    <div class="fasenbord-rij" data-flap-rij aria-hidden="true"></div>
+    <ol class="fasenbord-fasen" data-flap-fasen aria-label="Fasen van de doorlichting">
+      <li>Verkennen</li>
+      <li>Meten</li>
+      <li>Lezen</li>
+      <li>Advies</li>
+      <li>Wacht op Snymis</li>
+    </ol>
+  </div>
 
+  <div class="room" id="room">
     <aside class="col log-col" aria-label="Agent-log">
       <div class="col-head"><i class="live" aria-hidden="true"></i><span class="label">Agent-log</span><span class="small" id="log-count"></span></div>
       <div class="col-body"><ol class="log" id="sim-log" aria-live="off"></ol></div>
@@ -102,7 +136,7 @@
         <div class="tabs" role="group" aria-label="Grafieken" id="sim-tabs"></div>
       </div>
       <div class="stage-title">
-        <h2 id="chart-title">Oproepen per uur</h2>
+        <h3 id="chart-title">Oproepen per uur</h3>
         <p id="chart-sub"><span id="chart-sub-txt">beantwoord en gemist, 4 weken</span> &middot; gesimuleerd &middot; bron: <span id="chart-src">telefooncentrale</span></p>
       </div>
       <div class="stage-body">
@@ -110,7 +144,7 @@
         <div class="chart-wrap" id="chart-wrap">
           <div id="sim-chart"></div>
           <svg class="ret-layer" id="sim-ret" aria-hidden="true"></svg>
-          <div class="standby" id="sim-standby"><span class="label">Standby</span><p>Kies een zaak en start de analyse.</p></div>
+          <div class="standby" id="sim-standby"><span class="label">Standby</span><p>Kies een verzonnen zaak en start de doorlichting.</p></div>
         </div>
         <div class="callout" id="sim-callout"><strong class="v"></strong><span class="t"></span></div>
       </div>
@@ -127,13 +161,13 @@
         <p class="find-empty" id="find-empty">Nog geen bevindingen. De agent leest eerst de data.</p>
       </div></div>
     </aside>
-
   </div>
+  <p class="sr" id="sim-live" aria-live="polite"></p>
 
   <div class="advies" id="advies">
     <section class="adv-panel" aria-labelledby="adv-h2">
       <div class="adv-head">
-        <h2 id="adv-h2">Advies</h2>
+        <h3 id="adv-h2">Advies</h3>
         <p class="small" id="adv-note">Drie acties, gerangschikt op impact. Verschijnen na de vier grafieken.</p>
       </div>
       <div class="adv-grid" id="sim-advice"></div>
@@ -141,7 +175,7 @@
     <section class="human" aria-labelledby="hum-h3">
       <span class="hum-state" id="hum-state">Nog geen advies</span>
       <h3 id="hum-h3">Snymis keurt het advies goed voor het naar de zaak gaat.</h3>
-      <p>De agent schrijft, een mens beslist. Elk advies, elk bericht en elke wijziging aan een profiel passeert eerst langs Snymis. Niets verlaat STS zonder dat hij het gelezen heeft.</p>
+      <p>De agent schrijft, een mens beslist. Elk advies, elk bericht en elke wijziging aan een profiel passeert eerst langs Snymis. Er vertrekt niets automatisch, ook in deze simulatie niet: de doorlichting stopt hier.</p>
       <ol class="hum-steps" aria-label="Zo verloopt het">
         <li><span>Agent</span>leest, meet en stelt voor</li>
         <li><span>Snymis</span>leest, schrapt of past aan</li>
@@ -149,59 +183,59 @@
       </ol>
     </section>
   </div>
-</section>
 
-<section class="sec center sim-cta">
-  <p class="label" data-reveal>Jouw zaak</p>
-  <h2 data-split>Laat ons jouw zaak doorlichten.</h2>
-  <p data-reveal>Dezelfde methode, met jouw echte oproepen, Google-profiel, reviews en website. Je krijgt de bevindingen en het advies te lezen voor je iets beslist.</p>
-  <div class="ctas" data-reveal>
-    <a class="pill" href="index.html?onderwerp=Doorlichting%20van%20mijn%20zaak#contact">Laat ons jouw zaak doorlichten <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-    <a class="pill ghost" href="demos.html">Bekijk de demo's <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+  <div class="watals" id="sim-watals" hidden>
+    <div class="watals-kop">
+      <h3>Wat als? E&eacute;n schakelaar per actie</h3>
+      <p>Zet een actie aan: de grafiek van de verzonnen zaak krijgt een tweede, lichtere reeks en de teller zegt wat er in die verzonnen cijfers verandert. Zet ze weer uit en de meting staat er alleen.</p>
+    </div>
+    <div class="watals-rij" data-watals-lijst role="group" aria-label="Wat als, per actie"></div>
+    <p class="watals-teller" data-watals-teller aria-live="polite"></p>
+    <p class="small watals-label" data-watals-label>schatting op gesimuleerde data, geen voorspelling voor jouw zaak</p>
   </div>
-  <p class="sim-foot">Alle zaken, cijfers en bevindingen op deze pagina zijn verzonnen. De methode is echt.</p>
-</section>
 
+  <div class="sim-cta">
+    <p class="label">Jouw zaak</p>
+    <h3>Dezelfde blik, op wat publiek te vinden is.</h3>
+    <p>Dezelfde blik op wat publiek over <span data-zaak="je zaak">je zaak</span> te vinden is: je Google-profiel en je site op een gsm, als onderdeel van het gratis voorbeeld. Oproeplijsten of serverlogs hebben we niet, enkel wat een klant ook ziet. Je leest de bevindingen voor je iets beslist.</p>
+    <div class="ctas">
+      <a class="pill primair" href="index.html#bericht?onderwerp=doorlichting" id="sim-cta" data-bericht="doorlichting" data-bericht-subject="Een doorlichting van mijn zaak">Laat Snymis kijken wat er publiek te vinden is</a>
+      <a class="btn" href="werkwijze.html#straat">Bekijk de verzonnen zaken in de straat</a>
+    </div>
+  </div>
+  <p class="sim-foot">Alle zaken, cijfers en bevindingen in deze kamer zijn verzonnen. De methode is echt.</p>
+</div>
+</section>
 </main>
 <footer class="foot">
   <div class="foot-in">
     <div>
       <p class="motto">Where imagination can reach up to the <em>stars</em>.</p>
-      <p class="small" style="margin-top:14px">Star.Tec.Solutions is het merk van STS Digital, Antwerpen.</p>
+      <p class="small merkregel">Star.Tec.Solutions is het merk van STS Digital, Antwerpen. E&eacute;n persoon, Snymis, en een paar agents die hem helpen.</p>
     </div>
     <div>
-      <h4>Site</h4>
-      <ul>
-        <li><a href="index.html#oplossingen">Oplossingen</a></li>
-        <li><a href="index.html#lab">Lab</a></li>
-        <li><a href="index.html#werkwijze">Werkwijze</a></li>
-        <li><a href="demos.html">Demo's</a></li>
-        <li><a href="simulatie.html">Simulatieruimte</a></li>
-        <li><a href="gereedschap.html">Gratis gereedschap</a></li>
+      <p class="label foot-h">Deuren</p>
+      <ul class="foot-deuren">
+        <li><a href="index.html#gevel">Jouw gevel</a></li>
+        <li><a href="index.html#telefoon">De telefoon om 19 u</a></li>
+        <li><a href="simulatie.html" aria-current="page">Doorlichting</a></li>
+        <li><a href="gereedschap.html">Gereedschap</a></li>
+        <li><a href="werkwijze.html">Hoe wij werken</a></li>
       </ul>
     </div>
     <div>
-      <h4>Juridisch</h4>
-      <ul>
+      <p class="label foot-h">Juridisch</p>
+      <ul class="foot-legal">
         <li><a href="juridisch.html">Wettelijke vermeldingen</a></li>
         <li><a href="voorwaarden.html">Algemene voorwaarden</a></li>
         <li><a href="privacy.html">Privacyverklaring</a></li>
         <li><a href="cookies.html">Cookiebeleid</a></li>
       </ul>
     </div>
-    <div>
-      <h4>Contact</h4>
-      <ul>
-        <li data-c-wrap><a data-c="email" href="#"></a></li>
-        <li data-c-wrap><a data-c="whatsapp" data-keep href="#">WhatsApp</a></li>
-        <li data-c-wrap><a data-c="phone" href="#"></a></li>
-        <li><a href="index.html#contact">Contactformulier</a></li>
-      </ul>
-    </div>
   </div>
   <div class="foot-base">
     <span>&copy; <span data-year></span> <span data-c="legalName"></span><span data-c-wrap> &middot; <span data-c="address"></span></span><span data-c-wrap> &middot; KBO <span data-c="kbo"></span></span></span>
-    <span>Geen cookies, geen trackers &middot; <a href="cookies.html">Cookies</a> &middot; <button type="button" data-lite-toggle>Minder animatie</button></span>
+    <span>Geen cookies, geen trackers &middot; <button type="button" data-lite-toggle>Minder animatie</button></span>
   </div>
 </footer>
 <script src="assets/vendor/gsap.min.js"></script>
@@ -210,10 +244,14 @@
 <script src="assets/js/state.js"></script>
 <script src="assets/js/hydrate.js"></script>
 <script src="assets/js/contact-prefill.js"></script>
-<script src="assets/js/motion.js"></script>
 <script src="assets/js/reveal.js"></script>
 <script src="assets/js/lite.js"></script>
+<script src="assets/js/uithangbord.js"></script>
 <script src="assets/js/sim-data.js"></script>
+<script src="assets/js/sim-data-2.js"></script>
+<script src="assets/js/sim-charts.js"></script>
+<script src="assets/js/flap.js"></script>
 <script src="assets/js/sim.js"></script>
+<script src="assets/js/sim-whatif.js"></script>
 </body>
 </html>

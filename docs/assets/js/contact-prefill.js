@@ -11,7 +11,9 @@
        template ('Dag Snymis,' + blank line + template without a name). Visitor voice (data-voice=visitor).
        Templates only state what is true for every visitor (conditions, never facts about his business).
        Without a form on the page the message is parked in STSBericht.parked and the browser goes
-       to index.html#bericht?onderwerp=<key>.
+       to index.html#bericht?onderwerp=<key>, with the composed lines as &r= (newline-separated,
+       url-encoded) and a custom subject as &s=; both are read back by (2). The hash never reaches
+       a server and nothing is stored.
    (5) every CTA that lands in Bericht carries data-bericht=<key>; the QA harness clicks each one.
    STSBericht.phrase(key) returns the template, STSBericht.compose(opts) the full text. */
 (function () {
@@ -53,7 +55,9 @@
     var text = compose({ key: k, lines: o.lines }), subject = o.subject || KEYS[k].subject;
     if (!f) {
       api.parked = { key: k, subject: subject, text: text };
-      var target = root() + "index.html#bericht?onderwerp=" + encodeURIComponent(k);
+      var lines = o.lines ? [].concat(o.lines).filter(Boolean) : [];
+      var target = root() + "index.html#bericht?onderwerp=" + encodeURIComponent(k)
+        + (lines.length ? "&r=" + encodeURIComponent(lines.join("\n")) : "") + (o.subject ? "&s=" + encodeURIComponent(o.subject) : "");
       location.assign(target);
       return target;
     }
@@ -85,7 +89,7 @@
   });
   /* (2) and (3): the hash on arrival. */
   var q = hashQuery("bericht");
-  if (q && q.get("onderwerp") && form()) prefill(q.get("onderwerp"));
+  if (q && q.get("onderwerp") && form()) prefill({ key: q.get("onderwerp"), subject: q.get("s") || undefined, lines: q.get("r") ? q.get("r").split("\n") : undefined });
   var t = hashQuery("whatsapp");
   if (t && t.get("bericht") != null) {
     var msg = t.get("bericht").slice(0, 300), field = document.querySelector("#wa-msg, [data-tool-bericht=whatsapp]");

@@ -1,42 +1,31 @@
+<!-- De voet: de leus één keer, de merkregel, de vijf deuren ({{doors}} uit DOORS, zoals in de strip),
+     de juridische links en de knop Minder animatie (lite.js). Geen derde navigatie, geen contactkolom:
+     praten gebeurt in de kamer Bericht. -->
 <footer class="foot">
   <div class="foot-in">
     <div>
       <p class="motto">Where imagination can reach up to the <em>stars</em>.</p>
-      <p class="small" style="margin-top:14px">Star.Tec.Solutions is het merk van STS Digital, Antwerpen.</p>
+      <p class="small merkregel">Star.Tec.Solutions is het merk van STS Digital, Antwerpen. E&eacute;n persoon, Snymis, en een paar agents die hem helpen.</p>
     </div>
     <div>
-      <h4>Site</h4>
-      <ul>
-        <li><a href="{{home}}#oplossingen">Oplossingen</a></li>
-        <li><a href="{{home}}#lab">Lab</a></li>
-        <li><a href="{{home}}#werkwijze">Werkwijze</a></li>
-        <li><a href="demos.html">Demo's</a></li>
-        <li><a href="simulatie.html">Simulatieruimte</a></li>
-        <li><a href="gereedschap.html">Gratis gereedschap</a></li>
+      <p class="label foot-h">Deuren</p>
+      <ul class="foot-deuren">
+{{doors}}
       </ul>
     </div>
     <div>
-      <h4>Juridisch</h4>
-      <ul>
+      <p class="label foot-h">Juridisch</p>
+      <ul class="foot-legal">
         <li><a href="juridisch.html">Wettelijke vermeldingen</a></li>
         <li><a href="voorwaarden.html">Algemene voorwaarden</a></li>
         <li><a href="privacy.html">Privacyverklaring</a></li>
         <li><a href="cookies.html">Cookiebeleid</a></li>
       </ul>
     </div>
-    <div>
-      <h4>Contact</h4>
-      <ul>
-        <li data-c-wrap><a data-c="email" href="#"></a></li>
-        <li data-c-wrap><a data-c="whatsapp" data-keep href="#">WhatsApp</a></li>
-        <li data-c-wrap><a data-c="phone" href="#"></a></li>
-        <li><a href="{{home}}#contact">Contactformulier</a></li>
-      </ul>
-    </div>
   </div>
   <div class="foot-base">
     <span>&copy; <span data-year></span> <span data-c="legalName"></span><span data-c-wrap> &middot; <span data-c="address"></span></span><span data-c-wrap> &middot; KBO <span data-c="kbo"></span></span></span>
-    <span>Geen cookies, geen trackers &middot; <a href="cookies.html">Cookies</a> &middot; <button type="button" data-lite-toggle>Minder animatie</button></span>
+    <span>Geen cookies, geen trackers &middot; <button type="button" data-lite-toggle>Minder animatie</button></span>
   </div>
 </footer>
 {{scripts}}

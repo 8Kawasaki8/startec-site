@@ -1,0 +1,67 @@
+/* ═════════════════════════════════════════════════════════════
+   DE TELEFOON OM 19 U (index#telefoon, src/rooms/telefoon.html)
+   Eén dominant element: de tijdlijn van 7 tot 20 u. Vlak paneel op het
+   kamerpaneel, 1px lijn, geen blur, geen gradiëntbollen. Markers:
+   opgenomen = cyaan, gemist = gedimd, via WhatsApp = violette rand,
+   teruggebeld = cyaanrand. Niets hier animeert buiten transform
+   (GSAP zet transform op de markers en de naald); kleuren staan stil.
+   Onder 560 px kamerbreedte tekent sim-dag.js de dag verticaal, binnen 60svh.
+═════════════════════════════════════════════════════════════ */
+.kamer-dag{--dag-dim:rgba(242,245,255,.22);--dag-band:rgba(242,245,255,.055)}
+.dag-ctl{display:grid;gap:18px;margin-top:26px}
+.dag-modus label span{white-space:normal;line-height:1.25;padding-top:8px;padding-bottom:8px}
+/* de onzichtbare radio zelf dekt de chip: het klikdoel is de hele chip, ook voor wie met de vinger mikt */
+.kamer-dag .keuze input{inset:0;width:100%;height:100%;cursor:pointer}
+
+/* het podium */
+.dag-stage{margin-top:24px;padding:14px 16px 12px;border:1px solid var(--line2);border-radius:16px;background:rgba(255,255,255,.035)}
+.dag-kop{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font:500 12px/1.4 var(--mono);letter-spacing:.06em;color:var(--ink2)}
+.dag-wie{min-width:0;overflow-wrap:anywhere}
+.dag-klok{flex:none;font-size:15px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.dag-tijdlijn{margin-top:10px;max-height:60svh;display:flex;justify-content:center}
+.dag-tijdlijn svg{width:100%;height:auto;max-height:60svh;display:block;overflow:visible}
+.dag-tijdlijn .as{stroke:rgba(242,245,255,.28);stroke-width:1}
+.dag-tijdlijn .tk{stroke:rgba(242,245,255,.28);stroke-width:1}
+.dag-tijdlijn .ul{font:500 11px var(--mono);fill:var(--ink2)}
+.dag-tijdlijn .bnd{fill:var(--dag-band)}
+.dag-tijdlijn .bnd-l{font:500 10.5px var(--mono);letter-spacing:.04em;fill:rgba(242,245,255,.58)}
+.dag-tijdlijn .naald line{stroke:var(--ink);stroke-width:1.5;stroke-linecap:round}
+.dag-tijdlijn .mk circle{fill:var(--dag-dim);stroke:none}
+.dag-tijdlijn .mk-opgenomen circle{fill:var(--cyan)}
+.dag-tijdlijn .mk-bericht circle{fill:transparent;stroke:var(--violet);stroke-width:2}
+.dag-tijdlijn .mk-bericht .mk-in{fill:var(--violet);stroke:none}
+.dag-tijdlijn .mk-teruggebeld circle{fill:transparent;stroke:var(--cyan-2);stroke-width:2}
+
+/* legenda: vijf woorden met een stip, geen iconen */
+.dag-legenda{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:12.5px;color:var(--ink2)}
+.dag-legenda span{display:inline-flex;align-items:center;gap:7px}
+.dag-legenda i{width:12px;height:12px;border-radius:50%;flex:none;background:var(--dag-dim)}
+.dag-legenda .lg-opgenomen{background:var(--cyan)}
+.dag-legenda .lg-bericht{background:transparent;border:2px solid var(--violet)}
+.dag-legenda .lg-teruggebeld{background:transparent;border:2px solid var(--cyan-2)}
+.dag-legenda .lg-band{border-radius:3px;background:var(--dag-band);border:1px solid var(--line2)}
+
+/* speler: één knop, snelheid, naar het einde */
+.dag-speler{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:18px}
+.dag-seg{display:inline-flex;gap:2px;padding:3px;border-radius:999px;border:1px solid var(--line2);background:var(--glass)}
+.dag-seg button{min-height:36px;min-width:44px;padding:7px 14px;border-radius:999px;border:0;background:none;color:var(--ink3);font:600 13px var(--mono);cursor:pointer}
+.dag-seg button:hover{color:var(--ink)}
+.dag-seg button[aria-pressed="true"]{background:var(--ink);color:#06080F}
+
+/* tellers: vier cijfers, mono-etiket, aria-hidden tijdens het spelen */
+.dag-tellers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:22px;max-width:720px}
+.dag-tellers div{padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:rgba(6,8,15,.5)}
+.dag-tellers dt{font:500 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.dag-tellers dd{margin-top:6px;font:600 28px/1.1 var(--sans);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.kamer-dag .dag-uitkomst{margin-top:18px;min-height:1.6em;font-size:1.05rem;color:var(--ink);max-width:62ch}
+.kamer-dag .dag-aanname{margin-top:10px;max-width:62ch;font-size:13.5px}
+.kamer-dag .dag-voet{margin-top:18px;max-width:62ch;font-size:13.5px}
+
+@media(max-width:640px){
+  .dag-tellers{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dag-tellers dd{font-size:24px}
+  .dag-stage{padding:12px 12px 10px}
+}
+@media(pointer:coarse){
+  .dag-seg button{min-height:44px}
+}

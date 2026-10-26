@@ -1,0 +1,23 @@
+/* Hoe wij werken (werkwijze.html), de minimale eerlijke versie van WP-04: drie stappen,
+   de capaciteitenkaart als tekst in drie lijsten, de straat met vier verzonnen zaken en
+   'Zo komt u op onze radar'. WP-09 vervangt deze pagina door kamers en breidt dit bestand uit. */
+.stappen{list-style:none;counter-reset:stap;display:grid;gap:18px;margin-top:26px;max-width:62ch}
+.stappen li{position:relative;padding:18px 0 18px 88px;border-top:1px solid var(--line);color:var(--ink2)}
+.stappen li::before{counter-increment:stap;content:"0" counter(stap);position:absolute;left:0;top:18px;font:600 clamp(1.3rem,2vw,1.7rem)/1 var(--display);color:var(--cyan)}
+.stappen strong{display:block;color:var(--ink);font:600 1.08rem var(--display);margin-bottom:6px}
+.stappen a,.kaart a,.panden a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(54,232,255,.45)}
+.kaart{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:28px}
+.kaart > div{padding:22px;border-radius:18px;background:var(--glass);border:1px solid var(--line2)}
+.kaart .label{display:block;margin-bottom:12px}
+.kaart .small{margin:-6px 0 12px}
+.kaart ul{list-style:none;display:grid;gap:10px;color:var(--ink2);font-size:15px}
+.kaart li{padding-left:18px;position:relative}
+.kaart li::before{content:"";position:absolute;left:0;top:.6em;width:.5em;height:.5em;background:var(--ink3);clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%)}
+.kaart > div:first-child li::before{background:var(--cyan)}
+.kaart + .lede{margin-top:28px}
+@media(max-width:900px){.kaart{grid-template-columns:1fr}.stappen li{padding-left:64px}.stappen li::before{font-size:1.2rem}}
+.panden{list-style:none;display:grid;gap:12px;margin-top:22px;max-width:62ch}
+.panden li{padding:12px 0;border-top:1px solid var(--line);color:var(--ink2)}
+.panden li a{font:600 1.02rem var(--display);display:inline-block;margin-right:8px}
+.panden li span{display:block;margin-top:4px;font-size:15px}
+@media(pointer:coarse){.stappen a,.kaart a,.panden li a{display:inline-block;padding:14px 10px;margin:-14px -10px}}

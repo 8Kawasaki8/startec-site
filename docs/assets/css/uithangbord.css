@@ -1,0 +1,91 @@
+/* ═════════════════════════════════════════════════════════════
+   UITHANGBORD — de ene navigatie (src/partials/uithangbord.html)
+   Vanaf 900 px: één strip bovenaan (merk, naamchip, vijf deuren, de
+   actie), vlak rgba-paneel met 1px lijn, nooit blur erachter, geen
+   transition op de strip. Onder 900 px: een kop van 48 px met merk en
+   naamchip, en een dock van 56 px onderaan (safe-area, klikdoelen 44 px,
+   labels JetBrains Mono 11 px; uithangbord.js zet het blok achteraan in
+   de DOM). Elke deur draagt twee labels uit DOORS (buildlib.py): .ub-lang
+   voor de strip en de voet, .ub-kort voor het dock; de actie net zo
+   ('Bericht'). De deurenrij schuift horizontaal met een statisch
+   randverloop (mask-image, geen transition) als teken dat er meer is;
+   uithangbord.js schuift de huidige deur in beeld. html krijgt
+   scroll-padding voor de ankers.
+   Tokens: --ub-kop (hoogte boven), --ub-dok (hoogte onder).
+═════════════════════════════════════════════════════════════ */
+:root{--ub-kop:64px;--ub-dok:0px}
+html{scroll-padding-top:calc(var(--ub-kop) + 12px)}
+
+.ub{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--ub-kop);display:flex;align-items:center;gap:clamp(12px,1.6vw,24px);
+  padding:0 clamp(16px,3vw,40px);background:var(--paneel);border-bottom:1px solid var(--line);overflow:hidden}
+/* de kop (merk + chip) krimpt eerst, de deuren nooit: de chip kort af met een beletselteken */
+.ub-kop{display:flex;align-items:center;gap:14px;min-width:0;flex:0 1 auto}
+.ub-merk{display:flex;align-items:center;gap:10px;min-height:44px;font:600 15px var(--display);letter-spacing:.02em;white-space:nowrap}
+.ub-merk svg{width:28px;height:28px;flex:none}
+.ub-merk .st{width:.4em;height:.4em;margin:0 .12em}
+
+/* de naamchip: '{zaak} · {sector} · {gemeente}' of 'Hoe heet je zaak?'; de ster draagt de sectorkleur */
+.ub-chip{display:inline-flex;align-items:center;gap:9px;min-height:44px;min-width:0;flex:0 1 auto;max-width:300px;padding:0 14px;border-radius:999px;border:1px solid var(--line2);
+  background:var(--glass);color:var(--ink);font:500 13.5px var(--sans);cursor:pointer;text-align:left}
+.ub-chip .st{width:9px;height:9px;flex:none;background:var(--sector)}
+.ub-chip.is-leeg{color:var(--ink2)}
+.ub-chip.is-leeg .st{background:var(--ink3)}
+.ub-chip-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ub-chip:hover,.ub-chip[aria-expanded="true"]{border-color:var(--cyan)}
+
+.ub-dok{display:flex;align-items:center;gap:clamp(12px,1.6vw,24px);flex:0 0 auto;margin-left:auto}
+.ub-deuren{display:flex;align-items:center;gap:clamp(2px,.6vw,8px);list-style:none;margin:0;flex:none;position:relative}
+.ub-deuren a{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:0 9px;border-radius:8px;color:var(--ink2);font:500 14px var(--sans);white-space:nowrap}
+.ub-deuren a:hover{color:var(--ink)}
+.ub-deuren a[aria-current],.ub-deuren a.is-active{color:var(--ink)}
+.ub-deuren a[aria-current]::after,.ub-deuren a.is-active::after{content:"";position:absolute;left:9px;right:9px;bottom:7px;height:2px;background:var(--cyan)}
+.ub .pill{flex:none;min-height:44px;padding:0 18px;font-size:14px;box-shadow:var(--glow)}   /* de ene gloed van de pagina */
+.ub .pill[aria-current]{background:var(--cyan)}
+.ub-kort{display:none}
+
+@media(min-width:900px) and (max-width:1339px){.ub-merk span{display:none}}
+@media(min-width:900px) and (max-width:1199px){
+  .ub-chip{max-width:200px;font-size:13px;padding:0 12px}
+  .ub-deuren a{font-size:13.5px;padding:0 7px}
+  .ub .pill{padding:0 14px;font-size:13.5px}
+}
+
+/* ═══ HET BEWERKBLAD: naam, sector, gemeente; Wis; Rustige modus ════ */
+.ub-sheet{position:fixed;z-index:110;top:calc(var(--ub-kop) + 8px);left:var(--gut);width:min(460px,calc(100vw - 2*var(--gut)));
+  max-height:calc(100dvh - var(--ub-kop) - var(--ub-dok) - 24px);overflow:auto;padding:18px 18px 16px;border-radius:16px;
+  background:rgba(6,8,15,.97);border:1px solid var(--line2);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.ub-sheet .label{display:block;margin-bottom:14px}
+.ub-sheet .field{margin-bottom:12px}
+.ub-sheet .keuze{margin-bottom:12px}
+.ub-sheet-acties{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.ub-sheet-acties .btn{font-size:13.5px;padding:8px 14px}
+.ub-lite i{font-style:normal;color:var(--ink3);font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.ub-lite[aria-checked="true"] i{color:var(--cyan-2)}
+.ub-sheet .note{font-size:13px;color:var(--ink3);margin-top:12px}
+
+/* ═══ ONDER 900 PX: kop boven, dock onder ═══════════════════ */
+@media(max-width:899px){
+  :root{--ub-kop:48px;--ub-dok:56px}
+  html{scroll-padding-top:calc(var(--ub-kop) + 8px);scroll-padding-bottom:72px}
+  .ub{position:static;height:auto;display:block;padding:0;background:none;border:0}
+  .ub-kop{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--ub-kop);padding:0 8px 0 10px;gap:8px;background:var(--paneel);border-bottom:1px solid var(--line)}
+  .ub-merk{min-width:44px;justify-content:center;min-height:44px}
+  .ub-merk span{display:none}
+  .ub-chip{flex:1;max-width:none;min-height:40px;font-size:13px;padding:0 12px}
+  .ub-dok{position:fixed;left:0;right:0;bottom:0;z-index:100;height:calc(var(--ub-dok) + env(safe-area-inset-bottom,0px));padding:0 6px env(safe-area-inset-bottom,0px);
+    gap:6px;justify-content:space-between;background:var(--paneel);border-top:1px solid var(--line)}
+  /* de deuren schuiven horizontaal in het dock (korte labels, vier zichtbaar op 390 px, statisch randverloop
+     rechts als teken dat er meer is); de actie 'Bericht' blijft rechts staan */
+  .ub-deuren{flex:1;height:100%;margin:0;gap:2px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;
+    -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 14px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 14px),transparent)}
+  .ub-deuren::-webkit-scrollbar{display:none}
+  .ub-deuren li{flex:none;scroll-snap-align:start}
+  .ub-deuren li:last-child{padding-right:24px}   /* ruimte onder het verloop, zodat de laatste deur leesbaar eindigt */
+  .ub-deuren a{min-height:44px;padding:0 6px;font:500 11px/1.2 var(--mono);letter-spacing:0;text-transform:uppercase;border-radius:6px}
+  .ub-deuren a[aria-current]::after,.ub-deuren a.is-active::after{left:6px;right:6px;bottom:5px}
+  .ub-lang{display:none}
+  .ub-kort{display:inline}
+  .ub .pill{min-height:44px;padding:0 10px;font:600 11px var(--mono);letter-spacing:.04em;text-transform:uppercase;box-shadow:none}
+  .ub-sheet{left:8px;right:8px;width:auto;padding:16px 14px 14px}
+}
+@media(max-width:899px) and (pointer:coarse){.ub-chip{min-height:44px}}

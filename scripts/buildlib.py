@@ -7,25 +7,19 @@ import datetime, json, pathlib, re, shutil
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC, OUT = ROOT / "src", ROOT / "docs"
 
-# The Uithangbord: five doors in the buyer's words plus the one action. (href from the site root, label, id)
+# The Uithangbord: five doors in the buyer's words plus the one action.
+# (href from the site root, label, id, short label for the phone dock below 900 px)
 DOORS = [
-    ("index.html#gevel", "Jouw gevel", "gevel"),
-    ("index.html#telefoon", "De telefoon om 19 u", "telefoon"),
-    ("simulatie.html", "Doorlichting", "simulatie"),
-    ("gereedschap.html", "Gereedschap", "gereedschap"),
-    ("werkwijze.html", "Hoe wij werken", "werkwijze"),
+    ("index.html#gevel", "Jouw gevel", "gevel", "Gevel"),
+    ("index.html#telefoon", "De telefoon om 19 u", "telefoon", "Telefoon"),
+    ("simulatie.html", "Doorlichting", "simulatie", "Doorlichting"),
+    ("gereedschap.html", "Gereedschap", "gereedschap", "Gereedschap"),
+    ("werkwijze.html", "Hoe wij werken", "werkwijze", "Werkwijze"),
 ]
-ACTION = ("index.html#bericht", "Bericht aan Snymis", "bericht")
-# Until WP-04 ships the strip and the rooms behind the doors, src/partials/uithangbord.html shows the
-# seven links of the current site ({{links}}) through the same renderer as DOORS ({{doors}}, {{action}}).
-LEGACY_LINKS = [
-    ("index.html#oplossingen", "Oplossingen", "oplossingen"), ("index.html#lab", "Lab", "lab"),
-    ("index.html#werkwijze", "Werkwijze", "werkwijze"), ("demos.html", "Demo's", "demos"),
-    ("simulatie.html", "Simulatie", "simulatie"), ("gereedschap.html", "Gereedschap", "gereedschap"),
-    ("index.html#contact", "Contact", "contact"),
-]
+ACTION = ("index.html#bericht", "Bericht aan Snymis", "bericht", "Bericht")
 # ScrollTrigger and Lenis stay in docs/assets/vendor for the demo sites; no STS page loads them.
-VENDOR_DEFAULT = "gsap.min"
+# GSAP only where a timeline exists: index.html, simulatie.html and dev/scene.html declare 'vendor: gsap.min'.
+VENDOR_DEFAULT = ""
 MONTHS = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"]
 
 
@@ -64,21 +58,27 @@ def door_href(href, slug):
 
 def is_current(door, slug, meta):
     """aria-current: the door named by 'nav:' in the front matter, or the door whose page this is (no hash)."""
-    href, _, did = door
+    href, did = door[0], door[2]
     page, _, frag = href.partition("#")
     return did == meta.get("nav") or (not frag and page == slug + ".html")
 
 
-def render_doors(doors, slug, meta, indent="      "):
-    """<li><a> rows for a door list, with aria-current="page" on the door the visitor is behind."""
-    return "\n".join('%s<li><a href="%s"%s>%s</a></li>' % (indent, door_href(h, slug), ' aria-current="page"' if is_current((h, l, i), slug, meta) else "", l)
-                     for h, l, i in doors)
+def door_label(label, kort):
+    """The full label, or (strip) the full one plus the short one; uithangbord.css shows one of the two."""
+    return '<span class="ub-lang">%s</span><span class="ub-kort">%s</span>' % (label, kort) if kort else label
+
+
+def render_doors(doors, slug, meta, indent="      ", kort=False):
+    """<li><a> rows for a door list, with aria-current="page" on the door the visitor is behind.
+    kort=True (the strip) also renders the short dock label; the footer keeps the full words."""
+    return "\n".join('%s<li><a href="%s"%s>%s</a></li>' % (indent, door_href(h, slug), ' aria-current="page"' if is_current(door, slug, meta) else "", door_label(l, k if kort else ""))
+                     for door in doors for h, l, _, k in [door])
 
 
 def render_action(slug, meta):
     """The one action of the strip, as a link (the prefill contract of WP-02 hangs on the room, not here)."""
-    h, label, _ = ACTION
-    return '<a class="pill" href="%s"%s>%s</a>' % (door_href(h, slug), ' aria-current="page"' if is_current(ACTION, slug, meta) else "", label)
+    h, label, _, kort = ACTION
+    return '<a class="pill" href="%s"%s>%s</a>' % (door_href(h, slug), ' aria-current="page"' if is_current(ACTION, slug, meta) else "", door_label(label, kort))
 
 
 def rooms_html(meta):
@@ -96,7 +96,7 @@ def redirect_stub(target, meta, base, up):
     """A 20-line page for an address that moved: meta refresh 0, canonical to the target, a visible link
     and a short script that carries ?query and #hash along (the visitor's own hash wins over the target's)."""
     href = up + target
-    label = next((l for h, l, _ in DOORS + [ACTION] if h == target), target)
+    label = next((d[1] for d in DOORS + [ACTION] if d[0] == target), target)
     return "\n".join([
         '<!doctype html><html lang="nl-BE">',
         "<head>",
@@ -139,18 +139,15 @@ def og_tags(base, slug, meta):
     ])
 
 
-def json_ld(base, slug):
-    """Organization markup for Google, only on the home page; the e-mail comes from config.js so it lives in
-    one place. No price statement of any kind: every quote is made per client."""
-    if slug != "index":
-        return ""
-    cfg = (OUT / "assets" / "js" / "config.js").read_text(encoding="utf-8")
-    c = dict(re.findall(r'^\s*(\w+):\s*"([^"]*)"', cfg, re.M))
+def json_ld_data(c, base):
+    """The Organization record from a config dict (the string keys of config.js). Pure, so build.py can
+    self-test it with a filled dict before any page is written."""
     data = {
         "@context": "https://schema.org", "@type": "ProfessionalService",
         "name": "Star.Tec.Solutions", "legalName": c.get("legalName") or "STS Digital", "alternateName": "STS Digital",
         "description": "Websites met eerst een gratis voorbeeld, gratis gereedschap en onderzoek naar AI voor kleine zaken, vanuit Antwerpen.",
-        "areaServed": ["Antwerpen", "Vlaanderen"],   # Brussel only after the founder confirms it (docs/CHECKLIST-SAKI.md) "address": {"@type": "PostalAddress", "addressLocality": "Antwerpen", "addressCountry": "BE"},
+        "areaServed": ["Antwerpen", "Vlaanderen"],   # Brussel alleen na OK van de oprichter (docs/CHECKLIST-SAKI.md, punt 3)
+        "address": {"@type": "PostalAddress", "addressLocality": "Antwerpen", "addressCountry": "BE"},
         "founder": {"@type": "Person", "name": c.get("owner") or "Snymis"}, "knowsLanguage": "nl-BE",
     }
     if base:
@@ -166,7 +163,29 @@ def json_ld(base, slug):
         data["identifier"] = {"@type": "PropertyValue", "propertyID": "KBO", "value": c["kbo"]}
     if c.get("vat", "").upper().startswith("BE"):
         data["vatID"] = c["vat"]
-    return '<script type="application/ld+json">%s</script>' % json.dumps(data, ensure_ascii=False)
+    return data
+
+
+def json_ld(base, slug):
+    """Organization markup for Google, only on the home page; the e-mail comes from config.js so it lives in
+    one place. No price statement of any kind: every quote is made per client."""
+    if slug != "index":
+        return ""
+    cfg = (OUT / "assets" / "js" / "config.js").read_text(encoding="utf-8")
+    c = dict(re.findall(r'^\s*(\w+):\s*"([^"]*)"', cfg, re.M))
+    return '<script type="application/ld+json">%s</script>' % json.dumps(json_ld_data(c, base), ensure_ascii=False)
+
+
+def selftest():
+    """Renders the JSON-LD with a filled config (what Saki will supply): every key lands, nothing raises."""
+    full = {"legalName": "Test bv", "owner": "Snymis", "email": "a@b.be", "phone": "+32 470 00 00 00",
+            "address": "Teststraat 1, 2000 Antwerpen", "kbo": "0123.456.789", "vat": "BE0123456789"}
+    d = json_ld_data(full, "https://example.test/")
+    assert d["address"]["streetAddress"] == full["address"] and d["address"]["addressLocality"] == "Antwerpen", d
+    assert d["identifier"]["value"] == full["kbo"] and d["vatID"] == full["vat"] and d["email"] == full["email"]
+    assert "priceRange" not in json.dumps(d) and "Brussel" not in d["areaServed"]
+    e = json_ld_data({}, "")
+    assert "address" in e and "streetAddress" not in e["address"] and "url" not in e
 
 
 def inline_svg(html):

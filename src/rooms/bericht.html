@@ -1,0 +1,85 @@
+<div class="kamer kamer-bericht">
+  <p class="label">Bericht aan Snymis</p>
+  <h2>En nu echt. Schrijf Snymis. Hij leest dit zelf en antwoordt via de weg die jij kiest.</h2>
+  <p>Een paar zinnen volstaan. Er vertrekt niets stilzwijgend en er belt geen verkoper terug: wat je hier schrijft, komt bij &eacute;&eacute;n persoon terecht.</p>
+  <div class="split bericht-split">
+    <form id="contact-form" class="panel bericht-form" novalidate>
+      <label class="field"><span>Je naam</span><input name="name" required autocomplete="name"></label>
+      <label class="field"><span>Naam van je zaak <span class="small">(optioneel)</span></span><input name="business" autocomplete="organization" maxlength="40"></label>
+      <label class="field"><span>E-mail of gsm-nummer</span><input name="reach" required autocomplete="email" placeholder="Zo kunnen we je antwoorden"></label>
+      <label class="field"><span>Hoe mogen we je antwoorden?</span><select name="prefer"><option>E-mail</option><option>WhatsApp</option><option>Telefoon</option></select></label>
+      <input type="hidden" name="onderwerp" value="">
+      <div class="field bericht-veld">
+        <label for="bericht-tekst">Wat mogen we voor je bekijken?</label>
+        <div data-voice="visitor"><textarea id="bericht-tekst" name="message" required rows="7" placeholder="Wat doet je zaak, en waar loop je tegenaan?"></textarea></div>
+      </div>
+      <div aria-hidden="true" style="position:absolute;left:-9999px"><label>Laat dit leeg<input name="company_site" tabindex="-1" autocomplete="off"></label></div>
+      <button class="pill" type="submit">Stuur een berichtje</button>
+      <p class="small bericht-status">Dit opent je mail- of WhatsApp-app. Snymis leest het zelf. We gebruiken je gegevens alleen om je te antwoorden. <a href="privacy.html">Privacy</a></p>
+      <p class="small bericht-belofte" data-c-wrap hidden><span data-c="replyPromise"></span></p>
+      <p class="form-err" id="form-err" role="alert" hidden></p>
+      <p class="form-ok" id="form-ok" tabindex="-1" hidden>Je mail- of WhatsApp-app zou nu open moeten staan, met je bericht erin. Gebeurt er niets? Kopieer je tekst en stuur ze rechtstreeks naar <a data-c="email" href="#"></a>.</p>
+    </form>
+    <aside class="bericht-kanalen" aria-labelledby="bericht-kanalen-h">
+      <p class="label" id="bericht-kanalen-h">Of rechtstreeks</p>
+      <ul class="channels">
+        <li data-c-wrap><span class="label">WhatsApp</span><br><a data-c="whatsapp" data-keep href="#">Stuur een bericht</a></li>
+        <li data-c-wrap><span class="label">E-mail</span><br><a data-c="email" href="#"></a></li>
+        <li data-c-wrap><span class="label">Telefoon</span><br><a data-c="phone" href="#"></a></li>
+        <li><span class="label">Basis</span><br>Antwerpen, voor heel Vlaanderen. Alles kan op afstand.</li>
+      </ul>
+      <div class="bericht-stappen">
+        <p class="label">Zo gaat het daarna</p>
+        <ol>
+          <li><strong>Wij bouwen eerst een gratis voorbeeld.</strong> Met jouw echte gegevens. Je hoeft niets voor te bereiden en niets te betalen.</li>
+          <li><strong>Jij beslist daarna.</strong> Goed? Dan maken we een offerte op maat. Niet goed? Dan stopt het daar, zonder kosten.</li>
+          <li><strong>Live, en we blijven erbij.</strong> Onderhoud, updates en uitbreidingen. Je stuurt een bericht; het is geregeld.</li>
+        </ol>
+      </div>
+    </aside>
+  </div>
+
+  <div class="bericht-blok bericht-vragen">
+    <p class="label">Wat mensen ons eerst vragen</p>
+    <details>
+      <summary><h3>Wat kost een website?</h3></summary>
+      <p>Elke offerte is op maat, omdat geen twee zaken gelijk zijn. Je ziet eerst gratis een werkend voorbeeld van jouw site; pas daarna praten we over prijs, met een vast bedrag op papier.</p>
+    </details>
+    <details>
+      <summary><h3>Wat is dat gratis voorbeeld precies?</h3></summary>
+      <p>Een werkende versie van jouw site met je echte uren, adres, foto&rsquo;s en reviews. Geen schets, geen sjabloon. Je bekijkt hem op je gsm. Bevalt het niet, dan stopt het daar, zonder kosten.</p>
+    </details>
+    <details>
+      <summary><h3>Ik heb al een website. Kan ik overstappen?</h3></summary>
+      <p>Ja. We bouwen het voorbeeld naast je huidige site. Je domein verhuist pas als jij tevreden bent, zonder onderbreking.</p>
+    </details>
+    <details>
+      <summary><h3>Van wie is de site daarna?</h3></summary>
+      <p>Van jou. Domein, inhoud en ontwerp zijn jouw eigendom. Onderhoud door ons is een keuze, geen verplichting.</p>
+    </details>
+    <details>
+      <summary><h3>Wat doet die AI juist voor mijn zaak?</h3></summary>
+      <p>De systemen die werk overnemen zijn in onderzoek: antwoorden buiten de uren met je echte openingsuren, reviews beantwoorden in jouw toon, een offerte-opzet uit een foto. Wat er vandaag is: een verkenner die zaken zoekt die klanten &rsquo;s avonds slecht vinden, een bouwer die met publieke gegevens het voorbeeld maakt, en Snymis die elk bericht leest voor het vertrekt. Een mens keurt alles goed; er vertrekt niets automatisch.</p>
+    </details>
+    <details>
+      <summary><h3>Werken jullie ook buiten Antwerpen?</h3></summary>
+      <p>Ja, voor heel Vlaanderen. Alles kan op afstand; een bezoek kan als je dat liever hebt.</p>
+    </details>
+  </div>
+
+  <div class="bericht-blok bericht-radar" role="region" aria-labelledby="bericht-radar-h">
+    <h3 id="bericht-radar-h">Kreeg u een bericht van ons zonder dat u iets vroeg?</h3>
+    <p>Dan vond onze verkenner uw zaak, en gebruikten we enkel wat u zelf openbaar maakte: uw Google-profiel, uw openingsuren en uw adres. U kreeg van ons &eacute;&eacute;n bericht, en dat las en keurde Snymis zelf goed voor het vertrok. Het voorbeeld dat erbij hoort staat niet in zoekmachines en wordt enkel met u gedeeld. Reageert u niet, dan verwijderen we het na 30 dagen; vraagt u het, dan binnen 5 werkdagen. Zo staat het ook in onze <a href="privacy.html">privacyverklaring</a>.</p>
+  </div>
+
+  <div class="bericht-blok bericht-deel">
+    <h3>Ken je een collega in je straat die dit ook zou moeten zien?</h3>
+    <p>Wij sturen niets naar derden en vragen geen adressen. Maak een tekstje en stuur het zelf door, via WhatsApp of hoe je wilt.</p>
+    <div class="ctas">
+      <button class="btn" type="button" data-deel-maak aria-controls="bericht-deeltekst" aria-expanded="false">Maak een deeltekst</button>
+      <button class="btn btn-line" type="button" data-deel-kopieer hidden>Kopieer de tekst</button>
+    </div>
+    <textarea class="deel-tekst" id="bericht-deeltekst" data-deel-tekst data-voice="visitor" rows="5" readonly aria-label="Deeltekst om zelf door te sturen" hidden></textarea>
+    <p class="small" data-deel-status role="status" hidden></p>
+  </div>
+</div>

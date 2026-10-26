@@ -2,6 +2,8 @@
 // Usage: node scripts/qa/fixtures.mjs [--json]   (qa.mjs runs it with the other lints)
 // names.json  -> STSNames.sanitise / aanspreek / bij (docs/assets/js/names.js), every output under 41 characters
 // prefill.json -> STSBericht.phrase / compose (docs/assets/js/contact-prefill.js) with a stubbed DOM
+// tools.json   -> STSScore.score / band / worst (docs/assets/js/score.js) and the texts of tools-check.js (WP-08)
+// sign.json    -> wrapSign (docs/assets/js/scene/signdom.js, an ES module): no line boundary inside a word (checkSignFixtures)
 import { readFileSync } from 'node:fs';
 import { join, basename } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -20,7 +22,7 @@ function loadScripts(root) {
   };
   stub.window = stub; stub.globalThis = stub;
   const ctx = vm.createContext(stub);
-  for (const f of ['names.js', 'contact-prefill.js']) {
+  for (const f of ['names.js', 'contact-prefill.js', 'score.js']) {
     const file = join(root, 'docs', 'assets', 'js', f);
     vm.runInContext(readFileSync(file, 'utf8'), ctx, { filename: pathToFileURL(file).href });
   }
@@ -63,11 +65,47 @@ export function checkFixtures({ root = process.cwd() } = {}) {
   w.STSState = { get: () => ({ zaak: 'Kinesist Els', sector: 'praktijk', gemeente: '', g: 0, source: 'typed' }) };
   const praktijk = B.compose({ key: 'algemeen' });
   if (!praktijk.startsWith('Dag Snymis, ik ben van Kinesist Els (Praktijk). ')) fail(prefillFile, `compose praktijk zonder gemeente: ${JSON.stringify(praktijk.slice(0, 60))}`);
+
+  /* ── WP-08: the Zichtbaarheidscheck scores like the old tools.js and its texts stay honest ── */
+  const toolsFile = 'scripts/qa/fixtures/tools.json', Sc = w.STSScore;
+  const tools = JSON.parse(readFileSync(join(root, toolsFile), 'utf8'));
+  if (!Sc) fail('docs/assets/js/score.js', 'STSScore ontbreekt');
+  else {
+    for (const c of [tools, ...(tools.extra || [])]) {
+      const got = Sc.score(c.antwoorden);
+      if (got !== c.score) fail(toolsFile, `score(${JSON.stringify(c.antwoorden)}) gaf ${got}, verwacht ${c.score}`);
+      if (Sc.band(got) !== c.band) fail(toolsFile, `band(${got}) gaf ${Sc.band(got)}, verwacht ${c.band}`);
+    }
+    const worst = Sc.worst(tools.antwoorden, 3);
+    if (JSON.stringify(worst) !== JSON.stringify(tools.slechtste)) fail(toolsFile, `worst gaf ${JSON.stringify(worst)}, verwacht ${JSON.stringify(tools.slechtste)}`);
+  }
+  const checkSrc = readFileSync(join(root, 'docs', 'assets', 'js', 'tools-check.js'), 'utf8');
+  for (const word of tools.verboden || []) if (checkSrc.toLowerCase().includes(word.toLowerCase())) fail('docs/assets/js/tools-check.js', `bevat '${word}'`);
+  for (const zin of (tools.sterk || '').split(/(?<=\.)\s+/)) {   // title and text are two strings in the module
+    if (zin && !checkSrc.includes(zin)) fail('docs/assets/js/tools-check.js', `de sterke uitkomst mist de zin ${JSON.stringify(zin)}`);
+  }
+  return out;
+}
+
+/** sign.json against wrapSign: the expected lines, and the lines joined always give the cleaned name back. */
+export async function checkSignFixtures({ root = process.cwd() } = {}) {
+  const out = [], file = 'scripts/qa/fixtures/sign.json';
+  const fail = (text) => out.push({ check: 'fixture', file, text, severity: 'fail' });
+  let m;
+  try { m = await import(pathToFileURL(join(root, 'docs', 'assets', 'js', 'scene', 'signdom.js')).href); }
+  catch (e) { fail(`signdom.js laadt niet in node: ${e.message}`); return out; }
+  const cases = JSON.parse(readFileSync(join(root, file), 'utf8'));
+  for (const c of cases.namen) {
+    const got = m.wrapSign(c.in), clean = m.cleanSign(c.in);
+    if (JSON.stringify(got) !== JSON.stringify(c.regels)) fail(`wrapSign(${JSON.stringify(c.in)}) gaf ${JSON.stringify(got)}, verwacht ${JSON.stringify(c.regels)}`);
+    if (got.join(' ').trim() !== clean) fail(`wrapSign(${JSON.stringify(c.in)}) breekt een woord: ${JSON.stringify(got)}`);
+    if (got.length > 2) fail(`wrapSign(${JSON.stringify(c.in)}) geeft ${got.length} regels (hoogstens 2)`);
+  }
   return out;
 }
 
 if (process.argv[1] && import.meta.url.endsWith(basename(process.argv[1]))) {
-  const results = checkFixtures();
+  const results = [...checkFixtures(), ...await checkSignFixtures()];
   if (process.argv.includes('--json')) console.log(JSON.stringify(results, null, 2));
   else {
     for (const r of results) console.log(`FOUT   ${r.file} ${r.text}`);

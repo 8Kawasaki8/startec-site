@@ -23,40 +23,17 @@ export function loadBudget(root = process.cwd()) {
   return { ...DEFAULT_BUDGET, ...data, gates: { ...DEFAULT_BUDGET.gates, ...(data.gates || {}) }, source: 'scripts/qa/budget.json' };
 }
 
-const OLD_STYLE = 'docs/assets/css/style.css';
-const inOldIndex = (i) => /(^|\/)index\.html$/.test(i.page || i.file || '') && !/^demo\//.test(i.page || '');
-const notDemo = (i) => !/^demo\//.test(i.page || '');
-/* the runtime animation scan names the element; these are the old-UI selectors whose transitions live in style.css */
-const OLD_ANIMATED = /: (header\.nav|nav\.nav|\S*\.pill|i|\S*\.card|\S*\.plot|img) (?:transition:?|\S+:) (backdrop-filter|-webkit-backdrop-filter|box-shadow|filter)\b/;
-
 /**
  * Known violations of the site as committed today. Each names the work package that removes it.
  * `when(issue, ctx)` decides whether an issue is this known case. Keep entries specific:
- * the broken fixture and new work must still fail.
+ * the broken fixture and new work must still fail. WP-04 removed its own entries (style.css split,
+ * backdrop-filter, the motion.js rAF loop, timers, index bytes, 'Data & leads', first viewport,
+ * index overflow), WP-02 (the conversion check without STSBericht) and WP-11 ('jullie' in the FAQ
+ * question, now <details><summary>) theirs: those checks fail for real from now on.
  */
 export const KNOWN = [
-  { wp: 'WP-04', note: 'style.css wordt gesplitst; .nav blur-transition, .pill box-shadow, .plot filter-transition en .pill.liquid verdwijnen',
-    when: (i) => (i.check === 'lint-css' && i.file === OLD_STYLE) || (i.check === 'animation' && notDemo(i) && OLD_ANIMATED.test(i.text || '')) },
-  { wp: 'WP-04', note: 'backdrop-filter boven de canvas verdwijnt met de nieuwe strip en kamers',
-    when: (i) => i.check === 'backdrop-filter' },
-  { wp: 'WP-04', note: 'de gsap-ticker van motion.js (cursorstaart, marquee, zwevende tags) draait op elke pagina met de oude UI; de scene zelf tekent 0 frames in rust (check raf-scene, nooit bekend)',
-    when: (i) => i.check === 'raf' && notDemo(i) && !/^dev\//.test(i.page || '') },
-  { wp: 'WP-04', note: 'split-flap setInterval en typ-animaties van de oude UI verdwijnen',
-    when: (i) => i.check === 'timer' && !/^demo\//.test(i.page || '') },
-  { wp: 'WP-04', note: 'de oude index weegt op de telefoon ~855 kB zonder Three.js (afbeeldingen 495 kB, deck, marquee); het Uithangbord-skelet vervangt die; andere pagina\'s zitten nu onder het budget',
-    when: (i) => i.check === 'bytes' && i.page === 'index.html' },
   { wp: 'WP-09', note: 'de oude demos.html weegt op de telefoon ~778 kB (afbeeldingen 495 kB); ze wordt een redirect-stub naar werkwijze.html#straat',
     when: (i) => i.check === 'bytes' && i.page === 'demos.html' },
-  { wp: 'WP-11', note: "FAQ-vraag 'Werken jullie...' krijgt <details><summary>; de vraag is bezoekersstem",
-    when: (i) => i.check === 'copy' && i.rule === 'jullie' && inOldIndex(i) && /acc-head|\.acc|h3/.test(i.where || '') },
-  { wp: 'WP-04', note: "'Data & leads' hoort bij de oude hero-tags en kaarten die verdwijnen",
-    when: (i) => i.check === 'copy' && i.rule === 'leads' && inOldIndex(i) },
-  { wp: 'WP-04', note: 'de eerste-viewport-zinnen komen met het Uithangbord-skelet',
-    when: (i) => i.check === 'first-viewport' },
-  { wp: 'WP-02', note: 'STSBericht.prefill en [data-bericht] komen met de state core',
-    when: (i) => i.check === 'conversion' && /nog niet/.test(i.text || '') },
-  { wp: 'WP-04', note: 'de oude index loopt buiten beeld: de marquee op 1024 px, de oude nav (.nav-right, burger) en de marquee op 390 px; strip en Uithangbord-skelet vervangen ze',
-    when: (i) => i.check === 'overflow' && i.page === 'index.html' && /marquee|nav-right|burger/.test(i.text || '') },
   { wp: 'WP-15', note: 'strengere regellimieten (scene < 300, CSS < 400) worden pas bij de eindaudit afgedwongen',
     when: (i) => i.check === 'lines-strict' },
 ];

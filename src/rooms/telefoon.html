@@ -1,0 +1,57 @@
+<div class="kamer kamer-dag" data-sim>
+  <h2>De telefoon om 19 u</h2>
+  <p class="dag-sub">Een gesimuleerde dinsdag, van 7 tot 20 u, bij een verzonnen zaak uit jouw sector. Wie belt, wie niemand aan de lijn krijgt, en wat twee kleine ingrepen aan die dag veranderen. Elke oproep is verzonnen; jouw echte cijfers kennen we niet.</p>
+  <form class="dag-ctl" data-dag-form novalidate>
+    <fieldset class="keuze" data-dag-sector>
+      <legend>Welke zaak speelt de dinsdag?</legend>
+      <label><input type="radio" name="dag-sector" value="horeca" checked><span>Horeca</span></label>
+      <label><input type="radio" name="dag-sector" value="kapper"><span>Kapper</span></label>
+      <label><input type="radio" name="dag-sector" value="garage"><span>Garage</span></label>
+      <label><input type="radio" name="dag-sector" value="bakker"><span>Bakker</span></label>
+      <label><input type="radio" name="dag-sector" value="aannemer"><span>Aannemer</span></label>
+      <label><input type="radio" name="dag-sector" value="praktijk"><span>Praktijk</span></label>
+    </fieldset>
+    <fieldset class="keuze dag-modus" data-dag-modus>
+      <legend>Wat gebeurt er als niemand kan opnemen?</legend>
+      <label><input type="radio" name="dag-modus" value="1" checked><span>Niemand neemt op</span></label>
+      <label><input type="radio" name="dag-modus" value="2"><span>Bericht met terugbelbelofte</span></label>
+      <label><input type="radio" name="dag-modus" value="3"><span>WhatsApp-knop + bericht met de echte uren</span></label>
+    </fieldset>
+  </form>
+  <figure class="dag-stage">
+    <div class="dag-kop">
+      <span class="dag-wie" data-dag-wie>Brasserie De Lantaarn (verzonnen) &middot; Berchem &middot; dinsdag</span>
+      <span class="dag-klok" data-dag-klok aria-hidden="true">07:00</span>
+    </div>
+    <div class="dag-tijdlijn" data-dag-tijdlijn></div>
+    <ol class="sr" data-dag-lijst></ol>
+    <figcaption class="dag-legenda">
+      <span><i class="lg-opgenomen"></i>opgenomen</span>
+      <span><i class="lg-gemist"></i>gemist</span>
+      <span><i class="lg-bericht"></i>via WhatsApp</span>
+      <span><i class="lg-teruggebeld"></i>teruggebeld</span>
+      <span><i class="lg-band"></i>drukke band: niemand kan opnemen</span>
+    </figcaption>
+  </figure>
+  <div class="dag-speler">
+    <button type="button" class="pill" data-dag-play>Speel de dinsdag</button>
+    <div class="dag-seg" role="group" aria-label="Snelheid">
+      <button type="button" aria-pressed="true" data-dag-speed="1">1x</button>
+      <button type="button" aria-pressed="false" data-dag-speed="2">2x</button>
+    </div>
+    <button type="button" class="btn" data-dag-skip>Naar het einde</button>
+  </div>
+  <dl class="dag-tellers" data-dag-tellers aria-hidden="true">
+    <div><dt>Opgenomen</dt><dd data-dag-n="opgenomen">0</dd></div>
+    <div><dt>Gemist</dt><dd data-dag-n="gemist">0</dd></div>
+    <div><dt>Bericht gekregen</dt><dd data-dag-n="bericht">0</dd></div>
+    <div><dt>Teruggebeld</dt><dd data-dag-n="teruggebeld">0</dd></div>
+  </dl>
+  <p class="dag-uitkomst" data-dag-uitkomst aria-live="polite"></p>
+  <p class="dag-aanname small" data-dag-aanname>Regel in dit scenario: valt een oproep in een drukke band, dan neemt niemand op. Daarbuiten wordt elke oproep opgenomen.</p>
+  <div class="ctas">
+    <a class="pill" data-dag-kassa href="gereedschap.html#whatsapp?bericht=Dag%2C%20ik%20wil%20graag%20een%20tafel%20reserveren.%20Is%20er%20vanavond%20nog%20plaats%20voor%20vier%3F">Zet die knop vandaag op je kassa</a>
+    <a class="btn" href="#bericht?onderwerp=telefoon" data-bericht="telefoon" data-bericht-subject="Antwoord buiten de uren (onderzoek)" data-dag-bespreek>Bespreek dit voor mijn zaak</a>
+  </div>
+  <p class="small dag-voet">De WhatsApp-knop met QR-code maak je gratis in Gereedschap; het veld daar toont wat de klant naar jou stuurt. Een bericht met je echte uren stel je zelf in bij je telefoonaanbieder; wij sturen niets in jouw naam.</p>
+</div>

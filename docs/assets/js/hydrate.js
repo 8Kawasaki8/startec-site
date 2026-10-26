@@ -3,7 +3,6 @@
    - [data-c=key] from window.STS_CONFIG; empty values hide the element or its [data-c-wrap]
      (email, whatsapp and phone become links; data-keep keeps the element's own label).
    - [data-year]; the EmailJS paragraphs of privacy.html only when direct sending is configured.
-   - [data-subject] links prefill the old contact form once (legacy of the Lab cards).
    - [data-zaak], [data-gemeente], [data-sector-label] on every 'sts:zaak' (the attribute's own
      value is the fallback text, e.g. <span data-zaak="je zaak">); [data-aanspreek] gets je or u;
      html[data-sector] carries the sector key for CSS; <datalist data-gemeenten> gets the districts.
@@ -25,13 +24,6 @@
 
   var ej = C.emailjs || {}, ejOn = !!(ej.serviceId && ej.templateId && ej.publicKey);
   ["pv-emailjs", "pv-emailjs-li"].forEach(function (id) { var el = document.getElementById(id); if (el) el.hidden = !ejOn; });
-
-  document.querySelectorAll("[data-subject]").forEach(function (a) {
-    a.addEventListener("click", function () {
-      var m = document.querySelector("#contact-form [name=message]");
-      if (m && !m.value) m.value = "Dag Snymis, ik heb een vraag over: " + a.getAttribute("data-subject") + ".\n\n";
-    });
-  });
 
   if (N) document.querySelectorAll("datalist[data-gemeenten]").forEach(function (dl) { N.fillDatalist(dl); });
 

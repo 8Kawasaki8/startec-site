@@ -1,0 +1,117 @@
+<div class="kamer kamer-doorlichting" data-sim>
+  <h2>Kijk mee hoe een agent een verzonnen zaak doorlicht.</h2>
+  <p class="dl-lede">Een verzonnen zaak, onze echte methode. De agent leest de oproepen, Google, de reviews en de website, noteert wat hij vindt en stelt drie acties voor. Dan stopt hij: Snymis keurt alles goed voor er iets naar een zaak gaat.</p>
+
+  <form class="sim-pick" data-sim-pick novalidate>
+    <span class="sim-flag">Gesimuleerde data</span>
+    <fieldset class="keuze sim-keuze">
+      <legend>Welke verzonnen zaak leest de agent?</legend>
+      <label><input type="radio" name="sim-biz" value="noordpool" checked><span>Bakkerij Noordpool <small>Borgerhout</small></span></label>
+      <label><input type="radio" name="sim-biz" value="lumen"><span>Kapsalon Lumen <small>Berchem</small></span></label>
+      <label><input type="radio" name="sim-biz" value="verhulst"><span>Garage Verhulst <small>Mortsel</small></span></label>
+      <label><input type="radio" name="sim-biz" value="pauwels"><span>Dakwerken Pauwels <small>Hoboken</small></span></label>
+    </fieldset>
+  </form>
+  <p class="sim-context" id="sim-context">Hieronder: de verzonnen Bakkerij Noordpool, Borgerhout. Jouw echte cijfers kennen we niet.</p>
+  <div class="sim-ctrl">
+    <button type="button" class="pill" id="sim-start">Start de doorlichting <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg></span></button>
+    <button type="button" class="btn" id="sim-reset" disabled>Opnieuw</button>
+    <div class="seg" role="group" aria-label="Snelheid van de simulatie">
+      <button type="button" data-speed="1" aria-pressed="true">1x</button>
+      <button type="button" data-speed="2" aria-pressed="false">2x</button>
+    </div>
+  </div>
+
+  <div class="fasenbord" id="sim-flap">
+    <div class="fasenbord-rij" data-flap-rij aria-hidden="true"></div>
+    <ol class="fasenbord-fasen" data-flap-fasen aria-label="Fasen van de doorlichting">
+      <li>Verkennen</li>
+      <li>Meten</li>
+      <li>Lezen</li>
+      <li>Advies</li>
+      <li>Wacht op Snymis</li>
+    </ol>
+  </div>
+
+  <div class="room" id="room">
+    <aside class="col log-col" aria-label="Agent-log">
+      <div class="col-head"><i class="live" aria-hidden="true"></i><span class="label">Agent-log</span><span class="small" id="log-count"></span></div>
+      <div class="col-body"><ol class="log" id="sim-log" aria-live="off"></ol></div>
+    </aside>
+
+    <div class="stage idle" id="stage">
+      <i class="stage-prog" id="sim-prog" aria-hidden="true"></i>
+      <div class="stage-head">
+        <div class="who"><span class="label">Zaak</span><strong id="stage-biz">Bakkerij Noordpool</strong><span class="fic" id="stage-place">Borgerhout &middot; fictief</span></div>
+        <div class="tabs" role="group" aria-label="Grafieken" id="sim-tabs"></div>
+      </div>
+      <div class="stage-title">
+        <h3 id="chart-title">Oproepen per uur</h3>
+        <p id="chart-sub"><span id="chart-sub-txt">beantwoord en gemist, 4 weken</span> &middot; gesimuleerd &middot; bron: <span id="chart-src">telefooncentrale</span></p>
+      </div>
+      <div class="stage-body">
+        <ul class="legend" id="sim-legend" aria-label="Legende"></ul>
+        <div class="chart-wrap" id="chart-wrap">
+          <div id="sim-chart"></div>
+          <svg class="ret-layer" id="sim-ret" aria-hidden="true"></svg>
+          <div class="standby" id="sim-standby"><span class="label">Standby</span><p>Kies een verzonnen zaak en start de doorlichting.</p></div>
+        </div>
+        <div class="callout" id="sim-callout"><strong class="v"></strong><span class="t"></span></div>
+      </div>
+      <div class="stage-foot">
+        <span class="phase" id="sim-phase">standby</span>
+        <a class="sim-skip" id="sim-skip2" href="#advies" hidden>Naar het advies</a>
+        <span class="clock" id="sim-clock">00:00</span>
+      </div>
+    </div>
+
+    <aside class="col find-col" aria-label="Bevindingen">
+      <div class="col-head"><span class="label">Bevindingen</span><span class="small" id="find-count">0 van 4</span></div>
+      <div class="col-body"><div class="finds" id="sim-find" aria-live="polite">
+        <p class="find-empty" id="find-empty">Nog geen bevindingen. De agent leest eerst de data.</p>
+      </div></div>
+    </aside>
+  </div>
+  <p class="sr" id="sim-live" aria-live="polite"></p>
+
+  <div class="advies" id="advies">
+    <section class="adv-panel" aria-labelledby="adv-h2">
+      <div class="adv-head">
+        <h3 id="adv-h2">Advies</h3>
+        <p class="small" id="adv-note">Drie acties, gerangschikt op impact. Verschijnen na de vier grafieken.</p>
+      </div>
+      <div class="adv-grid" id="sim-advice"></div>
+    </section>
+    <section class="human" aria-labelledby="hum-h3">
+      <span class="hum-state" id="hum-state">Nog geen advies</span>
+      <h3 id="hum-h3">Snymis keurt het advies goed voor het naar de zaak gaat.</h3>
+      <p>De agent schrijft, een mens beslist. Elk advies, elk bericht en elke wijziging aan een profiel passeert eerst langs Snymis. Er vertrekt niets automatisch, ook in deze simulatie niet: de doorlichting stopt hier.</p>
+      <ol class="hum-steps" aria-label="Zo verloopt het">
+        <li><span>Agent</span>leest, meet en stelt voor</li>
+        <li><span>Snymis</span>leest, schrapt of past aan</li>
+        <li><span>Zaak</span>krijgt alleen wat is goedgekeurd</li>
+      </ol>
+    </section>
+  </div>
+
+  <div class="watals" id="sim-watals" hidden>
+    <div class="watals-kop">
+      <h3>Wat als? E&eacute;n schakelaar per actie</h3>
+      <p>Zet een actie aan: de grafiek van de verzonnen zaak krijgt een tweede, lichtere reeks en de teller zegt wat er in die verzonnen cijfers verandert. Zet ze weer uit en de meting staat er alleen.</p>
+    </div>
+    <div class="watals-rij" data-watals-lijst role="group" aria-label="Wat als, per actie"></div>
+    <p class="watals-teller" data-watals-teller aria-live="polite"></p>
+    <p class="small watals-label" data-watals-label>schatting op gesimuleerde data, geen voorspelling voor jouw zaak</p>
+  </div>
+
+  <div class="sim-cta">
+    <p class="label">Jouw zaak</p>
+    <h3>Dezelfde blik, op wat publiek te vinden is.</h3>
+    <p>Dezelfde blik op wat publiek over <span data-zaak="je zaak">je zaak</span> te vinden is: je Google-profiel en je site op een gsm, als onderdeel van het gratis voorbeeld. Oproeplijsten of serverlogs hebben we niet, enkel wat een klant ook ziet. Je leest de bevindingen voor je iets beslist.</p>
+    <div class="ctas">
+      <a class="pill primair" href="index.html#bericht?onderwerp=doorlichting" id="sim-cta" data-bericht="doorlichting" data-bericht-subject="Een doorlichting van mijn zaak">Laat Snymis kijken wat er publiek te vinden is</a>
+      <a class="btn" href="werkwijze.html#straat">Bekijk de verzonnen zaken in de straat</a>
+    </div>
+  </div>
+  <p class="sim-foot">Alle zaken, cijfers en bevindingen in deze kamer zijn verzonnen. De methode is echt.</p>
+</div>

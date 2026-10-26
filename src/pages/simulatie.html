@@ -1,110 +1,17 @@
 <!--
-title: Simulatieruimte — kijk mee hoe een agent een zaak doorlicht | Star.Tec.Solutions
-description: Een gesimuleerde doorlichting van een fictieve zaak: oproepen, Google, reviews en website gelezen door een STS-agent, met advies en menselijke goedkeuring.
+title: Doorlichting van een verzonnen zaak: een agent leest, Snymis beslist — Star.Tec.Solutions
+description: Kijk mee hoe een agent de oproepen, het Google-profiel, de reviews en de website van een verzonnen zaak leest, drie acties voorstelt en wacht op Snymis. Vier fictieve zaken uit Antwerpen en Mortsel, met een wat-als per actie. Gesimuleerde cijfers, echte methode.
 nav: simulatie
-styles: sim
-scripts: motion reveal lite sim-data sim
+vendor: gsap.min
+rooms: doorlichting
+styles: rooms sim flap
+scripts: reveal lite uithangbord sim-data sim-data-2 sim-charts flap sim sim-whatif
 -->
 <main id="main" class="page" style="padding-top:72px">
-
-<section class="sim-hero" aria-labelledby="sim-h1">
-  <div class="mesh" aria-hidden="true"></div>
-  <div class="sec">
-    <p class="label" data-reveal>Simulatieruimte</p>
-    <h1 id="sim-h1" data-split>Kijk mee hoe een agent een zaak doorlicht.</h1>
-    <p class="lede" data-reveal>Een verzonnen zaak, onze echte methode. De agent leest de oproepen, Google, de reviews en de website, noteert wat hij vindt en stelt drie acties voor. Snymis keurt alles goed voor het naar de zaak gaat.</p>
-    <div class="sim-pick" data-reveal>
-      <span class="sim-flag">Gesimuleerde data</span>
-      <div class="sim-chips" role="group" aria-label="Kies een fictieve zaak">
-        <button type="button" class="chip" data-biz="noordpool" aria-pressed="true">Bakkerij Noordpool <small>Borgerhout</small></button>
-        <button type="button" class="chip" data-biz="lumen" aria-pressed="false">Kapsalon Lumen <small>Berchem</small></button>
-        <button type="button" class="chip" data-biz="verhulst" aria-pressed="false">Garage Verhulst <small>Mortsel</small></button>
-      </div>
-    </div>
-    <div class="sim-ctrl" data-reveal>
-      <button type="button" class="pill" id="sim-start">Start analyse <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg></span></button>
-      <button type="button" class="btn" id="sim-reset" disabled>Opnieuw</button>
-      <div class="seg" role="group" aria-label="Snelheid van de simulatie">
-        <button type="button" data-speed="1" aria-pressed="true">1x</button>
-        <button type="button" data-speed="2" aria-pressed="false">2x</button>
-      </div>
-    </div>
-  </div>
+<section class="sec sim-kop" aria-labelledby="sim-h1">
+  <p class="label">Doorlichting</p>
+  <h1 id="sim-h1">Een agent leest de cijfers van een verzonnen zaak. Snymis beslist.</h1>
+  <p class="lede">Vier verzonnen zaken uit Antwerpen en Mortsel, elk met vier grafieken, vier bevindingen en drie acties. De cijfers zijn gesimuleerd; de manier van kijken is dezelfde als in het gratis voorbeeld, waar we enkel lezen wat publiek over een zaak te vinden is.</p>
 </section>
-
-<section class="sim-zone" id="sim-zone" aria-label="De simulatieruimte">
-  <div class="room" id="room" data-reveal>
-
-    <aside class="col log-col" aria-label="Agent-log">
-      <div class="col-head"><i class="live" aria-hidden="true"></i><span class="label">Agent-log</span><span class="small" id="log-count"></span></div>
-      <div class="col-body"><ol class="log" id="sim-log" aria-live="off"></ol></div>
-    </aside>
-
-    <div class="stage idle" id="stage">
-      <i class="stage-prog" id="sim-prog" aria-hidden="true"></i>
-      <div class="stage-head">
-        <div class="who"><span class="label">Zaak</span><strong id="stage-biz">Bakkerij Noordpool</strong><span class="fic" id="stage-place">Borgerhout &middot; fictief</span></div>
-        <div class="tabs" role="group" aria-label="Grafieken" id="sim-tabs"></div>
-      </div>
-      <div class="stage-title">
-        <h2 id="chart-title">Oproepen per uur</h2>
-        <p id="chart-sub"><span id="chart-sub-txt">beantwoord en gemist, 4 weken</span> &middot; gesimuleerd &middot; bron: <span id="chart-src">telefooncentrale</span></p>
-      </div>
-      <div class="stage-body">
-        <ul class="legend" id="sim-legend" aria-label="Legende"></ul>
-        <div class="chart-wrap" id="chart-wrap">
-          <div id="sim-chart"></div>
-          <svg class="ret-layer" id="sim-ret" aria-hidden="true"></svg>
-          <div class="standby" id="sim-standby"><span class="label">Standby</span><p>Kies een zaak en start de analyse.</p></div>
-        </div>
-        <div class="callout" id="sim-callout"><strong class="v"></strong><span class="t"></span></div>
-      </div>
-      <div class="stage-foot">
-        <span class="phase" id="sim-phase">standby</span>
-        <a class="sim-skip" id="sim-skip2" href="#advies" hidden>Naar het advies</a>
-        <span class="clock" id="sim-clock">00:00</span>
-      </div>
-    </div>
-
-    <aside class="col find-col" aria-label="Bevindingen">
-      <div class="col-head"><span class="label">Bevindingen</span><span class="small" id="find-count">0 van 4</span></div>
-      <div class="col-body"><div class="finds" id="sim-find" aria-live="polite">
-        <p class="find-empty" id="find-empty">Nog geen bevindingen. De agent leest eerst de data.</p>
-      </div></div>
-    </aside>
-
-  </div>
-
-  <div class="advies" id="advies">
-    <section class="adv-panel" aria-labelledby="adv-h2">
-      <div class="adv-head">
-        <h2 id="adv-h2">Advies</h2>
-        <p class="small" id="adv-note">Drie acties, gerangschikt op impact. Verschijnen na de vier grafieken.</p>
-      </div>
-      <div class="adv-grid" id="sim-advice"></div>
-    </section>
-    <section class="human" aria-labelledby="hum-h3">
-      <span class="hum-state" id="hum-state">Nog geen advies</span>
-      <h3 id="hum-h3">Snymis keurt het advies goed voor het naar de zaak gaat.</h3>
-      <p>De agent schrijft, een mens beslist. Elk advies, elk bericht en elke wijziging aan een profiel passeert eerst langs Snymis. Niets verlaat STS zonder dat hij het gelezen heeft.</p>
-      <ol class="hum-steps" aria-label="Zo verloopt het">
-        <li><span>Agent</span>leest, meet en stelt voor</li>
-        <li><span>Snymis</span>leest, schrapt of past aan</li>
-        <li><span>Zaak</span>krijgt alleen wat is goedgekeurd</li>
-      </ol>
-    </section>
-  </div>
-</section>
-
-<section class="sec center sim-cta">
-  <p class="label" data-reveal>Jouw zaak</p>
-  <h2 data-split>Laat ons jouw zaak doorlichten.</h2>
-  <p data-reveal>Dezelfde methode, met jouw echte oproepen, Google-profiel, reviews en website. Je krijgt de bevindingen en het advies te lezen voor je iets beslist.</p>
-  <div class="ctas" data-reveal>
-    <a class="pill" href="index.html?onderwerp=Doorlichting%20van%20mijn%20zaak#contact">Laat ons jouw zaak doorlichten <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-    <a class="pill ghost" href="demos.html">Bekijk de demo's <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-  </div>
-  <p class="sim-foot">Alle zaken, cijfers en bevindingen op deze pagina zijn verzonnen. De methode is echt.</p>
-</section>
-
+{{rooms}}
 </main>

@@ -1,0 +1,28 @@
+/* Demo's (demos.html): de vier verzonnen zaken als kaarten. Vlak, zonder kanteling,
+   zonder sheen, zonder transition op filter of box-shadow. WP-09 maakt van demos.html
+   een doorverwijzing naar werkwijze.html#straat; dan vervalt dit bestand. */
+.demos-page{padding-top:64px}
+.demos-hero{position:relative;text-align:center;padding-top:40px}
+.demos-hero .sec{display:grid;justify-items:center;gap:18px;position:relative;z-index:1}
+.demos-hero h1{max-width:16ch;font-size:clamp(2rem,5.4vw,4.4rem)}
+.demos-hero .lede{color:var(--ink2);max-width:42em;font-size:1.08rem}
+.plots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+.plots.big{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+@media(max-width:1000px){.plots{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.plots,.plots.big{grid-template-columns:1fr}}
+.plot{--c:var(--cyan);position:relative;display:flex;flex-direction:column;border-radius:18px;background:var(--glass);border:1px solid var(--line2);overflow:hidden;color:var(--ink);transition:border-color .3s}
+.plot:hover{border-color:var(--c)}
+.plot-top{position:relative;aspect-ratio:16/10;background:#0b0f1a;overflow:hidden;display:block}
+.plot-top img{width:100%;height:100%;object-fit:cover;object-position:top}
+.plot-body{display:grid;gap:6px;padding:16px 18px 18px;align-content:start}
+.plot-body strong{font:600 1.05rem/1.3 var(--display)}
+.plot-body em{font-style:normal;font-size:13.5px;color:var(--ink2)}
+.plot-desc{color:var(--ink2);font-size:14.5px;margin-top:8px;line-height:1.55}
+.plot-cta{margin-top:12px;font:600 14px var(--sans);color:var(--c)}
+.plot-cta::after{content:" \2192"}
+.sim-banner{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:center;padding:32px 36px;border-color:rgba(54,232,255,.35)}
+.sim-banner h2{font-size:clamp(1.4rem,2.6vw,2rem)}
+@media(max-width:760px){.sim-banner{grid-template-columns:1fr;padding:24px}}
+.checks{list-style:none;display:grid;gap:14px;color:var(--ink2);font-size:1.02rem}
+.checks li{padding-left:28px;position:relative}
+.checks li::before{content:"";position:absolute;left:0;top:.45em;width:.6em;height:.6em;background:var(--cyan);clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%)}

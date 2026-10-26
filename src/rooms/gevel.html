@@ -1,0 +1,63 @@
+<div class="kamer kamer-gevel">
+  <div class="gevel-eerste">
+    <div class="gevel-aankomst">
+      <h1>STS Digital, Antwerpen. Websites, gratis gereedschap en onderzoek naar AI die werk overneemt van kleine zaken.</h1>
+      <p>Een verkenner zoekt, een bouwer maakt het voorbeeld, Snymis leest elk bericht zelf.</p>
+    </div>
+    <form class="gevel-entry" data-gevel-form novalidate>
+      <h2 class="gevel-vraag"><label for="gevel-zaak">Hoe heet je zaak?</label></h2>
+      <p class="gevel-naam"><input id="gevel-zaak" name="zaak" type="text" maxlength="40" autocomplete="organization" autocapitalize="words" spellcheck="false" placeholder="Bijvoorbeeld: Frituur 't Pleintje" aria-describedby="gevel-blijft"></p>
+      <fieldset class="keuze">
+        <legend>Wat voor zaak?</legend>
+        <label><input type="radio" name="sector" value="horeca"><span>Horeca</span></label>
+        <label><input type="radio" name="sector" value="kapper"><span>Kapper</span></label>
+        <label><input type="radio" name="sector" value="garage"><span>Garage</span></label>
+        <label><input type="radio" name="sector" value="bakker"><span>Bakker</span></label>
+        <label><input type="radio" name="sector" value="aannemer"><span>Aannemer</span></label>
+        <label><input type="radio" name="sector" value="praktijk"><span>Praktijk</span></label>
+        <label><input type="radio" name="sector" value="winkel"><span>Winkel</span></label>
+        <label><input type="radio" name="sector" value="anders"><span>Andere zaak</span></label>
+      </fieldset>
+      <div class="gevel-rij">
+        <label class="field gevel-gemeente"><span>Gemeente of district</span><input id="gevel-gemeente" name="gemeente" type="text" maxlength="30" autocomplete="address-level2" list="gevel-gemeenten" placeholder="Bijvoorbeeld: Deurne"></label>
+        <datalist id="gevel-gemeenten" data-gemeenten></datalist>
+        <button class="pill" type="submit">Hang mijn bord op</button>
+      </div>
+      <p class="small" id="gevel-blijft">Blijft in je browser. We sturen niets.</p>
+      <div class="gevel-buren" data-gevel-buren hidden>
+        <p class="label">Of kijk mee met een buur</p>
+        <div class="gevel-buren-lijst" data-gevel-buren-lijst></div>
+        <p class="small">Drie verzonnen zaken, enkel om de schets te tonen. <a href="#buren">Liever eerst rondkijken</a></p>
+      </div>
+    </form>
+  </div>
+
+  <div class="gevel-schets" data-gevel-result>
+    <p class="gevel-zin" data-gevel-zin></p>
+    <p class="sr" aria-live="polite" data-gevel-live></p>
+    <div class="gevel-split">
+      <div class="phone-wrap">
+        <div class="phone" role="group" aria-label="Schets van een site, voorbeeld"><div class="phone-screen" data-gevel-screen></div></div>
+      </div>
+      <div class="gevel-regie">
+        <p class="label">Wat staat erop</p>
+        <div class="gevel-schakels" role="group" aria-label="Onderdelen van de schets">
+          <button class="btn btn-sm" type="button" aria-pressed="true" data-gevel-switch="bel">Belknop</button>
+          <button class="btn btn-sm" type="button" aria-pressed="true" data-gevel-switch="whatsapp">WhatsApp-knop</button>
+          <button class="btn btn-sm" type="button" aria-pressed="true" data-gevel-switch="open">Nu open</button>
+          <button class="btn btn-sm" type="button" aria-pressed="true" data-gevel-switch="uren">Uren</button>
+        </div>
+        <p class="label gevel-label-19">Hoe ziet dat eruit voor wie je zoekt</p>
+        <button class="btn btn-sm gevel-nacht" type="button" aria-pressed="false" data-gevel-night>Om 19 u</button>
+        <p class="small gevel-nacht-zin" data-gevel-night-zin hidden>Dit zijn de drie dingen die een klant om 19 u zoekt: bellen, een berichtje sturen en weten of je open bent.</p>
+        <p class="gevel-uitleg">Dit is een schets, geen site. Elke regel met &lsquo;voorbeeld&rsquo; is verzonnen; jouw echte uren, adres en foto&rsquo;s komen pas in het echte voorbeeld, en dat bouwt Snymis met wat jij hem geeft.</p>
+        <div class="ctas gevel-ctas">
+          <a class="pill primair" href="#bericht" data-bericht="gevel">Laat Snymis het echte voorbeeld bouwen</a>
+          <button class="btn" type="button" data-gevel-deel>Deel deze schets</button>
+          <a class="btn btn-line" href="#telefoon">Loop verder</a>
+        </div>
+        <p class="small gevel-deel-status" data-gevel-deel-status role="status" hidden></p>
+      </div>
+    </div>
+  </div>
+</div>

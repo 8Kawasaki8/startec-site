@@ -1,0 +1,45 @@
+/* ═════════════════════════════════════════════════════════════
+   AFDRUKKEN — gereedschap.html
+   Drie afdrukken, elk met één klasse op <html> die STSTools.printBlock
+   (tools-page.js) zet nadat het blok naar <body> verhuisde:
+   - html.print-a6   : het kassakaartje (.a6-wrap met de canvas), één A6
+   - html.print-toog : het kaartje voor aan de toog (.toog-kaart), voor- en
+                       achterkant op twee A6-pagina's
+   - html.is-eenpager: de eenpager (?print), één A4
+   Zonder klasse drukt de pagina gewoon af, zonder strip, dock en voet.
+   Benoemde pagina's (page: a6 / a4) kiezen het formaat; een browser zonder
+   benoemde pagina's drukt op het standaardformaat.
+═════════════════════════════════════════════════════════════ */
+@media print{
+  @page{margin:12mm}
+  @page a6{size:105mm 148mm;margin:0}
+  @page a4{size:A4;margin:14mm}
+  html,body{background:#fff;color:#000}
+  .uithangbord,.ub-sheet,.foot,.skip,#scene,#scene-fallback,#sign-dom,#scene-debug{display:none!important}
+  [data-room]{background:#fff;border:0}
+  .loketten,.tools-deel,.loket-voet,.row,.pill,.btn{display:none!important}
+  .loket{break-inside:avoid;border-top:1px solid #ccc}
+  .out,.serp,.gk{border:1px solid #ccc;background:#fff;color:#000}
+
+  /* het kassakaartje: alleen de canvas, op A6 */
+  html.print-a6 body > :not(.a6-wrap){display:none!important}
+  html.print-a6 .a6-wrap{display:block;page:a6;width:105mm;height:148mm;max-width:none;margin:0;padding:0}
+  html.print-a6 .a6{width:105mm;height:148mm;border-radius:0;aspect-ratio:auto}
+
+  /* het kaartje voor aan de toog: voorkant, pagina-einde, achterkant */
+  html.print-toog body > :not(.toog-kaart){display:none!important}
+  html.print-toog .toog-kaart{display:block;page:a6;margin:0}
+  html.print-toog .toog-zijde{width:105mm;height:148mm;max-width:none;aspect-ratio:auto;border-radius:0;padding:10mm 9mm;
+    font-size:11pt;break-after:page;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  html.print-toog .toog-achter{break-after:auto;page-break-after:auto}
+  html.print-toog .toog-naam{font-size:20pt}
+  html.print-toog .toog-regel{font-size:15pt}
+  html.print-toog .toog-qr{width:58mm;height:58mm}
+
+  /* de eenpager: één A4, zwart op wit */
+  html.is-eenpager .eenpager{page:a4;max-width:none;padding:0;color:#000}
+  html.is-eenpager .eenpager .label,html.is-eenpager .eenpager ol,html.is-eenpager .eenpager p,html.is-eenpager .eenpager li strong{color:#000}
+  html.is-eenpager .eenpager-qr{border-top:1px solid #999}
+  html.is-eenpager .eenpager-qr canvas{border:1px solid #999}
+  html.is-eenpager .eenpager-voet{display:block}
+}

@@ -37,6 +37,8 @@ export function install({ reason = "svg", text = "", color = "#36E8FF" } = {}) {
     if (!force && coarse && w === lastW && Math.abs(h - lastH) < 200) return false;
     lastW = w; lastH = h;
     if (coarse && fallback) fallback.style.height = h + "px";
+    /* wide viewports (desktop lite, weak, nogl): a wider board so the projected sign reaches the 420 px of the plan */
+    if (board) { const wide = w >= 1200; board.setAttribute("x", wide ? "420" : "440"); board.setAttribute("width", wide ? "360" : "320"); }
     return true;
   }
 
@@ -96,7 +98,10 @@ export function install({ reason = "svg", text = "", color = "#36E8FF" } = {}) {
       signBox: box, info: () => null
     }
   };
-  if (document.getElementById("intro")) endIntro();
+  /* no overlay on this route, but a fresh session still expects the intro contract: sts-pre written and
+     sts:intro-done dispatched (uithangbord.js and gevel.js wait for it before they frame the sign) */
+  let pre = null; try { pre = sessionStorage.getItem("sts-pre"); } catch (e) { /* storage blocked */ }
+  if (document.getElementById("intro") || !pre) endIntro();
   window.dispatchEvent(new Event(FAILED.includes(reason) ? "sts:scene-failed" : "sts:scene-ready"));
   return window.STSScene;
 }

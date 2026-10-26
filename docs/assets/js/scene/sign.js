@@ -7,7 +7,7 @@
    emissive uniform on the landmark and tints the sign. */
 import * as THREE from "../../vendor/three.module.min.js";
 import { HERO, places } from "./places.js";
-import { wrapSign, cleanSign, SIGN } from "./signdom.js";
+import { wrapSign, cleanSign, SIGN, fontsReady } from "./signdom.js";
 export { wrapSign, SIGN };
 
 /* centre of the sign plane in world units */
@@ -35,6 +35,7 @@ export function createSign(scene, { landmarkUniform, onChange }) {
     const lines = wrapSign(text);
     if (!lines[0]) { tex.needsUpdate = true; return; }
     const size = lines.length > 1 ? 50 : 62, css = "#" + color.getHexString();
+    fontsReady(schedule);   /* drawn before Panchang arrived: once more with the real font, so halo and DOM letters coincide */
     g.font = "700 " + size + "px 'Panchang', 'Unbounded', system-ui, sans-serif";
     g.textAlign = "center"; g.textBaseline = "middle";
     const scale = Math.min(1, 470 / Math.max(...lines.map(l => g.measureText(l).width)));

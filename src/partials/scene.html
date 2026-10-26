@@ -1,10 +1,8 @@
 <!-- scene: canvas, the sign (DOM twin + text for assistive technology), the SVG skyline fallback and the inline loader.
-     The loader picks the route (see the profile table in docs/assets/js/scene.js and README.md). -->
-<div id="intro">
-  <div class="veil" aria-hidden="true"></div>
-  <p class="intro-slogan" aria-hidden="true">Where imagination can reach up to the stars.</p>
-  <button type="button" class="intro-skip">Intro overslaan</button>
-</div>
+     The loader picks the route (see the profile table in docs/assets/js/scene.js and README.md). The intro overlay
+     (#intro) is inserted by the loader only on the path where the intro plays (Three.js route, no reduced motion, no
+     sts-pre): everywhere else, and without JavaScript, the arrival lines are in the first frame and nothing covers the
+     page; if the module fails to load, the loader removes the overlay itself. -->
 <canvas id="scene" aria-hidden="true"></canvas>
 <div id="scene-fallback" hidden aria-hidden="true">{{svg:plattegrond}}</div>
 <div id="sign-dom" aria-hidden="true" data-lines="0"></div>
@@ -18,9 +16,21 @@
   if (lite) why = "lite"; else if (coarse && innerWidth < 900) why = "phone"; else if ((navigator.hardwareConcurrency || 8) <= 4) why = "weak"; else if (!gl) why = "nogl";
   var d = document.documentElement; d.dataset.scene = why ? "svg" : "gl"; d.dataset.sceneReason = why || (coarse ? "tablet" : "desktop");
   if (why) { var f = document.getElementById("scene-fallback"); if (f) f.hidden = false; }
+  var pre = null, reduce = false;
+  try { pre = sessionStorage.getItem("sts-pre"); } catch (e) { /* storage blocked: the intro plays once more */ }
+  try { reduce = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { reduce = false; }
+  if (!why && !reduce && !pre) {
+    var o = document.createElement("div"); o.id = "intro";
+    o.innerHTML = '<div class="veil" aria-hidden="true"></div><p class="intro-slogan" aria-hidden="true">Where imagination can reach up to the stars.</p><button type="button" class="intro-skip">Intro overslaan</button>';
+    document.getElementById("scene").parentNode.insertBefore(o, document.getElementById("scene"));
+  }
   var l = document.querySelector('link[href*="assets/css/"]'), root = l ? l.href.slice(0, l.href.indexOf("assets/")) : "";
   var s = document.createElement("script"); s.type = "module"; s.src = root + "assets/js/" + (why ? "scene/plattegrond.js" : "scene.js");
-  s.onerror = function () { if (f = document.getElementById("scene-fallback")) f.hidden = false; window.dispatchEvent(new Event("sts:scene-failed")); };
+  s.onerror = function () {
+    if (f = document.getElementById("scene-fallback")) f.hidden = false;
+    var i = document.getElementById("intro"); if (i) { i.remove(); window.dispatchEvent(new Event("sts:intro-done")); }
+    window.dispatchEvent(new Event("sts:scene-failed"));
+  };
   document.head.appendChild(s);
 })();
 </script>

@@ -1,21 +1,145 @@
-/* Zichtbaarheidscheck on the tools page. */
-.band{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.zc fieldset{border:0;padding:0;margin:0 0 18px}
-.zc legend{font-size:15.5px;font-weight:500;margin-bottom:10px;color:var(--ink)}
-.zc-opts{display:flex;gap:8px;flex-wrap:wrap}
-.zc-opts label{position:relative}
-.zc-opts input{position:absolute;opacity:0;width:1px;height:1px}
-.zc-opts span{display:inline-block;padding:9px 14px;border-radius:999px;border:1px solid var(--line2);background:var(--glass);font-size:14px;cursor:pointer;transition:border-color .2s,background .2s,color .2s;min-width:64px;text-align:center}
-.zc-opts input:checked+span{background:var(--cyan);color:#06080F;border-color:var(--cyan);font-weight:600}
-.zc-opts input:focus-visible+span{outline:2px solid var(--cyan);outline-offset:3px}
+/* ═════════════════════════════════════════════════════════════
+   GEREEDSCHAP — de vier loketten (src/rooms/gereedschap.html)
+   Gestapelde secties met een rij ankers als tabs (niets verdwijnt
+   achter een tab). Elk loket: links de velden, rechts een vlak
+   uitvoerpaneel (.out). Het Google-voorbeeld en het Google-kaartje
+   zijn wit met Arial, zoals Google. Alleen statische schaduwen,
+   transities op transform, opacity en kleur. Afdrukken: print.css.
+═════════════════════════════════════════════════════════════ */
+.tools-kop{padding-bottom:clamp(24px,3vw,40px)}
+.tools-kop .label{margin-bottom:14px}
+[data-room] .tools-h2{font-size:clamp(1.15rem,1.6vw,1.5rem);font-weight:600;color:var(--ink2)}
+
+/* ═══ DE TABS: ankers naar de loketten, de huidige krijgt een cyaan streep ═══ */
+.loketten{position:sticky;top:var(--ub-kop);z-index:5;display:flex;gap:4px;margin:18px calc(-1 * var(--gut)) 0;padding:6px var(--gut);
+  background:var(--paneel);border-bottom:1px solid var(--line);overflow-x:auto;overflow-y:hidden;scrollbar-width:none;white-space:nowrap}
+.loketten::-webkit-scrollbar{display:none}
+.loketten a{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:8px;color:var(--ink2);font:500 14px var(--sans);flex:none}
+.loketten a:hover{color:var(--ink)}
+.loketten a[aria-current]{color:var(--ink)}
+.loketten a[aria-current]::after{content:"";position:absolute;left:12px;right:12px;bottom:5px;height:2px;background:var(--cyan)}
+html[data-scene="svg"] .loketten{background:var(--bg)}
+
+/* ═══ EEN LOKET ══════════════════════════════════════════════ */
+.loket{padding:clamp(44px,6vw,80px) 0 clamp(32px,4vw,48px);border-top:1px solid var(--line);scroll-margin-top:calc(var(--ub-kop) + 64px)}
+.loket:first-of-type{border-top:0}
+.loket h3{font-size:clamp(1.35rem,2.4vw,2rem);font-weight:600;line-height:1.15;margin:12px 0 14px;text-wrap:balance}
+.loket h4{font-family:var(--display);font-weight:600;font-size:1.08rem;line-height:1.25;margin-top:18px}
+.tool-intro{color:var(--ink2);margin-bottom:22px;max-width:52ch}
+.tool{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+.out{padding:22px;border-radius:22px;background:var(--glass);border:1px solid var(--line2);min-width:0}
+.out .label{margin-top:22px}
+.out .label:first-child{margin-top:0}
+.out pre{font:13px/1.55 var(--mono);white-space:pre-wrap;word-break:break-all;background:rgba(0,0,0,.3);padding:12px;border-radius:10px;margin-top:8px;color:var(--ink2)}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.hint{font-size:13.5px;color:var(--ink3);margin-top:8px}
+.meter{font:500 12.5px var(--mono);color:var(--ink2);margin:-6px 0 14px}
+.loket-voet{margin-top:28px;padding-top:16px;border-top:1px dashed var(--line);color:var(--ink2);font-size:15px;max-width:none}
+.loket-meer{margin-top:10px;max-width:none}
+/* de kleefbalk met tabs staat onder de strip: wie naar een element scrolt (anker, focus, klik) houdt er ruimte voor */
+.kamer-tools :where(a,button,input,select,textarea,summary,canvas,img){scroll-margin-top:64px}
+.tools-deel{margin-top:clamp(32px,4vw,48px);padding-top:18px;border-top:1px solid var(--line);color:var(--ink2);display:flex;flex-wrap:wrap;align-items:center;gap:12px;max-width:none}
+.check{display:flex;align-items:flex-start;gap:12px;min-height:44px;padding:8px 0;font-size:14.5px;color:var(--ink2);cursor:pointer}
+.check input{flex:none;width:24px;height:24px;margin:1px 0 0;accent-color:var(--cyan);cursor:pointer}
+
+/* ═══ LOKET 1: de zes vragen, de ring, de drie stappen, de scorekaart ═══ */
+.zc .keuze{margin-bottom:18px}
+.zc .keuze legend{font-size:15.5px;font-weight:500;color:var(--ink);margin-bottom:10px}
+.zc .keuze legend b{font-weight:600}
+.zc .keuze span{min-width:64px;justify-content:center}
 .zc .pill{margin-top:8px}
-.zc-out{position:sticky;top:90px}
+.zc-out{position:sticky;top:calc(var(--ub-kop) + 72px)}
 .zc-ring{position:relative;width:150px;height:150px}
 .zc-ring svg{width:100%;height:100%}
-.zc-ring #zc-arc{transition:stroke-dashoffset 1.2s var(--ease)}
+#zc-arc{transition:stroke-dashoffset 1.2s var(--ease)}
 .zc-score{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
 .zc-score b{font:700 2.2rem/1 var(--display)}
 .zc-score span{font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-top:4px}
+.zc-text{color:var(--ink2);margin-top:8px;font-size:15px}
+.zc-tips-label{margin-top:22px}
 .zc-tips{padding-left:20px;display:grid;gap:10px;margin-top:10px;color:var(--ink2);font-size:15px}
 .zc-tips li::marker{color:var(--cyan);font-weight:600}
-@media(max-width:860px){.zc-out{position:static}}
+.kaart-img{width:min(100%,360px);height:auto;margin-top:18px;border-radius:14px;border:1px solid var(--line2)}
+.zc-status{margin-top:12px;overflow-wrap:anywhere}
+
+/* ═══ LOKET 2: link, knop, QR en het A6-kaartje ══════════════ */
+.wa-url{margin-top:6px;word-break:break-all;font-size:15px}
+.wa-url a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px}
+.qr{width:220px;height:220px;background:#fff;border-radius:12px;margin-top:10px;image-rendering:pixelated}
+.a6-wrap{width:min(100%,210px);margin-top:10px}
+.a6{width:100%;height:auto;aspect-ratio:1240/1748;background:#fff;border-radius:8px}
+
+/* ═══ LOKET 3: het zoekresultaat (wit, Arial, zoals Google) ═══ */
+.serp{background:#fff;color:#202124;border:1px solid #dadce0;border-radius:8px;padding:18px 20px;font-family:Arial,Helvetica,sans-serif;max-width:652px}
+.serp .site{display:flex;align-items:center;gap:10px;font-size:14px;line-height:1.3}
+.serp .fav{width:26px;height:26px;border-radius:50%;background:#f1f3f4;display:grid;place-items:center;font-size:12px;color:#5f6368;flex:none}
+.serp .crumb{color:#4d5156;font-size:12px}
+.serp .title{color:#1a0dab;font-size:20px;line-height:1.3;margin-top:8px}
+.serp .desc{color:#4d5156;font-size:14px;line-height:1.58;margin-top:4px}
+
+/* ═══ LOKET 4: standen, uur, dag, urentabel en het kaartje ═══ */
+.gk-ctl .keuze{margin-bottom:18px}
+.gk-rij{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:14px;align-items:end}
+.gk-uur output{font:500 13px var(--mono);color:var(--cyan-2);margin-left:6px}
+.gk-uur input[type=range]{width:100%;height:44px;padding:0;margin:0;background:transparent;border:0;accent-color:var(--cyan);cursor:pointer}
+.gk-uur input[type=range]:focus{box-shadow:none}
+.gk-dag select{min-height:48px}
+.gk-uren-wrap{margin-top:4px}
+[data-room] .gk-uren-wrap summary{font-size:14.5px;min-height:48px}
+[data-room] .gk-uren-wrap > :not(summary){max-width:none}
+.gk-uren{width:100%;border-collapse:collapse;margin-bottom:10px}
+.gk-uren th{text-align:left;font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);width:46px;padding:4px 0}
+.gk-uren td{padding:3px 0}
+.gk-uren input{width:100%;min-height:44px;padding:8px 12px;border:1px solid var(--line2);background:rgba(0,0,0,.25);border-radius:10px;font-size:15px;color:var(--ink)}
+.gk-uren input:focus{outline:none;border-color:var(--cyan)}
+.gk{background:#fff;color:#202124;border:1px solid #dadce0;border-radius:14px;padding:14px 16px 16px;font-family:Arial,Helvetica,sans-serif;max-width:420px}
+.gk p{max-width:none}
+.gk-zoek{display:flex;align-items:center;gap:10px;min-height:40px;padding:0 14px;border-radius:999px;background:#f1f3f4;color:#3c4043;font-size:14px;margin-bottom:14px}
+.gk-zoek::before{content:"";width:14px;height:14px;border:2px solid #5f6368;border-radius:50%;box-shadow:4px 4px 0 -2px #5f6368;flex:none}
+.gk-kaart{border-top:1px solid #dadce0;padding-top:12px}
+.gk-naam{font-size:18px;font-weight:700;color:#202124;line-height:1.25}
+.gk-soort{font-size:13px;color:#70757a;margin-top:2px}
+.gk-sterren{font-size:13px;color:#70757a;margin-top:6px}
+.gk-sterren span{color:#fbbc04;letter-spacing:1px;font-size:14px}
+.gk-uren-lijn{font-size:14px;margin-top:8px;color:#188038;font-weight:700}
+.gk-knoppen{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.gk-knoppen span{padding:7px 14px;border:1px solid #dadce0;border-radius:999px;font-size:13px;color:#1a73e8;font-weight:700}
+.gk-afwezig{margin-top:12px;padding-top:10px;border-top:1px dashed #dadce0;font-size:13px;color:#5f6368}
+.gk-zin{margin-top:14px;color:var(--ink2);font-size:15px;max-width:48ch}
+
+/* ═══ INTERN: het kaartje voor aan de toog (alleen met ?toog=1) ═══ */
+.loket-toog{margin-top:clamp(32px,4vw,48px);padding:clamp(24px,3vw,36px);border:1px dashed rgba(138,107,255,.55);border-radius:22px}
+.loket-toog .toog-intern{color:var(--mens);margin-bottom:6px}
+.toog-adres code{overflow-wrap:anywhere;color:var(--ink2)}
+.toog-kaart{--c:var(--cyan);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+.toog-zijde{aspect-ratio:105/148;background:#fff;color:#16233A;border-radius:10px;padding:8% 9%;font:400 13px/1.45 var(--sans);display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden}
+.toog-zijde p{max-width:none}
+.toog-merk{font:600 11px var(--display);letter-spacing:.06em;color:#4d5156}
+.toog-merk .st{width:.4em;height:.4em;margin:0 .1em;background:var(--c)}
+.toog-naam{font:700 clamp(15px,1.6vw,21px)/1.12 var(--display);margin-top:10px;overflow-wrap:anywhere;color:#06080F}
+.toog-sub{font:500 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#4d5156;margin-top:6px}
+.toog-qr{width:62%;height:auto;margin-top:auto;image-rendering:pixelated;border:4px solid var(--c);border-radius:6px}
+.toog-scan{margin-top:auto;font-size:12px;color:#4d5156}
+.toog-achter{justify-content:center;gap:10px;font-size:12.5px;color:#3c4043}
+.toog-regel{font:600 clamp(14px,1.4vw,18px)/1.2 var(--display);color:#06080F}
+.toog-contact{font:500 11px var(--mono);color:#4d5156;overflow-wrap:anywhere}
+.toog-url{font:500 11px var(--mono);letter-spacing:.04em;color:#06080F;overflow-wrap:anywhere}
+
+/* ═══ ?print: de eenpager voor boekhouders en adviseurs ═══════ */
+html.is-eenpager main > :not(.eenpager){display:none}
+.eenpager{max-width:760px;margin:0 auto;padding:clamp(32px,5vw,64px) var(--gut) clamp(56px,8vw,96px)}
+.eenpager .label{margin-bottom:14px}
+.eenpager ol{padding-left:22px;display:grid;gap:12px;margin-top:22px;color:var(--ink2)}
+.eenpager li strong{color:var(--ink)}
+.eenpager-qr{display:grid;grid-template-columns:150px minmax(0,1fr);gap:20px;align-items:center;margin-top:28px;padding-top:22px;border-top:1px solid var(--line)}
+.eenpager-qr canvas{width:150px;height:150px;background:#fff;border-radius:10px;image-rendering:pixelated}
+.eenpager-qr p{color:var(--ink2);font-size:15px;max-width:none}
+.eenpager-voet{margin-top:22px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+
+@media(max-width:860px){
+  .tool,.gk-rij,.toog-kaart{grid-template-columns:1fr}
+  .zc-out{position:static}
+  .out{padding:18px 14px}
+  .toog-zijde{max-width:320px;width:100%;justify-self:center}
+  .eenpager-qr{grid-template-columns:1fr}
+}

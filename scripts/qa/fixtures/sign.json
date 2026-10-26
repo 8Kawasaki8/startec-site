@@ -1,0 +1,79 @@
+{
+  "_doel": "wrapSign (docs/assets/js/scene/signdom.js): twee regels van hoogstens 16 tekens op woordgrenzen, nooit een regeleinde in een woord; een eerste woord langer dan 16 tekens staat alleen op regel 1 (fitFont verkleint naar de breedste regel). 'regels' is de verwachte uitkomst; samengevoegd met een spatie geeft ze altijd de opgeschoonde naam terug. Controle: node scripts/qa/fixtures.mjs.",
+  "namen": [
+    {
+      "in": "Frituur 't Pleintje",
+      "regels": [
+        "Frituur 't",
+        "Pleintje"
+      ]
+    },
+    {
+      "in": "Bakkerij Smets",
+      "regels": [
+        "Bakkerij Smets"
+      ]
+    },
+    {
+      "in": "Kinesitherapiepraktijk Vanderstraeten",
+      "regels": [
+        "Kinesitherapiepraktijk",
+        "Vanderstraeten"
+      ]
+    },
+    {
+      "in": "Schoonheidsinstituut Mirabelle",
+      "regels": [
+        "Schoonheidsinstituut",
+        "Mirabelle"
+      ]
+    },
+    {
+      "in": "Dakwerkenbedrijf Van den Broeck",
+      "regels": [
+        "Dakwerkenbedrijf",
+        "Van den Broeck"
+      ]
+    },
+    {
+      "in": "Brasserie De Lantaarn",
+      "regels": [
+        "Brasserie De",
+        "Lantaarn"
+      ]
+    },
+    {
+      "in": "Garage Verhulst Mortsel",
+      "regels": [
+        "Garage Verhulst",
+        "Mortsel"
+      ]
+    },
+    {
+      "in": "Praktijk Dr. Van den Broeck",
+      "regels": [
+        "Praktijk Dr. Van",
+        "den Broeck"
+      ]
+    },
+    {
+      "in": "Elektriciteitswerken Vandenberghe",
+      "regels": [
+        "Elektriciteitswerken",
+        "Vandenberghe"
+      ]
+    },
+    {
+      "in": "  Slagerij   Peeters  ",
+      "regels": [
+        "Slagerij Peeters"
+      ]
+    },
+    {
+      "in": "",
+      "regels": [
+        ""
+      ]
+    }
+  ]
+}

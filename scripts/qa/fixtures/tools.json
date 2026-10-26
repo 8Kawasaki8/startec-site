@@ -1,0 +1,14 @@
+{
+  "_": "Zichtbaarheidscheck (WP-08): zes antwoorden -> dezelfde score als de oude tools.js (afgerond gemiddelde van 0/50/100), de band en de drie laagste vragen in volgorde. 'verboden' mag in tools-check.js niet voorkomen.",
+  "antwoorden": { "q1": 100, "q2": 50, "q3": 0, "q4": 50, "q5": 100, "q6": 0 },
+  "score": 50,
+  "band": "midden",
+  "slechtste": ["q3", "q6", "q2"],
+  "extra": [
+    { "antwoorden": { "q1": 100, "q2": 100, "q3": 100, "q4": 50, "q5": 100, "q6": 100 }, "score": 92, "band": "hoog" },
+    { "antwoorden": { "q1": 0, "q2": 0, "q3": 50, "q4": 0, "q5": 0, "q6": 50 }, "score": 17, "band": "laag" },
+    { "antwoorden": { "q1": 50, "q2": 50, "q3": 50, "q4": 50, "q5": 50, "q6": 50 }, "score": 50, "band": "midden" }
+  ],
+  "verboden": ["automatisering", "de helft van je bezoekers"],
+  "sterk": "Sterk. Je bent vindbaar en bereikbaar. Hou je uren en je Google-profiel juist, en antwoord op reviews; wil je dat iemand meekijkt, stuur Snymis een berichtje."
+}

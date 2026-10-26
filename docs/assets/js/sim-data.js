@@ -1,7 +1,10 @@
-/* Simulatieruimte: three FICTIONAL businesses with fictional datasets.
-   Every number here is invented; sim.js reads the charts, findings and
-   advice from this file. Keep findings in sync with the arrays (the
-   percentages are recomputed by the QA script in the scratchpad). */
+/* Doorlichting: three FICTIONAL businesses with fictional datasets (the fourth, Dakwerken
+   Pauwels, the sector map and the wat-als switches are in sim-data-2.js). Every number here
+   is invented; sim.js reads the charts, findings and advice, sim-charts.js draws the arrays.
+   Convention the findings follow (checked by scripts/qa/sim-check.mjs): calls = missed in the
+   focus hours over answered + missed there; search = whole hours before open[0] or from open[1]
+   are 'buiten de uren'; reviews = unanswered and total from the focus month, score first -> last;
+   web = mobile share of all visits. 'sector' is the chip of the gevel this business stands for. */
 window.SIM_DATA = {
   charts: [
     { id: "calls",   n: 1, tab: "Oproepen", title: "Oproepen per uur",                 sub: "beantwoord en gemist, 4 weken",          src: "telefooncentrale" },
@@ -15,10 +18,10 @@ window.SIM_DATA = {
   end_line: "Advies klaar. Wacht op goedkeuring van Snymis. Er vertrekt niets automatisch.",
   businesses: {
     noordpool: {
-      name: "Bakkerij Noordpool", place: "Borgerhout", kind: "bakkerij",
+      name: "Bakkerij Noordpool", place: "Borgerhout", kind: "bakkerij", sector: "bakker",
       calls: { from: 7, answered: [18, 20, 26, 29, 27, 22, 19, 21, 24, 26, 23, 14], missed: [13, 10, 5, 3, 2, 6, 5, 2, 2, 3, 4, 5], focus: [0, 1],
         callout: { v: "38 %", t: "gemist tussen 7 en 9 u" } },
-      search: { values: [2, 1, 1, 0, 0, 1, 6, 14, 22, 19, 16, 15, 21, 17, 12, 13, 18, 24, 21, 25, 12, 6, 3, 1], open: [6.5, 18], openLabel: "open 6.30–18 u", focus: [18, 22],
+      search: { values: [2, 1, 1, 0, 0, 1, 3, 14, 24, 19, 16, 15, 23, 18, 13, 13, 18, 24, 21, 25, 12, 6, 1, 0], open: [6.5, 18], openLabel: "open 6.30–18 u", focus: [18, 22],
         callout: { v: "27 %", t: "zoekt buiten de uren, piek om 19 u" } },
       reviews: { total: [8, 11, 6, 7, 9, 10, 9, 12, 13, 10, 9, 8], unanswered: [1, 1, 0, 1, 1, 1, 1, 3, 4, 3, 3, 3], score: [4.6, 4.6, 4.7, 4.6, 4.5, 4.6, 4.5, 4.4, 4.2, 4.1, 4.1, 4.1], focus: [7, 11],
         callout: { v: "4,6 → 4,1", t: "score sinds juni, 16 reviews zonder antwoord" } },
@@ -50,7 +53,7 @@ window.SIM_DATA = {
       }
     },
     lumen: {
-      name: "Kapsalon Lumen", place: "Berchem", kind: "kapsalon",
+      name: "Kapsalon Lumen", place: "Berchem", kind: "kapsalon", sector: "kapper",
       calls: { from: 9, answered: [14, 12, 10, 12, 15, 10, 8, 10, 13, 9], missed: [3, 9, 9, 4, 3, 8, 9, 7, 4, 2], focus: [1, 2],
         callout: { v: "45 %", t: "gemist tussen 10 en 12 u" } },
       search: { values: [1, 0, 0, 0, 0, 1, 3, 6, 12, 18, 16, 14, 19, 15, 13, 12, 14, 17, 16, 20, 13, 6, 2, 1], open: [9, 18], openLabel: "open 9–18 u", focus: [18, 22],
@@ -85,7 +88,7 @@ window.SIM_DATA = {
       }
     },
     verhulst: {
-      name: "Garage Verhulst", place: "Mortsel", kind: "garage",
+      name: "Garage Verhulst", place: "Mortsel", kind: "garage", sector: "garage",
       calls: { from: 8, answered: [19, 27, 31, 28, 24, 15, 22, 26, 25, 18], missed: [14, 11, 6, 4, 3, 8, 4, 3, 6, 13], focus: [0, 1],
         callout: { v: "35 %", t: "gemist tussen 8 en 10 u" } },
       search: { values: [1, 0, 0, 0, 0, 2, 5, 16, 24, 20, 17, 14, 15, 13, 12, 14, 19, 23, 20, 17, 11, 6, 3, 1], open: [8, 18], openLabel: "open 8–18 u", focus: [18, 21],

@@ -9,8 +9,11 @@ export function cleanSign(text) {
   return String(text || "").replace(/[\u0000-\u0008\u000e-\u001f]/g, "").replace(/\s+/g, " ").trim().slice(0, SIGN.maxChars);
 }
 
-/* two-line wrap at 16 characters on word boundaries; the second line takes
-   the rest (the texture scales it to fit, the DOM shrinks the font) */
+/* two-line wrap at 16 characters on word boundaries, never inside a word: a
+   first word longer than 16 characters (Kinesitherapiepraktijk) is line 1 on
+   its own and the rest is line 2 (the texture scales it to fit, the DOM
+   shrinks the font to the widest line); a single word can never exceed the
+   40-character cap of cleanSign */
 export function wrapSign(text) {
   const t = cleanSign(text);
   if (t.length <= SIGN.lineChars) return [t];
@@ -18,11 +21,23 @@ export function wrapSign(text) {
   let a = "", rest = [];
   for (let i = 0; i < words.length; i++) {
     const w = words[i], join = a ? a + " " + w : w;
-    if (!a && w.length > SIGN.lineChars) { a = w.slice(0, SIGN.lineChars); rest = [w.slice(SIGN.lineChars), ...words.slice(i + 1)]; break; }
-    if (join.length <= SIGN.lineChars) a = join; else { rest = words.slice(i); break; }
+    if (!a || join.length <= SIGN.lineChars) a = join; else { rest = words.slice(i); break; }
   }
   const b = rest.join(" ").trim();
   return b ? [a, b] : [a];
+}
+
+/* the font race: a name written before panchang-normal-700.woff2 has arrived is measured in the
+   fallback font; fontsReady(fn) returns false when the real Panchang is there, else starts its load
+   (one request, the preloaded file) and runs fn once it has landed */
+const PANCHANG = "700 100px 'Panchang'";
+let fontLoad = null;
+export function fontsReady(fn) {
+  const fonts = document.fonts;
+  if (!fonts || !fonts.check || !fonts.load || fonts.check(PANCHANG)) return false;
+  if (!fontLoad) fontLoad = fonts.load(PANCHANG).catch(() => []);
+  fontLoad.then(() => { try { fn(); } catch (e) { /* one refit must not stop the next */ } });
+  return true;
 }
 
 let measure = null;
@@ -45,6 +60,7 @@ export function fitFont(lines, w, h) {
    change, so a name is read once instead of once per keystroke; #sign-dom itself updates at once */
 let srTimer = 0;
 export const SR_DELAY = 600;
+function refit() { const dom = document.getElementById("sign-dom"), w = dom && dom.offsetWidth, h = dom && dom.offsetHeight; if (w && h) dom.style.fontSize = fitFont(wrapSign(dom.textContent), w, h) + "px"; }
 export function writeSignDom(text, color) {
   const dom = document.getElementById("sign-dom"), sr = document.getElementById("sign-sr");
   const lines = wrapSign(text), clean = lines.join(" ").trim();
@@ -56,6 +72,7 @@ export function writeSignDom(text, color) {
     if (color) dom.style.setProperty("--sign", color);
     const w = dom.offsetWidth, h = dom.offsetHeight;
     if (w && h) dom.style.fontSize = fitFont(lines, w, h) + "px";
+    fontsReady(refit);
   }
   if (sr) {
     clearTimeout(srTimer);

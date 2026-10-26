@@ -15,7 +15,7 @@ import { loadWoordenlijst, serialise } from './woorden.mjs';
 import { lintCssFiles, defaultFiles as cssFiles } from './lint-css.mjs';
 import { lintCopy, defaultFiles as copyFiles } from './lint-copy.mjs';
 import { lintLines } from './lint-lines.mjs';
-import { checkFixtures } from './fixtures.mjs';
+import { checkFixtures, checkSignFixtures } from './fixtures.mjs';
 import { runOne } from './runner.mjs';
 import { writeReportHtml } from './report.mjs';
 
@@ -115,7 +115,7 @@ if (!args['no-lint']) {
   const css = lintCssFiles(cssFiles(), { root: ROOT });
   const copy = lintCopy(copyFiles(), { root: ROOT }).results;
   const lines = lintLines({ root: ROOT }).results;
-  const fixtures = checkFixtures({ root: ROOT });
+  const fixtures = [...checkFixtures({ root: ROOT }), ...await checkSignFixtures({ root: ROOT })];
   lint = { css, copy, lines, fixtures, fails: [...css, ...copy, ...lines, ...fixtures].filter(i => i.severity === 'fail').length };
   console.log(`lint: css ${css.length} bevindingen, copy ${copy.length}, regels ${lines.length}, fixtures ${fixtures.length}; ${lint.fails} fout(en)`);
 }

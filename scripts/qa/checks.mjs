@@ -179,14 +179,38 @@ export function firstViewport(words) {
   return res;
 }
 
-/** Scene frames drawn so far (STSScene.debug.frames), the route and the intro state; null without a scene. */
+/** Scene frames drawn so far (STSScene.debug.frames), the route and the intro overlay; null without a scene. */
 export function sceneFrames() {
   const s = window.STSScene;
-  const body = document.body;
   return {
     frames: s && s.debug ? s.debug.frames : null, lite: s ? !!s.lite : null, state: s && s.debug ? s.debug.state : null,
-    introing: !!(body && body.classList.contains('introing')), overlay: !!document.getElementById('intro'),
-    route: document.documentElement.dataset.scene || null,
+    overlay: !!document.getElementById('intro'), route: document.documentElement.dataset.scene || null,
+  };
+}
+
+/** The dock on the phone: every door's box against the scrolling list's own box (what is clipped is not visible),
+ *  the action pill against the layout viewport, and the aria-current=page door. */
+export function dockState() {
+  const vw = document.documentElement.clientWidth;
+  const ul = document.querySelector('nav[aria-label="Uithangbord"] .ub-deuren'), ur = ul ? ul.getBoundingClientRect() : { left: 0, right: vw };
+  const inside = (r, box) => r.width > 0 && r.left >= box.left - 1 && r.right <= box.right + 1;
+  const doors = [...document.querySelectorAll('nav[aria-label="Uithangbord"] .ub-deuren a')].map(a => {
+    const r = a.getBoundingClientRect();
+    return { label: a.textContent.trim(), left: Math.round(r.left), right: Math.round(r.right), w: Math.round(r.width), h: Math.round(r.height), visible: inside(r, ur), current: a.getAttribute('aria-current') === 'page' };
+  });
+  const pill = document.querySelector('nav[aria-label="Uithangbord"] .pill');
+  const pr = pill ? pill.getBoundingClientRect() : null;
+  return { vw, list: [Math.round(ur.left), Math.round(ur.right)], doors, pill: pr ? { label: pill.textContent.trim(), left: Math.round(pr.left), right: Math.round(pr.right), visible: inside(pr, { left: 0, right: vw }) } : null };
+}
+
+/** A long name on the sign: page width, the sign box, the lines on #sign-dom and the text for assistive technology. */
+export function signState() {
+  const de = document.documentElement, dom = document.getElementById('sign-dom'), sr = document.getElementById('sign-sr');
+  const r = dom ? dom.getBoundingClientRect() : null;
+  return {
+    scrollWidth: Math.max(de.scrollWidth, document.body ? document.body.scrollWidth : 0), clientWidth: de.clientWidth, innerWidth,
+    sign: r ? { left: Math.round(r.left), right: Math.round(r.right), width: Math.round(r.width), height: Math.round(r.height), placed: dom.classList.contains('is-placed') } : null,
+    lines: dom ? [...dom.querySelectorAll('span')].map(s => s.textContent) : [], sr: sr ? sr.textContent : null,
   };
 }
 
