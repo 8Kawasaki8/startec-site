@@ -1,0 +1,714 @@
+{
+"audit": {
+"sections": [
+{
+"page": "partials (every page)",
+"section": "Head + nav + mobile menu",
+"whatItSays": "Brand 'Star.Tec.Solutions' with comet-S logo; 7 nav links (Oplossingen, Lab, Werkwijze, Demo's, Simulatie, Gereedschap, Contact); nav pill 'Gratis voorbeeld'; full-screen hamburger menu under 1180px with the same links and a second cyan 'Gratis voorbeeld' pill. Self-hosted fonts preloaded, no third-party requests, JSON-LD + OG only when built with --base.",
+"uiElements": "Fixed glass nav with backdrop-filter (transitioned on scroll), 7-link list, pill CTA, burger button, fixed full-screen menu overlay, skip link.",
+"verdict": "MERGE. Seven top-level doors for a one-person studio is three too many; 'Lab', 'Simulatie', 'Onderzoek' (home section) and the 'Radar' demo are four entrances to the same idea (agents + research). The nav also hides the primary CTA on every laptop under 1180px wide, which is most Flemish shop owners' screens. Keep the brand mark; collapse navigation to one persistent mechanism. Technical: `.nav{transition:...backdrop-filter .3s}` animates blur on a full-width fixed layer, which violates the weak-GPU rule."
+},
+{
+"page": "partials (every page)",
+"section": "Footer",
+"whatItSays": "Slogan verbatim, 'Star.Tec.Solutions is het merk van STS Digital, Antwerpen', three link columns (Site, Juridisch, Contact), legal line with KBO/address placeholders hidden when empty, 'Geen cookies, geen trackers', 'Minder animatie' toggle.",
+"uiElements": "4-column grid, data-c hydrated contact links, data-year, lite-mode toggle button.",
+"verdict": "KEEP (rewrite the Site column once the IA changes). It is honest, legally useful and the lite toggle must stay. The Site column currently lists a third navigation system; it should mirror whatever the single new structure is."
+},
+{
+"page": "index.html",
+"section": "Intro overlay (#intro, once per session)",
+"whatItSays": "Wordmark + slogan over a veil while 'STS' forms out of particles in the sky; 'klik of scroll om over te slaan'; cyan progress bar.",
+"uiElements": "Fixed overlay, GSAP timeline in scene/intro.js, skippable by click/key/wheel/touch, sessionStorage 'sts-pre', 4.2 s.",
+"verdict": "KEEP but shorten/merge into the first real moment. It is the best craft on the site and sets the 'reach for the stars' tone, but today it spends 4 seconds and then drops the visitor on a generic hero. The intro should hand over directly into the one interactive thing, not into a headline."
+},
+{
+"page": "index.html",
+"section": "Hero (#start)",
+"whatItSays": "Eyebrow 'AI-onderzoek & digitale diensten · Antwerpen'; H1 'Jouw zaak, zichtbaar tot in de sterren.'; lede 'Websites, AI-systemen en automatisering voor zaken in Vlaanderen. Je ziet eerst een werkend voorbeeld van jóuw site, dan pas beslis je.'; slogan; four floating glass tags (Websites, AI-systemen, Automatisering, Data & leads).",
+"uiElements": "Centered H1 with split-line reveal, 'liquid' gooey CTA pill (SVG feGaussianBlur filter animated), ghost pill 'Ontdek hoe', four backdrop-filter tags with infinite yoyo float, scroll hint drip animation, the 3D city behind.",
+"verdict": "REWRITE. This is exactly the generic agency hero the founder does not want: a metaphor headline, a three-noun list and four floating buzzword chips. Nothing here tells a bakker what will happen if he keeps reading. The four tags over-claim (AI-systemen, Automatisering and Data & leads are not sellable works-today services). The liquid filter and four animated backdrop-filter chips are also needless GPU load on a page that already renders a bloomed 3D scene."
+},
+{
+"page": "index.html",
+"section": "Chapter 1: Oplossingen (300svh sticky over the city)",
+"whatItSays": "Three beats: 'Een donker gebouw is een zaak zonder website' / 'Wij zetten het licht aan' (site with real hours, address, photos, reviews, built to be called) / 'Van website tot systeem dat werk overneemt' (AI-assistenten, automatische offertes, reservaties die zichzelf regelen).",
+"uiElements": "Sticky copy block that fades between three paragraphs as the user scrolls 3 viewports; 3-bar meter; camera scrubbed through the city; copy is pointer-events:none unless active.",
+"verdict": "REWRITE and shrink. The dark-building metaphor is strong and ties to the city, keep that one idea. Beat 3 presents AI assistants, automatic quotes and self-managing reservations as an offering; per ground truth these are 'in onderzoek'. The 3x300svh scroll-jacked chapter format makes 9 sentences cost 9 screens of scrolling and cannot be skimmed, which is the 'boring presentation website' with extra steps."
+},
+{
+"page": "index.html",
+"section": "Chapter 2: Lab (300svh sticky)",
+"whatItSays": "Glass card 'Star.Tec Lab, Waar we bouwen wat nog niet bestaat'; beats: 'Agents die zoeken, bouwen en testen' (een verkenner die zaken vindt, een bouwer die het voorbeeld maakt, een controle die alles meet) / 'Een mens aan het roer' (Snymis keurt elke stap goed) / 'Een probleem dat geen tool oplost? Dan willen we het horen.'",
+"uiElements": "Right-aligned sticky copy, floating glass city-card with neon flicker chip, light trail drawn through the streets in the 3D scene.",
+"verdict": "KEEP THE CONTENT, PROMOTE IT. This is the only place the site states the one thing that is genuinely true and unique: an autonomous scout/build/approve pipeline with a human at the helm. It is buried as chapter two of a scroll animation and fades out after three sentences. It should be the spine of the whole site, demonstrated (Radar + Simulatieruimte) rather than narrated."
+},
+{
+"page": "index.html",
+"section": "Chapter 3: Werkwijze (300svh sticky)",
+"whatItSays": "1 'Wij bouwen eerst een gratis voorbeeld' (met jouw echte gegevens, niets voorbereiden, niets betalen) / 2 'Jij beslist daarna' (offerte op maat or it stops, no cost) / 3 'Live, en we blijven erbij' (onderhoud, updates).",
+"uiElements": "Sticky copy, meter, the landmark tower is built as a wireframe in the 3D scene, three belt stars rise at the end.",
+"verdict": "MERGE. The three steps are correct and trust-first (keep the wording), but they are repeated verbatim by the split-flap 'Vertrekbord' further down, by FAQ 01/02, by the contact-quote pill and by the demos/gereedschap/simulatie page footers. Say it once, in the place where the visitor actually decides (next to the request form or the preview)."
+},
+{
+"page": "index.html",
+"section": "Probeer: 'Typ je zaak. Zie je site.' (#probeer)",
+"whatItSays": "Enter business name, sector (8 options), optional gemeente; a sketch of a mobile site appears in a phone frame, with 'Nu open', sector-specific CTA, two cards, map placeholder, hours marked 'Voorbeeld'. 'Er wordt niets verstuurd. Blijft in je browser.' Then 'Dit echt laten bouwen' prefills the contact form.",
+"uiElements": "3-field form, phone mock with typed-in name animation and staggered reveal, hidden CTA that appears after render; preview.js + preview.css.",
+"verdict": "KEEP AND EXPAND. This is the only personalisation hook and the best conversion mechanic on the site: the visitor sees their own name and leaves with a prefilled message. It is honest about being a sketch. Weakness: it is section 5 of 10, after 900svh of chapters, so most visitors never reach it. It belongs in the first 10 seconds. Minor honesty nit: five filled stars under 'Reviews' read as a rating; use outlined stars or a placeholder."
+},
+{
+"page": "index.html",
+"section": "Bouwen: 'Zes dingen die een zaak vooruit helpen' (#bouwen)",
+"whatItSays": "Kinetic marquee with the English slogan; a draggable deck of six cards: Websites & platforms, AI-systemen & agents, Automatisering, Data & leads ('Duizenden contacten automatisch verzameld ... gekoppeld aan je outreach'), Ontwerp & branding, Onderhoud & support, each with an 'Offerte op maat' chip; then a split-flap 'Vertrekbord' (VOORBEELD GRATIS / GESPREK 20 MINUTEN / OFFERTE OP MAAT / LIVE MET ONDERHOUD).",
+"uiElements": "Scroll-velocity marquee, pointer-drag deck with inertia, dots and arrows, holographic conic sheen + 3D tilt on hover, split-flap board with random re-flips every 14 s via setInterval.",
+"verdict": "REMOVE the deck as a service menu; REWRITE as an honest capability map. 'Hero + six service cards' is the generic agency pattern the founder rejects, and four of the six cards sell things that are prototypes or research. 'Data & leads' describes his internal scouting pipeline as a client service, which is not in the ground truth. The marquee is decoration in English; the split-flap repeats Werkwijze. Keep the split-flap mechanic as an instrument for real state (e.g. status of a simulation), not as a slogan board."
+},
+{
+"page": "index.html",
+"section": "Onderzoek: 'Problemen die we nu onderzoeken' (#onderzoek)",
+"whatItSays": "'Dit bestaat nog niet als product.' Accordion: 01 Antwoord buiten de uren (WhatsApp assistant with real hours), 02 Reviews beantwoorden in jouw toon (one-tap approval, nothing auto-posted), 03 Offerte in één minuut (photo/voice to quote), 04 Jouw probleem (open). Each links to contact with a prefilled subject. Plus an 'ASCII mirror': 'Live render van de stad, in tekst'.",
+"uiElements": "Accordion with GSAP height animation, prefilled-subject links, a <pre> that receives a 96x40 ASCII readback of the WebGL scene every 160 ms when visible.",
+"verdict": "KEEP the research list (it is the most honest copy on the site and correctly labels research as research; tie it to Kawa/webshot prototypes as 'prototype' where true). REMOVE the ASCII mirror: it has no meaning in this section and `readRenderTargetPixels` is a synchronous GPU stall every 160 ms, precisely the kind of thing that freezes a weak PC."
+},
+{
+"page": "index.html",
+"section": "Demo's teaser (#demos)",
+"whatItSays": "'Vier zaken. Vier stijlen. Nul sjablonen. Fictieve zaken uit de buurt, echte interacties.' Four plot cards with screenshots and style tags in English (Art deco, neon, kinetic type / Blueprint, split-flap, wireframe / Neo-brutalism, halftone, comic / Holographic, glass, ASCII). CTAs: 'Simulatieruimte: kijk een agent aan het werk' and 'Alle demo's bekijken'.",
+"uiElements": "4-up plot grid with halftone overlay, hover sheen + tilt, two pills.",
+"verdict": "MERGE with demos.html into one demo surface and REWRITE the card subtitles for the buyer ('Reserveren, kaart met filters, WhatsApp-assistent' instead of 'Art deco, neon, kinetic type'). Radar does not belong in a row of fictional client sites: it is the window into the real pipeline and should sit with the Lab story."
+},
+{
+"page": "index.html",
+"section": "Vragen (FAQ, #vragen)",
+"whatItSays": "Six honest answers: price is per quote after a free example; what the free example is; switching from an existing site; ownership stays with the client; what the AI systems do ('een mens keurt alles goed'); service area 'heel Vlaanderen en Brussel'.",
+"uiElements": "Second accordion instance; not listed in the rail.",
+"verdict": "KEEP the answers, MERGE the UI. The copy is good, trust-first and legally careful. FAQ 05 answers as if AI systems are shipping today; soften to match ground truth. Fold the answers into the moment of decision (near the form) rather than a standalone accordion."
+},
+{
+"page": "index.html",
+"section": "Contact (#contact)",
+"whatItSays": "'Vertel het gewoon. Een paar zinnen volstaan. Snymis leest elk bericht zelf en antwoordt via de weg die jij kiest.' Contact-quote pill repeats the free-example promise. Channels: e-mail (temporary gmail from config), WhatsApp and phone (hidden because empty), 'Basis: Antwerpen · voor heel Vlaanderen en Brussel'. Form: naam, zaak, e-mail of gsm, voorkeurskanaal, bericht, honeypot; 'Verstuurd' only after a real EmailJS success; otherwise opens mailto/wa.me.",
+"uiElements": "Two-column split, channel list, glass form panel, hidden ok/err messages, ?onderwerp= prefill, data-subject prefill from Lab links.",
+"verdict": "KEEP the mechanics (no fake sent state, honeypot, prefill contract via ?onderwerp and [data-subject]) and REWRITE the framing: this is the only place where the human promise is personal; make it the landing point of every simulation. Note EmailJS is an external request and currently off; keep it off to respect the no-external-requests rule."
+},
+{
+"page": "index.html",
+"section": "Global chrome: rail, fixed CTA, cursor, mesh, marquee",
+"whatItSays": "Right-edge section rail (9 anchors, FAQ missing), mobile fixed 'Contact' pill after 80% scroll, custom cursor dot + ring + canvas comet trail on desktop, drifting gradient-mesh blobs behind each solid section, slogan marquee.",
+"uiElements": "Fixed rail (hidden <1180px), fixed-cta, cur-dot/cur-ring/cur-trail canvas on gsap.ticker, .mesh pseudo-elements with 24-30 s transform drift, marquee track on gsap.ticker.",
+"verdict": "REMOVE or MERGE into one. Three navigation systems (nav, rail, footer) plus nine 'Gratis voorbeeld / Contact' CTAs across the home page is noise, not guidance. The comet cursor is a nice brand touch but a full-viewport canvas cleared every frame on top of a bloomed WebGL layer is budget spent on nothing a buyer values; keep it only in lite-off desktop mode if at all."
+},
+{
+"page": "demos.html",
+"section": "Hero + styles strip",
+"whatItSays": "'Vier zaken. Vier stijlen. Nul sjablonen.' and a strip of 15 English animation-style labels (Particles, Liquid morph, Holographic, Neon glow, Wireframe 3D, Glassmorphism, Kinetic type, ASCII art, Gradient mesh, Split-flap, Blueprint, Halftone, Art deco, Comic book, Neo-brutalism).",
+"uiElements": "Centered hero, mesh, chip strip.",
+"verdict": "REMOVE the styles strip (jargon that means nothing to a kapper and reads as showing off), REWRITE the hero to say what the visitor can try in each demo."
+},
+{
+"page": "demos.html",
+"section": "Big plot grid + sim banner + checks + CTA",
+"whatItSays": "Four cards with buyer-facing descriptions ('Live open-of-gesloten, een kaart met filters, een reservatie-aanvraag en een gescripte WhatsApp-assistent'; 'werkplaatsbord, richtprijs-calculator, afspraak-aanvraag, keuringschecklist'; 'boeken in vier stappen, voor-en-na-slider'; Radar: 'Hoe we zaken zonder goede website vinden, meten en klaarzetten'). Banner 'Nieuw · Simulatieruimte'. Checklist: real interactions, works on gsm, fictional names, no template. 'Jouw zaak als vijfde demo?' CTA.",
+"uiElements": "2-up plot grid with tags/desc/cta, gradient banner panel, star-bullet checks, centered CTA.",
+"verdict": "MERGE into the single demo surface; the descriptions here are better than the ones on the home page and should survive. 'Jouw zaak als vijfde demo?' is the right emotional hook (pride, being seen) and should be wired to the preview generator, not to a blank form."
+},
+{
+"page": "simulatie.html",
+"section": "Hero + controls",
+"whatItSays": "'Kijk mee hoe een agent een zaak doorlicht. Een verzonnen zaak, onze echte methode. De agent leest de oproepen, Google, de reviews en de website ... Snymis keurt alles goed voor het naar de zaak gaat.' Flag 'Gesimuleerde data'. Pick one of three fictional businesses (Bakkerij Noordpool Borgerhout, Kapsalon Lumen Berchem, Garage Verhulst Mortsel). Start analyse / Opnieuw / 1x 2x.",
+"uiElements": "Dashed 'gesimuleerd' flag, chip group with aria-pressed, pill + btn + segmented speed control.",
+"verdict": "KEEP. Clear labelling, real controls, three sectors that match the target market. This page is the closest thing on the site to 'a fully working website with cool simulations for clients to test'."
+},
+{
+"page": "simulatie.html",
+"section": "The room: agent-log, stage, bevindingen, advies, human step",
+"whatItSays": "A typed agent log (verkenner/meter/lezer/planner), four charts revealed by a scan line with a reticle that locks on the finding (oproepen per uur, zoekopdrachten 'open nu', reviews + score, bezoek + laadtijd), four findings with severity, three advice cards with impact ranges labelled 'schatting op gesimuleerde data', then 'Wacht op goedkeuring van Snymis' with the three-step Agent/Snymis/Zaak list. Footer: 'Alle zaken, cijfers en bevindingen op deze pagina zijn verzonnen. De methode is echt.' CTA 'Laat ons jouw zaak doorlichten. Dezelfde methode, met jouw echte oproepen, Google-profiel, reviews en website.'",
+"uiElements": "3-column console grid, pure-SVG charts generated per width, transform-only reticle/scan layer, one GSAP master timeline with pause on hidden/off-screen, reduced-motion skip-to-end, tab buttons after completion, violet 'human' panel.",
+"verdict": "KEEP as the engine and the centrepiece; REWRITE one claim. The engine is exactly the right architecture to generalise (charts as pure functions, data in a separate file, one timeline). Honesty flag: 'Dezelfde methode, met jouw echte oproepen' promises reading a client's telephone exchange and server logs, which is not a works-today capability; the real doorlichting he can do today is public data (Google profile, reviews, site speed). Rephrase the CTA to what the pipeline really reads."
+},
+{
+"page": "gereedschap.html",
+"section": "Zichtbaarheidscheck",
+"whatItSays": "Six yes/partly/no questions (Google profile, consistent hours, one-tap call/WhatsApp, loads under 3 s, answers reviews, recent photos) produce a score ring, a verdict in three tiers and the three weakest tips; CTA 'Laat ons dit regelen' with the score in ?onderwerp.",
+"uiElements": "Radio-pill fieldsets, sticky result panel, SVG arc, ordered tips.",
+"verdict": "KEEP, integrate. Fully client-side, honest, sector-neutral, produces a shareable number and a prefilled message: a natural first instrument in any 'one thing'. Rewrite tip q4 ('kost je de helft van je bezoekers') which is an unsourced statistic; soften or cite."
+},
+{
+"page": "gereedschap.html",
+"section": "WhatsApp-knop en QR-code",
+"whatItSays": "Enter a gsm number (Belgian normalisation to +32), optional preset message and button label; get a wa.me link, copyable HTML button, and a downloadable QR PNG. 'Hang de QR-code aan je kassa of op je etalage.'",
+"uiElements": "Three inputs, live output panel, copy buttons, canvas QR via vendored qrcode.min.js, download.",
+"verdict": "KEEP. Immediately useful, offline, shareable, and a real zero-budget acquisition hook (a QR printed in a shop window carries the STS name only if you add a discreet credit, which is worth considering). Nothing to remove."
+},
+{
+"page": "gereedschap.html",
+"section": "Google-voorbeeld (SERP preview) + closing CTA",
+"whatItSays": "Type title, description and URL; see a Google-style result with pixel-width truncation and length judgements. Example is a fictional bakery and says so. Closing: 'Liever dat iemand het voor je doet? ... Je ziet eerst een gratis voorbeeld.'",
+"uiElements": "Three inputs with character meters, white SERP card, hint text, split CTA.",
+"verdict": "KEEP the tool, MERGE the page. Three good instruments live on a page named 'Gereedschap' that the home page never explains; they should be reachable from the moment they are relevant (after the preview, after the simulation)."
+},
+{
+"page": "404.html",
+"section": "Not found",
+"whatItSays": "'Dit gebouw staat hier niet. De stad staat nog gewoon op de startpagina.' Links to start and demos.",
+"uiElements": "Centered section with mesh, two pills; build injects <base href> so relative assets resolve under any path.",
+"verdict": "KEEP. On-brand, tiny, and the <base href> trick is required on GitHub Pages subpaths."
+},
+{
+"page": "juridisch.html",
+"section": "Wettelijke vermeldingen",
+"whatItSays": "Company identification (legalName, form, seat, KBO, VAT, e-mail, phone, verantwoordelijke uitgever: all hydrated from config.js and hidden when empty), 'Wat we doen', hosting on GitHub Pages, IP (design, code, logo and the 3D world are STS property; demos are fictional), liability, Belgian law, Antwerpen courts, Consumentenombudsdienst.",
+"uiElements": "Legal layout, definition grid, {{date}} stamp.",
+"verdict": "KEEP verbatim (must stay). Risk: address, KBO, VAT, legal form and publisher are all empty in config.js, so the page currently shows only 'STS Digital' and a gmail address, which does not meet art. XII.6 WER once services are offered. Saki must supply these; the rebuild must keep the data-c hydration contract."
+},
+{
+"page": "privacy.html",
+"section": "Privacyverklaring",
+"whatItSays": "No cookies, no trackers; what is processed when you contact them; the free-example prospecting basis (public data only, legitimate interest, one contact max, example not indexed, deleted after 30 days or within 5 working days on request); 'geen enkel bericht vertrekt automatisch. Een medewerker leest en keurt elk bericht goed'; hosting IP logs; demos and tools stay in the browser; sharing (hosting, e-mail, EmailJS only if enabled, accountant); rights; GBA complaint route.",
+"uiElements": "Legal layout, conditional EmailJS paragraphs toggled from config.",
+"verdict": "KEEP (must stay) with one wording fix: 'een medewerker' implies staff; the truth and the brand promise is 'Snymis'. Section 2.2 is a model of how to describe the pipeline honestly and should inform the marketing copy."
+},
+{
+"page": "cookies.html",
+"section": "Cookiebeleid",
+"whatItSays": "No banner because nothing to accept; documents exactly two localStorage/sessionStorage keys (sts-pre, sts-lite) with their purpose and lifetime; legal basis art. 129 WEC.",
+"uiElements": "Legal layout, definition list.",
+"verdict": "KEEP (must stay). Any new client-side storage introduced by the rebuild (e.g. remembering the visitor's business name for personalisation) must be added here or the page becomes false."
+},
+{
+"page": "voorwaarden.html",
+"section": "Algemene voorwaarden",
+"whatItSays": "16 plain-language articles: scope, the free example (STS property until paid, not indexed, deleted on request/after 30 days), quotes valid 30 days, execution, acceptance within 10 working days + two correction rounds, payment terms for businesses and consumers, IP transfer after payment, hosting/maintenance monthly cancellable, AI systems can err and get human review, liability cap, force majeure, termination, data, consumer withdrawal, Belgian law, severability.",
+"uiElements": "Legal layout.",
+"verdict": "KEEP (must stay). Already covers AI systems and automation, so the site may describe those as future offerings without new legal work."
+},
+{
+"page": "docs/demo/brasserie-meridiaan, garage-verhulst, barbier-boris",
+"section": "Three fictional client sites",
+"whatItSays": "Each is a complete nl-BE site for a fictional Antwerp-area business with noindex, its own fonts, a 'Fictief voorbeeld · gemaakt door Star.Tec.Solutions' bar linking back, and working in-page interactions (menu filters, reservation request, scripted WhatsApp assistant; workshop board, price indicator, appointment, checklist; four-step booking, before/after slider).",
+"uiElements": "Self-contained HTML/CSS/JS per demo, 312-350 line index files, no external requests.",
+"verdict": "KEEP. They are the proof that 'nul sjablonen' is true and each one is the kind of thing the pipeline ships. Surface them as outcomes of the pipeline ('dit is wat de bouwer maakt'), not as a style gallery."
+},
+{
+"page": "docs/demo/radar",
+"section": "Radar concept dashboard",
+"whatItSays": "'Radar vindt zaken zonder (goede) website, meet hoe vindbaar ze zijn en zet de beste kandidaten klaar voor een gratis voorbeeld.' ASCII radar sweep, four KPI counters labelled fictief (1284 gescand, 412 zonder website, 37 voorbeelden, 19 gesprekken), abstract map with 24 fictional candidates, agent-log with 4 agents + 1 mens, filterable candidate list with vindbaarheidsscore, two charts with table fallbacks, four steps Zoeken/Meten/Bouwen/Bellen, 'Snymis keurt elk bericht goed'. Footer: 'geen live systeem'.",
+"uiElements": "Glass/holo panels, canvas stars, count-up numbers, sparklines, interactive map dots, filters, details tables; gsap + lenis + 6 own modules.",
+"verdict": "KEEP AND PROMOTE. This is the most faithful picture of what STS actually does today and it is hidden as the fourth tile in a demo gallery. Labelling is thorough. Watch the count-up KPIs: they are labelled fictief but count-up animation is the visual grammar of real metrics; keep the 'fictief' badge inside each tile, not only in aria."
+}
+],
+"whatTheSiteFailsToSay": [
+"What STS actually is: an AI-research studio in Antwerpen that built an autonomous pipeline (scout -> measure -> build a free example from public data -> human-approved outreach). The site narrates this in three fading sentences in chapter 'Lab' and shows it only in a demo tile called Radar; the hero, nav, cards and FAQ all describe a web agency.",
+"What happens in the first 10 seconds: a visitor cannot tell whether to type something, scroll, or click. There is no single action. The preview generator (the one thing that makes it about them) is section 5, after roughly 900svh of scroll-driven chapters.",
+"Which capabilities exist today versus which are research. Ground truth: works-today = pipeline + free example sites, Simulatieruimte, Radar concept, four demos, three free tools; prototypes = Kawa (local assistant on Ollama), sts-world (3D ops dashboard), webshot. The site sells 'AI-systemen & agents', 'Automatisering', 'Data & leads', 'Ontwerp & branding' as services with 'Offerte op maat' chips, and the simulatie CTA promises 'dezelfde methode met jouw echte oproepen', which the pipeline cannot read. Only the 'Onderzoek' accordion is labelled correctly.",
+"Why the free example is free and safe: the privacy page explains it beautifully (public data only, not indexed, one contact, deleted after 30 days, Snymis reads everything) but the marketing pages never use that argument, which is the strongest trust lever a sceptical Flemish shop owner needs.",
+"Who Snymis is and that it is one person: 'wij', 'onze bemanning', 'een medewerker' suggest a team. There is no face, no story, no 'ik'. For trust-first selling to small owners, one honest person with a system is more credible than a fake plural.",
+"What a visitor can test: the simulation, the preview, the three tools and four demos are five different 'try it' surfaces spread over four pages with different names (Probeer, Simulatie, Gereedschap, Demo's, Radar). The site never says 'hier kun je zelf testen wat onze agents doen'.",
+"Who it is for, in their words: horeca, kappers, garages, bakkers, aannemers, praktijken appear only inside a <select>. The sim and demos cover bakery, kapsalon, garage, brasserie; the copy never addresses a sector directly.",
+"What a visitor should feel: the city/star metaphor is beautiful but the emotional job (fear of the missed call at 19:00, pride of seeing your own name on a site, relief that a human reads everything) is never made tangible before the simulatie page, which most visitors never reach.",
+"What research means at STS: 'AI-onderzoek' is in the eyebrow and nav ('Lab'), but there is no account of what has been built and learned (Kawa, sts-world, webshot) or what 'in onderzoek' leads to for a client.",
+"What it costs: correctly no prices, but the reassurance ('je ziet eerst gratis een werkend voorbeeld, dan een vast bedrag op papier') is hidden in FAQ 01 instead of standing next to every request button."
+],
+"uiToRemoveOrMerge": [
+"Three navigation systems (top nav with 7 links, right-edge rail with 9 anchors, footer Site column) + hamburger overlay -> one persistent mechanism that is itself the 'thing' (a console, a dock, a city map), with legal links only in the footer.",
+"Nine 'Gratis voorbeeld' / 'Contact' CTAs on the home page alone (nav pill, menu pill, hero liquid pill, fixed-cta, gen-cta, contact-quote pill, deck chips, demos pills, lab links) -> one request action that every simulation hands into with a prefilled message.",
+"The three 300svh sticky chapters (Oplossingen / Lab / Werkwijze, 27 screens of scroll on desktop for nine sentences) -> absorb into the interactive thing: the city should react to what the visitor does, not to how far they scrolled.",
+"Six-card service deck + 'Offerte op maat' chips + dots/arrows/drag -> replace with an honest capability map (works today / prototype / in onderzoek) rendered as instruments the visitor can open.",
+"Split-flap 'Vertrekbord' (repeats Werkwijze) + kinetic slogan marquee + gooey liquid CTA filter + neon flicker chip + gradient mesh blobs + four floating hero tags with backdrop-filter -> drop as decoration; keep at most one signature mechanic (the split-flap) repurposed to show real state (simulation phase, queue status).",
+"ASCII mirror of the city in the Onderzoek section -> remove (no meaning, synchronous GPU readback every 160 ms).",
+"Custom cursor dot + ring + full-viewport comet-trail canvas -> remove or confine to non-lite desktop; the city already carries the brand.",
+"Two accordion instances (Onderzoek and FAQ) -> one disclosure pattern, placed at the decision point; FAQ answers move next to the request form.",
+"Home demo teaser + demos.html + the 'Simulatieruimte' banner on demos.html + 'Jouw zaak als vijfde demo' -> one demo surface; Radar leaves the demo gallery and joins the Lab/pipeline story.",
+"Probeer (preview generator), Zichtbaarheidscheck, WhatsApp QR, Google preview, Simulatieruimte -> stop being five surfaces with five names; become instruments of one room where the visitor's own business name (entered once) is reused everywhere (sim stage 'Zaak', preview phone, QR credit, contact prefill).",
+"gereedschap.html as a standalone page -> instruments reachable in context (after the preview: 'check je zichtbaarheid'; after the sim advice 'WhatsApp-knop': make it now).",
+"Lenis smooth scroll + ScrollTrigger scrub over 900svh -> if the city stays, drive it by interaction state rather than scroll position; if scroll stays, drop Lenis (scroll hijack and extra ticker work on weak GPUs).",
+"styles-strip of 15 English animation names on demos.html and style tags on plot cards -> remove; replace with what the visitor can do in each demo.",
+"Chapter meters, scroll-hint drip, intro-hint, 'Live render' label -> micro-UI that only exists to explain other UI; delete with the UI it explains."
+],
+"assetsWorthKeeping": [
+"Three.js night city (docs/assets/js/scene.js + scene/city.js, sky.js, intro.js): the single strongest brand asset and already engineered for weak GPUs (DPR cap 1.5 / 1.25 lite, lite via ?lite, localStorage 'sts-lite', hardwareConcurrency<=4 or coarse pointer <900px; runtime guard that drops bloom, mirror and DPR after 150 frames averaging >28 ms; visibilitychange pause; instanced towers, one draw call per layer; fog). Exposed API window.STSScene {lite, setProgress(0..1), intro{play,skip,seek,debug}, ascii(el)} and events sts:scene-ready / sts:scene-failed with a CSS fallback. The 'dark building = business without a website' and 'landmark built as a wireframe' metaphors are already in the scene (HERO landmark, light trail, belt stars) and can become interactive targets. Keep; change how it is driven (interaction state instead of scroll) and add a 'covered' pause (today it renders continuously even when the canvas is fully hidden behind .solid sections).",
+"Comet-S logo + star (inline SVG in nav.html, docs/assets/img/logo.svg, favicon.svg, apple-touch-icon.png, og.png generated from src/og.html): distinctive, already used consistently, the .st star glyph (clip-path polygon) is a usable bullet/accent token.",
+"Simulatieruimte engine (docs/assets/js/sim.js 322 lines + sim-data.js 123 lines + sim.css): charts are pure functions of (business, width, height) returning SVG + focus rect; a single GSAP master timeline owns every beat (speed, pause when tab hidden or room off-screen, skip-to-end, reduced-motion path); reticle/scan layer changes only transforms; accessible (role=img with title/desc, aria-live findings, aria-pressed tabs); honesty baked in ('gesimuleerd' in every subtitle, 'schatting op gesimuleerde data' on advice, violet human-approval panel). This is the template for every new simulation: add a renderer + a data block, reuse the room.",
+"Instant preview generator (docs/assets/js/preview.js + preview.css): 65 lines, eight sector presets with Flemish copy, typed-name animation, sector colour via --c, prefills the contact form (business + message) and scrolls on phones. The only personalisation mechanism on the site; extend it so the entered name/sector/gemeente seeds every other instrument.",
+"Free tools (docs/assets/js/tools.js + tools.css + vendor/qrcode.min.js): Belgian phone normalisation, QR drawn on canvas with quiet zone and PNG download, SERP preview with pixel-width truncation, six-question visibility score with worst-three tips and ?onderwerp= handoff. All offline, all honest, all shareable; keep verbatim and re-home them.",
+"Four demo sites (docs/demo/*): each self-contained with its own fonts, noindex, nl-BE, 'Fictief voorbeeld' bar, working interactions, zero external requests, files under 350 lines. Radar (docs/demo/radar) in particular is the honest visual of the real pipeline (Zoeken/Meten/Bouwen/Bellen + human approval) and should be promoted, not just kept.",
+"Legal pages (juridisch, privacy, cookies, voorwaarden) with the data-c / data-c-wrap hydration from config.js, conditional EmailJS paragraphs, {{date}} stamps: must stay, already correct for Belgian law structure (WER XII.6, AVG, WEC art. 129, boek XIX, VI.47), and privacy 2.2 is the best written description of the pipeline on the whole site.",
+"Fonts (docs/assets/fonts: Panchang 500/600/700, Switzer 400/500/700, JetBrains Mono 400/500, Unbounded variable as fallback and for Radar) with fonts.css and preloads: self-hosted, licensed (Fontshare ITF), already the typographic identity (display Panchang, text Switzer, data JetBrains Mono). Keep; fix the stale header comment in style.css that still says 'Unbounded · Inter'.",
+"Design tokens in docs/assets/css/style.css :root (bg/bg2/bg3, ink/ink2/ink3, line/line2, cyan #36E8FF + cyan-2, violet #8A6BFF as the human colour, glass, glow, ease, gut, max): consistent, dark-only, cyan used as accent, violet reserved for 'the human' in the sim (a convention worth keeping). Also the pill/coin button, .label mono eyebrow, .panel glass, .field inputs, .legal layout, reduced-motion block.",
+"config.js contract (window.STS_CONFIG with flat key: \"value\" lines; empty = hidden on the site; parsed by build.py by regex for JSON-LD): one place for identity, contact and legal data; keep the format exactly.",
+"contact.js behaviour: honeypot, no fake 'sent', mailto/wa.me handoff when EmailJS is unconfigured, ?onderwerp prefill; keep as the single sink for every simulation's conversion step.",
+"build.py (139 lines) and the src/pages front-matter convention: simple, dependency-free, already produces canonical/OG/JSON-LD/sitemap/robots; keep and extend rather than replace.",
+"Vendored libraries (gsap 3 + ScrollTrigger, lenis, three.module + postprocessing addons, qrcode): all local, no CDN; GSAP and Three stay; Lenis and ScrollTrigger are optional depending on the chosen concept."
+],
+"techNotes": [
+"Build: `python scripts/build.py --base https://8kawasaki8.github.io/startec-site/` (Python 3 stdlib only). Without --base there are no canonical/OG/JSON-LD URLs and sitemap.xml/robots.txt are not rewritten; the committed docs/ was built with that base. Both src/ and docs/ are committed (docs/ is the GitHub Pages root, with .nojekyll); every work package must commit the rebuilt docs/.",
+"Front matter is an HTML comment at the top of each src/pages/*.html with `key: value` lines: title, description, nav (section id marked active or 'none'), scene: yes (injects <script type=module src=assets/js/scene.js>), styles (space-separated names resolved to assets/css/<name>.css after style.css), scripts (names resolved to assets/js/<name>.js; relative tricks like `../vendor/qrcode.min` work). The vendor trio gsap.min, ScrollTrigger.min, lenis.min and config.js are injected on every page, legal pages included; motion.js is listed by every page and also does the data-c hydration, so a rebuild must keep hydration separate from motion if motion is dropped on some pages.",
+"NAV is a hard-coded list in build.py (`NAV = [...]`), not in a partial; home links are prefixed with index.html on subpages via {{home}}. Changing the IA means editing build.py. 404.html receives `<base href=base>` because GitHub Pages serves it for any path; never use root-absolute URLs (the site lives under /startec-site/), everything is relative.",
+"`{{date}}` is replaced with today's Dutch date on every build in every page, so legal 'Laatst bijgewerkt' stamps and sitemap lastmod churn on each rebuild; a rebuild should either accept this or move dates into front matter.",
+"JSON-LD (home only) is produced by regex-parsing docs/assets/js/config.js for flat `key: \"value\"` lines; nested objects (emailjs) are ignored. Keep config.js in that exact shape. It currently publishes email rubyghosty@gmail.com and founder 'Snymis'; whatsapp, phone, legalForm, owner, address, kbo, vat are empty and therefore hidden everywhere (legal pages are incomplete until Saki fills them).",
+"No npm, package.json, tests or Playwright config exist in the repo. The QA referenced in comments (sim-data.js: 'percentages are recomputed by the QA script in the scratchpad'; src/og.html expects docs served on :8899; .qa/ screenshots) lives outside git and .qa/ and .claude-flow/ are gitignored. Cloud agents must bootstrap their own QA: `python -m http.server` on docs/, `npm init -y && npm i -D playwright && npx playwright install chromium`, then headless checks at 1440x900 and 390x844 for zero console errors, zero requests to hosts other than localhost, reduced-motion, and the lite path.",
+"Headless WebGL: Chromium headless may give no WebGL or a slow SwiftShader context. scene.js throws after dispatching sts:scene-failed and unhiding #scene-fallback; motion.js waits for sts:scene-ready / sts:scene-failed with a 4 s timeout. QA must run both `?lite` and the normal path, consider `--use-gl=angle --use-angle=swiftshader`, and set sessionStorage 'sts-pre'=1 (or prefers-reduced-motion) to skip the 4.2 s intro in tests.",
+"Client-side storage contract: sessionStorage 'sts-pre' (intro seen) and localStorage 'sts-lite' (lite mode, toggled by [data-lite-toggle] which reloads the page) are the only keys and are documented in cookies.html and privacy 2.3. Any new key must be added to cookies.html or the policy becomes false. All storage access is wrapped in try/catch; keep that.",
+"Lite / performance machinery to respect and extend: scene.js computes `lite` from ?lite, 'sts-lite', hardwareConcurrency<=4, coarse pointer <900px; DPR = min(devicePixelRatio, lite ? 1.25 : 1.5); composer with UnrealBloomPass only when not lite; guard() degrades after 150 frames averaging >28 ms (drops composer, city mirror, DPR to 1, adds html.lite-gpu). sim.js also reads 'sts-lite' (types at 2000 cps instead of 80). Known violations to fix in a rebuild: `.nav` transitions backdrop-filter; `.tag` (backdrop-filter) elements are animated forever; `.pill.liquid` animates inside an SVG feGaussianBlur filter; the scene keeps rendering at full rate while the canvas is completely covered by .solid sections (no coverage/off-screen check, only visibilitychange); the ASCII mirror does a synchronous readRenderTargetPixels every 160 ms; the split-flap setInterval(14 s) is never cleared; the comet-trail canvas clears the full viewport on every gsap tick.",
+"Motion stack: GSAP 3 + ScrollTrigger (scrub 0.6 on #chapters driving STSScene.setProgress; per-chapter copy switching; reveals via [data-reveal]/.rv adding .in; [data-split] line splitting is a homemade SplitText), Lenis (lerp .09, stopped during intro and menu). `ScrollTrigger.config({ignoreMobileResize:true})` and the 100lvh probe in scene.js exist to stop the phone address bar from re-laying out the chapters; keep both if any pinned section survives. Reduced motion: CSS kills animations/transitions and shows reveals; JS skips intro, split, cursor, marquee, tilt; sim jumps to the end.",
+"File-size rule: style.css is 423 lines and index.html 254 source / 359 built; motion.js 302 does 15 unrelated jobs (hydration, Lenis, intro handoff, chapters, ascii, reveals, rail, marquee, flap, deck, tilt, prefill, accordion, lite toggle, cursor). A rebuild must split CSS per feature (base/tokens, nav, forms, sim, preview, tools already exist as separate files) and split motion.js into modules, all under 500 lines; sim.js at 322 is close to the limit once more charts are added, so new renderers should go in sim-charts-*.js files.",
+"Conversion plumbing to reuse: contact.js reads ?onderwerp= from the URL into the message; [data-subject] links and the preview's #gen-cta prefill #contact-form fields (message, business); the Zichtbaarheidscheck links to index.html?onderwerp=...#contact. With EmailJS unconfigured, submit opens mailto: (then wa.me if only WhatsApp is set) and never shows 'Verstuurd'; enabling EmailJS would add an external fetch to api.emailjs.com and contradict the no-external-requests rule, so treat direct sending as out of scope unless a package proposes a static-compatible alternative.",
+"External requests today: none for resources (fonts, scripts, images all local; demos ship their own fonts; Radar reuses ../../assets fonts). Only outbound navigations exist (wa.me, mailto:, consumentenombudsdienst.be, gegevensbeschermingsautoriteit.be). src/og.html references http://localhost:8899 but is a dev-only source for og.png and is not copied to docs/.",
+"Demos are plain static folders (docs/demo/<slug>/index.html + own css/js/fonts) with <meta name=robots content=noindex>, nl-BE, and a .sts-bar linking ../../index.html, ../../demos.html and ../../index.html#contact; they are not produced by build.py. Radar loads ../../assets/vendor/gsap.min.js and lenis.min.js. Keep them untouched unless a package explicitly re-skins the sts-bar.",
+"Accessibility baseline to keep: skip link, :focus-visible outlines in cyan, aria-pressed on all toggle groups, role=img + title/desc on sim charts, aria-live on preview phone, findings and tool outputs, data tables as <details> fallbacks in Radar charts, text-wrap balance, hidden attribute enforced with !important. The chapters' inactive copy is pointer-events:none but remains in the DOM for screen readers.",
+"Honesty guardrails already encoded that a rebuild must not regress: every sim subtitle contains 'gesimuleerd', the stage shows 'fictief', advice cards carry 'schatting op gesimuleerde data', the end line reads 'Er vertrekt niets automatisch', the privacy policy states one-contact prospecting with deletion after 30 days, and config.js header says 'No prices live on the site'. Copy places that currently overclaim and must be rewritten in any package touching them: hero lede and tags, Oplossingen beat 3, the six-card deck (AI-systemen, Automatisering, Data & leads, Ontwerp & branding), FAQ 05, the simulatie CTA 'met jouw echte oproepen', privacy 'een medewerker', tools tip q4 statistic."
+]
+},
+"capabilities": {
+"capabilities": [
+{
+"name": "Autonome pipeline: verkennen, gratis voorbeeld bouwen, outreach met menselijke goedkeuring (human-in-the-loop)",
+"status": "works-today",
+"evidence": "Ground truth (1). In-repo: src/pages/index.html sections #lab ('een verkenner die zaken vindt, een bouwer die het voorbeeld maakt, een controle die alles meet'; 'Snymis keurt elke stap goed. Er vertrekt geen bericht dat hij niet gelezen heeft') and #werkwijze (gratis voorbeeld met echte gegevens -> jij beslist -> offerte op maat). docs/demo/radar/index.html describes the same four-step method (Zoeken, Meten, Bouwen, Bellen) and repeats 'in de echte pipeline keurt Snymis elk bericht goed'. The four fictional demo sites plus docs/assets/js/preview.js are output of the 'bouwer' step. Note: the Radar UI itself is a concept with fictional data; the pipeline behind it is real.",
+"clientValue": "Een zaak zonder (goede) website krijgt een werkend voorbeeld met haar echte uren, adres, foto's en reviews te zien voordat ze ook maar iets beslist of betaalt, en wordt pas gecontacteerd nadat een mens elk bericht heeft gelezen.",
+"simulationIdea": "Een 'volg een voorbeeld van scan tot gesprek'-tijdlijn: de bezoeker kiest een fictieve zaak en ziet stap voor stap wat de verkenner vond, welke publieke gegevens de bouwer gebruikte, het gebouwde voorbeeld op een gsm-frame, en een outreach-bericht dat op 'wacht op goedkeuring van Snymis' blijft staan tot de bezoeker zelf op 'Goedkeuren' klikt (duidelijk gelabeld gesimuleerd; er wordt niets verstuurd)."
+},
+{
+"name": "Simulatieruimte: agent leest grafieken en geeft advies",
+"status": "works-today",
+"evidence": "Ground truth (2). docs/simulatie.html + docs/assets/js/sim.js (322 lines, GSAP master timeline, pauses when tab hidden or room off-screen, lite mode via localStorage sts-lite, reticle only changes transforms) + docs/assets/js/sim-data.js (three fictional businesses: Bakkerij Noordpool, Kapsalon Lumen, Garage Verhulst; four charts each: oproepen, Google 'open nu', reviews, websitebezoek/laadtijd; 4 findings and 3 ranked adviezen per business). Every screen carries 'gesimuleerd' / 'fictief' labels, the end line reads 'Advies klaar. Wacht op goedkeuring van Snymis. Er vertrekt niets automatisch.' and the page footer says 'Alle zaken, cijfers en bevindingen op deze pagina zijn verzonnen. De methode is echt.' Status honest framing: the on-site simulation is a scripted replay of the real method on invented data, not a live analysis of the visitor's own data.",
+"clientValue": "Een zaak ziet in enkele minuten hoe gemiste oproepen, foute openingsuren op Google, onbeantwoorde reviews en een trage mobiele site samen klanten kosten, vertaald naar drie concrete acties gerangschikt op impact.",
+"simulationIdea": "Bestaat al; uitbreiding: een 'wat als'-schuif per advies (bijvoorbeeld: WhatsApp-bestelknop aan/uit, reviews beantwoord binnen 24 u) die de fictieve grafiek herberekent en toont hoeveel gemiste oproepen of klachten wegvallen, met de vaste vermelding 'schatting op gesimuleerde data'. Plus een vierde sector (praktijk of aannemer) zodat meer bezoekers hun eigen situatie herkennen."
+},
+{
+"name": "Radar: onderzoekstool die zaken zonder goede website vindt en scoort (concept)",
+"status": "works-today",
+"evidence": "Ground truth (3) lists 'the Radar concept' under works-today. docs/demo/radar/index.html (151 lines) + ascii.js, bg.js, chart.js: holographic dashboard with scan counters, district map, agent log ('4 agenten + 1 mens'), a filterable table of 24 fictional candidates with a vindbaarheidsscore (0-100, lower = stronger candidate), weekly scan charts with table fallback, and the four-step method. The page itself states 'Radar v0.3 · concept', 'Alle zaken, namen en cijfers op deze pagina zijn verzonnen; niets is live' and 'Radar is een productconcept ... geen live systeem'. So: the scouting/scoring capability is real inside the pipeline; the public Radar page is a concept visualisation of it with fictional data, and the site must keep saying so.",
+"clientValue": "Een zaak hoort niet zomaar van STS: ze is gevonden omdat klanten haar 's avonds op hun gsm niet of slecht vinden, en krijgt een meetbare vindbaarheidsscore (vermeldingen, reviews, laadtijd, mobiel, https) in plaats van een verkoopverhaal.",
+"simulationIdea": "Een 'scoor een fictieve zaak zelf'-paneel: de bezoeker zet zes signalen aan of uit (Google-profiel, https, mobiel, laadtijd, reviews, foto's) en ziet live hoe de vindbaarheidsscore verschuift en wat de verkenner als volgende stap zou voorstellen; de bestaande kandidatentabel blijft fictief en zo gelabeld. Statisch, volledig in de browser."
+},
+{
+"name": "Vier fictieve demo-sites op maat (Brasserie Meridiaan, Garage Verhulst, Barbier Boris, Radar)",
+"status": "works-today",
+"evidence": "Ground truth (4). docs/demo/brasserie-meridiaan (reservatie-aanvraag met slots, menukaart met filters, live open/gesloten uit uren, gescripte chat-assistent in forms.js met ids chat-form/chat-log/chat-chips), docs/demo/garage-verhulst (werkplaatsbord split-flap in flap.js, richtprijs-calculator #calc-form/#calc-out, afspraak-aanvraag, keuringschecklist), docs/demo/barbier-boris (boeken in vier stappen in booking.js, voor-en-na-slider in slider.js), docs/demo/radar. Each demo self-hosts its fonts (no external requests), each index.html says 'fictieve zaak ... verzonnen voor deze demo', and src/pages/demos.html states 'Fictieve namen, prijzen en adressen; de techniek erachter is echt'.",
+"clientValue": "Een zaak ziet dat ze geen sjabloon krijgt maar een eigen stijl met werkende interacties (boeken, reserveren, richtprijs, werkplaatsbord, chat met de echte uren) die ze zelf op haar gsm kan uitproberen.",
+"simulationIdea": "Een 'kies je eigen sector'-vergelijker: de bezoeker kiest horeca, garage of kapper en krijgt naast elkaar het fictieve 'voor' (een typische verouderde pagina: geen belknop, oude foto's, trage laadbalk) en het 'na' (de demo), met een schuif die het verschil in één beweging toont; alles gelabeld als fictief voorbeeld, geen cijfers over echte klanten."
+},
+{
+"name": "Directe schets 'Typ je zaak. Zie je site.' in de browser",
+"status": "works-today",
+"evidence": "docs/assets/js/preview.js (65 lines): renders a sector-specific site sketch in a phone frame from name, sector and gemeente; eight sectors (horeca, kapper, garage, bakkerij, winkel, diensten, praktijk, anders); the hours block says 'Voorbeeld. Jouw echte uren komen hier.'; the page copy says 'Een eerste schets ... Er wordt niets verstuurd' and 'Blijft in je browser. Geen account, geen e-mail nodig.' The CTA pre-fills the contact message. This is the public, instant front door to the pipeline's 'bouwer' step.",
+"clientValue": "Een eigenaar ziet binnen enkele seconden hoe zijn zaak er op een gsm kan uitzien, zonder iets te sturen of te beloven, en kan met één klik het echte gratis voorbeeld aanvragen.",
+"simulationIdea": "Bestaat al; uitbreiding: een tweede stap 'Zie wat er verandert' waarin de bezoeker op de schets een belknop, WhatsApp-knop of 'nu open'-badge aan- en uitzet en meteen ziet welke elementen een klant 's avonds nodig heeft; voorbeeldteksten blijven gemarkeerd als voorbeeld."
+},
+{
+"name": "Gratis gereedschap: Zichtbaarheidscheck, WhatsApp-knop + QR-code, Google-voorbeeld",
+"status": "works-today",
+"evidence": "Ground truth (5). docs/gereedschap.html + docs/assets/js/tools.js (128 lines) + self-hosted vendor/qrcode.min: Zichtbaarheidscheck (six questions -> score 0-100 with ring, three prioritised tips, CTA with prefilled subject), WhatsApp tool (Belgian number normalisation 0470... -> 32470..., wa.me link, copyable HTML button, downloadable QR PNG drawn on canvas), Google result preview (pixel-width truncation of title/description with length judgement, fictional 'Bakkerij Sterrenhemel'). Page states 'Alles gebeurt in je eigen browser; wat je invult, verlaat je toestel niet.'",
+"clientValue": "Een zaak krijgt vandaag al iets bruikbaars zonder account of verplichting: een eerlijke zichtbaarheidsscore met drie stappen, een WhatsApp-knop en QR-code voor kassa of etalage, en zekerheid dat haar Google-titel niet afgekapt wordt.",
+"simulationIdea": "Een 'openingsuren-check' als vierde tool: de bezoeker vult zijn echte uren in en de tool toont (lokaal, zonder verzending) hoe die eruitzien in een Google-kaart, een WhatsApp-autoreply en de site, met een waarschuwing wanneer feestdagen of een middagpauze ontbreken; geen externe oproepen, geen data verlaat de browser."
+},
+{
+"name": "Kawa: lokale AI-assistent met geheugen (draait op Ollama)",
+"status": "prototype",
+"evidence": "Ground truth only ('a local AI assistant Kawa, runs on Ollama, has memory/inner life'). No code in this repo; the closest on-site traces are the research item 'Antwoord buiten de uren' (index.html #onderzoek, state Onderzoek) and the scripted, non-AI chat in the Brasserie demo. Must be presented as prototype in het lab, not as a product, and never as live on the site (static build, no backend).",
+"clientValue": "Op termijn: een assistent die vragen van klanten beantwoordt met de echte uren, menu en prijzen van de zaak en doorstuurt waar hij niet zeker is, lokaal en zonder dat klantgegevens naar een externe dienst gaan.",
+"simulationIdea": "Een gescripte 'gesprek met een assistent van een fictieve zaak': de bezoeker kiest uit voorgestelde vragen (open vanavond? taart bestellen? parkeren?) en ziet antwoorden die uitsluitend uit het fictieve uren- en menublok komen, met zichtbaar de bron per antwoord en een 'ik weet het niet, ik geef dit door aan de zaak'-pad; gelabeld 'gescripte simulatie, geen live AI'. Static-compatible because the dialogue tree is a JSON file."
+},
+{
+"name": "sts-world: 3D operations-dashboard",
+"status": "prototype",
+"evidence": "Ground truth only ('a 3D ops dashboard (sts-world)'). No code in this repo. Related on-site capability: the Three.js night-city scene (docs/assets/js/scene.js + scene/{city,sky,intro}.js) and the Radar dashboard show the same visual language, but that is site decoration, not the ops dashboard.",
+"clientValue": "Op termijn: één overzicht waarin een zaak (of STS zelf) in één oogopslag ziet wat de agents gedaan hebben, wat op goedkeuring wacht en wat live is, in plaats van losse lijsten en mails.",
+"simulationIdea": "Een lichte 2D/isometrische 'controlekamer' (geen zware WebGL, DPR-cap, pauze bij verborgen tab) met de bestaande fictieve Radar-data: elke kandidaat is een gebouwtje, de bezoeker klikt erop en ziet status en de laatste agent-regel, en een 'wachtrij voor Snymis' licht op bij elk item dat goedkeuring vraagt; gelabeld concept met fictieve data."
+},
+{
+"name": "webshot: screenshot-actor",
+"status": "prototype",
+"evidence": "Ground truth only ('a screenshot actor (webshot)'). No code in this repo; conceptually it is the 'meter' step of Radar (laadtijd, mobiel, https) and the QA that the site docs describe for the four demo images in docs/assets/img/demo, but those were produced for the site, not by a visitor-facing tool.",
+"clientValue": "Op termijn: een eerlijke foto en meting van hoe de huidige site van een zaak er op een gsm uitziet en hoe snel ze laadt, als startpunt voor het gesprek in plaats van een mening.",
+"simulationIdea": "Een 'zo ziet je site eruit op een gsm om 19 u'-vergelijker met vooraf gemaakte, duidelijk fictieve voorbeeldschermen (traag/snel, met/zonder belknop) en een gesimuleerde laadtijdbalk waar de bezoeker de verbinding (4G, slechte wifi) kiest; geen echte capture van sites van derden op een statische site."
+},
+{
+"name": "Antwoord buiten de uren via WhatsApp met echte uren en prijzen",
+"status": "idea",
+"evidence": "src/pages/index.html #onderzoek item 01, state 'Onderzoek'; sim-data.js advice entries ('Automatisch antwoord buiten de uren, met de eerstvolgende vrije plaats'). Ground truth: everything beyond the listed items is 'in onderzoek'.",
+"clientValue": "De 27 tot 37 procent van de klanten die 's avonds 'open nu' zoekt (fictieve cijfers uit de Simulatieruimte) krijgt meteen een juist antwoord in plaats van een gemiste oproep.",
+"simulationIdea": "Een klok-schuif op een fictieve zaak: de bezoeker draait de tijd naar 19 u, 7 u of zondag en ziet welk automatisch antwoord een klant zou krijgen en wanneer het bericht in plaats daarvan 'naar de eigenaar' gaat; gelabeld onderzoeksidee, gesimuleerd."
+},
+{
+"name": "Reviews beantwoorden in jouw toon (voorstel, eigenaar keurt goed)",
+"status": "idea",
+"evidence": "src/pages/index.html #onderzoek item 02, state 'Onderzoek' ('Jij keurt goed met één tik; er gaat niets vanzelf online'); recurring advice in sim-data.js ('Reviews beantwoorden binnen 24 u, in jouw toon').",
+"clientValue": "Een zakkende score door onbeantwoorde reviews stopt, zonder dat de eigenaar elke avond zelf teksten moet schrijven, en zonder dat er ooit iets zonder zijn goedkeuring online gaat.",
+"simulationIdea": "Drie fictieve reviews (goed, gemengd, slecht) met per review twee vooraf geschreven antwoordvoorstellen in verschillende toon; de bezoeker kiest, past aan en klikt 'Goedkeuren', waarna het antwoord enkel lokaal onder de review verschijnt; gelabeld gesimuleerd, geen AI-oproep, geen echte Google-koppeling."
+},
+{
+"name": "Offerte in één minuut uit foto of spraakbericht",
+"status": "idea",
+"evidence": "src/pages/index.html #onderzoek item 03, state 'Onderzoek'; sim-data.js Garage Verhulst advice 'Offerte- en afspraakformulier met automatische ontvangstbevestiging' and the richtprijs-calculator in docs/demo/garage-verhulst show the simpler, working precursor.",
+"clientValue": "Een aannemer of garage stuurt na een klantbezoek geen 'offerte komt nog' meer: de klant krijgt sneller een nette offerte in de huisstijl en er gaan minder opdrachten verloren aan wie sneller antwoordt.",
+"simulationIdea": "Een fictief werkbriefje (vooraf ingevuld: 'badkamer, 6 m2 tegels, nieuwe kraan') dat de bezoeker met een klik laat omzetten in een voorbeeldofferte-layout zonder prijzen (posten en hoeveelheden alleen, met 'prijs per klant'), gelabeld concept; toont de structuur, niet een bedrag, zodat de geen-prijzen-regel blijft gelden."
+},
+{
+"name": "Data & leads: contacten automatisch verzamelen en filteren",
+"status": "idea",
+"evidence": "src/pages/index.html card 'Data & leads' claims 'Duizenden contacten automatisch verzameld, gefilterd op relevantie'. The ground truth only confirms the scouting of businesses without a good site for STS's own pipeline; it does not list lead generation as a service for clients. Treat as idea/in onderzoek and soften the current card copy, which overclaims.",
+"clientValue": "Op termijn: een zaak die B2B werkt (aannemer, groothandel) krijgt een gefilterde lijst van relevante contacten in plaats van handmatig zoekwerk.",
+"simulationIdea": "Niet aanbevolen als aparte simulatie; de Radar-kandidatentabel (fictief) toont het principe al. Hooguit een filterdemo op dezelfde fictieve dataset met het label 'onderzoek'."
+}
+],
+"whatSTSReallyIs": "STS Digital (Star.Tec.Solutions) is een jonge AI-onderzoeksstudio uit Antwerpen die agents en kleine digitale tools bouwt voor lokale zaken in Vlaanderen, en die zijn eigen werk er al mee doet: een pipeline die zaken zonder goede website vindt, een gratis voorbeeld bouwt met hun publieke gegevens en pas contact opneemt nadat Snymis elk bericht zelf heeft goedgekeurd. De website op maat is de toegangsdeur, niet het product: wat daarna komt is doorlichting (de Simulatieruimte toont de methode), gratis gereedschap, en per zaak gebouwde systemen die werk overnemen, met altijd een mens die beslist voor er iets vertrekt. Alles wat nog niet bewezen is, heet op de site eerlijk prototype of onderzoek; alles wat op de site te testen is, draait op fictieve data en zegt dat ook.",
+"honestLimits": [
+"Eén persoon (Snymis) doet verkennen, bouwen, controleren, goedkeuren en support; capaciteit is dus beperkt en doorlooptijden hangen daarvan af.",
+"Jong bedrijf zonder kantoor; werkt vanuit Antwerpen, op afstand voor Vlaanderen en Brussel, bezoek op vraag.",
+"Geen gepubliceerde referenties of reviews van echte klanten; de vier demo's en de Simulatieruimte zijn fictief en zo gelabeld, en de site mag geen tellers, testimonials of schaarste tonen die niet bestaan.",
+"De publieke Radar-pagina is een concept met verzonnen data; alleen de pipeline erachter is echt, en de site moet dat onderscheid blijven maken.",
+"Kawa (lokale assistent), sts-world (3D-dashboard) en webshot (screenshot-actor) zijn prototypes die niet in deze repo zitten en niet live op de site kunnen draaien (statische build, geen backend, geen accounts, geen externe oproepen).",
+"De Simulatieruimte en de schets op de startpagina analyseren of bouwen niets van de bezoeker zelf; het echte voorbeeld en de echte doorlichting gebeuren pas na contact en met toestemming.",
+"Het contactformulier verstuurt via de mailapp of WhatsApp van de bezoeker (EmailJS is niet geconfigureerd en zou een externe oproep zijn); het tijdelijke e-mailadres in config.js is nog geen bedrijfsadres en de wettelijke identiteitsvelden (adres, KBO, btw) zijn nog leeg.",
+"Geen prijzen op de site: elke offerte volgt pas na een gratis voorbeeld en een gesprek, wat betekent dat een bezoeker vooraf geen budgetindicatie krijgt.",
+"De huidige kaart 'Data & leads' op de startpagina ('duizenden contacten automatisch verzameld') overclaimt ten opzichte van de ground truth en hoort bij 'in onderzoek' of moet herschreven worden.",
+"Performance: de Three.js-stad en de simulaties moeten op zwakke GPU's blijven werken (DPR-cap 1,5, lite-modus, pauze bij verborgen tab); elke nieuwe simulatie erft die beperking."
+]
+},
+"psychology": {
+"buyerProfiles": [
+{
+"who": "HORECA-UITBATER (café, brasserie, frituur, pizzeria; 1 zaak, 0-6 personeel; 35-55 jaar; Antwerpen en rand). Werkt 60+ uur, staat zelf achter de toog of in de keuken, telefoon ligt op de kassa. Bijna alle horecaberoepen zijn knelpuntberoepen (VDAB 2025), dus hij doet alles zelf. Beslist op buikgevoel en op wat collega-uitbaters zeggen.",
+"fears": "Dat de zaak niet overleeft (horeca is een van de zwaarst getroffen sectoren in de Graydon-faillissementscijfers 2025: 841 faillissementen in 5 maanden); dat de telefoon rinkelt terwijl hij bedient en dat die klant naar de concurrent belt (Moneypenny: 33% van microbedrijven neemt niet op, 69% van bellers laat geen voicemail achter); dat een slechte Google-review hem kapotmaakt; dat hij vastzit aan een maandabonnement voor een site die niemand bezoekt; dat Takeaway/Deliveroo-achtige platformen zijn marge opeten; burn-out (langdurige uitval zelfstandigen door psychische problemen +70% tussen 2018 en 2024, Unizo/RIZIV).",
+"pride": "Zijn kaart, zijn vaste klanten, zijn sfeer, zijn terras, zijn chef. 'Mensen komen voor mij, niet voor een website.' Trots op lokale verankering en op het feit dat hij het al jaren volhoudt in een moeilijke sector.",
+"objections": "'Ik heb Facebook en Instagram, dat volstaat.' 'Ik heb geen tijd om dat te onderhouden.' 'Websitebouwers beloven gouden bergen en dan zie ik ze nooit meer.' 'Wat kost dat per maand?' (prijsangst zonder prijs te horen). 'AI aan mijn klanten laten antwoorden? Mijn klanten willen mij horen' (ServiceNow 2025: de meeste Belgen verkiezen een mens boven een chatbot; 51% vindt dat AI de emotionele context niet begrijpt). 'Mijn openingsuren staan toch op Google.'",
+"trustSignals": "Dat je zijn zaak al kent (juiste openingsuren, juiste kaart, een foto van zijn gevel in het voorbeeld); dat je uit de buurt bent en langskomt op een rustig moment (dinsdagnamiddag, niet vrijdagavond); een werkend voorbeeld vóór enig gesprek; geen contract, geen abonnement op de site; een echte persoon met een voornaam (Snymis) die elk bericht leest; andere horecazaken in de buurt die hij kan bellen (zodra er echte zijn, nooit verzonnen); duidelijkheid dat de demo-brasserie fictief is."
+},
+{
+"who": "KAPPER / BARBIER (salon met 1-3 stoelen, vaak zelfstandige zonder personeel; 25-45 jaar; sterk visueel ingesteld, leeft op Instagram). Afspraken via telefoon, Instagram-DM en WhatsApp tussen twee klanten door; soms een boekingstool (Salonkee, Optios) die niet gekoppeld is aan de site.",
+"fears": "No-shows en lege gaten in de agenda; de telefoon opnemen met een schaar in de hand en de klant in de stoel negeren; nieuwe kappers die 'goedkoper en hipper' openen om de hoek; dat de site er goedkoper uitziet dan het salon zelf (esthetische schaamte); dat online boeken de persoonlijke band wegneemt; afhankelijkheid van Instagram-algoritme.",
+"pride": "Vakmanschap en stijl: before/after-foto's, kleurwerk, baardlijnen, de look van het salon. De klantenband ('ik ken hun kinderen bij naam'). Zelfstandig zijn op jonge leeftijd.",
+"objections": "'Mijn Instagram is mijn website.' 'Een boekingsapp heb ik al.' 'Ik wil niet dat een robot mijn klanten antwoordt.' 'Ik heb niet de tijd om foto's aan te leveren.' 'Iemand uit mijn familie kan dat ook maken.' 'Is dat wel iets voor een kleine zaak als de mijne?'",
+"trustSignals": "Dat het voorbeeld eruitziet als zíjn salon (kleuren, foto's uit de publieke Instagram, zijn naam juist gespeld); dat de demo Barbier Boris duidelijk fictief is maar herkenbaar goed oogt; een WhatsApp-QR die hij meteen kan gebruiken zonder iets te kopen; dat de maker ook jong, zelfstandig en lokaal is (gelijkenis schept vertrouwen); dat zijn bestaande boekingstool mag blijven; geen 'pakketten' of upsell."
+},
+{
+"who": "GARAGIST / CARROSSERIE (familiegarage of onafhankelijke werkplaats, 1-5 mensen; zaakvoerder 45-60, vaak tweede generatie; echtgenote of dochter doet administratie). Klanten bellen voor onderhoud, keuring, bandenwissel; piekmomenten bij seizoenswissel; weinig tijd overdag, handen vuil.",
+"fears": "Dat jonge klanten naar ketens en merkdealers gaan omdat die online kunnen boeken; dat zijn site uit 2009 hem oud doet lijken; gemiste oproepen tijdens het werk onder de brug; opvolgingsvragen; dat 'digitaal' betekent dat hij alles moet veranderen; opgelicht worden door verkopers die bellen over 'uw Google-vermelding'; dat de software de werkplaats stillegt als ze faalt.",
+"pride": "Eerlijk werk, eerlijke factuur, klanten die al 20 jaar komen, technische kennis die de dealer niet heeft. 'Hier wordt nog gerepareerd in plaats van vervangen.'",
+"objections": "'Mijn klanten komen via mond-tot-mond.' 'Ik heb al een site (ook al werkt ze niet op gsm).' 'Mijn zoon/dochter regelt dat wel.' 'Ik vertrouw niets wat ik niet kan zien.' 'Wat gebeurt er als jij ermee stopt?' (continuïteitsangst bij een eenmanszaak als leverancier). 'Wij hebben al genoeg werk' (werkdruk als afweer).",
+"trustSignals": "Correcte technische details in het voorbeeld (merken, keuringsvoorbereiding, bandenhotel); een demo Garage Verhulst die zich gedraagt als een echte garage; uitleg in gewone woorden, geen Engelse termen; duidelijkheid over wie eigenaar is van de site en de domeinnaam (klant); fysiek langsgaan met een laptop en tonen, niet mailen; het 'Snymis keurt alles goed'-principe uitgelegd als 'er vertrekt niets vanzelf'; de belofte dat de bestaande telefoon gewoon blijft werken."
+},
+{
+"who": "BAKKER / BUURTWINKEL (warme bakker, slager, kaaswinkel, nachtwinkel niet; 40-60 jaar; dag begint om 4 uur; partner aan de toonbank). Zeer lokaal, zeer gekend in de straat, maar onvindbaar voor wie nieuw in de buurt is.",
+"fears": "Supermarkt en bake-off-ketens; dalende passage in de winkelstraat; bestellingen voor feestdagen die via telefoon fout lopen; energie- en grondstofkosten (50% van ondernemers heeft continu geldzorgen, Unizo 2026); dat 'online bestellen' betekent dat hij 's nachts ook nog mails moet beantwoorden; technologie die hij niet begrijpt en die zijn partner moet bedienen.",
+"pride": "Ambacht, recepten, kwaliteit, vroeg opstaan, 'wij bakken nog zelf'. De plek in de buurt: mensen kennen hem bij naam. Wint soms lokale prijzen (bv. Winkelhier van het Jaar-sfeer).",
+"objections": "'Mijn klanten zijn ouder, die zoeken niet online.' 'Ik heb geen tijd om foto's te maken.' 'Dat is iets voor grote winkels.' 'Ik wil geen webshop, ik wil klanten in de winkel.' 'Ik versta dat allemaal niet.'",
+"trustSignals": "Dat het voorbeeld eenvoudig is en zijn échte openingsuren, feestdagensluiting en specialiteiten toont; dat iemand het komt uitleggen aan de toonbank op een rustig moment (na 14u); dat de site hem géén extra werk oplevert (geen bestelmodule tenzij hij wil); dat Google Bedrijfsprofiel en WhatsApp dingen zijn die hij al kent; Vlaamse, warme toon, u-vorm bij deze groep aanvaardbaar; een bewijs dat nieuwe buurtbewoners via 'bakker bij mij in de buurt' zoeken (Think with Google: 76% bezoekt binnen een dag een zaak)."
+},
+{
+"who": "AANNEMER / VAKMAN (schrijnwerker, loodgieter, elektricien, dakwerker, tuinaannemer; eenmanszaak of 1-3 man; 30-50 jaar). Hele dag op de werf, gsm in de zak, offertes 's avonds aan de keukentafel. Zes op tien aannemers zien hun marge krimpen en klanten stellen investeringen uit (Embuild/Voka 2026).",
+"fears": "Avonden en weekends kwijt aan offertes en opvolging; aanvragen die hij niet beantwoordt en zo verliest (41% van bouwbedrijven nam de telefoon niet op in het Moneypenny-rapport); klanten die drie offertes vragen en hem als prijsvergelijking gebruiken; slechte betalers; een site die 'professioneel' oogt maar toch niets oplevert; administratieve verplichtingen (e-facturatie sinds 2026); de concurrentie van grote aannemers met marketingbudget.",
+"pride": "Zijn afgewerkte werven (foto's!), referenties van buren, vakkennis, 'ik kom op tijd en ik ruim op'. Onafhankelijkheid.",
+"objections": "'Ik heb werk genoeg, ik moet geen klanten zoeken' (maar wel betere klanten). 'Ik heb geen tijd om een vragenlijst in te vullen.' 'Mijn vorige site heeft nooit een klant opgeleverd.' 'Platformen zoals offertesites verkopen mijn lead aan vijf anderen.' 'Als ik niet opneem is het omdat ik aan het werk ben, dat is normaal.'",
+"trustSignals": "Een voorbeeld dat zijn werven toont en een aanvraagformulier dat de juiste vragen stelt (type werk, adres, timing) zodat hij 's avonds niet moet bellen; een gesimuleerde 'offerte-opvolging' waarin hij ziet hoeveel avonduren hij terugkrijgt, duidelijk gelabeld als fictief; de belofte dat hij elk bericht zelf goedkeurt (controle over zijn naam); dat hij de maker kan bellen en een mens krijgt; mond-tot-mond via een andere vakman; geen jargon, geen 'leads' maar 'aanvragen'."
+},
+{
+"who": "ZORGPRAKTIJK (huisartsen-groepspraktijk, kinesist, tandarts, psycholoog, dierenarts; 35-55; vaak een praktijkmanager of secretariaat). Hoogopgeleid, voorzichtig, gebonden aan deontologie (Orde der artsen: informeren mag, reclame niet) en aan de GDPR voor gezondheidsgegevens. Telefonische bereikbaarheid is het eeuwige pijnpunt (NL-cijfers: 30% van patiënten ervaart telefonische bereikbaarheid als probleem; geen Vlaamse studie gevonden).",
+"fears": "Privacy-inbreuk op patiëntgegevens (91% van ondernemers heeft privacyzorgen bij AI, Ipsos/Centraal Beheer NL); AI die medisch advies geeft en aansprakelijkheid creëert; de AI Act (transparantieplicht art. 50 sinds aug. 2026); dat een 'commerciële' site de Orde of collega's tegen de haren strijkt; overbelast secretariaat; patiënten die boos zijn omdat ze niemand aan de lijn krijgen; afhankelijkheid van software die niet door een gekend bedrijf wordt onderhouden.",
+"pride": "Zorgkwaliteit, bereikbaarheid voor hun patiënten, het team, erkenning, wetenschappelijke correctheid. Willen gezien worden als zorgzaam en modern, niet als commercieel.",
+"objections": "'Wij mogen geen reclame maken.' 'Gezondheidsdata en AI, dat is te risicovol.' 'Wij hebben al een softwarepakket (medisch dossier, online agenda).' 'Een eenmanszaak als leverancier voor een praktijk met 6 artsen? Wie garandeert continuïteit?' 'Wij hebben geen marketing nodig, wij hebben een patiëntenstop.'",
+"trustSignals": "Expliciete scheiding: website en informatie-automatisering, nooit medische inhoud of patiëntendossiers; duidelijke privacyverklaring en uitleg dat de site statisch is en geen gegevens opslaat; de human-in-the-loop-belofte als veiligheidsmechanisme; voorzichtige, informatieve toon in de u-vorm; een demo-praktijk die fictief is en dat zegt; verwijzing naar wat prototype is (Kawa) en wat niet; bereidheid om nee te zeggen tegen wat deontologisch niet kan; geen stockfoto's van artsen."
+}
+],
+"honestEmotionalLevers": [
+{
+"lever": "De gemiste oproep (angst om onzichtbaar te zijn op het moment dat het telt)",
+"howOnSite": "Een scenario in de Simulatieruimte (docs/simulatie.html, sim.js/sim-data.js) 'Een dinsdag in een fictieve zaak': een tijdlijn van 09:00 tot 19:00 waar oproepen binnenkomen terwijl de uitbater bezig is; de bezoeker schakelt zelf 'niemand neemt op' / 'bericht + terugbel-belofte' om en ziet het verschil. Alle cijfers hard gelabeld 'gesimuleerd, fictieve zaak', geen eurobedragen, geen 'u verliest X klanten'. Daarnaast de bestaande zichtbaarheidscheck in gereedschap.html als tastbare, echte check van hun eigen Google-vermelding.",
+"why": "Verlies weegt zwaarder dan winst, maar het moet eerlijk: de enige brede data (Moneypenny 2016: 33% van microbedrijven neemt niet op, 69% van bellers laat geen voicemail achter; CallRail: meerderheid belt een concurrent) zijn Brits/Amerikaans en oud, dus mag de site ze enkel als bron vermelden en nooit als belofte over de bezoeker zijn zaak. De simulatie laat de bezoeker het zelf voelen zonder dat jij iets beweert."
+},
+{
+"lever": "Trots: de spiegel (je ziet je eigen zaak, mooier dan je ze ooit zag)",
+"howOnSite": "De bestaande 'Typ je zaak. Zie je site.'-preview (preview.js) uitbouwen tot de centrale handeling van de homepage: naam + sector + gemeente geeft meteen een herkenbare voorpagina in de stijl van die sector. De vier fictieve demo's (Brasserie Meridiaan, Barbier Boris, Garage Verhulst, Radar) fungeren als sectorspiegels; elke demo begint met een zin 'Dit is een fictieve zaak. Jouw versie bouwen we met jouw echte gegevens.' Het échte gratis voorbeeld (uit de pipeline) wordt op de site uitgelegd als stap 1 van de werkwijze.",
+"why": "Ondernemers zijn trots op hun zaak, niet op technologie. Een voorbeeld gebouwd met hun publieke data (foto's, kaart, uren) is de meest overtuigende en meest eerlijke vorm van bewijs: ze beoordelen hun eigen zaak, niet een verkooppraatje. Het sluit aan bij Unizo's 'winkelhieren'-trots op lokale zaken."
+},
+{
+"lever": "Opluchting en controle (er vertrekt niets zonder dat een mens het las)",
+"howOnSite": "De human-in-the-loop-belofte niet als badge maar als zichtbare stap in elke flow: in de Simulatieruimte eindigt elke agent-actie in een kaart 'Wacht op goedkeuring van Snymis', en pas na een tik op 'Goedkeuren' (door de bezoeker, in de simulatie) gaat ze verder. Op de homepage de bestaande zin 'Er vertrekt geen bericht dat hij niet gelezen heeft' behouden en koppelen aan een kort 'hoe werkt dat'-paneel. In privacy.html blijft de belofte letterlijk staan.",
+"why": "De grootste AI-angsten bij ondernemers zijn controleverlies en privacy (Ipsos/Centraal Beheer: slechts 5% vertrouwt AI-advies bij beslissingen, 91% privacyzorgen; KPMG/Melbourne 2025: minder dan de helft vertrouwt AI). Een echte mens die alles goedkeurt is waar, controleerbaar en past bij de AI Act-transparantieplicht. Het verandert 'AI' van bedreiging in assistent."
+},
+{
+"lever": "Erkenning van vakmanschap (wij praten over jouw vak, niet over het onze)",
+"howOnSite": "Sectorkeuze bovenaan (horeca, kapper, garage, bakker, aannemer, praktijk) die de voorbeelden, de simulatiescenario's en de woordkeuze aanpast: bij de aannemer gaat het over 'aanvragen en offertes', bij de kapper over 'afspraken en lege stoelen', bij de praktijk over 'telefoondruk op maandagochtend'. Geen enkele paragraaf over Three.js, agents of modellen op de voorpagina; techniek staat op een 'onder de motorkap'-pagina voor wie wil.",
+"why": "VLAIO/EWI noemen gebrek aan kennis de grootste drempel voor kleine bedrijven; Teamleader 'Amai, AI?!' toont dat eenmanszaken het verst achterop staan (26% gebruikt AI nauwelijks of niet). Wie zich dom voelt, koopt niet. Wie zich gezien voelt in zijn vak, luistert."
+},
+{
+"lever": "Verwondering (dit had ik niet verwacht van een lokaal bureau)",
+"howOnSite": "De nachtstad in Three.js (scene.js, city/sky/intro) blijft het eerste beeld, maar krijgt betekenis: elk verlicht gebouw is een type zaak en reageert op de sectorkeuze; donkere gevels zijn 'zaken die niemand vindt'. De slogan 'Where imagination can reach up to the stars.' staat eenmalig in het intro. Lite-modus en pauze-bij-verborgen blijven verplicht, want een trage site vernietigt precies dit gevoel.",
+"why": "Een eenmanszaak zonder reclamebudget heeft maar één onderscheidend kanaal: de site zelf. Verwondering wekt nieuwsgierigheid en doorsturen ('kijk eens wat die gast gemaakt heeft'), wat gratis bereik is. Het moet wel eerlijk blijven: het beeld belooft ambitie, de copy belooft enkel wat vandaag werkt."
+},
+{
+"lever": "Veiligheid zonder risico (eerst zien, dan praten, nooit een handtekening op de site)",
+"howOnSite": "Een werkwijze-strook in drie stappen: 1. Wij bouwen een voorbeeld met jouw publieke gegevens. 2. Jij bekijkt het, zonder verplichting. 3. Als het klikt, bespreken we samen wat je nodig hebt, prijs op maat. Geen prijzen, geen pakketten, geen 'bestel'-knop; de enige acties zijn 'Toon mij een voorbeeld' en 'Stuur een berichtje via WhatsApp of mail'. Vermeld expliciet: de klant is eigenaar van domeinnaam en inhoud.",
+"why": "Flemish SMEs noemen kost en tijd als hoofddrempels en zijn gebrand door bureaus met verborgen onderhoudskosten (ClickForest-blog: 'van wie is je site straks?'). Risico wegnemen werkt beter dan voordelen opstapelen, zeker bij een jong bedrijf zonder trackrecord."
+},
+{
+"lever": "Tijd terug (avonduren voor jezelf in plaats van voor administratie)",
+"howOnSite": "Een tweede simulatiescenario 'Een week offertes' of 'Een week afspraken' waarin de bezoeker ziet hoe aanvragen gestructureerd binnenkomen en wat een assistent voorbereidt (en wat de mens beslist). Resultaat getoond in uren per week met het label 'fictieve week, ter illustratie', nooit als garantie. Verbonden met de burn-out-realiteit in één eerlijke zin, zonder dramatiek.",
+"why": "Unizo/RIZIV: langdurige uitval van zelfstandigen door burn-out en depressie steeg 70% tussen 2018 en 2024; 50% heeft continu geldzorgen. 'Rust' en 'tijd' zijn voor deze doelgroep sterkere drijfveren dan 'groei'. Het is ook waar: automatisering van opvolging is wat de pipeline vandaag al doet voor de founder zelf."
+},
+{
+"lever": "Lokale verbondenheid (iemand van hier, die hier langskomt)",
+"howOnSite": "Antwerpen overal zichtbaar: plaatsnamen in de demo's (Berchem, Deurne, Mortsel, Hoboken in plaats van Nederlandse steden), een 'Ik kom langs'-knop die een WhatsApp-bericht voorstelt, en een 'Waar wij nu rondlopen'-kaartje met wijken waar voorbeelden gebouwd worden (alleen als dat klopt). Contactgegevens met een Belgisch nummer en btw-nummer in de footer.",
+"why": "In Vlaanderen is 'van hier zijn' een sterk vertrouwenssignaal (Unizo's Winkelhier-campagne, 6.000+ deelnemende zaken). Een kleine zaak kiest liever iemand die ze kunnen aankijken dan een anoniem platform; het compenseert ook de jonge leeftijd van het bedrijf."
+},
+{
+"lever": "Eerlijkheid als eigen lever (wij zeggen wat nog niet werkt)",
+"howOnSite": "Drie duidelijke labels in de hele site: 'Werkt vandaag' (pipeline, Simulatieruimte, Radar-concept, demo's, gratis tools), 'Prototype' (Kawa, sts-world, webshot) en 'In onderzoek'. De bestaande sectie 'Problemen die we nu onderzoeken' blijft en krijgt dat label. Geen tellers, geen klantenlogo's zolang er geen toestemming is, geen 'reeds X zaken geholpen'.",
+"why": "In een markt vol beloftes is zichtbaar eerlijk zijn zelf een onderscheidend emotioneel signaal (het 'eindelijk iemand die het gewoon zegt'-gevoel). Het beschermt ook tegen het Wetboek Economisch Recht (misleidende handelspraktijken) en de EU-regels tegen nepreviews."
+}
+],
+"manipulativeToAvoid": [
+"Valse urgentie: aftelklokken, 'nog 2 plaatsen deze maand', 'actie loopt af' terwijl er geen echte limiet is (FOD Economie noemt fictieve timers expliciet als dark pattern; verboden als misleidende handelspraktijk onder Boek VI WER).",
+"Valse schaarste of valse wachtlijsten ('wij nemen maar 3 klanten per maand aan') die niet overeenkomen met de realiteit.",
+"Nepreviews, verzonnen testimonials, stockfoto's met een verzonnen naam en zaak, of citaten van 'een tevreden kapper uit Antwerpen' zonder echte, toestemmende persoon (EU Omnibusrichtlijn sinds 28 mei 2022: nepreviews op de zwarte lijst; boetes tot 4% van de omzet).",
+"Fake social proof: live-tellers ('12 mensen bekijken nu'), 'reeds 200 zaken geholpen', logo-muren van zaken die geen klant zijn, verzonnen 'recent aangevraagd'-meldingen.",
+"Fake 'verzonden'- of 'in behandeling'-statussen in de simulaties of op het contactformulier; elke gesimuleerde toestand moet 'gesimuleerd' of 'fictief' heten en een echt formulier moet eerlijk zeggen wat er gebeurt.",
+"Gesimuleerde cijfers voorstellen als voorspelling voor de bezoeker ('u verliest 1.200 euro per maand'); enkel 'in deze fictieve zaak' en nooit extrapoleren naar hun omzet.",
+"Confirmshaming: knoppen als 'Nee, ik wil geen klanten' of 'Ik blijf liever onzichtbaar'.",
+"Dark patterns in formulieren: vooraf aangevinkte vakjes, verborgen nieuwsbriefinschrijving, verplicht telefoonnummer waar e-mail volstaat, moeilijk te vinden 'nee'-optie.",
+"Prijsmanipulatie: doorstreepte 'normale prijzen', 'gratis' met kleine letters, 'vanaf'-prijzen; de site toont geen prijzen, dus ook geen prijsankers of 'waarde 1.500 euro' bij het gratis voorbeeld.",
+"Angstmarketing met doemscenario's over faillissement of burn-out gericht op de individuele bezoeker; sectorcijfers mogen enkel met bron en context, nooit als dreiging.",
+"Verborgen identiteit van AI: een chatassistent die zich als mens voordoet of een 'Snymis antwoordt binnen 2 minuten' die eigenlijk een bot is (AI Act art. 50 transparantieplicht; de human-in-the-loop-belofte moet letterlijk waar blijven).",
+"Nagemaakte vertrouwensbadges: zelfgemaakte 'keurmerken', 'GDPR-certified'-zegels, 'Google Partner'-achtige logo's zonder echte accreditatie; ook geen 'Unizo-lid' tonen tenzij het klopt.",
+"Misleidende outreach-mechanieken: e-mails die lijken op een factuur of op een Google-melding ('uw vermelding verloopt'), onderwerpregels als 'Re:' zonder eerdere mail, of ongevraagde reclame-e-mail naar persoonlijke adressen zonder opt-in (art. XII.13 WER; enkel onpersoonlijke adressen zoals info@ en bestaande klanten vallen onder de uitzonderingen van het KB van 4 april 2003; bij twijfel: eerst langsgaan of bellen, dan mailen met toestemming).",
+"Manipulatieve exit-intent pop-ups, modals die de inhoud blokkeren, scroll-jacking die de bezoeker vasthoudt; animatie mag verwonderen, nooit gijzelen.",
+"Over-personalisatie die griezelig aanvoelt: tonen dat je hun reviews, foto's of persoonlijke gegevens al hebt doorzocht zonder dat te kaderen ('wij gebruikten enkel wat publiek op Google en je eigen pagina staat').",
+"Valse exclusiviteit of vleierij ('wij kozen jouw zaak speciaal uit') als de selectie in werkelijkheid geautomatiseerd gebeurt; zeg eerlijk hoe de zaak op de radar kwam.",
+"Verzwijgen dat het een eenmanszaak is of 'ons team' schrijven alsof er tien mensen zitten; 'wij' mag enkel als het verwijst naar Snymis plus zijn agents, en dat moet ergens uitgelegd staan."
+],
+"zeroBudgetAcquisition": [
+"Het gratis voorbeeld als enige 'advertentie': bouw per week een handvol voorbeeldsites voor zaken zonder goede site, maar laat het eerste contact fysiek of telefonisch gebeuren (dinsdag- of woensdagnamiddag voor horeca en kappers, na 14u voor bakkers, 's avonds na 18u per WhatsApp voor aannemers). Link naar het voorbeeld tonen op een tablet, nooit als bijlage pushen. Mail enkel naar onpersoonlijke adressen (info@) of na toestemming, conform art. XII.13 WER.",
+"Vraag toestemming om elk echt opgeleverd voorbeeld (geanonimiseerd of met naam) op de demopagina te zetten als 'echte zaak, met toestemming'; dit vervangt de fictieve demo's geleidelijk door echt bewijs zonder ooit te verzinnen.",
+"Lokale deelbare tools als visitekaartje: de WhatsApp-QR-generator, de Google-preview en de zichtbaarheidscheck zijn gratis, vragen geen e-mailadres en eindigen met 'Deel dit met een collega-ondernemer'. Druk de QR van de tools op een A6-kaartje dat je achterlaat aan de toog.",
+"Een eigen Google Bedrijfsprofiel voor STS Digital in Antwerpen, met echte foto's, Nederlandstalige beschrijving, de tools als 'producten' en regelmatig een korte 'update' (nieuw voorbeeld, nieuw scenario in de Simulatieruimte). Vraag enkel echte klanten om een review, nooit vrienden.",
+"WhatsApp Business als hoofdkanaal: een zakelijk nummer met catalogus van 'wat we doen', een begroeting die zegt dat Snymis zelf antwoordt, en een 'klik-om-te-chatten'-link op de site. Flemish ondernemers antwoorden sneller op een WhatsApp dan op een mail (kanaal dat ze al dagelijks gebruiken).",
+"Doorverwijzingen zonder commissie: vraag elke tevreden klant één naam ('wie in jouw straat zou dit ook moeten zien?') en bied in ruil een kleine, oprechte tegenprestatie (bv. gratis Google-profiel-opfrissing), nooit een geldelijke beloning die de aanbeveling onbetrouwbaar maakt.",
+"LinkedIn-posts in het Nederlands (Vlaams), 1 tot 2 per week: korte bouwverslagen ('zo bouwden we een voorbeeld voor een fictieve garage'), screenshots van de Simulatieruimte met het label 'gesimuleerd', eerlijke leermomenten ('wat niet werkte'). LinkedIn heeft ruim 5 miljoen Belgische profielen; mik op boekhouders, Unizo-adviseurs en praktijkmanagers, want zij raden leveranciers aan.",
+"Boekhouders en sociale secretariaten (Liantis, Acerta, Xerius) als doorverwijzers: zij zien welke klanten geen site hebben en worden vertrouwd. Eén goed gesprek met twee lokale boekhoudkantoren levert meer op dan honderd koude mails.",
+"Unizo en lokale ondernemersverenigingen: word lid of ga naar een gratis infoavond in het district, bied aan om een korte, niet-commerciële uitleg te geven ('Wat is een AI-agent, in mensentaal') voor de plaatselijke handelaarsbond; neem deel aan de Winkelhierweek (mei) en het Weekend van de Klant (oktober) als sympathisant, niet als verkoper.",
+"Buurtwinkel-wandelingen per wijk (Berchem, Borgerhout, Deurne, Merksem, Hoboken, Wilrijk): maak eerst een eerlijke lijst van zaken zonder vindbare site, kijk ze in de ogen, laat een kaartje achter; kom een week later terug met het voorbeeld. Kies een rustig moment en vraag altijd eerst 'komt het nu uit?'.",
+"Hogescholen en VDAB-horecaprojecten (bv. Hospitality Heroes in Antwerpen) als plek om gratis workshops te geven over online vindbaarheid; deelnemers worden later uitbaters en kennen je naam.",
+"Open Bedrijvendag en district-evenementen: geen stand, wel een laptop met de Simulatieruimte als 'speeltuin' waar ondernemers zelf aan knoppen draaien; verwondering is je enige marketingbudget.",
+"VLAIO-kanalen: schrijf je in op VLAIO-infosessies over AI voor kmo's (gratis), stel vragen, leer de adviseurs kennen; VLAIO zoekt expliciet AI-dienstverleners die ondernemingen begeleiden, en de kmo-portefeuille kan later voor klanten relevant zijn (vermeld dat enkel als je erkend bent).",
+"Een korte Nederlandstalige nieuwsbrief per kwartaal, enkel voor wie zich zelf inschreef (opt-in), met één nieuw simulatiescenario, één tool-update en één eerlijke les; geen verkoop.",
+"Pers zonder budget: regionale media (Gazet van Antwerpen regio, made-in.be, ATV) schrijven graag over jonge Antwerpse makers met iets visueel sterks; pitch het verhaal 'een nachtstad waarin elke donkere gevel een onvindbare zaak is', niet het product.",
+"Antwoord publiek op vragen in Vlaamse ondernemersgroepen (Facebook-groepen voor zelfstandigen, Reddit r/belgium) met behulpzame, niet-commerciële antwoorden; voeg enkel een link toe als iemand ernaar vraagt."
+],
+"copyPrinciples": [
+"Schrijf Belgisch-Nederlands, niet Hollands: 'zaak' (niet 'bedrijfje' of 'onderneming' in spreektaal), 'gsm' (niet 'mobieltje'), 'goesting', 'proper', 'content zijn', 'in orde brengen', 'langskomen', 'uitbater', 'handelaar', 'buurt', 'toog', 'offerte' (niet 'quote'). Vermijd 'leuk', 'hartstikke', 'mobieltje', 'pinnen', 'patat' (in Antwerpen is het 'frieten'), 'jullie' als aanspreking van één persoon, 'doei', 'tof' overmatig.",
+"Aanspreekvorm: standaard 'je/jij' voor horeca, kappers en aannemers (jong, informeel), 'u' voor zorgpraktijken en bij teksten die ook oudere bakkers en garagisten lezen; wissel niet binnen één pagina (richtlijn Heerlijk Helder van de Vlaamse overheid: kies op basis van doelgroep en test). Nooit 'jij' in een eerste outreachbericht naar een onbekende.",
+"Toon: warm, beleefd, een tikje indirect, nooit pusherig. Vlamingen ervaren de directe Nederlandse verkooptoon als opdringerig; vraag ('Mogen we eens iets tonen?') in plaats van te bevelen ('Boek nu').",
+"Begin elke sectie bij hun vak, niet bij onze techniek: 'De telefoon gaat terwijl je bedient' werkt; 'Onze autonome agent-pipeline' werkt niet. Techniek krijgt één aparte pagina 'onder de motorkap'.",
+"Korte zinnen, actieve vorm, concrete werkwoorden (bouwen, tonen, langskomen, goedkeuren, lezen). Geen naamwoordstijl ('het realiseren van een digitale transformatie').",
+"Geen Engelse marketingtermen in de hoofdtekst: geen 'leads', 'funnel', 'conversie', 'solutions', 'onboarding', 'customer journey'. Zeg 'aanvragen', 'klanten die bellen', 'wat je ermee doet'. Uitzondering: productnamen (WhatsApp, Google Bedrijfsprofiel) en de Engelse slogan, die eenmalig mag.",
+"Elke claim moet vandaag waar zijn en controleerbaar: 'wij bouwen eerst een voorbeeld' (waar), 'Snymis leest en keurt elk bericht goed' (waar), 'wij onderzoeken X' (waar). Nooit 'wij garanderen meer klanten', 'bewezen resultaten', 'nummer 1 in Antwerpen'.",
+"Label gesimuleerde inhoud in de zin zelf, niet alleen in een voetnoot: 'In deze fictieve brasserie belden vandaag 14 mensen (gesimuleerd).' Gebruik consequent de woorden 'gesimuleerd', 'fictief', 'voorbeeld', 'ter illustratie'.",
+"Geen prijzen, geen prijsankers, geen 'gratis' als lokmiddel in hoofdletters. Schrijf 'kosteloos voorbeeld, zonder verplichting' en 'prijs op maat, na een gesprek' en laat het daarbij.",
+"Zeg wie je bent in gewone woorden: 'STS Digital is een jong bedrijf uit Antwerpen, gerund door Snymis, met agents die hem helpen. Hij leest alles zelf.' Dit ontwapent de continuïteitsvraag beter dan 'ons team'.",
+"Gebruik de voornaam Snymis als teken van een echte mens; nooit de echte naam. Schrijf nooit 'ons team van experts'.",
+"Woorden die in Vlaanderen vertrouwen wekken: 'eerlijk', 'op maat', 'zonder verplichting', 'van hier', 'wij komen langs', 'rustig bekijken', 'in mensentaal', 'je beslist zelf', 'niets vertrekt vanzelf', 'degelijk', 'proper afgewerkt'.",
+"Woorden die wantrouwen wekken bij deze doelgroep: 'revolutionair', 'disruptief', 'gegarandeerd', 'exclusief', 'laatste kans', 'gratis!!!', 'AI-powered', 'slim' als bijvoeglijk naamwoord voor alles, 'schaalbaar', 'partner worden'.",
+"Over AI: noem het wat het doet ('leest je berichten voor, stelt een antwoord voor, jij keurt goed'), niet wat het is. Schrijf 'assistent' of 'agent' met uitleg bij eerste gebruik; vermijd 'robot', 'chatbot' (negatieve lading bij Belgen: te onpersoonlijk) en 'kunstmatige intelligentie' als buzzword.",
+"Erken de werkdruk zonder te dramatiseren: 'Je hebt geen tijd voor dit, dat weten we. Daarom bouwen we eerst en praten we daarna.' Geen zinnen over faillissement of burn-out gericht op de lezer.",
+"Plaatsnamen en context Belgisch: Antwerpen, districten, 'Vlaanderen', 'btw-nummer', 'ondernemingsnummer', 'Unizo', 'VLAIO'; nooit 'KvK', 'Randstad', 'BTW-nummer NL', 'iDEAL'.",
+"Microcopy op knoppen: 'Toon mij een voorbeeld', 'Stuur een berichtje', 'Kom eens kijken', 'Probeer de simulatie' in plaats van 'Start nu', 'Claim', 'Boek je gratis call'. Op formulieren: 'Wat mogen we voor je bekijken?' en een eerlijke status 'Snymis leest dit zelf, meestal binnen een werkdag' (enkel als dat klopt).",
+"Lees elke tekst hardop voor als een uitbater aan de toog: als het klinkt als een reclamefolder, herschrijf; als het klinkt als een buur die iets uitlegt, laat staan."
+],
+"sources": [
+"https://www.unizo.be/digitalisering",
+"https://www.unizo.be/ondernemersgids/bedrijfsvoering/digitalisering/digitale-strategie-0",
+"https://www.unizo.be/berichten/pers/nooit-waren-er-zoveel-kmos-maar-de-vlaamse-groei-valt-stil-buffers-staan-onder-druk",
+"https://www.unizo.be/berichten/pers/burn-out-en-depressie-bij-zelfstandigen-bijna-verdubbeld-zes-jaar-ook-langdurige",
+"https://www.vrt.be/vrtnws/nl/2026/03/27/burn-out-depressie-zelfstandigen-verdubbeld-unizo/",
+"https://www.unizo.be/kooplokaal",
+"https://www.unizo.be/berichten/pers/unizo-zet-met-winkelhierweek-onze-eigen-economie-op-kop",
+"https://www.unizo.be/berichten/pers/winkelhierweek-klanten-zetten-met-complimenten-hun-favoriete-lokale-handelszaak-de",
+"https://www.vrt.be/vrtnws/nl/2019/12/16/unizo-haalt-woord-van-het-jaar-binnen-winkelhieren/",
+"https://themis.vlaanderen.be/files/664f0625ef3eff000d001da8/download",
+"https://www.vlaio.be/nl/nieuws/een-op-drie-vlaamse-bedrijven-gebruikt-artificiele-intelligentie",
+"https://www.vlaio.be/nl/nieuws/kwart-van-de-vlaamse-ondernemingen-gebruikt-ai",
+"https://www.ewi-vlaanderen.be/sites/default/files/downloads/bestanden/persbericht_-_kwart_van_bedrijven_gebruikt_artificiele_intelligentie_-_vlaanderen_bij_beste_leerlingen_van_de_klas.pdf",
+"https://www.vlaio.be/nl/nieuws/gezocht-ai-dienstverleners-die-ondernemingen-begeleiden-bij-strategische-ai-adoptie",
+"https://www.vlaio.be/nl/nieuws/elke-vlaamse-onderneming-op-de-digitale-snelweg-met-de-digitale-quick-scan",
+"https://documentserver.uhasselt.be/bitstream/1942/38384/1/b1ec62ef-e2a5-4eb3-a4df-fa1a4ba678bd.pdf",
+"https://go.teamleader.eu/hubfs/2.%20be/nl/Ebooks/Amai%2c%20AI%3F!.pdf",
+"https://www.made-in.be/oost-vlaanderen/meer-dan-helft-van-kmos-ziet-kansen-in-ai-de-meeste-mensen-kennen-ai-alleen-als-schrijfhulpje-maar-dat-beperkt-de-winst/",
+"https://blog.forumforthefuture.be/nl/article/artificiele-intelligentie-wordt-steeds-belangrijker-voor-belgische-bedrijven/29314",
+"https://blog.forumforthefuture.be/nl/article/artificiele-intelligentie-bijna-een-op-de-7-kmos-gebruikt-het/21142",
+"https://www.vlaanderen.be/publicaties/ondernemingsenquete-2021-digitalisering-in-de-vlaamse-ondernemingen",
+"https://www.belganewsagency.eu/near-record-bankruptcies-in-belgium-as-business-growth-falls-to-a-decade-low",
+"https://www.made-in.be/oost-vlaanderen/aantal-oost-vlaamse-faillissementen-in-mei-gaat-de-lucht-in/",
+"https://cdn.uc.assets.prezly.com/2cebd15f-c0a2-406f-ac0e-bb621f7164a8/-/inline/no/Bouw- & Ondernemersenquête 2026 Voka-KvK Vlaams-Brabant en Embuild Vlaams-Brabant.pdf",
+"https://www.vdab.be/nieuws-voor-de-pers/antwerpen/hospitality-heroes-blijft-een-succesformule-350-werkzoekenden-proeven",
+"https://www.moneypenny.com/uk/resources/news/small-business-call-report/",
+"https://smallbusiness.co.uk/voicemail-costing-small-businesses-trade-2535323/",
+"https://www.bdcmagazine.com/2016/12/moneypenny-report-shows-british-builders-missing-business/",
+"https://www.quo.com/blog/small-business-callback-statistics/",
+"https://thinkwithgoogle.com/data/mobile-near-me-searches",
+"https://www.recharge.com/blog/nl-be//lokale-seo-in-2026-de-ultieme-gids-voor-kmos",
+"https://www.clickforest.com/blog/beste-webdesign-bureaus-antwerpen-mechelen",
+"https://itdaily.com/news/innovation/half-of-belgian-consumers-find-ai-chatbots-impersonal",
+"https://itdaily.com/news/software/six-out-of-ten-belgians-used-an-ai-chatbot-in-2025/",
+"https://www.ipsos.com/nl-nl/node/1077266",
+"https://figshare.unimelb.edu.au/articles/report/Trust_attitudes_and_use_of_artificial_intelligence_A_global_study_2025/28822919",
+"https://zoek.officielebekendmakingen.nl/kst-29247-146.html",
+"https://blog.forumforthefuture.be/nl/article/dark-patterns-een-onzichtbare-online-valkuil/23659",
+"https://retaildetail.be/nl/news/algemeen/belgische-overheid-treedt-op-tegen-dark-patterns-wat-zijn-ze-en-is-het-illegaal",
+"https://www.belganewsagency.eu/european-consumer-groups-file-complaint-against-shein-for-misleading-practices",
+"https://entreprendre.service-public.fr/actualites/A15721?lang=en",
+"https://www.farrer.co.uk/news-and-insights/fake-discounts-and-dodgy-reviews-consumer-law-reforms-for-retailers-selling-in-the-eu/",
+"https://artificialintelligenceact.eu/?p=6131",
+"https://overloop.com/nl/blog/koude-acquisitie-wetgeving",
+"https://legalnews.be/privacy-gegevensbescherming/mag-ik-marketing-e-mails-versturen-zonder-toestemming-opt-in-aan-ex-klanten-timelex/",
+"https://www.autoriteprotectiondonnees.be/index.php/publications/classement-sans-suite-n0-14-2026.pdf",
+"https://www.vlaanderen.be/intern/werkplek/ondersteuning/heerlijk-helder/u-of-je",
+"https://www.vlaanderen.be/team-taaladvies/taaladviezen/teksten-schrijven/formulering/woordgebruik-verwijzingen-naar-de-lezer-of-toehoorder",
+"https://www.vlaanderen.be/vlaanderen-intern-communicatie/huisstijl-en-merkbeleid/huisstijlrichtlijnen/richtlijnen-voor-teksten",
+"https://betranslated.com/language-translation/dutch/marketing-translation/",
+"https://www.acolad.com/en/services/translation/what-is-the-difference-between-dutch-and-flemish",
+"https://mtsprout.nl/business/zakendoen-belgen-5-valkuilen-nog-kende/541568",
+"https://napoleoncat.com/stats/linkedin-users-in-belgium/2025/12",
+"https://www.emerce.nl/wire/prijs-bepaalt-keuze-webwinkel-belgi-reviews-bepalend-nederland"
+]
+},
+"inspiration": {
+"patternsToSteal": [
+{
+"pattern": "One persistent 3D world behind ordinary HTML (not a 3D site with HTML on top). Lusion's site is regular HTML flex/grid blocks with a full-screen canvas behind them; a screen-to-world projection lines 3D objects up with DOM elements, so copy stays selectable, SEO-able and reflowable while the scene 'reacts' to each section.",
+"seenAt": "https://mark-n.co/projects/lusion-reverse-engineered/ ; https://schoolofmotion.com/blog/10-websites-with-great-animation-in-2026 (Lusion: scene morphs as you scroll, revealing project info)",
+"howForSTS": "Keep scene.js city as the single canvas, but register DOM 'anchors' (data-scene-anchor on each chapter) and let city.js aim the camera/light at a building that stands for that chapter (Oplossingen = the shop street, Lab = the observatory tower, Werkwijze = the pipeline bridge). The HTML stays a normal static page; the city becomes the illustration layer for every section instead of a hero-only intro. Lite mode swaps the canvas for a static poster and keeps all anchors as plain sections."
+},
+{
+"pattern": "Scroll position drives the camera through a continuous scene, with the camera path pre-visualised as grey mock-ups before any shading. Igloo Inc (Awwwards Site of the Year 2024, by abeto) is one continuous WebGL canvas where scroll directly sets camera and object states; the team previs'd the camera path untextured first, then dressed it.",
+"seenAt": "https://awwwards.com/igloo-inc-case-study.html ; https://www.awwwards.com/websites/sites_of_the_year/ ; https://www.awwwards.com/sites/igloo-inc",
+"howForSTS": "Define a 6-7 keyframe camera path over the night city (arrival from the stars -> street level -> a bakery facade -> the Simulatieruimte 'control room' -> the pipeline -> contact). Scroll is NOT hijacked: native scroll continues to drive the HTML; the camera just lerps toward the keyframe of the section in view. Work package: ship the path first as a greybox (flat materials, no bloom) so cloud agents can verify it headlessly with Playwright screenshots at fixed scroll offsets, then add lighting."
+},
+{
+"pattern": "Make the product playable on the homepage, not described. Messenger (abeto, Awwwards Developer Site of the Year 2025) IS the product: a small-planet delivery game you play immediately. Bruno Simon's portfolio is navigated by driving a car to signposts. Framer's homepage shows its own canvas with a live agent prompt ('add a 3D image ticker') and the reply.",
+"seenAt": "https://www.awwwards.com/sites/messenger ; https://www.awwwards.com/sites/brunos-portfolio ; https://www.framer.com/ (homepage canvas preview, Design Pages Sept 2025: https://framer.com/updates/design-pages)",
+"howForSTS": "The Simulatieruimte (sim.js) is already the 'playable product'. Promote a cut-down, 20-second version of it into the first viewport: visitor picks a business type (bakker, kapper, garage...), a fictional graph appears, the agent writes 2 lines of advice, all client-side from sim-data.js and labelled 'gesimuleerd, fictieve data'. Same for the pipeline: a 'wat zou Snymis zien' replay that shows a scouted (fictional) business, a generated example page, and the approval step with a visible 'wacht op goedkeuring van Snymis' state. No fake sent state."
+},
+{
+"pattern": "Switchable real-time 'rooms' instead of pages, each with a big central screen. Active Theory v4/v5: the whole site is a set of environments (neo-Tokyo alley, Venice Beach, Amsterdam canals) you switch between; work plays on translucent screens inside the scene; filters in the work section serve clients while the scenes serve creatives. They explicitly design for two audiences.",
+"seenAt": "https://www.commarts.com/webpicks/active-theory-1 ; https://www.awwwards.com/active-theory-v4-wins-january-2018-site-of-the-month.html",
+"howForSTS": "STS has exactly the two audiences: local business owners (need clarity, trust, Dutch, no jargon) and tech-curious people/partners (want to see the AI research). Build two 'rooms' in the same city: 'De Straat' (what we do for your zaak: websites, tools, zichtbaarheid, with the 4 demo shopfronts as walk-up facades) and 'Het Lab' (Simulatieruimte, Radar, Kawa/sts-world/webshot marked prototype/in onderzoek). The nav shrinks to: Straat | Lab | Contact, plus the legal pages in the footer."
+},
+{
+"pattern": "Hidden, discoverable interactions that reward curiosity without blocking the path: click-and-hold, cursor-reactive light, device tilt on mobile. Active Theory v4 uses click-and-hold and scroll as hidden layers; Lusion uses a cursor-following point light and accelerometer tilt on mobile; Unseen's menu text shimmers and the view parallaxes with the pointer.",
+"seenAt": "https://www.awwwards.com/active-theory-v4-wins-january-2018-site-of-the-month.html ; https://awwwards.com/case-study-for-lusion-by-lusion-winner-of-site-of-the-month-may.html ; https://www.creativebloq.com/web-design/examples-of-html-1233547 (Unseen)",
+"howForSTS": "Cheap wins for a weak GPU: one point light following the cursor over the city (uniform update, no re-render cost), 'hold to light up the street' on the hero (press-and-hold turns on every shop sign in sequence, which is literally the pitch: we make local zaken visible), and deviceorientation tilt on phones with a static fallback. All gated behind the existing lite flag and prefers-reduced-motion."
+},
+{
+"pattern": "Ten-second clarity through one sentence plus the thing itself. Resend: dark page, one headline, a tactile 3D cube (Spline) that exists to make an abstract infrastructure product feel concrete; the team even 3D-printed it for early customers. Linear: monochrome, one headline, the product in device frames, minimal chrome. Raycast: 'Your shortcut to everything' with an animated launcher in the hero and one red accent used almost exclusively in a diagonal stripe.",
+"seenAt": "https://blog.spline.design/how-resend-uses-spline-for-3d-design ; https://opendesigner.io/design-systems/resend ; https://blog.logrocket.com/?p=186781 (Linear 2025 vs 2024) ; https://www.saasframe.io/examples/raycast-landing-page",
+"howForSTS": "The H1 'Jouw zaak, zichtbaar tot in de sterren' is good but says nothing about what STS does. Steal the Resend formula: headline that names the business ('Digitale diensten en AI-tools voor lokale zaken in Antwerpen en Vlaanderen'), a one-line sub ('Websites, gratis tools en simulaties. Eerst een voorbeeld, dan pas een gesprek.'), and ONE concrete object in the hero: the city with the visitor's own sector lit up. Copy Raycast's discipline with #36E8FF: one stripe/one glow, never body text. Monochrome everything else like Linear so the accent still reads."
+},
+{
+"pattern": "Deliberately deterministic, non-framework motion with a budget: Obys built their site with no client-side framework, animations on requestAnimationFrame plus Web Animations API, virtual scroll written in TypeScript; their Design Books site only fully loads pages near the top of the stack and keeps deeper ones simplified until you approach them.",
+"seenAt": "https://tympanus.net/codrops/2026/03/06/obys-the-small-studio-designing-big-digital-narratives/ ; https://tympanus.net/codrops/2026/01/12/obys-design-books-turning-a-reading-list-into-a-tactile-web-library/ ; https://www.awwwards.com/the-new-obys.html",
+"howForSTS": "Matches the no-CDN, static, <500-line-module constraint. Apply the 'load near, simplify far' rule to the city: only the district in view gets emissive signs + bloom; districts two chapters away render as flat silhouettes. Also adopt Obys's 'typography first' stance: Panchang + Switzer are already distinctive, let type carry the brand and cut decorative UI chrome."
+},
+{
+"pattern": "Physics-flavoured, touchable hero objects instead of decoration: Vercel Ship 2025 used a liquid ray-marched WebGL hero plus 'badge physics' (your conference badge you can toss around); Ship 2024 had the logo dissolve into particles that drift toward the cursor (Regl). Lando Norris (Awwwards Site of the Year 2025, OFF+BRAND) uses cursor-reactive blob overlays that echo the helmet livery, i.e. the effect is tied to the brand story.",
+"seenAt": "https://basement.studio/post/behind-the-ship ; https://vercel.com/blog/designing-and-building-the-vercel-ship-conference-platform ; https://basement.studio/post/shipping-ship-behind-the-particle-shader-effect-for-vercels-conf ; https://www.awwwards.com/sites/lando-norris ; https://designrush.com/best-designs/websites/lando-norris-website-design",
+"howForSTS": "Give the visitor one physical thing to hold: a 'bedrijfskaart' (a neon shop sign or a Google-preview card) they can drag/throw in the hero; it is the same object the free tools generate (QR, Google preview). Keep it a small instanced mesh with a simple spring, not a liquid shader (GPU budget). The effect must tell the story: 'we take your zaak and make it shine', not generic blobs."
+},
+{
+"pattern": "The whole site as an operating system / desktop: PostHog (Sept 2025) replaced long scrolling with draggable windows, snapping, keyboard shortcuts and a bookmarks app, arguing long pages cause tab overload; Rauno Freiberg's portfolio uses a dock, interface sounds and horizontal galleries; CentralOS/TechMe templates open projects as terminal windows and accept commands like whoami. Reception for PostHog was mixed: 'jarring at first', fights native browser features.",
+"seenAt": "https://posthog.com/blog/why-os ; https://feedbagel.com/post/posthogs-operating-system-inspired-website-redesign-solves-tab-overload-problem ; https://uiuxshowcase.com/portfolio/rauno-freiberg/ ; https://bolt.new/blog/bolt-rebuilds-macos-style-portfolio-website",
+"howForSTS": "Do not turn the whole site into a desktop (PostHog shows the cost), but steal the 'one surface, many apps' idea for the Lab: the Simulatieruimte, the three free tools and the Radar become 'apps' that open as windows over the city instead of separate pages with repeated nav. One window at a time on mobile (sheet), draggable on desktop, URL hash per app so it stays static and linkable."
+},
+{
+"pattern": "Restraint as the differentiator: Malvah (Awwwards Studio of the Year 2025) starts every project by asking what can be removed; Seventeen Agency's homepage is just an interactive vertical colour tapestry where each stripe is a gateway to one project ('minimal but expressive, branding, motion and interactions do the heavy lifting').",
+"seenAt": "https://lbbonline.com/news/Malvah-Studio-of-the-Year-2025-Awwwards ; https://www.commarts.com/webpicks/seventeen-agency ; https://cms.abduzeedo.com/node/89230",
+"howForSTS": "Current index.html has 10 sections (hero, oplossingen, lab, werkwijze, probeer, bouwen, onderzoek, demos, vragen, contact). Collapse to 4 moments: Wat we doen (Straat) / Probeer het zelf (Lab) / Hoe we werken (pipeline + Snymis keurt elk bericht goed) / Contact. Demos become facades inside Straat, FAQ moves into a drawer, 'bouwen' and 'onderzoek' merge into Lab. Less UI, more city."
+},
+{
+"pattern": "Craft satire / a fictional product built with full production value to demonstrate capability: Lusion's Oryzo AI is a year-long fake launch for a cork coaster (site, founder video, Product Hunt, GitHub) used purely to show what the studio can do.",
+"seenAt": "https://blog.lusion.co/oryzo-bts-part-1-7-concept-and-creative-direction ; https://tympanus.net/codrops/2026/04/13/lusion-where-digital-craft-meets-ambitious-experimentation/",
+"howForSTS": "STS already has four fictional demo businesses; treat them like Oryzo: give each a tiny 'before/after' story (a fictional bakery in Deurne with no site -> the example site -> what the owner could test), always stamped 'fictief voorbeeld'. This is the honest version of social proof when you have no reviews yet: show craft on invented clients instead of inventing testimonials."
+},
+{
+"pattern": "Audio and intro loaders as a deliberate choice, upfront and skippable: Igloo and Unseen put sound controls first; OFF+BRAND's manifesto uses an intro loader with a message. Awwwards jurors still score accessibility lowest on these sites (Lando Norris: 7.00 accessibility vs 8.60 animation).",
+"seenAt": "https://icons8.com/blog/articles/award-winning-website-designs/ (Igloo audio controls) ; https://www.awwwards.com/inspiration/intro-loader-off-brand-manifesto ; https://www.awwwards.com/sites/lando-norris",
+"howForSTS": "intro.js can stay, but make it a 1.5 s max 'stad wordt wakker' and show the H1 immediately underneath; add an explicit 'Geluid aan' toggle (default off) and a 'Rustige modus' toggle wired to the existing lite flag. Playwright test: H1 text visible within 2 s with WebGL disabled."
+},
+{
+"pattern": "The founder's favourite, eatnaked.co (MDX, Awwwards Honorable Mention 3 May 2026, Three.js + React): an e-commerce food site where the 3D product sits in the page as the hero object and the category/UI is layered over it. Note it is an Honorable Mention, not SOTD, so admire the feel, not the award.",
+"seenAt": "https://www.awwwards.com/sites/eatnaked",
+"howForSTS": "Use it as the visual reference for 'product in the room': a hero where the 3D object (for STS: the lit city block / shop facade) is the page, and UI floats as a thin layer. Do not copy its React/Three.js weight; STS's own Three.js with DPR 1.5 cap and instanced buildings is the lighter equivalent."
+}
+],
+"patternsToAvoid": [
+"AI-slop defaults: centred hero + badge above the H1 + three identical icon cards, purple/indigo gradients, glassmorphism, glowing blurred orbs behind the hero, colour-topped cards, bento grids with rounded everything and no dominant cell. Critics frame it as 'the model reaching for the statistical average'; cloud agents building STS will drift there unless the work packages forbid it explicitly (https://github.com/Ferousco-dev/anti-slop-design ; https://www.developersdigest.tech/blog/ai-design-slop-and-how-to-spot-it ; https://dev.to/james_anderson_h/the-purple-gradient-problem-why-ai-ui-all-looks-alike-and-how-to-fix-it-3j65).",
+"Scroll-jacking and locked scroll: keep the wheel native, make every animation interruptible, never make content visible only mid-animation; prefers-reduced-motion must get a static variant, not an invisible one (W3C TAG note). Lerp the camera toward the section in view instead of owning the scroll (https://redskystudios.co.uk/news/scroll-jacking-annoying-when-abused-delightful-when-done-right ; https://frontendchecklist.io/rules/accessibility/scrolljacking ; https://lists.w3.org/Archives/Public/public-css-archive/2022Jun/0886.html).",
+"WebGL as decoration: Active Theory's own rule is that WebGL 'becomes noise rather than adding meaning' when it is only ornament. Every 3D element on STS must map to a claim (lit sign = zichtbaarheid, control room = Simulatieruimte, bridge = pipeline) (https://lbbonline.com/news/Craft-Matters-by-Active-Theory).",
+"Whole-site OS/desktop metaphors and 'chat-first' homepages that remove the scannable page: PostHog's OS site was called jarring and fights browser features; Docket tested an ask-first hero and rejected it because it 'stopped feeling like a real marketing website', keeping a page with the agent layered on top. Use overlays/windows for the Lab only; never hide 'what we do' behind a prompt (https://posthog.com/blog/why-os ; https://www.docket.io/blog/designing-docket-frameless ; https://www.fortune.com/2025/08/26/homepage-is-dead-future-is-question-search-chatbots-ai).",
+"Award-site accessibility debt: even Site of the Year 2025 scored 7.0 on accessibility vs 8.6 on animation; unskippable intros, audio autoplay, canvas-only text. STS: H1 and nav in DOM before any canvas, sound off by default, lite mode reachable in one click (https://www.awwwards.com/sites/lando-norris).",
+"Heavy 3D without a budget: beaucoup.studio admits their 3D-configurator assets were too heavy; eatnaked-style React+Three stacks are not the model for a weak GPU. Keep DPR 1.5 cap, instanced buildings, no animated blur/box-shadow, pause rAF on visibilitychange, district-level LOD (https://beaucoup.studio/en/projects/that-original).",
+"Fake proof borrowed from product sites: Linear/Raycast/Resend lean on logos, counters and testimonials. STS has none yet; do not imitate with placeholders. Use fictional-but-labelled demos (Oryzo model) and the real human-in-the-loop promise instead.",
+"Pricing/'from EUR' blocks and urgency widgets common on agency templates: forbidden by the brief (every quote per client, no fake scarcity).",
+"Generic 'full-page game' portfolios (Bruno Simon clones): usability score 7.83 and commenters call it 'just a game'; a business owner from Deurne must find 'wat kost een gesprek' without learning controls. Keep a plain path always visible (https://www.awwwards.com/sites/brunos-portfolio ; https://news.hada.io/topic?id=24963)."
+],
+"oneThingInterpretations": [
+"1. De Stad als enige navigatie (Lusion/Igloo/Active Theory model): the night city is the site. Each chapter is a district with a landmark; the nav bar is replaced by a thin 'kompas' (Straat | Lab | Werkwijze | Contact) that flies the camera to the district while the HTML section scrolls into view underneath. Demos are walk-up shopfronts, tools are kiosks, the Simulatieruimte is a control tower. Lite mode: the same sections with a static city poster and the kompas as plain anchors.",
+"2. Eén persistente console (Raycast/Linear/cmdk model): a single dark command strip pinned to the bottom (or Ctrl+K) replaces the nav, FAQ, tool launchers and contact form. Typing 'kapper' lights the hairdresser facade and loads a fictional sim; 'qr' opens the WhatsApp QR tool inline; 'contact' opens the form. Every result is a static route or a client-side action; the console also hosts Kawa later as a clearly labelled prototype. The city stays as the backdrop that reacts to console commands.",
+"3. STS OS / het Lab-bureau (PostHog/Rauno model, scoped): the homepage keeps a short scannable page, but the Lab is one surface where Simulatieruimte, Radar, zichtbaarheidscheck, Google preview, WhatsApp QR and the three prototypes open as windows over the city (one sheet at a time on mobile, hash-routed). This literally 'removes UI' (4 pages of repeated chrome) and 'integrates it into a thing': a desk Snymis works at, with the human-approval inbox as a visible, honest window ('wacht op goedkeuring').",
+"4. Een begeleide vlucht (Igloo/Vercel Ship model): a 60-second, scroll-driven camera flight from the stars down to one street in Antwerpen, through 5 keyframes that each state one thing we do (websites met gratis voorbeeld, gratis tools, simulaties, onderzoek, afspraak). Native scroll, camera lerps, each stop has a 'probeer dit' micro-interaction. A 'Sla de vlucht over' link and reduced-motion variant drop straight to the static chapters.",
+"5. Een gesprek met de stad (Docket hybrid, not chat-first): the page stays, but a single conversational guide ('Wat voor zaak heb je?') sits in the hero. Three or four fixed choices (horeca, kapper, garage, bakker, aannemer, praktijk) re-light the city, swap the demo facade, pre-fill the Simulatieruimte with that sector's fictional data and tailor the 'wat we voor jou doen' copy. No LLM in the browser, no backend: a static decision tree in JS, honestly labelled; Kawa can later replace the tree as a marked prototype.",
+"6. (bonus) Het lichtschakelaar-ritueel: the whole first screen is one gesture: press and hold to switch the street lights on, shop by shop; each sign that lights up is a service line ('website', 'Google-profiel', 'WhatsApp', 'simulatie'). Releasing leaves the city lit and the nav revealed. It is UI removed into a thing, costs almost nothing on the GPU (emissive uniform per instance), and encodes the emotional pitch: we make your zaak visible."
+],
+"sources": [
+"NOTE: direct page fetches (WebFetch/curl) were blocked by the egress proxy in this session; all findings come from search snippets and secondary write-ups (Codrops, Awwwards listings, Communication Arts, studio blogs). Verify live behaviour before copying exact mechanics.",
+"https://tympanus.net/codrops/2026/04/13/lusion-where-digital-craft-meets-ambitious-experimentation/",
+"https://mark-n.co/projects/lusion-reverse-engineered/",
+"https://schoolofmotion.com/blog/10-websites-with-great-animation-in-2026",
+"https://awwwards.com/case-study-for-lusion-by-lusion-winner-of-site-of-the-month-may.html",
+"https://blog.lusion.co/oryzo-bts-part-1-7-concept-and-creative-direction",
+"https://www.awwwards.com/sites/igloo-inc",
+"https://awwwards.com/igloo-inc-case-study.html",
+"https://www.awwwards.com/websites/sites_of_the_year/",
+"https://www.awwwards.com/annual-awards/winners",
+"https://www.awwwards.com/sites/messenger",
+"https://www.awwwards.com/sites/lando-norris",
+"https://designrush.com/best-designs/websites/lando-norris-website-design",
+"https://www.commarts.com/webpicks/active-theory-1",
+"https://www.awwwards.com/active-theory-v4-wins-january-2018-site-of-the-month.html",
+"https://lbbonline.com/news/Craft-Matters-by-Active-Theory",
+"https://www.creativebloq.com/web-design/examples-of-html-1233547",
+"https://tympanus.net/codrops/2026/03/06/obys-the-small-studio-designing-big-digital-narratives/",
+"https://tympanus.net/codrops/2026/01/12/obys-design-books-turning-a-reading-list-into-a-tactile-web-library/",
+"https://www.awwwards.com/the-new-obys.html",
+"https://www.awwwards.com/sites/eatnaked",
+"https://basement.studio/post/behind-the-ship",
+"https://vercel.com/blog/designing-and-building-the-vercel-ship-conference-platform",
+"https://basement.studio/post/shipping-ship-behind-the-particle-shader-effect-for-vercels-conf",
+"https://blog.spline.design/how-resend-uses-spline-for-3d-design",
+"https://opendesigner.io/design-systems/resend",
+"https://blog.logrocket.com/?p=186781",
+"https://www.saasframe.io/examples/raycast-landing-page",
+"https://framer.com/updates/design-pages",
+"https://posthog.com/blog/why-os",
+"https://feedbagel.com/post/posthogs-operating-system-inspired-website-redesign-solves-tab-overload-problem",
+"https://uiuxshowcase.com/portfolio/rauno-freiberg/",
+"https://bolt.new/blog/bolt-rebuilds-macos-style-portfolio-website",
+"https://lbbonline.com/news/Malvah-Studio-of-the-Year-2025-Awwwards",
+"https://www.commarts.com/webpicks/seventeen-agency",
+"https://www.awwwards.com/sites/brunos-portfolio",
+"https://www.docket.io/blog/designing-docket-frameless",
+"https://www.fortune.com/2025/08/26/homepage-is-dead-future-is-question-search-chatbots-ai",
+"https://redskystudios.co.uk/news/scroll-jacking-annoying-when-abused-delightful-when-done-right",
+"https://frontendchecklist.io/rules/accessibility/scrolljacking",
+"https://lists.w3.org/Archives/Public/public-css-archive/2022Jun/0886.html",
+"https://github.com/Ferousco-dev/anti-slop-design",
+"https://www.developersdigest.tech/blog/ai-design-slop-and-how-to-spot-it",
+"https://dev.to/james_anderson_h/the-purple-gradient-problem-why-ai-ui-all-looks-alike-and-how-to-fix-it-3j65",
+"https://beaucoup.studio/en/projects/that-original",
+"https://blog.readymag.com/websites-of-the-year-2025/",
+"https://icons8.com/blog/articles/award-winning-website-designs/"
+]
+}
+}
