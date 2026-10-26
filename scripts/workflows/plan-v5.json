@@ -322,6 +322,88 @@
    ],
    "parallelizable": false,
    "sizeHours": 5
+  },
+  {
+   "id": "WP-16",
+   "title": "Performance polish: measured budgets, loading order, fonts, images, idle CPU",
+   "scope": "Measure first, then fix. (a) Add scripts/qa/budget.json with real gates derived from measurements: per page phone first-load bytes (raw and gzip-equivalent), JS bytes, number of requests, LCP proxy (time to first contentful paint of the H1 measured via Playwright performance entries), idle rAF 0 and timers 0 after 3 s on every page. (b) Loading order: critical CSS first, fonts preloaded only for the weights actually used above the fold (check which Panchang/Switzer/JetBrains Mono files are requested on index phone; drop preloads for unused ones; font-display swap with size-adjust fallbacks to avoid layout shift); scripts deferred/module, no render-blocking JS; three.module only on the Three.js route (verify no request on phone). (c) Images: docs/assets/img/straat/*.jpg resized to the largest rendered size x2 DPR, quality tuned, width/height attributes, loading=lazy below the fold, og.png under 150 kB. (d) Remove dead CSS (e.g. the unused .aankomst rules, any selector not matched on any built page; write a tiny node script using the built HTML to list unmatched selectors and delete only confirmed-dead ones). (e) Verify the scene idle contract on desktop and tablet (frames delta 0 at rest, loop paused when covered or hidden) and that no setInterval survives on any page. (f) Document the measured numbers in scripts/qa/README.md (table per page) and keep every file under 500 lines.",
+   "files": "scripts/qa/budget.json (new), scripts/qa/budget.mjs, scripts/qa/README.md, src/partials/head.html, scripts/build.py, scripts/buildlib.py, docs/assets/css/base.css, docs/assets/css/rooms.css, docs/assets/img/straat/*.jpg, docs/assets/img/og.png, docs/assets/fonts (no new files, only which are preloaded), docs/ rebuilt",
+   "acceptance": "budget.json committed with gates that pass on the current site and would fail on a 20 percent regression; index.html phone first load under 400 kB raw with Three.js never requested on the phone profile; no font file requested that is not used on the page; CLS proxy: the H1 bounding box does not move between first paint and load (measured); straat images each under 60 kB; og.png under 150 kB; zero unmatched CSS selectors left among the ones the script flagged (or an explicit allowlist with reasons); idle rAF 0 and timers 0 on all pages; full QA green.",
+   "qa": "npm run build && npm run qa (full matrix, exit 0), npm run lint, npm run lines; own Playwright checks on desktop 1440x900 and phone 390x844 (and tablet 1024x1366 where layout changes); screenshots of every changed view saved under .qa/; zero console errors, zero external requests, no horizontal overflow, reduced motion and ?lite still work.",
+   "dependsOn": [
+    "WP-15"
+   ],
+   "parallelizable": true,
+   "sizeHours": 6
+  },
+  {
+   "id": "WP-17",
+   "title": "Mobile UX polish: dock, sheet, forms, landscape, tablet",
+   "scope": "Walk the whole site as a shop owner on a 390 px phone with one thumb and fix what is awkward. Dock: the current door always visible, the action never clipped, no overlap with the footer's last line, safe-area padding on notch devices, hidden while the keyboard is open if it covers the focused field (use visualViewport). Edit sheet: opens without layout jump, the name field never triggers iOS zoom (16 px), the gemeente datalist usable, Escape/back closes, focus returns. Forms (bericht, tools, sims): inputmode and autocomplete attributes, error messages next to the field, buttons 44 px, no horizontal scroll in any state (long names, long gemeente, all switches on). Landscape phone (844x390) and tablet portrait (1024x1366) layouts reviewed and fixed where text is clipped or panels overflow. The phone SVG skyline: the sign stays legible with two-line names, the landmark colour follows the sector. Sticky tab row on gereedschap.html does not cover headings when jumping to anchors (scroll-margin-top).",
+   "files": "docs/assets/css/uithangbord.css, docs/assets/css/base.css, docs/assets/css/rooms.css, docs/assets/css/tools.css, docs/assets/css/sim.css, docs/assets/css/sim-dag.css, docs/assets/css/werkwijze.css, docs/assets/js/uithangbord.js, src/rooms/*.html (attributes only), src/partials/uithangbord.html, docs/ rebuilt",
+   "acceptance": "Playwright on phone, landscape phone and tablet: no element wider than the viewport in any room with a 40-char two-word name and a 30-char gemeente; dock bottom equals viewport bottom with env(safe-area-inset-bottom) applied; focusing the name field with a simulated 300 px keyboard (visualViewport resize) does not leave the field hidden behind the dock; every input has a 16 px font size; every anchor jump leaves the heading fully visible under the sticky bars; all touch targets at least 44x44 on STS pages (harness notice count 0 outside docs/demo); full QA green.",
+   "qa": "npm run build && npm run qa (full matrix, exit 0), npm run lint, npm run lines; own Playwright checks on desktop 1440x900 and phone 390x844 (and tablet 1024x1366 where layout changes); screenshots of every changed view saved under .qa/; zero console errors, zero external requests, no horizontal overflow, reduced motion and ?lite still work.",
+   "dependsOn": [
+    "WP-15"
+   ],
+   "parallelizable": true,
+   "sizeHours": 6
+  },
+  {
+   "id": "WP-18",
+   "title": "Copy and emotion polish: the Flemish owner reads the whole site",
+   "scope": "Rewrite where needed, in nl-BE, trust-first, with the honest emotional levers from scripts/workflows/research-v5.json (psychology.honestEmotionalLevers, buyerProfiles, copyPrinciples) and copy-regels.md. Read every room and page out loud as a bakker from Borgerhout and a garagist from Mortsel: cut jargon, shorten sentences, make the first 10 seconds on index.html sharper (the two arrival lines, the H2 'Hoe heet je zaak?', the honesty sentence), make every simulation's result sentence land emotionally but truthfully (the missed call, the relief of the approval step, pride in seeing the own name), rewrite CTAs in the owner's words, give every empty state and error message a human sentence, tighten the FAQ answers, and check the je/u scopes per room (praktijk -> u). No new claims; no prices; no superlatives that cannot be shown. Update src/data/woordenlijst.json if a rule changes. Also write the 120-word placeholder-free 'Wie is Snymis' text ONLY from facts already on the site (no age, no real name) and mark in CHECKLIST-SAKI.md what Saki should personalise.",
+   "files": "src/rooms/*.html, src/pages/*.html (front matter descriptions), src/templates/wijk.html, src/data/wijken.json (sfeerzin stays empty), src/data/woordenlijst.json, copy-regels.md, docs/assets/js/sim-dag-data.js, docs/assets/js/sim-radar-data.js, docs/assets/js/preview-data.js, docs/assets/js/contact-prefill.js (templates only, keys frozen), docs/CHECKLIST-SAKI.md, docs/ rebuilt",
+   "acceptance": "A diff review shows only copy changes (no structure or behaviour changes); lint-copy 0 fails; every page description under 155 characters and unique; the index.html first viewport on phone and desktop contains the words Antwerpen, voorbeeld and Snymis; no sentence over 25 words in the arrival lines and CTAs; je/u consistent per room; the frozen prefill keys unchanged and the conversion check green; full QA green.",
+   "qa": "npm run build && npm run qa (full matrix, exit 0), npm run lint, npm run lines; own Playwright checks on desktop 1440x900 and phone 390x844 (and tablet 1024x1366 where layout changes); screenshots of every changed view saved under .qa/; zero console errors, zero external requests, no horizontal overflow, reduced motion and ?lite still work. Plus: a second agent reads the built pages as a sceptical Flemish owner and lists any sentence that over-claims; those sentences are fixed before the package is done.",
+   "dependsOn": [
+    "WP-15"
+   ],
+   "parallelizable": false,
+   "sizeHours": 6
+  },
+  {
+   "id": "WP-19",
+   "title": "Accessibility pass: WCAG 2.1 AA on every page",
+   "scope": "Audit and fix: colour contrast of every text/background pair (cyan on dark, muted greys, mono labels, the violet accent) to AA (4.5:1 body, 3:1 large); focus-visible on every interactive element in both routes; logical heading order per page (one h1, no skipped levels); landmarks (header, nav, main, footer, section aria-labelledby); the sign: #sign-sr announces changes politely and the canvas is aria-hidden; simulations: timelines and charts have text alternatives (sr-only lists already exist, verify completeness), play/pause buttons have names and states, aria-live regions are not spammy; forms: labels, required and error association (aria-describedby), the honeypot hidden from AT; the edit sheet is a proper dialog (role, aria-modal, focus trap, Escape); keyboard: every door, chip, switch, tab, slider and details reachable and operable, no keyboard trap, skip link works on every page; reduced motion: no animation longer than 0.2 s remains; zoom 200 percent: no clipped text, no horizontal scroll; language: lang=nl-BE, and English words marked lang=en only where unavoidable. Add a small axe-core style check: run @axe-core/playwright if installable offline, otherwise a hand-written checker for the items above in scripts/qa/a11y.mjs wired into npm run qa as notices (fails only for contrast and missing names).",
+   "files": "scripts/qa/a11y.mjs (new), scripts/qa/qa.mjs, scripts/qa/README.md, docs/assets/css/base.css, docs/assets/css/*.css (tokens and focus), src/rooms/*.html, src/partials/*.html, docs/assets/js/uithangbord.js, docs/assets/js/scene/signdom.js, docs/ rebuilt",
+   "acceptance": "Contrast report: zero AA failures on STS pages (measured over computed styles of every text node sample on desktop and phone); every page passes the a11y checker with zero fails; heading order valid on every page; the sheet behaves as a dialog (focus trapped, Escape closes, focus returns); Tab traversal of index.html visits every interactive element with a visible focus ring (count matches the number of focusable elements); 200 percent zoom on desktop shows no horizontal scroll; full QA green.",
+   "qa": "npm run build && npm run qa (full matrix, exit 0), npm run lint, npm run lines; own Playwright checks on desktop 1440x900 and phone 390x844 (and tablet 1024x1366 where layout changes); screenshots of every changed view saved under .qa/; zero console errors, zero external requests, no horizontal overflow, reduced motion and ?lite still work.",
+   "dependsOn": [
+    "WP-15"
+   ],
+   "parallelizable": true,
+   "sizeHours": 6
+  },
+  {
+   "id": "WP-21",
+   "title": "Scene and sign craft: make the one thing beautiful on a real GPU without extra cost",
+   "scope": "Polish within the performance rules: the sign plane gets a subtle frame and a neon tube look (texture-based, no post-processing), letter glow baked into the CanvasTexture (two-pass draw: blurred copy behind crisp text, drawn once per text change), warm reflection on the landmark roof (static emissive, no light), the unlit state shows a faint dark frame so the visitor understands a sign is waiting; the landmark gets a slightly richer silhouette (two or three more static boxes, instanced, under 200 extra triangles); camera places tuned so every room's landing frames the landmark and leaves the text panels unobstructed (check each place against the DOM layout at 1440x900 and 1920x1080); flights ease nicely and never fight native scroll; parallax reduced to 1 unit and disabled while a flight runs; DPR cap and bloom probe untouched; the SVG skyline on phones gets the same sign frame treatment (static, inline SVG, no filters); the intro stays under 1.5 s. Keep render-on-demand (frames 0 at rest), file limits and zero external requests.",
+   "files": "docs/assets/js/scene/sign.js, docs/assets/js/scene/signdom.js, docs/assets/js/scene/city.js, docs/assets/js/scene/places.js, docs/assets/js/scene/flight.js, docs/assets/js/scene.js, docs/assets/img/plattegrond.svg, docs/assets/css/base.css (scene layer only), docs/ rebuilt",
+   "acceptance": "Screenshots .qa/sign-unlit-desktop.png, .qa/sign-lit-desktop.png, .qa/sign-lit-phone.png, .qa/place-<id>-desktop.png for every place, produced and visually checked by the builder: the sign is legible at 1440x900 and 1920x1080 with a 2-line name, the landing frames keep the text panels free of the sign's bounding box; renderer.info draw calls not more than before plus 3; frames delta 0 at rest on desktop and tablet; sts:scene-ready under 6 s in gl and gl-swift; intro under 1.6 s; no new file over 300 lines; full QA green.",
+   "qa": "npm run build && npm run qa (full matrix, exit 0), npm run lint, npm run lines; own Playwright checks on desktop 1440x900 and phone 390x844 (and tablet 1024x1366 where layout changes); screenshots of every changed view saved under .qa/; zero console errors, zero external requests, no horizontal overflow, reduced motion and ?lite still work.",
+   "dependsOn": [
+    "WP-15"
+   ],
+   "parallelizable": true,
+   "sizeHours": 6
+  },
+  {
+   "id": "WP-22",
+   "title": "Release refresh: changelog, checklist, report, sitemap, final audit after polish waves",
+   "scope": "Re-run the WP-15 audit after the polish packages: update CHANGELOG.md and docs/CHECKLIST-SAKI.md with what changed and what is still open for Saki; regenerate docs/qa-report.html from a full green matrix; verify sitemap.xml and robots.txt list every public page and no dev/redirect page; verify every internal link and anchor on every built page resolves (write or reuse a link checker); verify JSON-LD on index.html parses and is honest; verify the 404 page works with <base href> from a deep path; verify legal pages still carry the whitelisted strings and the config-driven placeholders; final grep for forbidden words across docs/ (excluding demo); update README.md.",
+   "files": "CHANGELOG.md, docs/CHECKLIST-SAKI.md, docs/qa-report.html, docs/sitemap.xml, docs/robots.txt, README.md, scripts/qa/links.mjs (new if needed), docs/ rebuilt",
+   "acceptance": "Link checker reports zero broken internal links and anchors; sitemap matches the set of public pages; full QA green with the committed report matching HEAD; CHANGELOG and checklist updated.",
+   "qa": "npm run build && npm run qa (full matrix, exit 0), npm run lint, npm run lines; own Playwright checks on desktop 1440x900 and phone 390x844 (and tablet 1024x1366 where layout changes); screenshots of every changed view saved under .qa/; zero console errors, zero external requests, no horizontal overflow, reduced motion and ?lite still work.",
+   "dependsOn": [
+    "WP-16",
+    "WP-17",
+    "WP-18",
+    "WP-19",
+    "WP-21"
+   ],
+   "parallelizable": false,
+   "sizeHours": 3
   }
  ],
  "keepFromCurrentSite": [
