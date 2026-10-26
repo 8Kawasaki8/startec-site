@@ -47,10 +47,19 @@ export function sceneState() {
   let webgl2 = null, webgl1 = null;
   try { const c = document.createElement('canvas'); webgl2 = !!c.getContext('webgl2'); webgl1 = webgl2 || !!c.getContext('webgl'); } catch (e) { webgl2 = false; webgl1 = false; }
   const ev = (window.__sts && window.__sts.events[0]) || null;
+  // WP-15: draw calls of the last rendered frame (renderer.info.render, null on the SVG route), long tasks,
+  // the SVG skyline inside the fallback and the placed DOM sign (the nogl pass checks both on the scene pages)
+  const S = window.STSScene, dbg = S && S.debug;
+  let calls = null, longTasks = null;
+  try { const inf = dbg && typeof dbg.info === 'function' ? dbg.info() : null; calls = inf && typeof inf.calls === 'number' ? inf.calls : null; longTasks = dbg ? dbg.longTasks : null; } catch (e) { /* no scene */ }
+  const sky = fb ? fb.querySelector('svg') : null, skyBox = sky ? sky.getBoundingClientRect() : null;
+  const signDom = document.getElementById('sign-dom');
   return {
     hasCanvas: !!canvas, hasFallback: !!fb, fallbackVisible: visible(fb), canvasVisible: visible(canvas),
     event: ev ? ev.ev.replace('sts:scene-', '') : 'none', eventMs: ev ? ev.ms : null, events: window.__sts ? window.__sts.events : [],
-    webgl: { available: webgl2 || webgl1, webgl2, webgl1 }, stsScene: !!window.STSScene, lite: window.STSScene ? !!window.STSScene.lite : null,
+    webgl: { available: webgl2 || webgl1, webgl2, webgl1 }, stsScene: !!S, lite: S ? !!S.lite : null,
+    calls, longTasks, skyline: !!(skyBox && skyBox.width > 0 && skyBox.height > 0 && visible(fb)),
+    signPlaced: !!(signDom && signDom.classList.contains('is-placed')), route: document.documentElement.dataset.scene || null,
   };
 }
 
@@ -95,7 +104,15 @@ export function pageInfo(cfg) {
     h1: document.querySelectorAll('h1').length, imgsNoAlt: [...document.images].filter(i => !i.hasAttribute('alt')).length,
     pointer: matchMedia('(pointer:coarse)').matches ? 'coarse' : 'fine', reduced: matchMedia('(prefers-reduced-motion: reduce)').matches,
     hardwareConcurrency: navigator.hardwareConcurrency, storage: { session, local }, externalMarkup: ext,
-    smallTargets: cfg.phone ? [...document.querySelectorAll('a, button, input, select, textarea, [role=button]')].filter(el => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && (r.width < 44 || r.height < 44) && getComputedStyle(el).visibility !== 'hidden'; }).length : null,
+    // phone: every real click target at least 44 px. A radio or checkbox is measured by its label (the chip or row the
+    // thumb hits); anything inside aria-hidden (the honeypot) or with tabindex -1 is not a target
+    smallTargets: cfg.phone ? [...document.querySelectorAll('a, button, input, select, textarea, [role=button]')].filter(el => {
+      if (el.closest('[aria-hidden="true"]') || el.getAttribute('tabindex') === '-1' || el.disabled) return false;
+      let box = el;
+      if (el.matches('input[type=radio], input[type=checkbox]')) { const lab = el.closest('label') || (el.id && document.querySelector(`label[for="${el.id}"]`)); if (lab) box = lab; }
+      const r = box.getBoundingClientRect();
+      return r.width > 0 && r.height > 0 && (r.width < 44 || r.height < 44) && getComputedStyle(box).visibility !== 'hidden' && parseFloat(getComputedStyle(box).opacity) > 0;
+    }).length : null,
   };
 }
 

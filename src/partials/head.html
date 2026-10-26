@@ -1,3 +1,8 @@
+<!-- WP-16: {{preloads}} is one <link rel=preload> per font file of the page's first viewport (front matter 'preload:',
+     default in build.py: the sign and the H1 in Panchang, the arrival lines in Switzer; the labels in JetBrains Mono
+     are small and load on discovery). Stylesheets stay render-blocking on purpose (critical CSS first, no FOUC);
+     every script sits at the end of the body, after all content (no defer: the scene module must find gsap, see
+     build.py), the scene loader is the only inline script. -->
 <!doctype html>
 <html lang="nl-BE" class="js">
 <head>
@@ -10,9 +15,7 @@
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 {{og}}
 {{jsonld}}
-<link rel="preload" href="assets/fonts/panchang-normal-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/panchang-normal-600.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/switzer-normal-400.woff2" as="font" type="font/woff2" crossorigin>
+{{preloads}}
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/base.css">

@@ -228,9 +228,34 @@ export function createCity(scene) {
   heroGeo.setAttribute("aKind", new THREE.Float32BufferAttribute(new Float32Array(nv).fill(0), 1));
   heroGeo.setAttribute("aLand", new THREE.Float32BufferAttribute(new Float32Array(nv).fill(1), 1));
   const hero = new THREE.Mesh(heroGeo, heroMat); hero.position.set(HERO.x, 0, HERO.z); hero.scale.set(HERO.w, HERO.h, HERO.w); hero.visible = true; group.add(hero);
-  /* static glow under the sign */
-  const heroLight = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.45 }));
-  heroLight.position.set(HERO.x, HERO.h + 0.6, HERO.z); heroLight.scale.setScalar(3.2); group.add(heroLight);
+  /* the annex: three static boxes around the landmark (a low wing, a setback tower, a plant room on the
+     roof) in one instanced draw with the landmark's material, 36 triangles; they sit inside the cleared plot
+     (4.5 units around HERO), away from the street at z = 2; the plant room stands behind the board */
+  const annexGeo = geo.clone();
+  ["aSeed", "aH", "aKind", "aLand"].forEach(n => annexGeo.deleteAttribute(n));
+  const ANNEX = [
+    { x: HERO.x - 3.4, z: HERO.z + 0.8, w: 2.2, h: 6.2, s: 0.57 },
+    { x: HERO.x + 3.6, z: HERO.z - 0.6, w: 2.0, h: 10.2, s: 0.83 },
+    { x: HERO.x + 1.1, z: HERO.z - 1.8, w: 1.4, h: HERO.h + 0.6, s: 0.12 }
+  ];
+  const annex = new THREE.InstancedMesh(annexGeo, heroMat, ANNEX.length);
+  ANNEX.forEach((b, k) => { m.compose(new THREE.Vector3(b.x, 0, b.z), q, new THREE.Vector3(b.w, b.h, b.w)); annex.setMatrixAt(k, m); });
+  annexGeo.setAttribute("aSeed", new THREE.InstancedBufferAttribute(new Float32Array(ANNEX.map(b => b.s)), 1));
+  annexGeo.setAttribute("aH", new THREE.InstancedBufferAttribute(new Float32Array(ANNEX.map(b => b.h)), 1));
+  annexGeo.setAttribute("aKind", new THREE.InstancedBufferAttribute(new Float32Array(ANNEX.length).fill(0), 1));
+  annexGeo.setAttribute("aLand", new THREE.InstancedBufferAttribute(new Float32Array(ANNEX.length).fill(1), 1));
+  annex.frustumCulled = false; group.add(annex);
+  /* the roof under the sign: a warm reflection, one static additive plane (no light); faint while the sign is
+     unlit, warmer and tinted by the sector colour once a name is on the board (signState from sign.js) */
+  const roofTex = glowTexture("rgba(255,214,160,0.8)", "rgba(255,176,96,0)");
+  const roof = new THREE.Mesh(new THREE.PlaneGeometry(HERO.w * 1.3, HERO.w * 1.3), new THREE.MeshBasicMaterial({ map: roofTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.22, fog: true, toneMapped: false }));
+  roof.rotation.x = -Math.PI / 2; roof.position.set(HERO.x, HERO.h + 0.04, HERO.z); roof.renderOrder = 2; group.add(roof);
+  const WARM = new THREE.Color(0xffd6a0);
+  function signState(lit, color) {
+    roof.material.opacity = lit ? 0.55 : 0.22;
+    roof.material.color.copy(WARM); if (color) roof.material.color.lerp(color, lit ? 0.45 : 0.25);
+  }
+  signState(false, null);
 
   function update(t, px) {
     mat.uniforms.uTime.value = t; heroMat.uniforms.uTime.value = t;
@@ -238,5 +263,5 @@ export function createCity(scene) {
     for (const p of [lampPts, carPts, warnPts]) { p.material.uniforms.uTime.value = t; p.material.uniforms.uPx.value = px; }
   }
   function dropMirror() { if (mirror) { group.remove(mirror); mirror = null; base.material.transparent = false; base.material.opacity = 1; base.material.needsUpdate = true; } }
-  return { group, update, dropMirror, count: cells.length, landmark: hero, sector: heroMat.uniforms.uSector, heroLight };
+  return { group, update, dropMirror, signState, count: cells.length, landmark: hero, annex, roof, sector: heroMat.uniforms.uSector };
 }

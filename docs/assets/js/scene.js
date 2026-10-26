@@ -16,7 +16,8 @@
 
    RENDER STATES: vlucht (full rate while a flight or the intro runs), settle
    (600 ms after landing), rust (zero frames). Sign or sector changes and a
-   resize draw one frame; pointer parallax (desktop) wakes at most 400 ms.
+   resize draw one frame; pointer parallax (desktop, 1 unit, off during a
+   flight) wakes at most 400 ms.
    The loop also stops when STSScene.cover(f) > 0.6, the canvas leaves the
    viewport or the tab is hidden. guard(): 150 frames averaging > 28 ms drop
    the composer and the DPR; a second such window swaps to the SVG route.
@@ -35,7 +36,7 @@ import { createIntro } from "./scene/intro.js";
 import { places } from "./scene/places.js";
 import { createFlight } from "./scene/flight.js";
 import { createSign } from "./scene/sign.js";
-import { writeSignDom, placeSignDom, countLongTasks } from "./scene/signdom.js";
+import { writeSignDom, placeSignDom, shadeSignDom, watchSignShade, countLongTasks } from "./scene/signdom.js";
 import { mountDebug } from "./scene/debug.js";
 
 const canvas = document.getElementById("scene");
@@ -65,7 +66,7 @@ function boot() {
   const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 1800); scene.add(camera);
   const sky = createSky(scene);
   const city = createCity(scene);
-  const sign = createSign(scene, { landmarkUniform: city.sector, onChange: () => wake(0) });
+  const sign = createSign(scene, { landmarkUniform: city.sector, onChange: () => wake(0), onState: (lit, c) => { city.signState(lit, c); wake(0); } });
   const flight = createFlight({ camera, canvas, reduce, onFrame: () => wake(0) });
   const clock = new THREE.Clock();
 
@@ -93,13 +94,21 @@ function boot() {
     wakeUntil = Math.max(wakeUntil, performance.now() + (ms || 0));
     if (!raf && canRender()) raf = requestAnimationFrame(tick);
   }
-  function cover(f) { covered = Math.max(0, Math.min(1, +f || 0)); if (covered <= 0.6) wake(0); }
+  /* one frame when the city comes back from under the panels; a cover() call that changes nothing
+     (uithangbord.js reports every observer step) costs nothing */
+  function cover(f) { const was = covered; covered = Math.max(0, Math.min(1, +f || 0)); if (was > 0.6 && covered <= 0.6) wake(0); }
   document.addEventListener("visibilitychange", () => { hidden = document.hidden; if (!hidden) wake(0); });
   new IntersectionObserver(en => { offscreen = !en[0].isIntersecting; if (!offscreen) wake(0); }).observe(canvas);
   /* a flight wakes the loop at once (flight.js only emits the event); after landing the neon settles for
      600 ms, except under reduced motion where the cut needs exactly one frame */
   addEventListener("sts:flight-start", () => wake(0));
-  addEventListener("sts:landed", () => { wake(reduce ? 0 : 600); placeSign(); });
+  /* a landing always costs exactly one frame, also while the panels cover more than 60 % of the viewport
+     (every landing after gevel on index): the loop stays paused there, so without this direct render the
+     canvas would keep the previous landing while #sign-dom already moved to the new place */
+  addEventListener("sts:landed", () => {
+    if (!dead && !hidden && !offscreen && covered > 0.6) render(clock.getElapsedTime());
+    wake(reduce ? 0 : 600); placeSign();
+  });
 
   /* ── bloom probe and quality guard ───────────────────────────────────── */
   let composer = null, bloomPass = null, bloom = false;
@@ -148,7 +157,7 @@ function boot() {
     const w = innerWidth, h = coarse ? Math.max(innerHeight, probeEl.offsetHeight || 0) : innerHeight;
     if (!force && coarse && w === lastW && Math.abs(h - lastH) < 200) return;
     lastW = w; lastH = h;
-    renderer.setSize(w, h, false); camera.aspect = w / h; camera.fov = w / h < 1 ? 58 : 42; camera.updateProjectionMatrix();
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.fov = w / h < 1 ? 64 : 42;   /* portrait (tablet): wider, so the 12-unit sign stays inside the frame */ camera.updateProjectionMatrix();
     if (composer) { composer.setSize(w, h); bloomPass.setSize(w / 2, h / 2); }
     placeSign(); wake(0);
   }
@@ -156,7 +165,8 @@ function boot() {
   resize(true);
 
   /* ── the sign: DOM text follows the projected plane once per landing ────── */
-  function placeSign() { camera.updateMatrixWorld(); const pr = sign.project(camera, innerWidth, innerHeight); placeSignDom(pr.box, sign.text(), pr.visible ? pr.corners : null); }
+  function placeSign() { camera.updateMatrixWorld(); const pr = sign.project(camera, innerWidth, innerHeight); placeSignDom(pr.box, sign.text(), pr.visible ? pr.corners : null); shadeSignDom(pr.box); }
+  watchSignShade();
   function setSector(color) { if (!color) return; sign.setSector(color); const d = document.getElementById("sign-dom"); if (d) d.style.setProperty("--sign", color); wake(0); }
   /* the plane does not move when its text changes: writeSignDom re-fits the font to the current box;
      placeSign runs on sts:landed and resize, and here only while the sign has not been placed yet */

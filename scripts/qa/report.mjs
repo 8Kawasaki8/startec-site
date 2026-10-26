@@ -42,8 +42,10 @@ function matrixTable(runs) {
   const rows = runs.map(r => `<tr><td class="mono">${esc(r.page)}</td><td class="mono">${esc(r.profile)}</td><td class="mono">${esc(r.mode)}</td><td class="mono">${esc(r.variant)}</td>
 <td class="${sev[r.status]}">${sev[r.status]}</td><td class="mono">${r.loadMs}</td><td class="mono">${r.rafCount ?? ''}</td><td class="mono">${r.timerCount ? r.timerCount.intervalsActive : ''}</td>
 <td class="mono">${r.scene && r.scene.hasCanvas ? esc(r.scene.event) + (r.scene.eventMs != null ? ' ' + r.scene.eventMs + 'ms' : '') : '-'}</td><td class="mono">${r.webgl ? (r.webgl.webgl2 ? 'webgl2' : r.webgl.webgl1 ? 'webgl1' : 'geen') : ''}</td>
-<td class="mono">${r.externalRequests.length}</td><td class="mono">${r.consoleErrors.length}</td><td class="mono">${r.overflow ? r.overflow.scrollWidth - r.overflow.innerWidth > 1 ? 'ja' : 'nee' : ''}</td><td class="mono">${kB(r.bytes && r.bytes.total)}</td></tr>`).join('\n');
-  return `<div class="scroller"><table><thead><tr><th>pagina</th><th>profiel</th><th>modus</th><th>variant</th><th>status</th><th>laad ms</th><th>rAF 3 s</th><th>intervals</th><th>scene</th><th>WebGL</th><th>extern</th><th>console</th><th>overflow</th><th>bytes</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+<td class="mono">${r.externalRequests.length}</td><td class="mono">${r.consoleErrors.length}</td><td class="mono">${r.overflow ? r.overflow.scrollWidth - r.overflow.innerWidth > 1 ? 'ja' : 'nee' : ''}</td><td class="mono">${kB(r.bytes && r.bytes.total)}</td><td class="mono">${kB(r.bytes && r.bytes.jsGzip)}</td><td class="mono">${r.scene && r.scene.calls != null ? r.scene.calls : ''}</td><td class="mono">${r.scene && r.scene.longTasks != null ? r.scene.longTasks : ''}</td>
+<td class="mono">${r.perf ? r.perf.requests : ''}</td><td class="mono">${r.perf && r.perf.h1 && r.perf.h1.firstMs != null ? r.perf.h1.firstMs : ''}</td><td class="mono">${r.perf && r.perf.h1 && r.perf.h1.shift != null ? r.perf.h1.shift : ''}</td><td class="mono">${r.perf ? (r.perf.clsLoad ?? r.perf.cls) : ''}</td></tr>`).join('\n');
+  // WP-16: verzoeken, H1 ms (first frame with the H1), H1 px (its move since), CLS
+  return `<div class="scroller"><table><thead><tr><th>pagina</th><th>profiel</th><th>modus</th><th>variant</th><th>status</th><th>laad ms</th><th>rAF 3 s</th><th>intervals</th><th>scene</th><th>WebGL</th><th>extern</th><th>console</th><th>overflow</th><th>bytes</th><th>JS gzip</th><th>calls</th><th>lange taken</th><th>verzoeken</th><th>H1 ms</th><th>H1 px</th><th>CLS</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
 function runDetails(runs) {
@@ -59,6 +61,40 @@ function lintSection(lint) {
   const all = [...(lint.css || []), ...(lint.copy || []), ...(lint.lines || []), ...(lint.fixtures || [])];
   if (!all.length) return '<p>Geen bevindingen in lint-css, lint-copy en lint-lines.</p>';
   return `<details${lint.fails ? ' open' : ''}><summary><span class="${lint.fails ? 'fout' : 'bekend'}">${all.length} bevindingen, ${lint.fails} fout(en)</span></summary><div><ul>${all.map(i => `<li><span class="${sev[i.severity]}">${sev[i.severity]}</span> <code>${esc(i.file)}${i.line ? ':' + i.line : ''}</code> ${esc(i.text)}${i.wp ? ` <span class="wp">${esc(i.wp)}</span> ${esc(i.note)}` : ''}</li>`).join('')}</ul></div></details>`;
+}
+
+/** WP-15: the measured budget behind the hard gates, and what is reported only. */
+function budgetSection(rep) {
+  const b = rep.budgetInfo;
+  if (!b || !b.measuredOn) return `<p>Geen gemeten budget: ${esc(rep.budget || '')}. Alleen de harde grenzen gelden (telefoon 450 kB ruw, lite 90 kB JS gzip-equivalent).</p>`;
+  const rows = (b.rows || []).map(r => `<tr><td class="mono">${esc(r.page)}</td><td class="mono">${esc(r.what)}</td><td class="mono">${r.unit ? kB(r.measured) : r.measured}</td><td class="mono">${r.unit ? kB(r.max) : r.max}</td><td>${r.gated ? '<span class="ok">poort</span>' : '<span class="notitie">gemeld</span>'}</td></tr>`).join('');
+  const gates = Object.entries(b.gates || {}).map(([k, v]) => `${esc(k)} ${v ? 'aan' : 'uit'}`).join(', ');
+  return `<p>Gemeten op commit <code>${esc(b.measuredOn.slice(0, 10))}</code> (${esc(b.measuredAt || '')}${b.workingTreeDirty ? ', werkmap met wijzigingen' : ''}); plafond = meting + ${Math.round((b.marginBytes || 0) * 100)} % voor bytes en + ${Math.round((b.marginCalls || 0) * 100)} % voor draw calls, nooit boven ${kB(b.phoneRawBytesMax)} ruw op de telefoon of ${kB(b.jsGzipLiteMax)} JS in lite. Poorten: ${gates}. Gemeld en niet bewaakt: het desktop- en tabletgewicht met Three.js en het aantal lange taken onder SwiftShader (kolommen 'bytes' en 'lange taken' in de matrix); de echte GPU-controle is de stap met ?debug=1 in docs/CHECKLIST-SAKI.md.</p>
+<details><summary>Plafonds per pagina (${(b.rows || []).length})</summary><div><div class="scroller"><table><thead><tr><th>pagina</th><th>wat</th><th>gemeten</th><th>plafond</th><th></th></tr></thead><tbody>${rows}</tbody></table></div></div></details>`;
+}
+
+/** WP-19: the accessibility pass (contrast, names, headings, Tab traversal, dialog, zoom, motion) per page x profile. */
+function a11ySection(a) {
+  if (!a) return '<p>De toegankelijkheidscontrole is in deze run overgeslagen (--no-a11y).</p>';
+  const runs = a.runs || [], lim = a.limits || {};
+  const rows = runs.map(r => {
+    const t = r.tab || {}, z = r.zoom, d = r.dialog, iss = r.issues || [];
+    const n = (check) => iss.filter(i => i.check === check).length;
+    return `<tr><td class="mono">${esc(r.page)}</td><td class="mono">${esc(r.profile)}</td><td class="${r.fails ? 'fout' : r.notices ? 'bekend' : 'ok'}">${r.fails ? 'fout' : r.notices ? 'notitie' : 'ok'}</td>
+<td class="mono">${r.audit ? `${r.audit.contrastFails}/${r.audit.pairs}` : '-'}</td><td class="mono">${n('name')}</td><td class="mono">${r.audit ? r.audit.headings.length : '-'}</td><td class="mono">${t.expected != null ? `${t.reached}/${t.expected}${t.trap ? ' val' : ''}` : '-'}</td><td class="mono">${n('focus')}</td>
+<td class="mono">${d ? (d.issues && d.issues.length ? `${d.issues.length} punt(en)` : 'ok') : '-'}</td><td class="mono">${z ? (z.overflow ? `overflow ${z.sw}>${z.vw}` : z.clipped && z.clipped.length ? `${z.clipped.length} afgesneden` : 'ok') : '-'}</td><td class="mono">${r.motion ? r.motion.length : '-'}</td><td class="mono">${r.fails}</td><td class="mono">${r.notices}</td></tr>`;
+  }).join('\n');
+  const list = runs.filter(r => (r.issues || []).length).map(r => `<details${r.fails ? ' open' : ''}><summary><span class="${r.fails ? 'fout' : 'bekend'}">${r.fails ? 'fout' : 'notitie'}</span> <code>a11y ${esc(r.page)} [${esc(r.profile)}]</code></summary><div><ul>${r.issues.map(i => `<li><span class="${sev[i.severity]}">${sev[i.severity]}</span> <code>${esc(i.check)}</code> ${esc(i.text)}</li>`).join('')}</ul></div></details>`).join('\n');
+  return `<p>${runs.length} runs (elke STS-pagina op desktop en telefoon, modus gl, na een scrollpas): ${a.fails} fout(en), ${a.notices} notitie(s). Alleen contrast (4,5:1, of 3:1 voor grote tekst, over de samengestelde achtergrond) en een ontbrekende toegankelijke naam zijn een fout; koppen, landmarks, formulieren, live-gebieden, de Tab-doorloop (elk tabbaar element bereikt, met ring), het blad als dialoog (focusval, Escape, focus terug), ${lim.zoom ? `200 % zoom (${lim.zoom.width}x${lim.zoom.height} px, geen horizontale scroll)` : 'zoom'} en minder beweging (niets boven ${lim.motionMs || 200} ms) zijn notities.${a.skipped && a.skipped.length ? ` Overgeslagen: ${esc(a.skipped.join('; '))}.` : ''}</p>
+<div class="scroller"><table><thead><tr><th>pagina</th><th>profiel</th><th>status</th><th>contrast fout/paren</th><th>namen</th><th>koppen</th><th>Tab bereikt</th><th>ring</th><th>dialoog</th><th>zoom 200 %</th><th>beweging</th><th>fouten</th><th>notities</th></tr></thead><tbody>${rows}</tbody></table></div>
+${list}`;
+}
+
+/** WP-15: the screenshot set of a --shots run (gl and gl-swift, desktop and phone), kept in .qa/shots/. */
+function shotsSection(runs) {
+  const shots = (runs || []).filter(r => r.shot);
+  if (!shots.length) return '<p>Geen schermafbeeldingen in deze run (draai met --shots; ze komen in .qa/shots/ en blijven buiten git).</p>';
+  return `<p>${shots.length} schermafbeeldingen in <code>.qa/shots/</code> (niet in git; bekijk ze lokaal na de run):</p><details><summary>Lijst</summary><div><ul>${shots.map(r => `<li><code>${esc(r.shot)}</code> ${esc(runLabel(r))}</li>`).join('')}</ul></div></details>`;
 }
 
 export function renderReport(rep) {
@@ -79,7 +115,7 @@ export function renderReport(rep) {
 <main>
 <p class="label">QA-rapport, gegenereerd door scripts/qa/qa.mjs</p>
 <h1>Testrapport van de site</h1>
-<p>Elke pagina in docs/ getest in Chromium zonder GPU, op telefoon, tablet en desktop. Bekende punten dragen het werkpakket dat ze oplost en blokkeren niet; fouten wel.</p>
+<p>Elke pagina in docs/ getest in Chromium zonder GPU, op telefoon, tablet en desktop, plus de toegankelijkheidscontrole op desktop en telefoon. Bekende punten dragen het werkpakket dat ze oplost en blokkeren niet; fouten wel.</p>
 <span class="status ${green ? 'green' : 'red'}">${green ? (rep.matrix && (rep.matrix.quick || rep.matrix.partial) ? 'GROEN, maar onvolledig: niet publiceren' : 'GROEN: klaar om te publiceren') : 'ROOD: niet publiceren'}</span>
 <div class="meta">
 <div><span class="label">runs</span><strong>${s.runs}</strong></div>
@@ -87,16 +123,23 @@ export function renderReport(rep) {
 <div><span class="label">met bekende punten</span><strong class="bekend">${s.known}</strong></div>
 <div><span class="label">fout</span><strong class="${s.fail ? 'fout' : ''}">${s.fail}</strong></div>
 <div><span class="label">lintfouten</span><strong class="${s.lintFails ? 'fout' : ''}">${s.lintFails}</strong></div>
+<div><span class="label">toegankelijkheid</span><strong class="${s.a11yFails ? 'fout' : ''}">${s.a11yFails == null ? '-' : `${s.a11yFails} fout, ${s.a11yNotices} notitie`}</strong></div>
 <div><span class="label">duur</span><strong>${Math.round((rep.durationMs || 0) / 1000)} s</strong></div>
 </div>
-<p style="margin-top:16px;font-size:14px">Gegenereerd ${esc(rep.generated)} · commit <code>${esc((rep.commit || '').slice(0, 10) || 'onbekend')}</code> op <code>${esc(rep.branch || '?')}</code> · Node ${esc(rep.node)} · Playwright ${esc(rep.playwright)} · budget: ${esc(rep.budget)} · woordenlijst: ${esc(rep.woordenlijst)}${rep.matrix && rep.matrix.quick ? ' · <strong>quick-run, geen volledige matrix</strong>' : rep.matrix && rep.matrix.partial ? ' · <strong>deelrun, geen volledige matrix</strong>' : ''}</p>
+<p style="margin-top:16px;font-size:14px">Gegenereerd ${esc(rep.generated)} · commit <code>${esc((rep.commit || '').slice(0, 10) || 'onbekend')}</code> op <code>${esc(rep.branch || '?')}</code> · Node ${esc(rep.node)} · Playwright ${esc(rep.playwright)} · budget: ${esc(rep.budget)} · woordenlijst: ${esc(rep.woordenlijst)}${rep.dirty ? ` · <strong>werkmap met wijzigingen tegenover die commit (${rep.dirtyFiles || '?'} bestanden): dit rapport beschrijft de werkmap, niet de commit</strong>` : ''}${rep.matrix && rep.matrix.quick ? ' · <strong>quick-run, geen volledige matrix</strong>' : rep.matrix && rep.matrix.partial ? ' · <strong>deelrun, geen volledige matrix</strong>' : ''}</p>
 ${rep.notices && rep.notices.length ? `<h2>Notities</h2><ul style="padding-left:18px;color:var(--ink2);font-size:14px">${rep.notices.map(n => `<li>${esc(n)}</li>`).join('')}</ul>` : ''}
 <h2>Bekende punten en wie ze oplost</h2>
 ${rep.known && rep.known.length ? `<div class="scroller"><table><thead><tr><th>werkpakket</th><th>wat</th><th>aantal</th></tr></thead><tbody>${rep.known.map(k => `<tr><td><span class="wp">${esc(k.wp)}</span></td><td>${esc(k.note)}</td><td class="mono">${k.count}</td></tr>`).join('')}</tbody></table></div>` : '<p>Geen bekende punten meer.</p>'}
+<h2>Budget</h2>
+${budgetSection(rep)}
 <h2>Matrix</h2>
 ${matrixTable(rep.runs || [])}
+<h2>Schermafbeeldingen</h2>
+${shotsSection(rep.runs)}
 <h2>Bevindingen per run</h2>
 ${runDetails(rep.runs || []) || '<p>Geen bevindingen.</p>'}
+<h2>Toegankelijkheid</h2>
+${a11ySection(rep.a11y)}
 <h2>Statische lints</h2>
 ${lintSection(rep.lint)}
 </main>

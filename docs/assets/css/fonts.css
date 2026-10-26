@@ -1,17 +1,17 @@
-/* Self-hosted: Panchang + Switzer (Fontshare, ITF Free Font License), JetBrains Mono, Unbounded. No requests to third parties. */
+/* Self-hosted: Panchang + Switzer (Fontshare, ITF Free Font License), JetBrains Mono. No requests to third parties.
+   WP-16: three files fewer on every page (60 kB raw on the phone), without new font files. Panchang 600 also serves
+   weight 500 (.foot .motto, .gevel-zin); Switzer 400 also serves 500 (the small labels, legends and the strip's chip
+   are regular now); JetBrains Mono 400 and 500 were the same file, declared once for 400-500 (the dock's 600 falls
+   back to it as well). The unused 500 files of Panchang and Switzer are deleted (perf.mjs checkAssets fails on a
+   font file nothing references). Unbounded stays for docs/demo/radar only.
+   Each family has a metric-matched local fallback (size-adjust, ascent/descent from a canvas measurement against
+   Liberation Sans = Arial metrics and Liberation Mono = Courier New metrics) so the swap moves no line: base.css
+   names 'Panchang Fallback', 'Switzer Fallback' and 'JetBrains Mono Fallback' right after the web font. */
 
 @font-face {
   font-family: 'Panchang';
   font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url(../fonts/panchang-normal-500.woff2) format('woff2');
-}
-
-@font-face {
-  font-family: 'Panchang';
-  font-style: normal;
-  font-weight: 600;
+  font-weight: 500 600;
   font-display: swap;
   src: url(../fonts/panchang-normal-600.woff2) format('woff2');
 }
@@ -27,17 +27,9 @@
 @font-face {
   font-family: 'Switzer';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 400 500;
   font-display: swap;
   src: url(../fonts/switzer-normal-400.woff2) format('woff2');
-}
-
-@font-face {
-  font-family: 'Switzer';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url(../fonts/switzer-normal-500.woff2) format('woff2');
 }
 
 @font-face {
@@ -51,23 +43,37 @@
 @font-face {
   font-family: 'JetBrains Mono';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 400 500;
   font-display: swap;
   src: url(../fonts/jetbrains-mono-normal-400.woff2) format('woff2');
 }
 
+/* Fallbacks while the web font loads (font-display: swap): same advance widths (Panchang 600/700 against regular
+   Arial, Switzer against its 400, the mono one to one), same ascent, descent and line gap at line-height normal.
+   Chromium scales the overrides by size-adjust, so the percentages are the web font's metric divided by it. */
 @font-face {
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url(../fonts/jetbrains-mono-normal-500.woff2) format('woff2');
+  font-family: 'Panchang Fallback';
+  src: local('Arial'), local('Liberation Sans'), local('Helvetica Neue');
+  size-adjust: 162%;
+  ascent-override: 60%;
+  descent-override: 16%;
+  line-gap-override: 5.6%;
 }
 
 @font-face {
-  font-family: 'Unbounded';
-  font-style: normal;
-  font-weight: 400 900;
-  font-display: swap;
-  src: url(../fonts/unbounded-normal-400_900.woff2) format('woff2');
+  font-family: 'Switzer Fallback';
+  src: local('Arial'), local('Liberation Sans'), local('Helvetica Neue');
+  size-adjust: 100.7%;
+  ascent-override: 97.3%;
+  descent-override: 24.8%;
+  line-gap-override: 8.9%;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Fallback';
+  src: local('Courier New'), local('Liberation Mono'), local('DejaVu Sans Mono');
+  size-adjust: 100%;
+  ascent-override: 102%;
+  descent-override: 30%;
+  line-gap-override: 0%;
 }

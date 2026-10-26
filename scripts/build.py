@@ -17,6 +17,8 @@ Page front matter (HTML comment at the top of src/pages/<slug>.html):
   scripts: a b           scripts from docs/assets/js, after config.js and the core scripts
                          (names, state, hydrate, contact-prefill: on every page, legal included).
   styles: a b            stylesheets from docs/assets/css, after fonts, base and uithangbord.
+  preload: a b           font files from docs/assets/fonts preloaded in <head> (WP-16): only the weights of the
+                         first viewport; default PRELOAD_DEFAULT; 'none' preloads nothing.
   scene: yes             inserts src/partials/scene.html at {{scene}} (canvas, sign, SVG fallback
                          and the inline loader that decides whether Three.js loads).
   noindex: yes           robots meta 'noindex, nofollow' and no sitemap entry.
@@ -44,6 +46,10 @@ NOT_IN_SITEMAP = {"404"}
 CORE_SCRIPTS = ["names", "state", "hydrate", "contact-prefill"]
 LEGAL_PAGES = {"juridisch", "privacy", "cookies", "voorwaarden"}
 ROBOTS_NOINDEX = '<meta name="robots" content="noindex, nofollow">'
+# WP-16: the font files of the first viewport, measured on index.html (phone and desktop): the sign and the legal H1s in
+# Panchang 700, the arrival H1 and the h2's in Panchang 600, body text in Switzer 400. Labels (JetBrains Mono) and the
+# strip's Switzer 500 are small and load on discovery; a preload that no text uses fails the QA gate 'font'.
+PRELOAD_DEFAULT = "panchang-normal-700 panchang-normal-600 switzer-normal-400 jetbrains-mono-normal-400"
 
 
 def read_partials():
@@ -66,11 +72,16 @@ def render_page(ctx, slug, meta, body):
         body = body.replace("{{rooms}}", rooms_html(meta), 1)
     body = fill_data(body)   # content from src/data/*.json, in a room or in the page body
     strip = part["uithangbord"].replace("{{doors}}", render_doors(DOORS, slug, meta, kort=True)).replace("{{action}}", render_action(slug, meta))
+    # WP-16: no 'defer' on purpose. The classic scripts sit at the end of the body, after every byte of content, so
+    # they block no render; defer would move them behind the end of parsing, after which the scene module (inserted by
+    # the loader, async by nature) could evaluate before gsap exists. The order below is the order they run in.
     scripts = ['<script src="assets/vendor/%s.js"></script>' % v for v in meta.get("vendor", VENDOR_DEFAULT).split()]   # 'vendor:' empty = none
     scripts += ['<script src="assets/js/config.js"></script>']
     page_scripts = [s for s in meta.get("scripts", "").split() if s not in CORE_SCRIPTS]
     scripts += ['<script src="assets/js/%s.js"></script>' % s for s in CORE_SCRIPTS + page_scripts]
     styles = "\n".join('<link rel="stylesheet" href="assets/css/%s.css">' % s for s in meta.get("styles", "").split())
+    preload = meta.get("preload", PRELOAD_DEFAULT)
+    preloads = "\n".join('<link rel="preload" href="assets/fonts/%s.woff2" as="font" type="font/woff2" crossorigin>' % f for f in preload.split() if f != "none")
     page_head = part["head"]
     if slug == "404" and base:   # served for any missing URL, so relative assets need an anchor
         page_head = page_head.replace("<head>", '<head>\n<base href="%s">' % base, 1)
@@ -80,6 +91,7 @@ def render_page(ctx, slug, meta, body):
                 .replace("{{og}}", og_tags(base, slug, meta))
                 .replace("{{jsonld}}", json_ld(base, slug))
                 .replace("{{styles}}", styles)
+                .replace("{{preloads}}\n", preloads + "\n" if preloads else "", 1)
             + strip + body.strip() + "\n"
             + part["foot"].replace("{{doors}}", render_doors(DOORS, slug, meta, indent="        ")).replace("{{scripts}}", "\n".join(scripts)))   # WP-04: the footer repeats the five doors
     html = html.replace("{{home}}", "index.html").replace("{{date}}", dutch_date(page_date(meta, ctx["today"])))

@@ -83,6 +83,7 @@ html[data-scene="svg"] .loketten{background:var(--bg)}
 .gk-uur output{font:500 13px var(--mono);color:var(--cyan-2);margin-left:6px}
 .gk-uur input[type=range]{width:100%;height:44px;padding:0;margin:0;background:transparent;border:0;accent-color:var(--cyan);cursor:pointer}
 .gk-uur input[type=range]:focus{box-shadow:none}
+.gk-uur input[type=range]:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}   /* WP-19: de schuifknop houdt een zichtbare ring */
 .gk-dag select{min-height:48px}
 .gk-uren-wrap{margin-top:4px}
 [data-room] .gk-uren-wrap summary{font-size:14.5px;min-height:48px}

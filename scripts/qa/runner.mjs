@@ -1,7 +1,9 @@
 // Executes one run (page x profile x mode x variant) in a fresh browser context.
 import { join } from 'node:path';
+import { mkdirSync } from 'node:fs';
 import { PROFILES, VARIANTS, INTRO_MAX_MS, contextOptions, isDemoPage, isLegalPage } from './profiles.mjs';
-import { budgetIssues, classify, statusOf } from './budget.mjs';
+import { budgetIssues, classify, statusOf, pageCeiling } from './budget.mjs';
+import * as P from './perf.mjs';   // WP-16: requests, fonts, H1 paint and shift, CLS
 import { HEAVY_PROPS } from './lint-css.mjs';
 import * as C from './checks.mjs';
 
@@ -19,11 +21,13 @@ export async function runOne(browser, run, env) {
   const notice = (check, text) => raw.push({ check, text: short(text), page: run.page, severity: 'notice' });
   const external = [], consoleErrors = [];
   const bytes = { total: 0, jsGzip: 0, byType: {} };
+  const perf = P.perfLog();   // WP-16
   let counting = true;      // the conversion check reloads the page per key; those bytes are not the first load
   let muted = false;        // the dead-module check blocks a local script on purpose: its console line is not a site error
   const url = env.base + run.page + variant.query;
   const ctx = await browser.newContext(contextOptions(run.profile, run.variant));
   await ctx.addInitScript(C.initScript, { hardwareConcurrency: profile.hardwareConcurrency, intro: !!variant.intro });
+  await ctx.addInitScript(P.perfInit);   // WP-16: after the counters, so its rAF poll is counted but ends before the idle window
   const tab = await ctx.newPage();
   const is404 = run.page === '404.html';
 
@@ -46,12 +50,12 @@ export async function runOne(browser, run, env) {
     if (r.status() >= 400) issue('http', `http ${r.status()}: ${r.url()}`);
     if (C.hostKind(r.url()) !== 'local' && !is404) return;
     if (!counting) return;
-    try { const body = await r.body(); C.measure(bytes, r.request().resourceType(), body); } catch (e) { /* body gone (navigation) */ }
+    try { const body = await r.body(); C.measure(bytes, r.request().resourceType(), body); P.perfRequest(perf, r.url(), r.request().resourceType(), body ? body.length : 0); } catch (e) { /* body gone (navigation) */ }
   });
 
   const rec = { ...run, url, loadMs: 0, webgl: null, scene: null, rafCount: null, sceneFrames: null, timerCount: null, externalRequests: external,
     overflow: null, consoleErrors, forbiddenText: [], storageKeys: null, animations: null, bytes, firstViewport: null, intro: null, fallbackResize: null, conversion: null, info: null,
-    dock: null, longName: null, deadModule: null };
+    dock: null, longName: null, deadModule: null, shot: null, perf: null };
   try {
     const t0 = Date.now();
     await tab.goto(url, { waitUntil: 'load', timeout: 30000 });
@@ -91,6 +95,7 @@ export async function runOne(browser, run, env) {
       for (const a of rec.animations.declared) issue('animation', `transition op zware eigenschap gedeclareerd: ${a}`);
     }
     // scroll through the page to trigger lazy work, then back to the top
+    await tab.evaluate(() => { if (window.__perf) window.__perf.clsLoad = window.__perf.cls; });   // WP-16: CLS of the first load, before the scroll pass
     await tab.evaluate(async () => { const h = document.documentElement.scrollHeight; for (let y = 0; y < h; y += 700) { scrollTo(0, y); await new Promise(r => setTimeout(r, 60)); } scrollTo(0, 0); });
     await tab.waitForTimeout(600);
     // idle budget: counters 3 s apart; the scene's own frame counter is a separate, never-known gate (rust = 0 frames)
@@ -105,6 +110,7 @@ export async function runOne(browser, run, env) {
       if (run.profile !== 'phone' && f1.frames - f0.frames > 0) issue('raf-scene', `de scene tekende ${f1.frames - f0.frames} frames in 3 s rust (staat ${f1.state}); rust moet 0 frames zijn`);
     }
     rec.timerCount = { intervalsCreated: c1.intervalsCreated, intervalsActive: c1.intervalsActive, timeoutsCreated: c1.timeoutsCreated, timeoutsPending: c1.timeoutsPending };
+    rec.perf = P.perfRecord(await tab.evaluate(P.perfState), perf);   // WP-16: after the idle window, before any reload
 
     rec.scene = await tab.evaluate(C.sceneState);
     rec.webgl = rec.scene.webgl;
@@ -191,8 +197,11 @@ export async function runOne(browser, run, env) {
       muted = false;
     }
     rec.conversion = await conversionCheck(tab, run, env, issue, notice);
-    if (env.shots && run.mode === 'gl' && run.variant === 'default' && run.profile !== 'tablet') {
-      await tab.screenshot({ path: join(env.out, `${run.page.replace(/\//g, '_')}.${run.profile}.png`), fullPage: run.profile === 'phone' }).catch(() => {});
+    // WP-15: --shots writes a set per page for gl and gl-swift (desktop and phone) to .qa/shots/; the report lists them
+    if (env.shots && (run.mode === 'gl' || run.mode === 'gl-swift') && run.variant === 'default' && run.profile !== 'tablet') {
+      mkdirSync(join(env.out, 'shots'), { recursive: true });
+      const shot = `shots/${run.page.replace(/\//g, '_')}.${run.profile}${run.mode === 'gl' ? '' : '.' + run.mode}.png`;
+      await tab.screenshot({ path: join(env.out, shot), fullPage: run.profile === 'phone' }).then(() => { rec.shot = shot; }).catch(() => {});
     }
   } catch (e) {
     issue('navigation', `navigatie: ${short(e.message || e)}`);
@@ -201,8 +210,11 @@ export async function runOne(browser, run, env) {
   const counted = new Map();
   for (const e of consoleErrors) counted.set(e, (counted.get(e) || 0) + 1);
   for (const [e, n] of counted) issue('console', n > 1 ? `${e} (${n}x)` : e);
-  if (rec.info && rec.info.smallTargets) notice('targets', `${rec.info.smallTargets} klikdoelen kleiner dan 44 px op de telefoon`);
+  // touch targets >= 44 px is a hard rule on STS pages (checks.mjs measures radios and checkboxes by their label and skips
+  // aria-hidden and tabindex -1); the fictional demo sites keep the notice
+  if (rec.info && rec.info.smallTargets) (/^demo\//.test(run.page) ? notice : issue)('targets', `${rec.info.smallTargets} klikdoelen kleiner dan 44 px op de telefoon`);
   if (rec.scene) for (const b of budgetIssues(rec, env.budget)) raw.push({ ...b, page: run.page });
+  if (rec.perf) for (const b of P.perfIssues(rec, env.budget, pageCeiling(env.budget, rec))) raw.push({ ...b, page: run.page });   // WP-16
   await ctx.close();
   rec.issues = raw.map(i => classify(i, { root: env.root, budget: env.budget, page: run.page }));
   rec.status = statusOf(rec.issues);

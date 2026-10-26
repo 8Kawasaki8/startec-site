@@ -17,7 +17,10 @@
     "lint:selftest": "node scripts/qa/lint-copy.mjs --selftest",
     "lines": "node scripts/qa/lint-lines.mjs",
     "report": "node scripts/qa/qa.mjs --report-only",
-    "audit": "npm run lines && npm run lint && npm run qa"
+    "audit": "npm run lines && npm run lint && npm run qa",
+    "perf:css": "node scripts/qa/css-dead.mjs",
+    "perf:img": "python3 scripts/img-shrink.py --check",
+    "perf:selftest": "node scripts/qa/perf.mjs --selftest"
   },
   "devDependencies": {
     "playwright": "1.63.0"

@@ -1,0 +1,146 @@
+# Wijzigingslogboek Star.Tec.Solutions
+
+Statische site van STS Digital (Antwerpen). Bronnen in `src/`, gebouwd naar `docs/` (wat GitHub Pages serveert).
+Het bouwplan is `scripts/workflows/PLAN-V5.md`; de beslissingen per golf staan in de Wave-log daar. Dit logboek
+begint bij v5; v3, v3.1 en v4 staan alleen in de git-geschiedenis.
+
+## v5.0.0 (2026-10-26): Uithangbord op de nachtstad
+
+Vier golven (WP-00 tot WP-15) plus de eerste drie polishpakketten (WP-16, WP-19, WP-21) en hun fixronde. De voorkant is het Uithangbord: de naam van de zaak van de bezoeker op een verlicht
+bord op het landmark van de nachtstad, één strip met vijf deuren in de taal van de uitbater en één actie, 'Bericht
+aan Snymis'. De stad reageert op staat (naam, sector, de kamer in beeld), nooit op scrollpositie.
+
+### Verwijderd
+
+- De bovennavigatie met zeven links, de hamburger, de rail met negen ankers, de vaste Contact-pil op de telefoon en de
+  Site-kolom in de voet; in de plaats één strip (desktop) of dock (telefoon) met vijf deuren.
+- De metafoor-H1, de drie zwevende tags met backdrop-filter, de vloeibare CTA (feGaussianBlur), de scroll-hint.
+- De drie sticky hoofdstukken van 300svh, de hoofdstukmeters, ScrollTrigger-scrub, `STSScene.setProgress` en Lenis.
+- Elke stadsprop die op scrollvoortgang draaide: het groeiende draadmodel van het landmark, het scanvlak, het baken,
+  de band, het lichtspoor, de ASCII-spiegel met `readRenderTargetPixels`.
+- De dienstencarrousel met zes kaarten en haar overclaims (AI-systemen en agents, automatisering, 'data & leads met
+  duizenden contacten', ontwerp en branding als product), de holografische glans en de 3D-kanteling.
+- De Engelse slogan-marquee, het split-flap vertrekbord als leusbord met zijn `setInterval` van 14 s, de
+  gradient-mesh-vlekken, de eigen cursor met komeetspoor.
+- Beide accordeons met GSAP-hoogteanimatie (nu native `<details>`), de demo-teaser op de startpagina, `demos.html`
+  als pagina (nu een doorverwijzing naar De straat), de strip met vijftien Engelse stijlnamen.
+- De negen losse 'Gratis voorbeeld'- en 'Contact'-knoppen; nu één `data-bericht`-actie per kamer die in het Bericht
+  landt met een vooringevulde zin.
+- Overclaimende copy: de hero-lede en -tags, FAQ 05, de simulatie-CTA 'met jouw echte oproepen', de statistiek in de
+  tip van het gereedschap, het resultaat 'tijd voor automatisering', 'een medewerker' in de privacyverklaring, vijf
+  gevulde sterren zonder 'voorbeeld', presets die agenda-integratie, garantie of ordertracking beloofden, de
+  JSON-LD-beschrijving 'Websites, AI-systemen en automatisering' en `priceRange`, de titel van de startpagina.
+- `motion.js` (vijftien taken in één bestand), `style.css` als één bestand van 423 regels, EmailJS als verzendpad (het
+  zou een extern verzoek zijn; de sleutel blijft leeg), elke `backdrop-filter` boven het canvas.
+- Golf 4: de faces Panchang 500, Switzer 500 en JetBrains Mono 500 uit de STS-CSS (Panchang 600 en Switzer 400 bedienen die
+  gewichten; drie lettertypebestanden minder per pagina) en Unbounded buiten `docs/demo/radar`; de bestanden
+  `panchang-normal-500.woff2` en `switzer-normal-500.woff2`; vier dode CSS-regels (`video` in de reset, `.solid`,
+  `.legal ol`, `.legal .note`); in de scène de losse rand-mesh en de cyaan `heroLight`-sprite (nu één bordtextuur met rand,
+  bezel en buis).
+
+### Toegevoegd
+
+- **Golf 1 (WP-00 tot WP-03).** De QA-harnas in `scripts/qa/` (Playwright, drie GL-modi, drie profielen, varianten
+  reduced, lite en intro, woordenlijst-scan, byte- en rAF-meting, publicatiewacht `prepush.sh`); het bouwsysteem met
+  kamers (`src/rooms/*.html`, `rooms:` in de front matter, `DOORS`/`ACTION`), doorverwijsstubs, `noindex:`,
+  `updated:`, `{{svg:naam}}`; de staatkern (`state.js`, `names.js`, `contact-prefill.js` met het bevroren
+  conversiecontract van elf sleutels, `hydrate.js`, `reveal.js`, `lite.js`); de scène met het bord als onderwerp van
+  de camera, plekken en vluchten, render-on-demand met rust = 0 frames, de bloomproef, `guard()` en de SVG-skyline
+  als route voor telefoon, lite, zwakke toestellen en elke fout.
+- **Golf 2 (WP-04 tot WP-08, WP-11).** De strip en het dock, de startpagina met het bord en de twee aankomstzinnen,
+  de kamers Jouw gevel, De telefoon om 19 u, De buren, Verder en Bericht; de Doorlichting (`simulatie.html`) met een
+  vierde verzonnen zaak, wat-als en het fasebord; Gereedschap (`gereedschap.html`) met het Google-kaartje, de
+  scorekaart, de A6-kaart met QR en het interne toogkaartje; het Bericht als enige conversiezinkput met FAQ en de
+  drie stappen één keer; de CSS-split (elk bestand onder 400 regels, nergens `backdrop-filter`).
+- **Golf 3 (WP-09, WP-10, WP-12, WP-13, WP-14).** `werkwijze.html` met de replay Van radar tot gesprek
+  (`src/data/radar-bericht.json`, u-vorm, 'voorbeeldbericht (ontwerp)'), De straat uit `panden.json`, de
+  capaciteitenkaart met de drie lampen WERKT VANDAAG / PROTOTYPE / IN ONDERZOEK uit `capabilities.json`, de kamer Wie
+  is Snymis, de twee proeven onder In onderzoek (reviews in jouw toon, de gescripte assistent); de nl-BE-copypas met
+  `copy-regels.md` en `src/data/woordenlijst.json` (stemmen `data-voice`, wijkscope), `og.png` uit `src/og.html`; zeven
+  wijkpagina's uit `src/data/wijken.json`; de openingsuren-check als vijfde loket in Gereedschap.
+- **Golf 4 (WP-15).** Het gemeten prestatiebudget: `node scripts/qa/budget.mjs --measure` schrijft
+  `scripts/qa/budget.json` uit een volledige groene run (plafond = meting + 10 % voor bytes en + 20 % voor draw calls,
+  nooit boven 450 kB ruw op de telefoon of 90 kB JS gzip-equivalent in lite, met de commit waarop gemeten is); alle
+  poorten aan (rAF-rust, timers, bytes, draw calls, eerste scherm, backdrop-filter, strikte regellimieten: scene < 300,
+  CSS < 400, alles < 500); de nogl-pas eist de SVG-skyline en een geplaatst `#sign-dom`; het rapport toont JS gzip,
+  draw calls en lange taken per run, het budget en de lijst schermafbeeldingen van een `--shots`-run (gl en gl-swift,
+  desktop en telefoon, in `.qa/shots/`); `docs/CHECKLIST-SAKI.md` in eindversie met de `?debug=1`-stap voor de echte
+  grafische kaart; dit logboek.
+- **Golf 4 (WP-16, prestaties).** Voor de bezoeker: de startpagina op de telefoon weegt 374 kB in plaats van 412 kB
+  (drie lettertypebestanden minder, `og.png` van 169 naar 60 kB, de straatfoto's elk onder 60 kB), de tekst verspringt niet
+  wanneer de webfonts aankomen (metrisch gelijke terugvalfonts met `size-adjust` in `fonts.css`), de preloads per pagina
+  (`{{preloads}}`, `PRELOAD_DEFAULT` in build.py) dekken enkel het eerste scherm. In de harnas: `perf.mjs` meet verzoeken,
+  ruwe JS, lettertypegebruik, de H1-verschuiving (CLS) en het eerste frame met de H1; poorten `requests`, `font`, `three`,
+  `cls`, `h1-paint` en `assets`; `css-dead.mjs` (`npm run perf:css`) en `img-shrink.py` (`npm run perf:img`).
+- **Golf 4 (WP-19, toegankelijkheid).** Voor de bezoeker: de gedempte tekst (`--ink3`) ging van .44 naar .58 (4,1:1 werd
+  6,4:1), het naamblad is een echte dialoog (role, aria-modal, focusval, Escape, focus terug op de chip), een onvolledig
+  formulier noemt de velden in `#form-err` (role=alert) en koppelt ze met `aria-invalid` en `aria-describedby`, de
+  uurschuiver van het Google-kaartje heeft haar focusring terug, de leus in de voet draagt `lang="en"`. In de harnas:
+  `a11y.mjs` en `a11y-dom.mjs` (contrast over samengestelde achtergronden, namen, koppen, landmarks, formulieren,
+  live-gebieden, Tab-doorloop, dialoog, 200 % zoom, minder beweging) in `npm run qa`; contrast en namen zijn een fout.
+- **Golf 4 (WP-21, scène en bord).** Voor de bezoeker: het bord is een ingelijst paneel met bezel en neonbuis (één
+  textuur, geen post-processing), de letters krijgen hun gloed in de textuur (twee passen) en een lichte kern in de DOM,
+  onverlicht toont het bord een donkere lijst met gedoofde buis, het dak van het landmark weerkaatst de sectorkleur, de
+  silhouet kreeg een annex en een dakrand, nieuwe cameraplekken per kamer, fov 64 in portret, parallax begrensd op 1 eenheid
+  en uit tijdens een vlucht; de SVG-skyline op de telefoon draagt dezelfde lijst.
+- **Golf 4, fixronde.** Een landing kost altijd precies één frame, ook onder de panelen (daarvoor hield het canvas de vorige
+  landing terwijl de DOM-letters al verplaatst waren); `cover()` tekent enkel bij de overgang terug onder 0,6; een geblokkeerd
+  Panchang-bestand laat de lus niet meer draaien (rust blijft 0 frames); het DOM-bord vervaagt zolang een kamerpaneel het
+  dekt (de panelen sluiten op elkaar aan, een vast bord past nergens in een stadsband; de gloed blijft door het paneel
+  zichtbaar); de parallax-settle werkt ook onder minder beweging; de SVG-buis is gedoofd tot er een naam staat en
+  `?debug=1` werkt ook op de SVG-route; JetBrains Mono 400 staat bij de preloads (de doklabels op de telefoon, kost geen
+  byte extra); plafond draw calls 19 in plaats van 20; klikdoelen onder 44 px zijn een fout; `checkAssets` leest de
+  preloads uit de gebouwde pagina's (`npm run perf:selftest`) en faalt op een dood lettertypebestand; het rapport toont de
+  toegankelijkheidsresultaten en zegt wanneer het op een werkmap met wijzigingen is gemaakt; de publicatiewacht rekent
+  `docs/qa-report.html` niet als release (zie Uitgesteld voor de volgorde).
+
+### Gemeten bij de release (SwiftShader, zonder GPU; `scripts/qa/budget.json`, gemeten op `c48bc9a5` met de werkmap van golf 4)
+
+Het rapport telt kB per 1024 bytes. De cijfers hieronder zijn die van `budget.json`; de release-commit meet opnieuw op de
+schone boom (README, 'Release en QA-poort') en dan vervangt die meting deze lijst.
+
+- Startpagina op de telefoon (SVG-route, zonder Three.js): 374 kB ruw (382 945 bytes, 30 verzoeken), 70 kB JS
+  gzip-equivalent (71 551 bytes); de harde grens is 450 000 bytes (439 kB in het rapport) en het plafond uit de meting
+  (+10 %, 411 kB) ligt daar dus onder.
+- Startpagina op desktop mét Three.js: 1117 kB ruw (1 144 001 bytes), 262 kB JS gzip-equivalent (gemeld, niet bewaakt:
+  Three.js laadt alleen op desktop en tablet na de inline routetest).
+- Draw calls na het landen op desktop en tablet: 16 (plafond 19 = gemeten + 3); lange taken onder SwiftShader op de
+  startpagina: 6 op desktop en 7 op de tablet in het rapport van deze fixronde (gemeld; de echte meting is de `?debug=1`-stap van de oprichter, doel hoogstens 3 per vlucht);
+  H1-verschuiving 0 px en CLS 0 bij de eerste lading op elke run.
+- rAF in 3 s rust: 0 op elk profiel; de telefoon tekent geen enkel scene-frame.
+- Sitemap: 15 adressen (start, simulatie, gereedschap, werkwijze, zeven wijkpagina's, vier juridische pagina's); geen
+  stubs, dev-pagina's, 404 of QA-rapport.
+
+### Juridische pagina's
+
+Sinds de vorige publicatie (commit `4188ce3`) veranderden in `juridisch.html`, `privacy.html`, `cookies.html` en
+`voorwaarden.html` enkel de afgesproken regels: de rij `sts-zaak`, 'Drie' in plaats van 'Twee' met de zin dat een
+zaaknaam een persoonsnaam kan zijn (cookies, privacy 2.3), 'Snymis leest' in plaats van 'Een medewerker leest'
+(privacy), de datum in de front matter en de scriptlijst (`motion` -> `lite uithangbord`, techniek zonder
+tekstgevolg). Eén afwijking buiten die lijst, bewust: de meta-beschrijving van `voorwaarden.html` noemt 'AI-systemen'
+niet meer (WP-12; een beschrijving voor zoekmachines, geen voorwaarde). De kop- en voetpartials (de strip, de voet, de
+scriptlijst, in golf 4 de preloads en `lang="en"` op de leus) zijn sitechrome en veranderen mee op elke pagina; de
+tekst binnen `<main>` verschilt precies met de regels hierboven (nagekeken: privacy 2 regels, cookies 2 regels plus de
+rij `sts-zaak`, voorwaarden enkel de meta-beschrijving, juridisch niets). De zichtbare tekst 'Wat we doen' en punt 1
+van de voorwaarden wachten op het OK van de oprichter (`docs/CHECKLIST-SAKI.md`, C.4 en C.5).
+
+### Uitgesteld of bewust niet gebouwd
+
+- Kioskstand (de stad die blijft vliegen zonder bezoeker): niet gebouwd, de rust-staat tekent nul frames en dat blijft zo.
+- Openingsuren-check: níet uitgesteld; ze staat als vijfde loket in Gereedschap (WP-14).
+- EmailJS en elke andere directe verzending: uit, omdat de site geen extern verzoek doet; het Bericht opent de mail- of
+  WhatsApp-app en zegt dat.
+- Een eigen domein: beslissing van de oprichter; `--base` in `package.json` is de enige knop.
+- De polishpakketten WP-17, WP-18, WP-20 en WP-22 (de rest uit `plan-v5.json`) volgen na deze release op dezelfde tak,
+  met dezelfde poorten; WP-16, WP-19 en WP-21 zitten in deze release.
+- Het samenvoegen van `v5` in `main` en de commit van `src/`, `scripts/` en `docs/` gebeuren door een mens op een groen
+  rapport, in deze volgorde: commit -> `npm run qa` op die commit -> `scripts/qa/prepush.sh --check` ->
+  `STS_RELEASE=1 git push origin main` -> `node scripts/qa/budget.mjs --measure && npm run qa` op de schone boom ->
+  vervolgcommit met `scripts/qa/budget.json` en `docs/qa-report.html` (README, 'Release en QA-poort').
+
+### Wacht op de oprichter
+
+Alles in `docs/CHECKLIST-SAKI.md`: de wettelijke identiteit en de lege sleutels van `config.js`, het zakelijke
+e-mailadres en WhatsApp, de antwoordbelofte, de drie prototypezinnen, de echte eerste-contacttekst, het beleid voor
+een niet-verzonden voorbeeld, foto en verhaal, de sfeerzinnen en `config.wijken`, het OK op de juridische alinea, de
+verzonnen namen, de domeinnaam, en de schermafbeelding met `?debug=1` van de pc die bevroor.

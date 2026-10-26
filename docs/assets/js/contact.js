@@ -1,7 +1,9 @@
 /* Bericht (src/rooms/bericht.html, dev/bericht.html): the one form of the site.
    - Hands the message to the visitor's mail app (mailto:) or WhatsApp (wa.me); EmailJS only
      when config.js names a service. Never a 'verstuurd' state without a real success.
-   - Honeypot (company_site) drops bots silently.
+   - Honeypot (company_site) drops bots silently; it sits in an aria-hidden block with tabindex -1.
+   - Validation (WP-19): a missing required field is named in #form-err (role=alert) and carries
+     aria-invalid and aria-describedby=form-err until it is filled; focus moves to the first one.
    - Consumes 'sts:prefill' from contact-prefill.js (the frozen contract fills the textarea,
      the subject field and data-voice=visitor); this file only scrolls the field into view on
      phones and keeps the business field in step with the shared state (sts-zaak).
@@ -43,12 +45,34 @@
   function show(el, text) { if (!el) return; if (text != null) el.textContent = text; el.hidden = false; }
   function fail(text) { show(err, text); }
 
+  /* WP-19: a missing field is named in #form-err (role=alert) and tied to the field itself: aria-invalid plus
+     aria-describedby, focus on the first one; typing a valid value clears the field, the last one clears the message */
+  var VELD = { name: "je naam", reach: "een e-mailadres of gsm-nummer", message: "je bericht" };
+  function describe(el, on) {
+    var ids = (el.getAttribute("aria-describedby") || "").split(/\s+/).filter(function (id) { return id && id !== "form-err"; });
+    if (on) ids.push("form-err");
+    if (ids.length) el.setAttribute("aria-describedby", ids.join(" ")); else el.removeAttribute("aria-describedby");
+    if (on) el.setAttribute("aria-invalid", "true"); else el.removeAttribute("aria-invalid");
+  }
+  function invalidFields() { return [].filter.call(form.querySelectorAll("[required]"), function (el) { return !el.checkValidity(); }); }
+  function markInvalid(list) {
+    fail("Nog even invullen: " + list.map(function (el) { return VELD[el.name] || el.name; }).join(", ") + ".");
+    list.forEach(function (el) { describe(el, true); });
+    try { list[0].focus({ preventScroll: false }); } catch (x) { list[0].focus(); }
+  }
+  form.addEventListener("input", function (e) {
+    var el = e.target;
+    if (el.getAttribute("aria-invalid") === "true" && el.checkValidity()) describe(el, false);
+    if (err && !err.hidden && !form.querySelector('[aria-invalid="true"]')) err.hidden = true;
+  });
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (err) err.hidden = true;
     if (ok) ok.hidden = true;
     if (form.elements.company_site && form.elements.company_site.value) return;          // honeypot: silently drop bots
-    if (!form.reportValidity()) return;
+    var missing = invalidFields();
+    if (missing.length) { markInvalid(missing); return; }
 
     var data = {
       name: form.elements.name.value.trim(),

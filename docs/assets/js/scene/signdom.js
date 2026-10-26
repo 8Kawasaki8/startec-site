@@ -4,6 +4,13 @@
    aria-hidden) and #sign-sr (the same text for assistive technology). No
    Three.js import here, so phones never pay for it. */
 export const SIGN = { w: 12, h: 3, maxChars: 40, lineChars: 16 };
+/* the framed board around the text plane, in world units (sign.js draws it; the SVG route carries the same frame) */
+export const FRAME = { w: SIGN.w + 0.9, h: SIGN.h + 0.9 };
+/* one font string for the texture and the measurements, so the glow and #sign-dom share one geometry */
+export const SIGN_FONT = size => "700 " + size + "px 'Panchang', 'Unbounded', system-ui, sans-serif";
+/* vertical offset of line i of n from the centre at the line pitch of #sign-dom (line-height 1.08 in base.css) */
+export const LINE_PITCH = 1.08;
+export const lineOffset = (i, n, size) => (i - (n - 1) / 2) * size * LINE_PITCH;
 
 export function cleanSign(text) {
   return String(text || "").replace(/[\u0000-\u0008\u000e-\u001f]/g, "").replace(/\s+/g, " ").trim().slice(0, SIGN.maxChars);
@@ -31,11 +38,13 @@ export function wrapSign(text) {
    fallback font; fontsReady(fn) returns false when the real Panchang is there, else starts its load
    (one request, the preloaded file) and runs fn once it has landed */
 const PANCHANG = "700 100px 'Panchang'";
-let fontLoad = null;
+let fontLoad = null, settled = false;
 export function fontsReady(fn) {
   const fonts = document.fonts;
-  if (!fonts || !fonts.check || !fonts.load || fonts.check(PANCHANG)) return false;
-  if (!fontLoad) fontLoad = fonts.load(PANCHANG).catch(() => []);
+  /* settled: the load ended, with or without the file (offline, 404, blocked); check() then stays false
+     forever and a caller that redraws on every fontsReady would loop (sign.js draw -> schedule -> draw) */
+  if (settled || !fonts || !fonts.check || !fonts.load || fonts.check(PANCHANG)) return false;
+  if (!fontLoad) fontLoad = fonts.load(PANCHANG).catch(() => []).then(() => { settled = true; });
   fontLoad.then(() => { try { fn(); } catch (e) { /* one refit must not stop the next */ } });
   return true;
 }
@@ -49,7 +58,7 @@ export function fitFont(lines, w, h) {
   let widest = 0;
   for (const l of lines) {
     let wl = l.length * 72;
-    if (measure) { measure.font = "700 100px 'Panchang', 'Unbounded', system-ui, sans-serif"; wl = measure.measureText(l).width; }
+    if (measure) { measure.font = SIGN_FONT(100); wl = measure.measureText(l).width; }
     widest = Math.max(widest, wl);
   }
   const byW = widest ? (w * 0.92) / (widest / 100) : maxH;
@@ -105,6 +114,31 @@ export function placeSignDom(box, text, corners) {
   dom.style.fontSize = fitFont(wrapSign(text), w, h) + "px";
   dom.style.transform = corners ? matrix3d(w, h, corners) : "translate(" + Math.round(box.x) + "px," + Math.round(box.y) + "px)";
   dom.classList.toggle("is-placed", ok);
+}
+
+/* the twin fades while an opaque panel (a room, the strip, the dock) covers its box: the page scrolls
+   over the fixed sign, so a landing that puts the board under a .92 panel would show the crisp letters
+   at 8 % behind an edge; the canvas glow stays faintly visible through the panel, the DOM letters do not.
+   Evaluated on every placement and, throttled, on scroll (no requestAnimationFrame, no loop). */
+let lastBox = null, shadeTimer = 0;
+const bgAlpha = el => { const m = /rgba?\(([^)]+)\)/.exec(getComputedStyle(el).backgroundColor || ""); return m ? (m[1].split(",")[3] === undefined ? 1 : parseFloat(m[1].split(",")[3])) : 0; };
+export function shadeSignDom(box) {
+  const dom = document.getElementById("sign-dom");
+  if (box) lastBox = box;
+  const b = lastBox; if (!dom || !b) return false;
+  let hit = 0; const area = Math.max(1, b.width * b.height);
+  for (const el of document.querySelectorAll("[data-room], .uithangbord")) {
+    if (bgAlpha(el) < 0.5) continue;
+    const r = el.getBoundingClientRect(); if (!r.width || !r.height) continue;
+    const w = Math.min(b.x + b.width, r.right) - Math.max(b.x, r.left), h = Math.min(b.y + b.height, r.bottom) - Math.max(b.y, r.top);
+    if (w > 0 && h > 0) hit += w * h;
+  }
+  const behind = hit / area > 0.3;
+  dom.classList.toggle("is-behind", behind);
+  return behind;
+}
+export function watchSignShade() {
+  addEventListener("scroll", () => { if (shadeTimer) return; shadeTimer = setTimeout(() => { shadeTimer = 0; shadeSignDom(); }, 80); }, { passive: true });
 }
 
 export function countLongTasks(counter) {

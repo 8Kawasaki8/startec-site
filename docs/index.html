@@ -21,6 +21,7 @@
 <link rel="preload" href="assets/fonts/panchang-normal-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/panchang-normal-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/switzer-normal-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/jetbrains-mono-normal-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/base.css">
@@ -55,7 +56,7 @@
       <a class="pill" href="#bericht"><span class="ub-lang">Bericht aan Snymis</span><span class="ub-kort">Bericht</span></a>
     </div>
   </nav>
-  <div class="ub-sheet" id="ub-sheet" role="dialog" aria-modal="false" aria-labelledby="ub-sheet-titel" hidden>
+  <div class="ub-sheet" id="ub-sheet" role="dialog" aria-modal="true" aria-labelledby="ub-sheet-titel" hidden>
     <form data-ub-form novalidate>
       <p class="label" id="ub-sheet-titel">Jouw zaak op het bord</p>
       <label class="field"><span>Naam van je zaak</span><input name="zaak" maxlength="40" autocomplete="organization" placeholder="Bijvoorbeeld: Frituur 't Pleintje"></label>
@@ -92,8 +93,10 @@
 <radialGradient id="pg-maan" cx=".4" cy=".38" r=".6"><stop offset="0" stop-color="#F4F1E6"/><stop offset=".8" stop-color="#CFC9B4"/><stop offset="1" stop-color="#8A8470"/></radialGradient>
 <radialGradient id="pg-lamp"><stop offset="0" stop-color="#FFD69A" stop-opacity=".9"/><stop offset="1" stop-color="#FFD69A" stop-opacity="0"/></radialGradient>
 <pattern id="pg-ramen" width="14" height="18" patternUnits="userSpaceOnUse"><rect x="4" y="5" width="5" height="7" fill="#9FE9FF"/></pattern>
+<radialGradient id="pg-dak"><stop offset="0" stop-color="#FFD6A0" stop-opacity=".55"/><stop offset="1" stop-color="#FFB060" stop-opacity="0"/></radialGradient>
 <pattern id="pg-ramen2" width="12" height="16" patternUnits="userSpaceOnUse"><rect x="3" y="4" width="5" height="6" fill="#FFB36B"/></pattern>
 </defs>
+<style>@media(min-width:1200px){#plattegrond .pg-rand{x:408px;width:384px}#plattegrond .pg-bezel{x:414px;width:372px}}</style>
 <rect width="1200" height="800" fill="url(#pg-lucht)"/>
 <g fill="#F2F5FF"><circle cx="747" cy="312" r="1.6" opacity="0.37"/><circle cx="559" cy="396" r="0.6" opacity="0.89"/><circle cx="136" cy="197" r="0.8" opacity="0.58"/><circle cx="122" cy="105" r="0.8" opacity="0.59"/><circle cx="218" cy="364" r="1.3" opacity="0.45"/><circle cx="957" cy="58" r="1.6" opacity="0.62"/><circle cx="159" cy="408" r="0.6" opacity="0.48"/><circle cx="259" cy="413" r="0.8" opacity="0.52"/><circle cx="1154" cy="226" r="0.8" opacity="0.46"/><circle cx="1162" cy="83" r="1.3" opacity="0.53"/><circle cx="433" cy="70" r="0.8" opacity="0.51"/><circle cx="398" cy="343" r="1.6" opacity="0.35"/><circle cx="814" cy="142" r="1.0" opacity="0.56"/><circle cx="367" cy="292" r="0.8" opacity="0.64"/><circle cx="846" cy="24" r="0.6" opacity="0.92"/><circle cx="429" cy="170" r="1.6" opacity="0.82"/><circle cx="439" cy="243" r="0.6" opacity="0.62"/><circle cx="849" cy="262" r="0.8" opacity="0.42"/><circle cx="295" cy="344" r="1.3" opacity="0.56"/><circle cx="426" cy="220" r="1.3" opacity="0.41"/><circle cx="898" cy="335" r="1.0" opacity="0.37"/><circle cx="1135" cy="38" r="1.0" opacity="0.66"/><circle cx="435" cy="62" r="1.0" opacity="0.9"/><circle cx="654" cy="131" r="1.0" opacity="0.53"/><circle cx="959" cy="263" r="1.0" opacity="0.95"/><circle cx="194" cy="20" r="1.6" opacity="0.67"/><circle cx="487" cy="100" r="1.6" opacity="0.56"/><circle cx="300" cy="273" r="0.8" opacity="0.38"/><circle cx="1099" cy="14" r="1.3" opacity="0.55"/><circle cx="248" cy="412" r="1.6" opacity="0.92"/><circle cx="756" cy="331" r="0.6" opacity="0.45"/><circle cx="448" cy="25" r="1.3" opacity="0.53"/><circle cx="544" cy="420" r="0.8" opacity="0.94"/><circle cx="544" cy="205" r="1.0" opacity="0.64"/><circle cx="349" cy="170" r="0.8" opacity="0.42"/><circle cx="986" cy="223" r="0.8" opacity="0.73"/><circle cx="599" cy="142" r="0.6" opacity="0.65"/><circle cx="618" cy="230" r="1.6" opacity="0.57"/><circle cx="943" cy="325" r="1.6" opacity="0.75"/><circle cx="912" cy="153" r="1.0" opacity="0.85"/><circle cx="318" cy="412" r="1.0" opacity="0.92"/><circle cx="408" cy="75" r="0.6" opacity="0.63"/><circle cx="928" cy="137" r="1.0" opacity="0.63"/><circle cx="980" cy="272" r="1.0" opacity="0.56"/><circle cx="773" cy="310" r="1.3" opacity="0.56"/><circle cx="1011" cy="365" r="1.3" opacity="0.94"/><circle cx="1148" cy="218" r="1.6" opacity="0.94"/><circle cx="238" cy="152" r="1.3" opacity="0.52"/><circle cx="95" cy="282" r="1.3" opacity="0.45"/><circle cx="936" cy="244" r="1.3" opacity="0.53"/><circle cx="664" cy="364" r="1.0" opacity="0.78"/><circle cx="33" cy="67" r="1.3" opacity="0.72"/><circle cx="217" cy="319" r="0.8" opacity="0.73"/><circle cx="50" cy="198" r="0.8" opacity="0.45"/><circle cx="1070" cy="47" r="0.8" opacity="0.64"/><circle cx="658" cy="175" r="1.0" opacity="0.58"/><circle cx="734" cy="248" r="0.8" opacity="0.78"/><circle cx="449" cy="147" r="1.0" opacity="0.86"/><circle cx="1040" cy="289" r="1.6" opacity="0.57"/><circle cx="43" cy="258" r="0.6" opacity="0.53"/><circle cx="615" cy="399" r="1.0" opacity="0.92"/><circle cx="982" cy="176" r="1.6" opacity="0.74"/><circle cx="443" cy="60" r="1.6" opacity="0.58"/><circle cx="572" cy="84" r="0.8" opacity="0.72"/><circle cx="421" cy="375" r="0.6" opacity="0.58"/><circle cx="391" cy="385" r="1.6" opacity="0.43"/><circle cx="755" cy="374" r="1.3" opacity="0.61"/><circle cx="1172" cy="207" r="1.3" opacity="0.93"/><circle cx="456" cy="404" r="0.8" opacity="0.71"/><circle cx="312" cy="412" r="1.3" opacity="0.5"/><circle cx="24" cy="397" r="1.0" opacity="0.65"/><circle cx="344" cy="200" r="0.6" opacity="0.75"/><circle cx="1153" cy="103" r="0.6" opacity="0.82"/><circle cx="992" cy="6" r="1.6" opacity="0.69"/><circle cx="292" cy="199" r="0.6" opacity="0.5"/><circle cx="321" cy="65" r="1.0" opacity="0.53"/><circle cx="730" cy="199" r="1.6" opacity="0.88"/><circle cx="1074" cy="7" r="0.8" opacity="0.53"/><circle cx="640" cy="141" r="1.0" opacity="0.79"/><circle cx="32" cy="147" r="1.6" opacity="0.43"/><circle cx="3" cy="232" r="0.6" opacity="0.88"/><circle cx="655" cy="6" r="1.3" opacity="0.71"/><circle cx="827" cy="400" r="1.3" opacity="0.87"/><circle cx="1009" cy="200" r="0.8" opacity="0.89"/><circle cx="558" cy="318" r="1.0" opacity="0.85"/><circle cx="834" cy="182" r="1.0" opacity="0.74"/><circle cx="567" cy="131" r="0.8" opacity="0.64"/><circle cx="659" cy="209" r="1.0" opacity="0.67"/><circle cx="511" cy="227" r="0.6" opacity="0.39"/><circle cx="276" cy="344" r="0.6" opacity="0.75"/><circle cx="31" cy="303" r="0.6" opacity="0.95"/><circle cx="841" cy="21" r="0.6" opacity="0.48"/><circle cx="775" cy="400" r="0.8" opacity="0.95"/><circle cx="847" cy="184" r="0.8" opacity="0.72"/><circle cx="497" cy="68" r="1.6" opacity="0.48"/><circle cx="667" cy="277" r="0.6" opacity="0.52"/><circle cx="685" cy="50" r="1.3" opacity="0.88"/><circle cx="161" cy="181" r="1.0" opacity="0.76"/><circle cx="587" cy="148" r="1.0" opacity="0.9"/><circle cx="166" cy="124" r="1.6" opacity="0.73"/><circle cx="607" cy="382" r="1.6" opacity="0.68"/><circle cx="265" cy="27" r="0.8" opacity="0.5"/><circle cx="901" cy="217" r="0.8" opacity="0.83"/><circle cx="1036" cy="190" r="1.3" opacity="0.46"/><circle cx="856" cy="275" r="0.6" opacity="0.69"/><circle cx="43" cy="363" r="1.6" opacity="0.71"/><circle cx="286" cy="368" r="1.3" opacity="0.93"/><circle cx="129" cy="223" r="1.6" opacity="0.79"/><circle cx="64" cy="63" r="1.3" opacity="0.76"/><circle cx="268" cy="49" r="1.3" opacity="0.84"/></g>
 <circle cx="960" cy="150" r="30" fill="url(#pg-maan)"/><circle cx="960" cy="150" r="54" fill="#DDE3FF" opacity=".06"/>
@@ -103,15 +106,19 @@
 <rect y="760" width="1200" height="40" fill="url(#pg-grond)"/>
 <g><circle cx="40" cy="748" r="22" fill="url(#pg-lamp)"/><circle cx="190" cy="748" r="22" fill="url(#pg-lamp)"/><circle cx="340" cy="748" r="22" fill="url(#pg-lamp)"/><circle cx="490" cy="748" r="22" fill="url(#pg-lamp)"/><circle cx="640" cy="748" r="22" fill="url(#pg-lamp)"/><circle cx="790" cy="748" r="22" fill="url(#pg-lamp)"/><circle cx="940" cy="748" r="22" fill="url(#pg-lamp)"/><circle cx="1090" cy="748" r="22" fill="url(#pg-lamp)"/></g>
 <g id="landmark" fill="#36E8FF" stroke="#36E8FF">
+<rect x="462" y="520" width="42" height="250" fill="#0C1226" stroke="none"/><rect x="466" y="526" width="34" height="230" fill="url(#pg-ramen2)" opacity=".22" stroke="none"/><rect x="462" y="520" width="42" height="3" stroke="none" opacity=".7"/>
+<rect x="696" y="420" width="38" height="350" fill="#0C1226" stroke="none"/><rect x="700" y="426" width="30" height="330" fill="url(#pg-ramen)" opacity=".24" stroke="none"/><rect x="696" y="420" width="38" height="3" stroke="none" opacity=".7"/>
 <rect x="500" y="300" width="200" height="470" fill="#0E1528" stroke="none"/>
 <rect x="506" y="306" width="188" height="400" fill="url(#pg-ramen)" opacity=".28" stroke="none"/>
 <rect x="500" y="300" width="200" height="5" stroke="none"/>
 <rect x="693" y="300" width="4" height="470" stroke="none" opacity=".7"/>
 <rect x="500" y="420" width="200" height="2" stroke="none" opacity=".5"/>
-<rect x="420" y="170" width="360" height="126" rx="10" stroke="none" opacity=".14"/>
-<rect x="430" y="180" width="340" height="106" rx="6" stroke="none" opacity=".22"/>
-<rect id="landmark-bord" x="440" y="190" width="320" height="86" rx="4" fill="#0B1020" stroke-width="2"/>
-<rect x="596" y="276" width="8" height="24" stroke="none"/>
+<rect x="556" y="286" width="30" height="16" fill="#0E1528" stroke="none"/>
+<ellipse cx="600" cy="300" rx="120" ry="12" fill="url(#pg-dak)" stroke="none"/>
+<rect class="pg-rand" x="428" y="178" width="344" height="110" rx="9" fill="#161D33" stroke="#2B3657" stroke-width="2"/>
+<rect class="pg-bezel" x="434" y="184" width="332" height="98" rx="6" fill="#070B16" stroke="none"/>
+<rect id="landmark-bord" x="440" y="190" width="320" height="86" rx="4" fill="#0B1020" stroke="#1C2642" stroke-width="2"/>
+<rect x="596" y="288" width="8" height="12" stroke="none"/>
 </g>
 </svg></div>
 <div id="sign-dom" aria-hidden="true" data-lines="0"></div>
@@ -146,11 +153,11 @@
 </script>
 
 <main id="main" class="page">
-<section id="gevel" data-room>
+<section id="gevel" data-room aria-labelledby="gevel-titel">
 <div class="kamer kamer-gevel">
   <div class="gevel-eerste">
     <div class="gevel-aankomst">
-      <h1>STS Digital, Antwerpen. Websites, gratis gereedschap en onderzoek naar AI die werk overneemt van kleine zaken.</h1>
+      <h1 id="gevel-titel">STS Digital, Antwerpen. Websites, gratis gereedschap en onderzoek naar AI die werk overneemt van kleine zaken.</h1>
       <p>Een verkenner zoekt, een bouwer maakt het voorbeeld, Snymis leest elk bericht zelf.</p>
     </div>
     <form class="gevel-entry" data-gevel-form novalidate>
@@ -212,9 +219,9 @@
 </div>
 </section>
 
-<section id="telefoon" data-room>
+<section id="telefoon" data-room aria-labelledby="telefoon-titel">
 <div class="kamer kamer-dag" data-sim>
-  <h2>De telefoon om 19 u</h2>
+  <h2 id="telefoon-titel">De telefoon om 19 u</h2>
   <p class="dag-sub">Een gesimuleerde dinsdag, van 7 tot 20 u, bij een verzonnen zaak uit jouw sector. Wie belt, wie niemand aan de lijn krijgt, en wat twee kleine ingrepen aan die dag veranderen. Elke oproep is verzonnen; jouw echte cijfers kennen we niet.</p>
   <form class="dag-ctl" data-dag-form novalidate>
     <fieldset class="keuze" data-dag-sector>
@@ -272,10 +279,10 @@
 </div>
 </section>
 
-<section id="buren" data-room>
+<section id="buren" data-room aria-labelledby="buren-titel">
 <div class="kamer kamer-buren">
   <p class="label">De buren</p>
-  <h2>Drie verzonnen zaken uit de buurt, elk met een eigen gezicht.</h2>
+  <h2 id="buren-titel">Drie verzonnen zaken uit de buurt, elk met een eigen gezicht.</h2>
   <p>Snymis bouwde ze zelf, met zijn agents, van ontwerp tot knoppen, om te tonen wat een site voor een zaak als de jouwe kan doen. Namen en adressen zijn verzonnen; wat je aanklikt, werkt.</p>
   <div class="buren-rij">
 <a class="buur" href="demo/brasserie-meridiaan/" style="--c:#C9A24C"><span class="buur-gevel" aria-hidden="true"><i></i><i></i><i></i></span><strong>Brasserie Meridiaan</strong><span class="buur-waar">Antwerpen-Zuid &middot; Horeca</span><span class="buur-sub">Kijk of ze nu open is en vraag een tafel aan.</span><span class="buur-fictief">Fictieve zaak. Jouw versie bouwen we met jouw echte gegevens.</span></a>
@@ -286,9 +293,9 @@
 </div>
 </section>
 
-<section id="verder" data-room>
+<section id="verder" data-room aria-labelledby="verder-titel">
 <div class="kamer">
-  <h2>Verder in de straat</h2>
+  <h2 id="verder-titel">Verder in de straat</h2>
   <ul class="verder">
     <li><strong><a href="simulatie.html">Doorlichting</a></strong>Kijk mee hoe een agent de cijfers van een verzonnen zaak leest en wacht op Snymis voor er iets vertrekt.</li>
     <li><strong><a href="gereedschap.html">Gereedschap</a></strong>Een zichtbaarheidscheck, een WhatsApp-knop met QR-code en een Google-voorbeeld van je titel, allemaal in je browser.</li>
@@ -297,10 +304,10 @@
 </div>
 </section>
 
-<section id="bericht" data-room>
+<section id="bericht" data-room aria-labelledby="bericht-titel">
 <div class="kamer kamer-bericht">
   <p class="label">Bericht aan Snymis</p>
-  <h2>En nu echt. Schrijf Snymis. Hij leest dit zelf en antwoordt via de weg die jij kiest.</h2>
+  <h2 id="bericht-titel">En nu echt. Schrijf Snymis. Hij leest dit zelf en antwoordt via de weg die jij kiest.</h2>
   <p>Een paar zinnen volstaan. Er vertrekt niets stilzwijgend en er belt geen verkoper terug: wat je hier schrijft, komt bij &eacute;&eacute;n persoon terecht.</p>
   <div class="split bericht-split">
     <form id="contact-form" class="panel bericht-form" novalidate>
@@ -388,7 +395,7 @@
 <footer class="foot">
   <div class="foot-in">
     <div>
-      <p class="motto">Where imagination can reach up to the <em>stars</em>.</p>
+      <p class="motto" lang="en">Where imagination can reach up to the <em>stars</em>.</p>
       <p class="small merkregel">Star.Tec.Solutions is het merk van STS Digital, Antwerpen. E&eacute;n persoon, Snymis, en een paar agents die hem helpen.</p>
       <p class="small foot-contact"><span data-c-wrap><a data-c="whatsapp" data-keep href="#">WhatsApp</a></span><span data-c-wrap> &middot; <a data-c="phone" href="#"></a></span></p>
     </div>

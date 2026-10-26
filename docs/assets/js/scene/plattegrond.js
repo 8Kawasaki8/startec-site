@@ -11,7 +11,7 @@
    keeps the large viewport height (like the canvas), so the address bar of a
    phone never rescales the skyline or moves the sign. */
 import { places } from "./places.js";
-import { writeSignDom, placeSignDom, countLongTasks } from "./signdom.js";
+import { writeSignDom, placeSignDom, shadeSignDom, watchSignShade, countLongTasks } from "./signdom.js";
 
 const FAILED = ["nogl", "fout", "traag", "contextlost"];
 export let installed = false;
@@ -47,15 +47,20 @@ export function install({ reason = "svg", text = "", color = "#36E8FF" } = {}) {
     const r = el.getBoundingClientRect();
     return { x: r.left, y: r.top, width: r.width, height: r.height };
   }
-  function place() { placeSignDom(box(), signText); }
+  function place() { const b = box(); placeSignDom(b, signText); shadeSignDom(b); }
   function placed() { const d = document.getElementById("sign-dom"); return !!(d && d.classList.contains("is-placed")); }
+  const UNLIT = "#1C2642";
+  /* the board's tube: dim while no name is on the sign, the sector colour once there is one (sign.js draws the
+     same two states on the GL route, so a phone sees the same waiting sign) */
+  function tube() { if (board) board.setAttribute("stroke", signText ? sector : UNLIT); }
   function setSector(c) {
     if (!c) return; sector = c;
     if (landmark) { landmark.setAttribute("fill", c); landmark.setAttribute("stroke", c); }
+    tube();
     const dom = document.getElementById("sign-dom"); if (dom) dom.style.setProperty("--sign", c);
   }
   /* the board does not move when its text changes: place only until the sign sits (then on resize) */
-  function setSign(t, c) { signText = writeSignDom(t, c); if (c) setSector(c); if (!placed()) place(); return signText; }
+  function setSign(t, c) { signText = writeSignDom(t, c); if (c) setSector(c); tube(); if (!placed()) place(); return signText; }
   function flyTo(id) {
     if (!places[id]) return Promise.reject(new Error("onbekende plek: " + id));
     window.dispatchEvent(new CustomEvent("sts:flight-start", { detail: { id } }));
@@ -79,6 +84,7 @@ export function install({ reason = "svg", text = "", color = "#36E8FF" } = {}) {
 
   addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { if (size(false)) place(); }, 200); }, { passive: true });
   size(true);
+  watchSignShade();
   setSector(sector);
   setSign(text);
 
@@ -103,6 +109,8 @@ export function install({ reason = "svg", text = "", color = "#36E8FF" } = {}) {
   let pre = null; try { pre = sessionStorage.getItem("sts-pre"); } catch (e) { /* storage blocked */ }
   if (document.getElementById("intro") || !pre) endIntro();
   window.dispatchEvent(new Event(FAILED.includes(reason) ? "sts:scene-failed" : "sts:scene-ready"));
+  /* ?debug=1 shows the same panel as the GL route (docs/CHECKLIST-SAKI.md, step A): 'scene svg' in its first line */
+  if (new URLSearchParams(location.search).get("debug") === "1") import("./debug.js").then(m => m.mountDebug(window.STSScene, () => ({ profile: reason, state: "rust", at }))).catch(() => {});
   return window.STSScene;
 }
 

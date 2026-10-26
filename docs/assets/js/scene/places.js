@@ -22,13 +22,20 @@ function ring(d, azimuth, y, look = LOOK) {
 
 export const places = {
   start:        { p: [HERO.x + 4, HERO.h + 6, HERO.z + 17], l: LOOK, label: "Start: het uithangbord" },
-  gevel:        { p: [HERO.x + 2, HERO.h + 4, HERO.z + 14], l: LOOK, label: "Jouw gevel" },
-  telefoon:     { ...ring(24, -34, HERO.h + 5), label: "De telefoon om 19 u" },
-  buren:        { ...ring(22, 38, HERO.h + 3, [HERO.x - 2, HERO.h - 1, HERO.z - 2]), label: "De buren" },
-  bericht:      { ...ring(26, 14, HERO.h + 9), label: "Bericht aan Snymis" },
-  doorlichting: { ...ring(28, -56, HERO.h + 12), label: "Doorlichting" },
-  gereedschap:  { ...ring(25, 58, HERO.h + 6), label: "Gereedschap" },
-  werkwijze:    { ...ring(30, -12, HERO.h + 14), label: "Werkwijze" }
+  gevel:        { p: [HERO.x + 2, HERO.h + 4.2, HERO.z + 14.6], l: [HERO.x, HERO.h + 1.7, HERO.z], label: "Jouw gevel" },
+  /* the rooms below the first viewport are contiguous opaque panels (.92) that scroll in from below;
+     a room triggers its flight when its top passes the middle of the viewport, so at the landing the
+     board sits behind the panel's top padding (measured: 1440x900 and 1920x1080, room top at mid and
+     at mid - 120 px), never behind its text. The city is then visible through the panel at 8 % only;
+     the crisp DOM twin fades there (shadeSignDom in signdom.js) and returns when the panel moves off.
+     These places stand farther out and look a little above the sign, so the board stays small and whole
+     under the panel's edge and the landmark stays whole in the frame. */
+  telefoon:     { ...ring(29, -34, HERO.h + 5, [HERO.x, SIGN_Y - 0.25, HERO.z]), label: "De telefoon om 19 u" },
+  buren:        { ...ring(42, 38, HERO.h + 3, [HERO.x, SIGN_Y + 1.9, HERO.z]), label: "De buren" },
+  bericht:      { ...ring(42, 14, HERO.h + 9, [HERO.x, SIGN_Y + 1.9, HERO.z]), label: "Bericht aan Snymis" },
+  doorlichting: { ...ring(28, -42, HERO.h + 12, [HERO.x, HERO.h - 1, HERO.z]), label: "Doorlichting" },
+  gereedschap:  { ...ring(25, 46, HERO.h + 6, [HERO.x, HERO.h - 1, HERO.z]), label: "Gereedschap" },
+  werkwijze:    { ...ring(30, -12, HERO.h + 14, [HERO.x, HERO.h - 1, HERO.z]), label: "Werkwijze" }
 };
 
 /* distance from a place's camera to the sign centre, for the debug overlay */

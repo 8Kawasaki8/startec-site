@@ -21,6 +21,7 @@
 <link rel="preload" href="assets/fonts/panchang-normal-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/panchang-normal-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/switzer-normal-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/jetbrains-mono-normal-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/base.css">
@@ -55,7 +56,7 @@
       <a class="pill" href="index.html#bericht"><span class="ub-lang">Bericht aan Snymis</span><span class="ub-kort">Bericht</span></a>
     </div>
   </nav>
-  <div class="ub-sheet" id="ub-sheet" role="dialog" aria-modal="false" aria-labelledby="ub-sheet-titel" hidden>
+  <div class="ub-sheet" id="ub-sheet" role="dialog" aria-modal="true" aria-labelledby="ub-sheet-titel" hidden>
     <form data-ub-form novalidate>
       <p class="label" id="ub-sheet-titel">Jouw zaak op het bord</p>
       <label class="field"><span>Naam van je zaak</span><input name="zaak" maxlength="40" autocomplete="organization" placeholder="Bijvoorbeeld: Frituur 't Pleintje"></label>
@@ -96,10 +97,10 @@
     <li><strong>Dan stopt de machine.</strong> Snymis leest elk bericht dat naar een zaak vertrekt en keurt het goed of niet. Er vertrekt niets dat hij niet gelezen heeft; dat staat ook zo in onze <a href="privacy.html">privacyverklaring</a>. Bevalt het voorbeeld, dan volgt een vast bedrag op papier en blijf jij eigenaar van domeinnaam en inhoud. Bevalt het niet, dan verdwijnt het weer. <a href="#radar">Speel ze hieronder na</a>, op een verzonnen buur.</li>
   </ol>
 </section>
-<section id="radar" data-room>
+<section id="radar" data-room aria-labelledby="radar-titel">
 <div class="kamer kamer-radar" data-sim>
   <p class="label">Van radar tot gesprek</p>
-  <h2>Zo komt een zaak bij ons op tafel: vier stappen, en op het einde een mens.</h2>
+  <h2 id="radar-titel">Zo komt een zaak bij ons op tafel: vier stappen, en op het einde een mens.</h2>
   <p class="uitleg">Hieronder spelen we onze echte werkwijze na op een verzonnen buur uit de sector op het bord. Wat de verkenner bekijkt, welke publieke gegevens de bouwer gebruikt, hoe het voorbeeld eruitziet, en dat het eerste bericht wacht tot Snymis het gelezen heeft. De buur is fictief en de score is een illustratie; de stappen zijn echt.</p>
 
   <form class="rs-ctl" data-rs-form novalidate>
@@ -179,10 +180,10 @@
 </div>
 </section>
 
-<section id="straat" data-room>
+<section id="straat" data-room aria-labelledby="straat-titel">
 <div class="kamer kamer-straat" data-sim>
   <p class="label">De straat</p>
-  <h2>Oude gevel, nieuwe gevel: drie verzonnen zaken, echte techniek.</h2>
+  <h2 id="straat-titel">Oude gevel, nieuwe gevel: drie verzonnen zaken, echte techniek.</h2>
   <p>Links een verzonnen oude site zoals er nog veel zijn: klein lettertype, geen belknop, een foto uit 2011 die niet laadt. Rechts de demo die we voor dezelfde verzonnen zaak bouwden. Schuif, vergelijk, en stap binnen op je gsm.</p>
   <form class="straat-ctl" data-straat-form novalidate hidden>
     <fieldset class="keuze" data-straat-tabs>
@@ -314,10 +315,10 @@
 </div>
 </section>
 
-<section id="kaart" data-room>
+<section id="kaart" data-room aria-labelledby="kaart-titel">
 <div class="kamer kamer-kaart">
   <p class="label">Capaciteitenkaart</p>
-  <h2>Wat werkt vandaag, wat is prototype, wat is onderzoek</h2>
+  <h2 id="kaart-titel">Wat werkt vandaag, wat is prototype, wat is onderzoek</h2>
   <p>We noemen de dingen zoals ze zijn. Drie lampen, en geen enkele brandt harder dan de werkelijkheid: vijf dingen die vandaag werken, drie prototypes die enkel bij Snymis draaien en nog bij geen klant, vier vragen die we onderzoeken.</p>
   <div class="kaart" data-kaart>
 <div class="kaart-kolom kaart-vandaag"><p class="label kaart-kop" id="kaart-vandaag-h">Werkt vandaag</p><ul aria-labelledby="kaart-vandaag-h">
@@ -381,10 +382,10 @@
 </div>
 </section>
 
-<section id="snymis" data-room>
+<section id="snymis" data-room aria-labelledby="snymis-titel">
 <div class="kamer kamer-snymis">
   <p class="label">Wie is Snymis</p>
-  <h2>E&eacute;n persoon, een paar agents, en elk bericht gelezen voor het vertrekt.</h2>
+  <h2 id="snymis-titel">E&eacute;n persoon, een paar agents, en elk bericht gelezen voor het vertrekt.</h2>
   <div class="snymis-split">
     <div class="snymis-tekst">
       <p>Ik ben Snymis. Ik werk vanuit Antwerpen, zonder kantoor en zonder verkopers, en STS Digital is een jonge zaak. Ik doe onderzoek naar AI die werk overneemt van kleine zaken, en ik gebruik dat onderzoek elke dag voor mijn eigen werk: een verkenner zoekt, een bouwer maakt het voorbeeld, en ik lees elk bericht voor het naar een zaak gaat.</p>
@@ -408,7 +409,7 @@
 <footer class="foot">
   <div class="foot-in">
     <div>
-      <p class="motto">Where imagination can reach up to the <em>stars</em>.</p>
+      <p class="motto" lang="en">Where imagination can reach up to the <em>stars</em>.</p>
       <p class="small merkregel">Star.Tec.Solutions is het merk van STS Digital, Antwerpen. E&eacute;n persoon, Snymis, en een paar agents die hem helpen.</p>
       <p class="small foot-contact"><span data-c-wrap><a data-c="whatsapp" data-keep href="#">WhatsApp</a></span><span data-c-wrap> &middot; <a data-c="phone" href="#"></a></span></p>
     </div>

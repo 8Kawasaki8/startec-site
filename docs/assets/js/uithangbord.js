@@ -15,7 +15,9 @@
    - On pages with a scene but without the gevel room the sign follows the state here (setSign with
      the sector colour); on index the room Jouw gevel (gevel.js) owns that binding, so one keystroke
      costs one texture. 'Zet op het bord' dispatches 'sts:bord' so that room commits the name at once.
-   - The sheet is role=dialog without a focus trap (aria-modal=false): Tab out of it closes it. */
+   - The sheet is a modal dialog (role=dialog, aria-modal=true, WP-19): Tab and Shift+Tab wrap inside it,
+     Escape closes it and returns focus to the chip, a click outside closes it; focus that still leaves
+     it some other way (a script, a touch on the page) closes it too, so no stale dialog stays open. */
 (function () {
   var d = document, S = window.STSState, N = window.STSNames;
   var ub = d.querySelector(".uithangbord"), chip = d.querySelector("[data-ub-chip]"), chipTxt = d.querySelector("[data-ub-chip-txt]");
@@ -65,8 +67,23 @@
   form.addEventListener("submit", function (e) { e.preventDefault(); close(); if (S && S.get().zaak) dispatchEvent(new CustomEvent("sts:bord")); });   /* gevel.js commits on it */
   form.querySelector("[data-ub-wis]").addEventListener("click", function () { if (S) S.clear(); form.reset(); form.elements.zaak.focus({ preventScroll: true }); });
 
-  /* sheet: open, close with focus return, Escape, click outside */
-  function onKey(e) { if (e.key === "Escape") { e.preventDefault(); close(); } }
+  /* sheet: open, close with focus return, Escape, click outside, Tab wraps (the focus trap of the dialog) */
+  function tabbable() {
+    return [].filter.call(sheet.querySelectorAll("a[href], button, input, select, textarea, [tabindex]"), function (el) {
+      if (el.tabIndex < 0 || el.disabled || el.closest("[hidden]")) return false;
+      if (el.type !== "radio") return true;
+      var g = [].slice.call(sheet.querySelectorAll('input[type="radio"][name="' + el.name + '"]'));
+      return el === (g.filter(function (r) { return r.checked; })[0] || g[0]);   /* Tab lands on one radio per group */
+    });
+  }
+  function onKey(e) {
+    if (e.key === "Escape") { e.preventDefault(); close(); return; }
+    if (e.key !== "Tab") return;
+    var t = tabbable(), a = d.activeElement;
+    if (!t.length) return;
+    if (e.shiftKey && (a === t[0] || !sheet.contains(a))) { e.preventDefault(); t[t.length - 1].focus(); }
+    else if (!e.shiftKey && (a === t[t.length - 1] || !sheet.contains(a))) { e.preventDefault(); t[0].focus(); }
+  }
   function onOutside(e) { if (!sheet.contains(e.target) && !chip.contains(e.target)) close(false); }
   function open() {
     sheet.hidden = false; chip.setAttribute("aria-expanded", "true");
@@ -80,7 +97,7 @@
     if (back !== false) chip.focus({ preventScroll: true });
   }
   chip.addEventListener("click", function () { sheet.hidden ? open() : close(); });
-  /* keyboard: focus that leaves the sheet (Tab past the last button) closes it, so no stale dialog stays open */
+  /* focus that leaves the sheet some other way than Tab (a script, a touch) closes it, so no stale dialog stays open */
   sheet.addEventListener("focusout", function (e) { var to = e.relatedTarget; if (to && !sheet.contains(to) && !chip.contains(to)) close(false); });
 
   /* Minder animatie: the same key as the footer button (sts-lite, see lite.js); the page reloads so the scene loader reads it */

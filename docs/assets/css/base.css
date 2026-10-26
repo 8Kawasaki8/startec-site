@@ -35,9 +35,12 @@
   --glow:0 0 24px rgba(54,232,255,.35), 0 0 64px rgba(54,232,255,.15);
   --glass:rgba(255,255,255,.055); --glass-2:rgba(255,255,255,.09);
   --paneel:rgba(6,8,15,.92);            /* vlak paneel boven de stad, nooit blur erachter */
-  --display:'Panchang', 'Unbounded', system-ui, sans-serif;
-  --sans:'Switzer', system-ui, -apple-system, sans-serif;
-  --mono:'JetBrains Mono', ui-monospace, Consolas, monospace;
+  /* WP-16: na elk webfont zijn metrisch gelijke lokale terugvalfonts (fonts.css, size-adjust) zodat de wissel
+     geen regel verschuift. Gewicht 500 van Panchang en Switzer komt uit het 600- resp. 400-bestand (fonts.css):
+     twee bestanden minder per pagina; Unbounded laadt enkel nog in docs/demo/radar */
+  --display:'Panchang', 'Panchang Fallback', system-ui, sans-serif;
+  --sans:'Switzer', 'Switzer Fallback', system-ui, -apple-system, sans-serif;
+  --mono:'JetBrains Mono', 'JetBrains Mono Fallback', ui-monospace, Consolas, monospace;
   --gut:clamp(16px,5vw,72px); --max:1200px;
   --ease:cubic-bezier(.2,.8,.2,1);
   color-scheme:dark;
@@ -55,7 +58,7 @@ html[data-sector="anders"]{--sector:var(--sector-anders)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;background:var(--bg)}
 body{background:var(--bg);color:var(--ink);font:400 17.5px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-img,svg,canvas,video{display:block;max-width:100%}
+img,svg,canvas{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 button,input,textarea,select{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
@@ -122,7 +125,6 @@ html[data-scene="svg"] #scene{display:none}
 
 /* ═══ LAY-OUT ════════════════════════════════════════════════ */
 .sec{max-width:var(--max);margin:0 auto;padding:clamp(64px,9vw,128px) var(--gut)}
-.solid{position:relative;background:var(--bg);border-top:1px solid var(--line)}
 .center{text-align:center;margin-left:auto;margin-right:auto}
 .center p{margin-left:auto;margin-right:auto}
 .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:start}
@@ -149,7 +151,7 @@ html[data-scene="svg"] #scene{display:none}
 .legal h2{font-size:clamp(1.1rem,2.2vw,1.6rem);margin-top:48px;padding-top:28px;border-top:1px solid var(--line);hyphens:auto}
 .legal h3{margin-top:24px;font-size:1.02rem}
 .legal p,.legal li{color:var(--ink2);margin-top:12px}
-.legal ul,.legal ol{padding-left:22px}
+.legal ul{padding-left:22px}
 .legal li{margin-top:8px}
 .legal a{color:var(--ink);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(54,232,255,.6)}   /* WP-12: lange URL's in juridische tekst zijn geen accent; cyaan blijft de onderstreping */
 .legal .id{display:grid;grid-template-columns:max-content 1fr;gap:10px 22px;margin-top:22px;padding:22px 24px;border-radius:18px;background:var(--glass);border:1px solid var(--line2)}
@@ -157,7 +159,6 @@ html[data-scene="svg"] #scene{display:none}
 .legal .id dt{font:500 11px/1.6 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);padding-top:4px}
 .legal .id dd{margin:0;color:var(--ink)}
 @media(max-width:560px){.legal .id{grid-template-columns:1fr;gap:4px 0}.legal .id dd{margin-bottom:10px}}
-.legal .note{margin-top:28px;padding:16px 18px;border-radius:14px;border:1px solid rgba(54,232,255,.3);background:rgba(54,232,255,.06);color:var(--ink2);font-size:15px}
 .legal .meta{font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-top:16px}
 
 /* ═══ DE VOET: leus één keer, merkregel, contact uit config, vijf deuren, juridisch, minder animatie ═══ */
@@ -217,3 +218,27 @@ html.js [data-reveal].in,html.js .rv.in{opacity:1;transform:none;transition:opac
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   html.js [data-reveal],html.js .rv{opacity:1;transform:none}
 }
+
+/* ═══ WP-19 TOEGANKELIJKHEID (append-only, gedeeld bestand) ═══════════════
+   --ink3 van .44 naar .58: de gedempte etiketten (.label, .small, .meta, de
+   dt's van de juridische id-kaart, de snelheidsknoppen) halen zo 4,5:1 op
+   elk vlak (bg 6,4:1; glas 6,0:1); .44 bleef op 4,1:1 steken. sim.css had
+   daarvoor al --ink25 op .58. Een veld met een fout krijgt de waarschuwings-
+   kleur op zijn rand (contact.js zet aria-invalid + aria-describedby). */
+:root{--ink3:rgba(242,245,255,.58)}
+.field [aria-invalid="true"],.bericht-veld [aria-invalid="true"]{border-color:#FFB36B}
+
+/* ═══ WP-21 SCÈNELAAG: het bord als neonbuis (append-only) ═══════════════
+   De textuur achter #sign-dom draagt de gloed en de buis (scene/sign.js);
+   de DOM-letters erbovenop krijgen een lichte kern en een kortere gloed,
+   zodat de twee lagen samen één buis vormen. Statische schaduw, geen
+   transition (performanceregels). Geldt ook boven de SVG-skyline. */
+#sign-dom{text-shadow:0 0 1px rgba(255,255,255,.45),0 0 14px var(--sign)}
+
+/* ═══ Fixronde golf 4: het bord achter een paneel (append-only) ═══════════
+   #sign-dom staat vast in de viewport; een kamerpaneel (.92) dat eroverheen
+   scrolt zou de letters op 8 % achter een rand tonen. scene/signdom.js zet
+   is-behind zodra een paneel meer dan 30 % van het bord dekt; alleen opacity,
+   transition van 200 ms (de grens van de bewegingscontrole). */
+#sign-dom.is-placed.is-behind{opacity:0}
+#sign-dom{transition:opacity .2s var(--ease,ease)}

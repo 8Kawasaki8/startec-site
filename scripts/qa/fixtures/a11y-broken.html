@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="nl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Opzettelijk ontoegankelijke pagina (zelftest a11y.mjs)</title>
+<style>body{background:#06080F;color:#F2F5FF;font:16px/1.5 sans-serif;padding:24px}.grijs{color:#555}a{color:#F2F5FF}.ring:focus{outline:none}</style></head>
+<body>
+<h1>Zelftest voor de toegankelijkheidscontrole</h1>
+<h3>Een kop die een niveau overslaat</h3>
+<p class="grijs">Grijze tekst die 4,5:1 niet haalt.</p>
+<button type="button"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2h12v12H2z"/></svg></button>
+<img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="10" height="10">
+<a href="#"></a>
+<a class="ring" href="#">Link zonder focusring</a>
+</body>
+</html>

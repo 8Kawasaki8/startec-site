@@ -9,6 +9,11 @@
 #   or:                         ln -s ../../scripts/qa/prepush.sh .git/hooks/pre-push
 # Configure the Pages branch:   git config sts.pagesBranch main   (default: main)
 # Dry run without git:          scripts/qa/prepush.sh --check   (STS_QA_REPORT=pad overschrijft het rapportpad)
+#
+# docs/qa-report.html is written by the same `npm run qa` that produces the report, so it always lands one
+# commit after the release it describes: a push whose only docs/ change is that file passes without a report.
+# Release order (README, 'Release en QA-poort'): commit src/ scripts/ docs/ -> npm run qa on that commit ->
+# prepush --check -> push -> commit docs/qa-report.html (and the re-measured budget.json) as the follow-up.
 set -eu
 
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
@@ -19,8 +24,8 @@ ZERO="0000000000000000000000000000000000000000"
 say() { printf '%s\n' "$*" >&2; }
 
 report_status() {
-  # prints: <status> <commit> <generated>; 'missing' when there is no report
-  if [ ! -f "$REPORT" ]; then echo "missing - -"; return; fi
+  # prints: <status> <commit> <generated> <dirty 0|1>; 'missing' when there is no report
+  if [ ! -f "$REPORT" ]; then echo "missing - - 0"; return; fi
   python3 -I - "$REPORT" <<'PY'
 import json, sys
 try:
@@ -31,16 +36,16 @@ try:
         status = "quick"
     elif r.get("matrix", {}).get("partial"):
         status = "partial"
-    print(status, r.get("commit") or "-", r.get("generated") or "-")
+    print(status, r.get("commit") or "-", r.get("generated") or "-", "1" if r.get("dirty") else "0")
 except Exception as e:
-    print("broken - -")
+    print("broken - - 0")
 PY
 }
 
 check_report() {
   head="$1"
   set -- $(report_status)
-  rstatus="$1"; commit="$2"; generated="$3"
+  rstatus="$1"; commit="$2"; generated="$3"; dirty="${4:-0}"
   case "$rstatus" in
     green) ;;
     quick) say "QA: .qa/report.json komt van 'npm run qa:quick' ($generated). Draai 'npm run qa' voor een volledige matrix."; return 1 ;;
@@ -51,6 +56,10 @@ check_report() {
   esac
   if [ "$commit" != "-" ] && [ "$commit" != "$head" ]; then
     say "QA: het groene rapport hoort bij commit ${commit} maar je pusht ${head}. Draai 'npm run build && npm run qa' op deze commit."
+    return 1
+  fi
+  if [ "$dirty" = "1" ]; then
+    say "QA: het groene rapport is gemaakt op een werkmap met wijzigingen tegenover ${commit}. Commit eerst, draai dan 'npm run qa' op die commit."
     return 1
   fi
   say "QA: rapport groen voor ${head} ($generated)."
@@ -71,7 +80,8 @@ while read -r local_ref local_sha remote_ref remote_sha; do
   remote_branch="${remote_ref#refs/heads/}"
   [ "$remote_branch" = "$PAGES_BRANCH" ] || continue            # only the Pages branch is guarded
   if [ "$remote_sha" = "$ZERO" ]; then range="$local_sha"; else range="$remote_sha..$local_sha"; fi
-  if ! git -C "$ROOT" diff --quiet "$range" -- docs/ 2>/dev/null; then
+  # the report page itself is not a release: it is committed one step after the commit it describes
+  if ! git -C "$ROOT" diff --quiet "$range" -- docs/ ':(exclude)docs/qa-report.html' 2>/dev/null; then
     say "pre-push: deze push wijzigt docs/ op '$PAGES_BRANCH' (wat GitHub Pages serveert)."
     if [ "$PAGES_BRANCH" = "main" ] && [ -z "${STS_RELEASE:-}" ]; then
       say "pre-push: docs/ op main is bevroren tot WP-15. Zet STS_RELEASE=1 bij de release, pas na een groen rapport."

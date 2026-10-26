@@ -1,7 +1,7 @@
 // Headless QA gate for the static site in docs/.
 // Usage: node scripts/qa/qa.mjs [--quick] [--pages a.html,b.html] [--profile phone|desktop|tablet]
 //        [--mode gl|gl-swift|nogl] [--variant default|reduced|lite] [--shots] [--no-lint]
-//        [--out DIR] [--port N] [--report-only]
+//        [--no-a11y] [--out DIR] [--port N] [--report-only]
 // Serves docs/ with python3 http.server, runs the matrix from profiles.mjs in three Chromium
 // launch modes, classifies every finding (fail / known with WP / notice) with budget.mjs,
 // writes .qa/report.json and renders docs/qa-report.html. Exit 1 when any run or lint fails.
@@ -10,14 +10,16 @@ import { spawn, execSync } from 'node:child_process';
 import { readdirSync, statSync, mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { GL_MODES, PAGES_BASE, buildMatrix, runLabel } from './profiles.mjs';
-import { loadBudget, KNOWN } from './budget.mjs';
+import { loadBudget, KNOWN, budgetSummary } from './budget.mjs';
 import { loadWoordenlijst, serialise } from './woorden.mjs';
 import { lintCssFiles, defaultFiles as cssFiles } from './lint-css.mjs';
 import { lintCopy, defaultFiles as copyFiles } from './lint-copy.mjs';
 import { lintLines } from './lint-lines.mjs';
 import { checkFixtures, checkSignFixtures } from './fixtures.mjs';
 import { checkDataFiles } from './checks.mjs';
+import { checkAssets } from './perf.mjs';   // WP-16: og.png, straat images, preloaded fonts
 import { runOne } from './runner.mjs';
+import { a11yPass } from './a11y.mjs';   // WP-19: contrast, names, headings, keyboard, dialog, zoom, motion
 import { writeReportHtml } from './report.mjs';
 
 const req = createRequire(import.meta.url);
@@ -107,6 +109,13 @@ for (const run of matrix) {
   console.log(`${tag} ${runLabel(run)} ${rec.loadMs}ms raf=${rec.rafCount} scene=${rec.scene ? rec.scene.event : '-'} ${known.length ? `bekend=${known.length} ` : ''}${fails.length ? `fouten=${fails.length}` : ''}`);
   for (const i of fails) console.log(`   - ${i.text}`);
 }
+// WP-19: the accessibility pass on every STS page (desktop and phone, mode gl); fails only on contrast and missing names
+let a11y = null;
+if (!args['no-a11y']) {
+  a11y = await a11yPass(await browserFor('gl'), pages, { base, verbose: !!args.verbose });
+  for (const s of a11y.skipped) console.log(`notitie: ${s}`);
+  console.log(`a11y: ${a11y.runs.length} runs, ${a11y.fails} fout(en), ${a11y.notices} notitie(s)`);
+}
 for (const b of Object.values(browsers)) await b.close();
 server.kill();
 
@@ -116,7 +125,7 @@ if (!args['no-lint']) {
   const css = lintCssFiles(cssFiles(), { root: ROOT });
   const copy = lintCopy(copyFiles(), { root: ROOT }).results;
   const lines = lintLines({ root: ROOT }).results;
-  const fixtures = [...checkFixtures({ root: ROOT }), ...await checkSignFixtures({ root: ROOT }), ...checkDataFiles(ROOT)];   // WP-09: panden, capabilities, radar-bericht
+  const fixtures = [...checkFixtures({ root: ROOT }), ...await checkSignFixtures({ root: ROOT }), ...checkDataFiles(ROOT), ...checkAssets(ROOT, budget)];   // WP-09: panden, capabilities, radar-bericht; WP-16: assets
   lint = { css, copy, lines, fixtures, fails: [...css, ...copy, ...lines, ...fixtures].filter(i => i.severity === 'fail').length };
   console.log(`lint: css ${css.length} bevindingen, copy ${copy.length}, regels ${lines.length}, fixtures ${fixtures.length}; ${lint.fails} fout(en)`);
 }
@@ -124,21 +133,27 @@ if (!args['no-lint']) {
 const knownSummary = {};
 for (const r of results) for (const i of r.issues) if (i.severity === 'known') { const k = `${i.wp}|${i.note}`; knownSummary[k] = (knownSummary[k] || 0) + 1; }
 for (const list of [lint.css, lint.copy, lint.lines, lint.fixtures]) for (const i of list || []) if (i.severity === 'known') { const k = `${i.wp}|${i.note}`; knownSummary[k] = (knownSummary[k] || 0) + 1; }
-const failing = results.filter(r => r.status === 'fail').length + (lint.fails || 0);
+const failing = results.filter(r => r.status === 'fail').length + (lint.fails || 0) + (a11y ? a11y.fails : 0);
 const report = {
   generated: new Date().toISOString(), commit: git('rev-parse HEAD'), branch: git('branch --show-current'),
+  // dirty: the report describes the working tree, which differs from `commit` (prepush.sh and the report header show it)
+  dirty: git('status --porcelain -- src docs scripts') !== '',
+  dirtyFiles: git('status --porcelain -- src docs scripts').split('\n').filter(Boolean).length,
   node: process.version, playwright: req('playwright/package.json').version, chromium: exe, durationMs: Date.now() - started,
   budget: budget.source, woordenlijst: rules.source || 'inline',
+  // WP-15: the measured budget behind the gates, for the report's Budget section
+  budgetInfo: { source: budget.source, measuredOn: budget.measuredOn || null, measuredAt: budget.measuredAt || null, workingTreeDirty: !!budget.workingTreeDirty, marginBytes: budget.marginBytes, marginCalls: budget.marginCalls, phoneRawBytesMax: budget.phoneRawBytesMax, jsGzipLiteMax: budget.jsGzipLiteMax, gates: budget.gates, rows: budgetSummary(budget) },
   // partial: a subset (--pages, --profile, --mode or --variant) is never a publishable report, whatever its colour
   matrix: { quick: !!args.quick, partial: pages.length < allPages.length || !!(args.profile || args.mode || args.variant), pages: pages.length, pagesTotal: allPages.length, runs: matrix.length, modes: Object.keys(GL_MODES) },
   notices, summary: {
     runs: results.length, pass: results.filter(r => r.status === 'pass').length, known: results.filter(r => r.status === 'known').length,
-    fail: results.filter(r => r.status === 'fail').length, lintFails: lint.fails || 0, status: failing ? 'red' : 'green',
+    fail: results.filter(r => r.status === 'fail').length, lintFails: lint.fails || 0, a11yFails: a11y ? a11y.fails : null, a11yNotices: a11y ? a11y.notices : null, status: failing ? 'red' : 'green',
   },
+  a11y,
   known: Object.entries(knownSummary).map(([k, count]) => { const [wp, note] = k.split('|'); return { wp, note, count }; }).sort((a, b) => a.wp.localeCompare(b.wp)),
   knownRules: KNOWN.map(k => ({ wp: k.wp, note: k.note })), lint, runs: results,
 };
 writeFileSync(REPORT, JSON.stringify(report, null, 2));
 writeReportHtml(report, HTML);
-console.log(`\n${failing ? 'QA ROOD' : 'QA GROEN'}: ${results.length} runs, ${report.summary.fail} rode runs, ${report.summary.known} met bekende punten, lint ${lint.fails || 0} fout(en), ${Math.round(report.durationMs / 1000)} s. Rapport: ${relative(ROOT, REPORT)} en docs/qa-report.html`);
+console.log(`\n${failing ? 'QA ROOD' : 'QA GROEN'}: ${results.length} runs, ${report.summary.fail} rode runs, ${report.summary.known} met bekende punten, lint ${lint.fails || 0} fout(en), a11y ${a11y ? `${a11y.fails} fout(en), ${a11y.notices} notitie(s)` : 'overgeslagen'}, ${Math.round(report.durationMs / 1000)} s. Rapport: ${relative(ROOT, REPORT)} en docs/qa-report.html`);
 process.exit(failing ? 1 : 0);

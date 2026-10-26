@@ -88,7 +88,10 @@ def rooms_html(meta):
         f = SRC / "rooms" / (name + ".html")
         if not f.is_file():
             raise SystemExit("room %r listed in front matter but src/rooms/%s.html does not exist" % (name, name))
-        parts.append('<section id="%s" data-room>\n%s\n</section>' % (name, f.read_text(encoding="utf-8").strip()))
+        html = f.read_text(encoding="utf-8").strip()
+        # WP-19: a room whose heading carries id="<name>-titel" becomes a named region (aria-labelledby)
+        label = ' aria-labelledby="%s-titel"' % name if ('id="%s-titel"' % name) in html else ""
+        parts.append('<section id="%s" data-room%s>\n%s\n</section>' % (name, label, html))
     return "\n\n".join(parts)
 
 
