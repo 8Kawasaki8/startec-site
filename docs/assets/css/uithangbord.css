@@ -22,7 +22,7 @@
 html{scroll-padding-top:calc(var(--ub-kop) + 12px)}
 
 .ub{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--ub-kop);display:flex;align-items:center;gap:clamp(12px,1.6vw,24px);
-  padding:0 clamp(16px,3vw,40px);background:var(--paneel);border-bottom:1px solid var(--line);overflow:hidden}
+  padding:0 clamp(16px,3vw,40px);background:var(--balk);border-bottom:1px solid var(--line);overflow:hidden}
 /* de kop (merk + chip) krimpt eerst, de deuren nooit: de chip kort af met een beletselteken */
 .ub-kop{display:flex;align-items:center;gap:14px;min-width:0;flex:0 1 auto}
 .ub-merk{display:flex;align-items:center;gap:10px;min-height:44px;font:600 15px var(--display);letter-spacing:.02em;white-space:nowrap}
@@ -73,13 +73,13 @@ html{scroll-padding-top:calc(var(--ub-kop) + 12px)}
   :root{--ub-kop:48px;--ub-dok:56px}
   html{scroll-padding-top:calc(var(--ub-kop) + 8px);scroll-padding-bottom:72px}
   .ub{position:static;height:auto;display:block;padding:0;background:none;border:0}
-  .ub-kop{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--ub-kop);padding:0 calc(8px + env(safe-area-inset-right,0px)) 0 calc(10px + env(safe-area-inset-left,0px));gap:8px;background:var(--paneel);border-bottom:1px solid var(--line)}
+  .ub-kop{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--ub-kop);padding:0 calc(8px + env(safe-area-inset-right,0px)) 0 calc(10px + env(safe-area-inset-left,0px));gap:8px;background:var(--balk);border-bottom:1px solid var(--line)}
   .ub-merk{min-width:44px;justify-content:center;min-height:44px}
   .ub-merk span{display:none}
   .ub-chip{flex:1;max-width:none;min-height:40px;font-size:13px;padding:0 12px}
   .ub-dok{position:fixed;left:0;right:0;bottom:0;z-index:100;height:calc(var(--ub-dok) + env(safe-area-inset-bottom,0px));
     padding:0 calc(6px + env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) calc(6px + env(safe-area-inset-left,0px));
-    gap:6px;justify-content:space-between;background:var(--paneel);border-top:1px solid var(--line)}
+    gap:6px;justify-content:space-between;background:var(--balk);border-top:1px solid var(--line)}
   /* de deuren schuiven horizontaal in het dock (korte labels, vier zichtbaar op 390 px, statisch randverloop
      rechts als teken dat er meer is); de actie 'Bericht' blijft rechts staan */
   .ub-deuren{flex:1;height:100%;margin:0;gap:2px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;

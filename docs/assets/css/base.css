@@ -35,6 +35,7 @@
   --glow:0 0 24px rgba(54,232,255,.35), 0 0 64px rgba(54,232,255,.15);
   --glass:rgba(255,255,255,.055); --glass-2:rgba(255,255,255,.09);
   --paneel:rgba(6,8,15,.92);            /* vlak paneel boven de stad, nooit blur erachter */
+  --balk:rgba(6,8,15,.975);             /* strip en dock: bijna dicht, zodat tekst er niet doorheen schemert */
   /* WP-16: na elk webfont zijn metrisch gelijke lokale terugvalfonts (fonts.css, size-adjust) zodat de wissel
      geen regel verschuift. Gewicht 500 van Panchang en Switzer komt uit het 600- resp. 400-bestand (fonts.css):
      twee bestanden minder per pagina; Unbounded laadt enkel nog in docs/demo/radar */

@@ -59,7 +59,7 @@ Everything else (node 20+, Playwright 1.63 pinned, Chromium) is the same as in t
 | 4 | WP-15 release audit, WP-16 performance, WP-19 accessibility, WP-21 scene craft | done, LIVE |
 | 5 | WP-17 mobile UX, WP-18 copy and emotion | done, LIVE |
 | 6 | WP-26 robustness, WP-27 discoverability, WP-22 release refresh | done, LIVE (open findings fixed by hand after the credit stop) |
-| 7 | visual finishing pass (reduced WP-23) | in progress |
+| 7 | visual finishing pass: opaque strip and dock, lighter front headline | done, LIVE. The larger wave-7 packages WP-23 to WP-25 remain optional in plan-v5.json |
 
 Check `git log origin/v5 --oneline` to see which waves actually landed; a wave's commit message
 starts with `v5 wave N`.
