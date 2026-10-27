@@ -28,19 +28,23 @@ Playwright-versie in `package.json`. De harnas meldt het ontbrekende pad zelf.
 | `npm run serve` | `python3 -m http.server 8899 -d docs` voor handmatig kijken |
 | `npm run qa` | volledige matrix (zie onder), statische lints inbegrepen |
 | `npm run qa:quick` | index.html en dev/scene.html, desktop en telefoon, modus `gl`; voor tijdens het bouwen |
-| `npm run lint` | `lint-css` en `lint-copy` op de bronnen |
+| `npm run lint` | `lint-css`, `lint-copy` (met `lint-deel`: de deelteksten) op de bronnen en `meta-check` op `docs/` |
 | `npm run lint:selftest` | bewijst dat `lint-copy` de kapotte fixture afkeurt om precies drie redenen |
 | `npm run lines` | elk bestand onder `src/`, `scripts/` en `docs/assets/{css,js}` blijft onder 500 regels |
+| `npm run meta` | WP-27: `meta-check.mjs` op de gebouwde site: titels onder 60 en beschrijvingen onder 155 tekens, uniek per pagina; canonical, OG- en Twitter-tags; JSON-LD geldig, zonder lege of plaatshouderwaarden (LocalBusiness op index, BreadcrumbList op elke wijkpagina); sitemap-lastmod gelijk aan `updated:`; elke kamer linkt naar twee andere kamers en elk kameranker bestaat |
+| `npm run links` | WP-22: `links.mjs` op de gebouwde site: elke interne verwijzing (href, src, srcset, poster, action, xlink:href, meta refresh, og:image) op elke pagina onder `docs/` bestaat, elk `#anker` is een id of name op de doelpagina, ook onder de `<base>` van 404.html; `LEGACY`-ankers uit uithangbord.js en adressen op een andere host zijn een notitie; draait ook in `npm run lint` en in het lintblok van `npm run qa` (samen met `meta-check`) |
+| `npm run deel` | WP-27: `lint-deel.mjs`, de deelteksten (`[data-share]` -> `window.STS_DEEL`): elke knop een tekst en omgekeerd, onder 300 tekens met het adres ingevuld, geen woord uit de woordenlijst |
 | `npm run report` | schrijft `docs/qa-report.html` opnieuw uit het bestaande `.qa/report.json` |
 | `npm run audit` | `lines`, `lint` en `qa` na elkaar |
 | `npm run perf:css` | WP-16: `css-dead.mjs`, selectors die op geen gebouwde pagina iets raken (exit 1 bij een dode) |
 | `npm run perf:img` | WP-16: `scripts/img-shrink.py --check`, og.png onder 150 kB en elke straatfoto onder 60 kB |
 | `npm run perf:selftest` | bewijst dat `checkAssets` (perf.mjs) een preload van een onbestaand lettertypebestand afkeurt |
 | `node scripts/qa/a11y.mjs` | WP-19: de toegankelijkheidscontrole los van de matrix (`--pages`, `--profile desktop,phone`, `--port`, `--verbose`) |
+| `node scripts/qa/robust.mjs` | WP-26: de robuustheidscontrole los van de matrix (`--pages`, `--scenario nojs,modules,fonts,links,base,print,audit`, `--port`, `--verbose`); `--audit` drukt alleen de kenmerkentabel |
 
 Opties van `scripts/qa/qa.mjs`: `--pages a.html,b.html`, `--profile phone|desktop|tablet`,
 `--mode gl|gl-swift|nogl`, `--variant default|reduced|lite|intro`, `--shots` (schermafbeeldingen in `.qa/`),
-`--no-lint`, `--no-a11y` (slaat de toegankelijkheidscontrole over tijdens het bouwen), `--port 8765`, `--out .qa`, `--report-only`. Elke selectie markeert het rapport als `partial`;
+`--no-lint`, `--no-a11y` (slaat de toegankelijkheidscontrole over tijdens het bouwen), `--no-robust` (slaat de robuustheidscontrole over), `--port 8765`, `--out .qa`, `--report-only`. Elke selectie markeert het rapport als `partial`;
 `prepush.sh` weigert zo'n rapport net als een quick-run.
 
 ## Modi, profielen, varianten
@@ -176,8 +180,15 @@ scripts/qa/fixtures/sign.json    wrapSign: twee regels, nooit een woord gebroken
 scripts/qa/sim-check.mjs   WP-07: herrekent elke bevinding, callout, logregel en wat-als-teller van de Doorlichting uit de arrays (sim-data.js, sim-data-2.js, sim-whatif.js); `node scripts/qa/sim-check.mjs`
 scripts/qa/perf.mjs        WP-16: verzoeken, ruwe JS, lettertypen, H1-verschuiving, CLS en H1-tijd per run; checkAssets (og.png, straatfoto's, preloads)
 scripts/qa/css-dead.mjs    WP-16: dode selectors in docs/assets/css tegen elke gebouwde pagina (Chromium); ALLOW met reden
+scripts/qa/lint-deel.mjs   WP-27: de deelteksten uit docs/assets/js/*-data.js en src/data/*.js tegen de knoppen [data-share] in src/; draait mee in lint-copy
+scripts/qa/meta-check.mjs  WP-27: metadata, JSON-LD, sitemap-lastmod en kamerlinks op de gebouwde site (npm run meta, in npm run lint)
+scripts/qa/links.mjs       WP-22: elke interne link en elk anker op elke gebouwde pagina (npm run links, in npm run lint en in het lintblok van npm run qa)
 scripts/qa/a11y.mjs        WP-19: toegankelijkheidscontrole na de matrix (Tab-doorloop, dialoog, zoom, minder beweging); ook los te draaien
 scripts/qa/a11y-dom.mjs    WP-19: de page.evaluate-helft: contrast, namen, koppen, landmarks, formulieren, live-gebieden, taal
+scripts/qa/robust.mjs      WP-26: robuustheid na a11y (zonder JavaScript, één script geblokkeerd, zonder lettertypen, ankers, 404 onder <base>); ook los
+scripts/qa/robust-dom.mjs  WP-26: de page.evaluate-helft (H1 en tekst, deuren, SVG, formulier, lettertypen, ankers tegen de balken, afdrukscan)
+scripts/qa/robust-print.mjs  WP-26: de vier afdrukken van gereedschap.html onder print-media, met een PDF elk (@page uit print.css)
+scripts/qa/robust-audit.mjs  WP-26: statische audit van kenmerken nieuwer dan Safari 15.4 / Chrome 100 en hun terugval
 scripts/img-shrink.py      WP-16: og.png naar 256 kleuren, straatfoto's naar de hoogste kwaliteit onder 56 kB (Pillow)
 ```
 
@@ -374,3 +385,105 @@ STS-pagina: `checks.mjs` meet een radio of checkbox aan zijn `<label>` (de chip 
   `report.json` draagt `dirty` en `dirtyFiles`, het rapport zegt het in de kopregel en `prepush.sh` weigert zo'n rapport; de
   `docs/qa-report.html` telt niet als release in de hook (`:(exclude)`), zie Publicatiewacht; `docs/qa-report.html` toont de
   sectie Toegankelijkheid (per pagina x profiel contrast, namen, koppen, Tab, dialoog, zoom, beweging) en de a11y-telling bovenaan.
+
+## WP-26: robuustheid (zonder JavaScript, dode modules, oude browsers, lettertypen, afdrukken, ankers)
+
+`scripts/qa/robust.mjs` draait na de toegankelijkheidscontrole in `npm run qa` (modus `gl`, `sts-pre` gezet) en los:
+`node scripts/qa/robust.mjs [--pages ...] [--scenario nojs,modules,fonts,links,base,print,audit] [--verbose]`. Alles is een
+notitie, behalve een **onopgevangen fout** of een **lege pagina** (geen zichtbare H1, minder dan 120 tekens tekst in `<main>`):
+die zijn een fout (`summary.robustFails`, exit 1). De bevindingen staan in `.qa/report.json` onder `robust` en in de sectie
+Robuustheid van `docs/qa-report.html`; schermafbeeldingen en PDF's in `.qa/robust/` (niet in git).
+
+- `nojs`: elke STS-pagina op desktop en telefoon met `javaScriptEnabled: false`: zichtbare H1, tekst, de `<noscript>`-regel
+  (head.html, met het woord JavaScript), vijf deuren als zichtbare links, op index.html de twee aankomstregels, op scenepagina's
+  de SVG-skyline met `#landmark-bord` (het neutrale bord) en de canvas verborgen, niets op opacity 0 door reveal, de naamchip
+  verborgen, geen overflow. Bouwkant: head.html `<noscript>` met `.ub-chip,[data-lite-toggle]{display:none}` en de regel
+  `.nojs`; scene.html `<noscript>` met `#scene{display:none}#scene-fallback[hidden]{display:block!important}.gevel-schets{display:none}`.
+- `modules`: index.html (desktop en telefoon), simulatie.html, gereedschap.html, werkwijze.html, 404.html, dev/bericht.html en
+  de eerste wijkpagina (desktop): elk `<script src>` van de gebouwde pagina één voor één geblokkeerd, op scenepagina's ook
+  `scene.js`, `scene/plattegrond.js` en `vendor/three.module.min.js` (telefoon: plattegrond.js). Geen `pageerror`, zichtbare H1,
+  tekst; consolefouten buiten de geblokkeerde URL zijn een notitie. Op index.html zonder contact.js, hydrate.js of state.js vult
+  de harnas het formulier in en klikt Stuur: herladen met de velden in de URL is een fout, geen `mailto:`-action een notitie.
+  Bouwkant: hydrate.js zet `action="mailto:{config.email}" method="post" enctype="text/plain"` op `#contact-form` zolang het
+  geen action heeft; contact.js doet `preventDefault`. Valt contact.js weg, dan opent een gewone submit toch de mail-app.
+- `fonts`: index.html (desktop, telefoon), gereedschap.html en juridisch.html (desktop), elke `assets/fonts/`-aanvraag
+  geblokkeerd en vergeleken met een gewone lading: geen fout, geen overflow, de H1 hoogstens 6 px hoger of lager, de
+  paginahoogte binnen 4 % (de metrisch gelijke terugvalfonten van fonts.css, `font-display: swap`), de H1 noemt een
+  terugvalfamilie, de scène tekent 0 frames in 2 s rust (signdom.js `fontsReady` onthoudt een mislukte lading).
+- `links`: elk `a[href]` naar een eigen pagina met `#anker` (zonder `?`: die dekt de conversiecheck), verzameld over alle
+  pagina's, op desktop en telefoon geopend als `pagina#anker`. Na 900 ms: het doel bestaat (een herschreven hash telt mee),
+  zijn bovenrand ligt niet onder een vaste of kleverige balk die het horizontaal overlapt (het dock onderaan telt niet),
+  `elementFromPoint` op de eerste pixels geeft het doel zelf, het doel staat in de bovenste 60 % van het scherm.
+- `base`: `404.html` wordt op een diep pad geserveerd (`wijk/diep/pad/onbekend.html`, status 404, zoals GitHub Pages doet):
+  de `<base>` wijst naar de Pages-host, de drie stylesheets zijn geladen (`link.sheet`), body is `#06080F`, de H1 staat in
+  Panchang, elke link wijst naar de Pages-host, geen mislukt verzoek. De harnas beantwoordt de Pages-host lokaal.
+- `print`: gereedschap.html op desktop onder print-media, `window.print` vervangen door een teller zodat `STSTools.printBlock`
+  zijn echte pad loopt, daarna `afterprint` door de harnas: (1) het A6-kaartje na een gsm-nummer en 'Druk af op A6'
+  (`html.print-a6`, enkel `.a6-wrap`, canvas 105x148 mm, na afterprint terug op zijn plaats), (2) het toog-kaartje (`?toog=1`,
+  twee zijden), (3) de eenpager (`?print`, QR getekend, geen loket) en (4) de gewone pagina. Elke afdruk: wit, `color-scheme`
+  light, geen donker vlak of lichte tekst, strip, voet en canvas weg, niets buiten het afdrukblok, en een PDF (`page.pdf`,
+  `preferCSSPageSize`) met de `@page`-maat in de MediaBox (A6 298x420 pt, A4 595x842 pt, toog twee pagina's); `.qa/robust/print-*`.
+  Gefixt: schermkleuren bleven op papier staan en `color-scheme: dark` op `:root` liet Chromium de @page-marge zwart
+  schilderen; print.css zet nu `body *{color:#000!important}` en `:root{color-scheme:light}`.
+- `audit` (statisch, ook `--audit`): de tabel hieronder. Terugval: een declaratie met dvh/svh/lvh of color-mix heeft een
+  eerdere declaratie van dezelfde eigenschap zonder dat kenmerk, in dezelfde regel, in een eerdere regel van hetzelfde
+  bestand met dezelfde selector, of in base.css voor dezelfde selector (base.css laadt eerst: een nieuwe browser neemt de
+  latere waarde, een oude laat de ongeldige declaratie vallen). Verboden kenmerken mogen nergens staan; een te testen
+  kenmerk staat achter een `if` (ook op de variabele die het krijgt); een prefix-kenmerk heeft zijn -webkit- twin. Inbreuk = notitie.
+
+Vloer: Safari 15.4 / Chrome 100. Kenmerken en hun terugval (gemeten op de gebouwde `docs/assets`):
+
+| soort | kenmerk | sinds | waar | terugval |
+| --- | --- | --- | --- | --- |
+| css | viewport-units | Safari 15.4, Chrome 108 | docs/assets/css/base.css (7), docs/assets/css/rooms.css (5), docs/assets/css/sim-dag.css (3), docs/assets/css/uithangbord.css (2) | dezelfde eigenschap eerst in vh/vw (zelfde regel, of base.css voor dezelfde selector) |
+| css | color-mix | Safari 16.2, Chrome 111 | docs/assets/css/preview.css (2), docs/assets/css/rooms.css (1) | dezelfde eigenschap eerst zonder color-mix |
+| css | has | Safari 15.4, Chrome 105 | nergens | niet gebruiken: de hele selector valt weg |
+| css | container | Safari 16, Chrome 105 | nergens | niet gebruiken |
+| css | layer | Safari 15.4, Chrome 99 | nergens | niet gebruiken |
+| css | nesting | Safari 17.2, Chrome 120 | nergens | niet gebruiken (geneste @media mag, geneste selectors niet) |
+| css | property | Safari 16.4, Chrome 85 | nergens | niet gebruiken |
+| css | text-wrap | Safari 17.5, Chrome 114 | docs/assets/css/base.css (1), docs/assets/css/rooms.css (1), docs/assets/css/sim.css (1), docs/assets/css/tools.css (1) | valt weg: gewone regelafbreking |
+| css | scrollbar | Safari 18.2, Chrome 121 | docs/assets/css/sim.css (4), docs/assets/css/tools.css (1), docs/assets/css/uithangbord.css (1) | valt weg: de standaard schuifbalk (::-webkit-scrollbar staat ernaast) |
+| css | hyphens | Safari 17 zonder prefix | docs/assets/css/base.css (1) | -webkit-hyphens ernaast |
+| css | inset | Safari 14.1, Chrome 87 | docs/assets/css/base.css (4), docs/assets/css/preview.css (1), docs/assets/css/sim-dag.css (1), docs/assets/css/sim.css (5), docs/assets/css/tools.css (2), docs/assets/css/werkwijze.css (4) | onder de vloer, geen terugval nodig |
+| css | aspect-ratio | Safari 15, Chrome 88 | docs/assets/css/base.css (1), docs/assets/css/preview.css (1), docs/assets/css/print.css (2), docs/assets/css/tools.css (2), docs/assets/css/werkwijze.css (1) | onder de vloer |
+| css | overflow-wrap-anywhere | Safari 15.4, Chrome 80 | docs/assets/css/base.css (3), docs/assets/css/preview.css (2), docs/assets/css/rooms.css (3), docs/assets/css/sim-dag.css (1), docs/assets/css/sim.css (1), docs/assets/css/tools.css (6), docs/assets/css/werkwijze.css (2) | op de vloer; valt anders terug op normal |
+| css | focus-visible | Safari 15.4, Chrome 86 | docs/assets/css/base.css (3), docs/assets/css/tools.css (1), docs/assets/css/werkwijze.css (1) | op de vloer; eronder blijft de UA-focusring |
+| css | size-adjust | Safari 17, Chrome 92 | docs/assets/css/base.css (1), docs/assets/css/fonts.css (12) | valt weg: het lokale terugvalfont zonder metriek-correctie |
+| css | mask-image | Safari 15.4 (prefix), Chrome 120 | docs/assets/css/uithangbord.css (2) | -webkit-mask-image ernaast |
+| js | structuredClone | Safari 15.4, Chrome 98 | nergens | niet gebruiken |
+| js | array-at | Safari 15.4, Chrome 92 | nergens | niet gebruiken: slice of een index |
+| js | top-level-await | Safari 15, Chrome 89 | nergens | niet gebruiken in de modules |
+| js | importmap | Safari 16.4, Chrome 89 | nergens | niet gebruiken: relatieve imports |
+| js | lookbehind | Safari 16.4, Chrome 62 | nergens | niet gebruiken: een regex met lookbehind breekt het hele script bij het parsen |
+| js | private-fields | Safari 14.1 / 16.4 (static blocks), Chrome 94 | nergens | niet gebruiken |
+| js | logical-assign | Safari 14, Chrome 85 | nergens | onder de vloer |
+| js | new-array-methods | Safari 15.4 / 16, Chrome 97 / 110 | nergens | niet gebruiken |
+| js | object-hasown | Safari 15.4, Chrome 93 | nergens | hasOwnProperty |
+| js | roundRect | Safari 16, Chrome 99 | docs/assets/js/scene/sign.js (1) | if (ctx.roundRect) ... else rect |
+| js | requestIdleCallback | Safari 18, Chrome 47 | nergens | setTimeout als terugval |
+| js | OffscreenCanvas | Safari 16.4, Chrome 69 | nergens | niet gebruiken |
+| js | checkVisibility | Safari 17.4, Chrome 105 | nergens | getBoundingClientRect + getComputedStyle |
+| js | scrollend | Chrome 114, Safari geen | nergens | scroll + timeout |
+| js | PerformanceObserver | longtask: Chrome 58, Safari geen | docs/assets/js/scene/signdom.js (1) | try/catch rond observe (signdom.js countLongTasks) |
+| js | navigator-share | Safari 12.1, Chrome 89 (desktop) | docs/assets/js/contact.js (2), docs/assets/js/deel.js (2), docs/assets/js/gevel.js (2) | if (navigator.share) ... else klembord of tonen |
+| js | clipboard | Safari 13.1, Chrome 66 | docs/assets/js/contact.js (1), docs/assets/js/gevel.js (1), docs/assets/js/tools-page.js (1) | if (navigator.clipboard && writeText) ... else selecteren |
+| js | visualViewport | Safari 13, Chrome 61 | docs/assets/js/uithangbord.js (1) | if (vv) ... |
+| js | IntersectionObserver | Safari 12.2, Chrome 51 | docs/assets/js/reveal.js (1), docs/assets/js/scene.js (1), docs/assets/js/sim-radar.js (1), docs/assets/js/tools-page.js (1), docs/assets/js/uithangbord.js (1) | onder de vloer; reveal.js en uithangbord.js testen het toch |
+| js | nullish | Safari 13.1, Chrome 80 | docs/assets/js/scene/debug.js (1) | onder de vloer |
+| js | optional-chaining | Safari 13.1, Chrome 80 | nergens | onder de vloer |
+| js | queueMicrotask | Safari 12.1, Chrome 71 | docs/assets/js/scene/plattegrond.js (1) | onder de vloer |
+| js | dynamic-import | Safari 11.1, Chrome 63 | docs/assets/js/scene/plattegrond.js (1), docs/assets/js/scene.js (1) | onder de vloer; alleen op de GL-route |
+| vendor | three.module.min.js | gemeld | docs/assets/vendor/three.module.min.js | private-fields nee, static-block nee, top-level-await nee, lookbehind nee, array-at nee, structuredClone nee |
+
+Terugvallen van WP-26: base.css in de regel zelf (`#scene`, `#scene-fallback`: 100vh voor 100lvh; `.scene-dev`: 100vh voor
+100svh; `-webkit-hyphens`) en in het append-blok (`.gevel-eerste` 56vh/37vh, `.ub-sheet` 100vh, `.dag-tijdlijn` 60vh, `.phone`
+en `.ps-hero` zonder color-mix). `min-height:76svh` op 404.html valt weg tot de inhoudshoogte; `probeEl` (scene.js,
+plattegrond.js) valt terug op `innerHeight`. three.module.min.js wordt gemeld, niet bewaakt; de GL-route loopt alleen op
+desktop en tablet en elke fout eindigt in de SVG-route.
+
+Gemeten (volledige `npm run qa`, QA GROEN, 138 runs + 36 a11y-runs): 36 runs zonder JavaScript (18 pagina's x desktop en
+telefoon), 116 runs met één geblokkeerd script, 4 fontruns, 32 ankers op desktop en telefoon, 404.html op een diep pad en 4
+afdrukken: 0 fouten, 0 notities. Gevonden en gefixt onderweg: zonder JavaScript bleef `#scene-fallback` verborgen en stond de
+lege canvas in beeld (noscript in scene.html); een gewone submit zonder contact.js herlaadde de pagina met de velden in de
+URL (mailto-action uit hydrate.js); de afdruk hield de schermkleuren en een zwarte paginarand (print.css).

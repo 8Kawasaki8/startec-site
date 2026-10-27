@@ -56,3 +56,6 @@ window.SIM_RADAR = {
       aanleiding: "Wie {zaak} 's avonds op zijn gsm zoekt, vindt vandaag enkel uw Google-profiel en geen site die op een gsm werkt." }
   }
 };
+/* WP-27: wat de uitbater na de vier stappen naar een collega doorstuurt (deel.js, [data-share=radar]); regels in deel-data.js */
+window.STS_DEEL = window.STS_DEEL || {};
+window.STS_DEEL.radar = "Zo komt een zaak bij hen op tafel: een verkenner zoekt, een bouwer maakt een voorbeeld met publieke gegevens, en het eerste bericht wacht op een mens. Nagespeeld op een verzonnen buur: {site}werkwijze.html#radar";

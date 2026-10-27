@@ -125,3 +125,6 @@ window.SIM_DAG = {
     }
   }
 };
+/* WP-27: wat de uitbater na de dinsdag naar een collega doorstuurt (deel.js, [data-share=telefoon]); regels in deel-data.js */
+window.STS_DEEL = window.STS_DEEL || {};
+window.STS_DEEL.telefoon = "Dit moet je eens zien: een dinsdag nagespeeld bij een verzonnen zaak uit jouw sector, wie belt en wie niemand aan de lijn krijgt. Twee kleine ingrepen en je ziet het verschil. Gesimuleerd, maar herkenbaar: {site}index.html#telefoon";

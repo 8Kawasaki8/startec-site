@@ -60,7 +60,6 @@ html[data-scene="svg"] .loketten{background:var(--bg)}
 .zc-tips{padding-left:20px;display:grid;gap:10px;margin-top:10px;color:var(--ink2);font-size:15px}
 .zc-tips li::marker{color:var(--cyan);font-weight:600}
 .kaart-img{width:min(100%,360px);height:auto;margin-top:18px;border-radius:14px;border:1px solid var(--line2)}
-.zc-status{margin-top:12px;overflow-wrap:anywhere}
 
 /* ═══ LOKET 2: link, knop, QR en het A6-kaartje ══════════════ */
 .wa-url{margin-top:6px;word-break:break-all;font-size:15px}

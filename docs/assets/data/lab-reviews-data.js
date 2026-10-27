@@ -50,3 +50,6 @@ window.STS_LAB_REVIEWS = {
   leeg: "Kies eerst een toon of schrijf zelf een antwoord.",
   slot: "Zo zou het kunnen gaan: een voorstel per review, jij past aan en beslist. Automatisch plaatsen doen we nooit, ook niet als dit ooit meer wordt dan onderzoek."
 };
+/* WP-27: wat de uitbater na de proef naar een collega doorstuurt (deel.js, [data-share=reviews]); regels in docs/assets/js/deel-data.js */
+window.STS_DEEL = window.STS_DEEL || {};
+window.STS_DEEL.reviews = "Een proef: reviews beantwoorden in de toon van de zaak, en de uitbater keurt elk antwoord zelf goed. Gescript, nog geen product, maar het idee is goed: {site}werkwijze.html#kaart";

@@ -1,7 +1,7 @@
 // Headless QA gate for the static site in docs/.
 // Usage: node scripts/qa/qa.mjs [--quick] [--pages a.html,b.html] [--profile phone|desktop|tablet]
 //        [--mode gl|gl-swift|nogl] [--variant default|reduced|lite] [--shots] [--no-lint]
-//        [--no-a11y] [--out DIR] [--port N] [--report-only]
+//        [--no-a11y] [--no-robust] [--out DIR] [--port N] [--report-only]
 // Serves docs/ with python3 http.server, runs the matrix from profiles.mjs in three Chromium
 // launch modes, classifies every finding (fail / known with WP / notice) with budget.mjs,
 // writes .qa/report.json and renders docs/qa-report.html. Exit 1 when any run or lint fails.
@@ -20,6 +20,9 @@ import { checkDataFiles } from './checks.mjs';
 import { checkAssets } from './perf.mjs';   // WP-16: og.png, straat images, preloaded fonts
 import { runOne } from './runner.mjs';
 import { a11yPass } from './a11y.mjs';   // WP-19: contrast, names, headings, keyboard, dialog, zoom, motion
+import { robustPass } from './robust.mjs';   // WP-26: no-JS, dead modules, fonts, deep links, 404 under <base>, print, feature audit
+import { linkCheck } from './links.mjs';   // WP-22: every internal link and anchor on every built page
+import { metaCheck } from './meta-check.mjs';   // WP-27: metadata, JSON-LD, sitemap, room links
 import { writeReportHtml } from './report.mjs';
 
 const req = createRequire(import.meta.url);
@@ -116,6 +119,12 @@ if (!args['no-a11y']) {
   for (const s of a11y.skipped) console.log(`notitie: ${s}`);
   console.log(`a11y: ${a11y.runs.length} runs, ${a11y.fails} fout(en), ${a11y.notices} notitie(s)`);
 }
+// WP-26: the robustness pass (notices, except an uncaught error or a blank page: those fail)
+let robust = null;
+if (!args['no-robust']) {
+  robust = await robustPass(await browserFor('gl'), pages, { base, out: OUT, root: ROOT, verbose: !!args.verbose });
+  for (const s of robust.skipped) console.log(`notitie: ${s}`);
+}
 for (const b of Object.values(browsers)) await b.close();
 server.kill();
 
@@ -126,6 +135,8 @@ if (!args['no-lint']) {
   const copy = lintCopy(copyFiles(), { root: ROOT }).results;
   const lines = lintLines({ root: ROOT }).results;
   const fixtures = [...checkFixtures({ root: ROOT }), ...await checkSignFixtures({ root: ROOT }), ...checkDataFiles(ROOT), ...checkAssets(ROOT, budget)];   // WP-09: panden, capabilities, radar-bericht; WP-16: assets
+  // WP-22: the static site checks (links.mjs, meta-check.mjs) ride along as fixtures, so a broken link or a sitemap gap turns the report red
+  for (const [name, r] of [['links', linkCheck()], ['meta-check', metaCheck()]]) for (const f of r.fails) fixtures.push({ file: `${name}: ${f.page}`, text: f.text, severity: 'fail' });
   lint = { css, copy, lines, fixtures, fails: [...css, ...copy, ...lines, ...fixtures].filter(i => i.severity === 'fail').length };
   console.log(`lint: css ${css.length} bevindingen, copy ${copy.length}, regels ${lines.length}, fixtures ${fixtures.length}; ${lint.fails} fout(en)`);
 }
@@ -133,7 +144,7 @@ if (!args['no-lint']) {
 const knownSummary = {};
 for (const r of results) for (const i of r.issues) if (i.severity === 'known') { const k = `${i.wp}|${i.note}`; knownSummary[k] = (knownSummary[k] || 0) + 1; }
 for (const list of [lint.css, lint.copy, lint.lines, lint.fixtures]) for (const i of list || []) if (i.severity === 'known') { const k = `${i.wp}|${i.note}`; knownSummary[k] = (knownSummary[k] || 0) + 1; }
-const failing = results.filter(r => r.status === 'fail').length + (lint.fails || 0) + (a11y ? a11y.fails : 0);
+const failing = results.filter(r => r.status === 'fail').length + (lint.fails || 0) + (a11y ? a11y.fails : 0) + (robust ? robust.fails : 0);
 const report = {
   generated: new Date().toISOString(), commit: git('rev-parse HEAD'), branch: git('branch --show-current'),
   // dirty: the report describes the working tree, which differs from `commit` (prepush.sh and the report header show it)
@@ -147,13 +158,13 @@ const report = {
   matrix: { quick: !!args.quick, partial: pages.length < allPages.length || !!(args.profile || args.mode || args.variant), pages: pages.length, pagesTotal: allPages.length, runs: matrix.length, modes: Object.keys(GL_MODES) },
   notices, summary: {
     runs: results.length, pass: results.filter(r => r.status === 'pass').length, known: results.filter(r => r.status === 'known').length,
-    fail: results.filter(r => r.status === 'fail').length, lintFails: lint.fails || 0, a11yFails: a11y ? a11y.fails : null, a11yNotices: a11y ? a11y.notices : null, status: failing ? 'red' : 'green',
+    fail: results.filter(r => r.status === 'fail').length, lintFails: lint.fails || 0, a11yFails: a11y ? a11y.fails : null, a11yNotices: a11y ? a11y.notices : null, robustFails: robust ? robust.fails : null, robustNotices: robust ? robust.notices : null, status: failing ? 'red' : 'green',
   },
-  a11y,
+  a11y, robust,
   known: Object.entries(knownSummary).map(([k, count]) => { const [wp, note] = k.split('|'); return { wp, note, count }; }).sort((a, b) => a.wp.localeCompare(b.wp)),
   knownRules: KNOWN.map(k => ({ wp: k.wp, note: k.note })), lint, runs: results,
 };
 writeFileSync(REPORT, JSON.stringify(report, null, 2));
 writeReportHtml(report, HTML);
-console.log(`\n${failing ? 'QA ROOD' : 'QA GROEN'}: ${results.length} runs, ${report.summary.fail} rode runs, ${report.summary.known} met bekende punten, lint ${lint.fails || 0} fout(en), a11y ${a11y ? `${a11y.fails} fout(en), ${a11y.notices} notitie(s)` : 'overgeslagen'}, ${Math.round(report.durationMs / 1000)} s. Rapport: ${relative(ROOT, REPORT)} en docs/qa-report.html`);
+console.log(`\n${failing ? 'QA ROOD' : 'QA GROEN'}: ${results.length} runs, ${report.summary.fail} rode runs, ${report.summary.known} met bekende punten, lint ${lint.fails || 0} fout(en), a11y ${a11y ? `${a11y.fails} fout(en), ${a11y.notices} notitie(s)` : 'overgeslagen'}, robuustheid ${robust ? `${robust.fails} fout(en), ${robust.notices} notitie(s)` : 'overgeslagen'}, ${Math.round(report.durationMs / 1000)} s. Rapport: ${relative(ROOT, REPORT)} en docs/qa-report.html`);
 process.exit(failing ? 1 : 0);

@@ -4,7 +4,11 @@
      sts-pre): everywhere else, and without JavaScript, the arrival lines are in the first frame and nothing covers the
      page; if the module fails to load, the loader removes the overlay itself. The slogan of the intro is
      not in this partial: the loader reads <template id="intro-tekst"> from the page (index.html has it once,
-     dev/scene.html has none), so the leus counts twice on index (intro, voet) and once elsewhere (WP-12). -->
+     dev/scene.html has none), so the leus counts twice on index (intro, voet) and once elsewhere (WP-12).
+     WP-26: without JavaScript the <noscript> style unhides the SVG skyline with its unlit board (the neutral sign),
+     hides the empty canvas and the sketch panel (JS-only), so the city and the arrival lines stand without any script;
+     the loader's onerror does the same when the module is blocked. -->
+<noscript><style>#scene{display:none}#scene-fallback[hidden]{display:block!important}.gevel-schets{display:none}</style></noscript>
 <canvas id="scene" aria-hidden="true"></canvas>
 <div id="scene-fallback" hidden aria-hidden="true">{{svg:plattegrond}}</div>
 <div id="sign-dom" aria-hidden="true" data-lines="0"></div>

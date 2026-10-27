@@ -6,6 +6,8 @@
    - [data-zaak], [data-gemeente], [data-sector-label] on every 'sts:zaak' (the attribute's own
      value is the fallback text, e.g. <span data-zaak="je zaak">); [data-aanspreek] gets je or u;
      html[data-sector] carries the sector key for CSS; <datalist data-gemeenten> gets the districts.
+   - WP-26 guard: #contact-form gets action=mailto:{email} (post, text/plain) when it has no action, so a
+     native submit still reaches the mail app when contact.js never loads; contact.js prevents the default.
    Loads after names.js and state.js, before the page scripts. */
 (function () {
   var C = window.STS_CONFIG || {}, N = window.STSNames, S = window.STSState;
@@ -21,6 +23,9 @@
     else if (!el.hasAttribute("data-keep")) el.textContent = v;
   });
   document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = String(new Date().getFullYear()); });
+
+  var cf = document.getElementById("contact-form");
+  if (cf && C.email && !cf.getAttribute("action")) { cf.setAttribute("action", "mailto:" + C.email); cf.setAttribute("method", "post"); cf.setAttribute("enctype", "text/plain"); }
 
   var ej = C.emailjs || {}, ejOn = !!(ej.serviceId && ej.templateId && ej.publicKey);
   ["pv-emailjs", "pv-emailjs-li"].forEach(function (id) { var el = document.getElementById(id); if (el) el.hidden = !ejOn; });

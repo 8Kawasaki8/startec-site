@@ -3,7 +3,10 @@
      Snymis', beide met aria-current op de pagina waar de bezoeker staat. De naamchip toont de gedeelde staat
      (sts-zaak) en opent het bewerkblad; uithangbord.js (docs/assets/js) doet de rest. Onder 900 px zet dat
      script dit blok achteraan in de DOM: de kop blijft boven, het dock staat onderaan. Elke deur en de actie
-     dragen twee labels (.ub-lang, .ub-kort uit DOORS/ACTION); het dock toont de korte. -->
+     dragen twee labels (.ub-lang, .ub-kort uit DOORS/ACTION); het dock toont de korte.
+     WP-26: zonder JavaScript zijn de deuren gewone links en verbergt de <noscript>-stijl in head.html de
+     naamchip (een dode knop); het blad blijft hidden. Valt uithangbord.js weg, dan blijft de strip staan
+     zoals gebouwd: aria-current uit build.py, geen vlucht, geen blad. -->
 <header class="uithangbord">
   <nav class="ub" aria-label="Uithangbord">
     <div class="ub-kop">

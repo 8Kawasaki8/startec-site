@@ -83,13 +83,13 @@ code{font:500 .92em var(--mono);color:var(--ink2)}
 
 /* ═══ DE SCÈNE (vast achter de pagina) ═══════════════════════ */
 #scene{position:fixed;top:0;left:0;z-index:0;width:100%;height:100%;pointer-events:none}
-@media(pointer:coarse){#scene{height:100lvh}}
+@media(pointer:coarse){#scene{height:100vh;height:100lvh}}   /* WP-26: vh eerst voor browsers zonder lvh */
 html[data-scene="svg"] #scene{display:none}
 #scene-fallback{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--bg)}
 #scene-fallback svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* op grove aanwijzers houdt de SVG-route de grote viewporthoogte, zoals de canvas: de werkbalk van een
    telefoon herschaalt de skyline niet en verschuift het bord niet (plattegrond.js zet de hoogte in px) */
-@media(pointer:coarse){#scene-fallback{bottom:auto;height:100lvh}}
+@media(pointer:coarse){#scene-fallback{bottom:auto;height:100vh;height:100lvh}}
 #sign-dom{position:fixed;left:0;top:0;z-index:0;pointer-events:none;display:grid;align-content:center;justify-items:center;text-align:center;
   font-family:var(--display);font-weight:700;line-height:1.08;letter-spacing:.01em;color:var(--sign);text-shadow:0 0 18px var(--sign);white-space:nowrap;opacity:0;transform-origin:0 0}
 #sign-dom.is-placed{opacity:1}
@@ -148,7 +148,7 @@ html[data-scene="svg"] #scene{display:none}
 .legal p,.legal li,.legal dd{overflow-wrap:anywhere}   /* lange adressen en e-mailadressen op telefoons */
 .legal h1{font-size:clamp(1.6rem,4.4vw,3.4rem);margin-top:14px;hyphens:manual}
 .legal .lede{color:var(--ink2);margin-top:18px;font-size:1.05rem}
-.legal h2{font-size:clamp(1.1rem,2.2vw,1.6rem);margin-top:48px;padding-top:28px;border-top:1px solid var(--line);hyphens:auto}
+.legal h2{font-size:clamp(1.1rem,2.2vw,1.6rem);margin-top:48px;padding-top:28px;border-top:1px solid var(--line);-webkit-hyphens:auto;hyphens:auto}
 .legal h3{margin-top:24px;font-size:1.02rem}
 .legal p,.legal li{color:var(--ink2);margin-top:12px}
 .legal ul{padding-left:22px}
@@ -195,7 +195,7 @@ html.js [data-reveal].in,html.js .rv.in{opacity:1;transform:none;transition:opac
 
 /* ═══ DEBUG EN ONTWIKKELPAGINA (index.html?debug=1, dev/scene.html) ═══ */
 #scene-debug{position:fixed;left:12px;bottom:12px;z-index:600;max-width:calc(100vw - 24px);overflow:hidden;font:500 11px/1.5 var(--mono);color:var(--ink2);background:var(--paneel);border:1px solid var(--line);padding:8px 10px;border-radius:8px;white-space:pre;pointer-events:none}
-.scene-dev{display:grid;gap:22px;padding:60px var(--gut) 80px;max-width:var(--max);margin:100svh auto 0;background:rgba(6,8,15,.86);border-top:1px solid var(--line)}
+.scene-dev{display:grid;gap:22px;padding:60px var(--gut) 80px;max-width:var(--max);margin:100vh auto 0;margin:100svh auto 0;background:rgba(6,8,15,.86);border-top:1px solid var(--line)}
 .scene-dev .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .scene-dev .row button,.scene-dev .row label{min-height:44px}
 .scene-dev .field{max-width:420px}
@@ -261,3 +261,23 @@ html.js [data-reveal].in,html.js .rv.in{opacity:1;transform:none;transition:opac
    schrijfplekken (.gevel-zin in rooms.css, .serp .title en #sp-host in tools.css) dragen dezelfde regel;
    runner.mjs (long-name) meet index.html en gereedschap.html met zo'n naam. */
 [data-zaak]{overflow-wrap:anywhere}
+
+/* ═══ WP-26 ROBUUSTHEID (append-only, gedeeld bestand) ════════════════════
+   1. Zonder JavaScript: de ene regel uit <noscript> (src/partials/head.html),
+      onder de strip, als vlak paneel in de stroom van de pagina.
+   2. Oudere browsers (ouder dan Safari 15.4 / Chrome 100, en Chrome 100-107
+      zonder dvh/svh/lvh, Safari onder 16.2 zonder color-mix): elke regel
+      hieronder is de terugval voor een declaratie in een later geladen
+      bestand (rooms.css, uithangbord.css, sim-dag.css, preview.css). Zelfde
+      selector, zelfde eigenschap: een nieuwe browser neemt de latere waarde,
+      een oude laat die ongeldige declaratie vallen en houdt deze. De lijst
+      staat in scripts/qa/README.md (WP-26) en robust.mjs --audit bewaakt ze. */
+.nojs{position:relative;z-index:2;margin:calc(var(--ub-kop) + 12px) var(--gut) 0;padding:12px 16px;border:1px solid var(--line2);border-radius:12px;
+  background:var(--paneel);color:var(--ink2);font-size:14px;max-width:none}
+.gevel-eerste{padding-top:calc(var(--ub-kop) + 56vh)}                       /* rooms.css: 56dvh */
+@media(max-width:899px){.gevel-eerste{padding-top:calc(var(--ub-kop) + 37vh)}}   /* rooms.css: 37lvh */
+.ub-sheet{max-height:calc(var(--vvh,100vh) - var(--ub-kop) - var(--ub-dok) - 24px)}   /* uithangbord.css: 100dvh */
+@media(max-width:899px){html.is-toetsenbord .ub-sheet{max-height:calc(var(--vvh,100vh) - var(--ub-kop) - 16px)}}
+.dag-tijdlijn,.dag-tijdlijn svg{max-height:60vh}                            /* sim-dag.css: 60svh */
+.phone{box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.04) inset}   /* preview.css: color-mix in de gloed */
+.ps-hero{background:radial-gradient(120% 90% at 20% 0%,rgba(54,232,255,.2),transparent 60%)}   /* preview.css: color-mix */

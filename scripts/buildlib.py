@@ -126,39 +126,67 @@ def redirect_stub(target, meta, base, up):
 
 
 def og_tags(base, slug, meta):
+    """Canonical, Open Graph and Twitter card for one page (WP-27): the same title, description and og.png
+    on every page, nl_BE locale, so a link forwarded on WhatsApp, Facebook or LinkedIn shows the page it names."""
     if not base:
         return ""
     url = base + ("" if slug == "index" else slug + ".html")
+    title, desc = meta["title"], meta["description"]
     return "\n".join([
         '<link rel="canonical" href="%s">' % url,
         '<meta property="og:type" content="website">',
         '<meta property="og:site_name" content="Star.Tec.Solutions">',
-        '<meta property="og:title" content="%s">' % meta["title"],
-        '<meta property="og:description" content="%s">' % meta["description"],
+        '<meta property="og:locale" content="nl_BE">',
+        '<meta property="og:title" content="%s">' % title,
+        '<meta property="og:description" content="%s">' % desc,
         '<meta property="og:url" content="%s">' % url,
         '<meta property="og:image" content="%sassets/img/og.png">' % base,
         '<meta property="og:image:width" content="1200">',
         '<meta property="og:image:height" content="630">',
+        '<meta property="og:image:alt" content="%s">' % OG_IMAGE_ALT,
         '<meta name="twitter:card" content="summary_large_image">',
+        '<meta name="twitter:title" content="%s">' % title,
+        '<meta name="twitter:description" content="%s">' % desc,
+        '<meta name="twitter:image" content="%sassets/img/og.png">' % base,
+        '<meta name="twitter:image:alt" content="%s">' % OG_IMAGE_ALT,
     ])
 
 
+OG_IMAGE_ALT = "Een verlicht uithangbord op een nachtstad, met de naam Star.Tec.Solutions"
+# WP-27: a mailbox at a consumer provider is a person's address, not the business's; it stays out of the JSON-LD
+# (as it stays out of the footer, src/partials/foot.html) until config.email is a business address.
+PERSONAL_MAIL = ("gmail.com", "googlemail.com", "hotmail.com", "hotmail.be", "outlook.com", "outlook.be", "live.com",
+                 "live.be", "yahoo.com", "icloud.com", "me.com", "telenet.be", "skynet.be", "proximus.be")
+
+
+def business_email(email):
+    """The e-mail for the structured data, or '' while it is a personal mailbox."""
+    e = (email or "").strip()
+    return e if "@" in e and e.rsplit("@", 1)[1].lower() not in PERSONAL_MAIL else ""
+
+
 def json_ld_data(c, base):
-    """The Organization record from a config dict (the string keys of config.js). Pure, so build.py can
-    self-test it with a filled dict before any page is written."""
+    """The LocalBusiness record from a config dict (the string keys of config.js). Pure, so build.py can
+    self-test it with a filled dict before any page is written. Only true fields: every value that waits on the
+    founder (owner, address, kbo, vat, a business e-mail, a phone) is left out while config.js is empty, never
+    filled with a placeholder; no priceRange, no aggregateRating, no openingHours (there is no shop to visit)."""
     data = {
-        "@context": "https://schema.org", "@type": "ProfessionalService",
+        "@context": "https://schema.org", "@type": "LocalBusiness",
         "name": "Star.Tec.Solutions", "legalName": c.get("legalName") or "STS Digital", "alternateName": "STS Digital",
         "description": "Websites met eerst een gratis voorbeeld, gratis gereedschap en onderzoek naar AI voor kleine zaken, vanuit Antwerpen.",
         "areaServed": ["Antwerpen", "Vlaanderen"],   # Brussel alleen na OK van de oprichter (docs/CHECKLIST-SAKI.md, punt 3)
         "address": {"@type": "PostalAddress", "addressLocality": "Antwerpen", "addressCountry": "BE"},
-        "founder": {"@type": "Person", "name": c.get("owner") or "Snymis"}, "knowsLanguage": "nl-BE",
+        "knowsLanguage": "nl-BE",
     }
     if base:
+        data["@id"] = base + "#sts"
         data["url"] = base
         data["logo"] = base + "assets/img/logo.svg"
-    if c.get("email"):
-        data["email"] = c["email"]
+        data["image"] = base + "assets/img/og.png"
+    if c.get("owner"):
+        data["founder"] = {"@type": "Person", "name": c["owner"]}
+    if business_email(c.get("email")):
+        data["email"] = business_email(c["email"])
     if c.get("phone"):
         data["telephone"] = c["phone"]
     if c.get("address"):
@@ -170,26 +198,58 @@ def json_ld_data(c, base):
     return data
 
 
-def json_ld(base, slug):
-    """Organization markup for Google, only on the home page; the e-mail comes from config.js so it lives in
-    one place. No price statement of any kind: every quote is made per client."""
-    if slug != "index":
+def breadcrumb_data(base, slug, naam):
+    """BreadcrumbList for a wijk page (WP-27): the start page, then the gemeente or district."""
+    return {
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Star.Tec.Solutions", "item": base},
+            {"@type": "ListItem", "position": 2, "name": naam, "item": base + slug + ".html"},
+        ],
+    }
+
+
+def wijk_naam(slug):
+    """'wijk/<slug>' -> the name in src/data/wijken.json, or '' for any other page."""
+    f = SRC / "data" / "wijken.json"
+    if not slug.startswith("wijk/") or not f.is_file():
         return ""
-    cfg = (OUT / "assets" / "js" / "config.js").read_text(encoding="utf-8")
-    c = dict(re.findall(r'^\s*(\w+):\s*"([^"]*)"', cfg, re.M))
-    return '<script type="application/ld+json">%s</script>' % json.dumps(json_ld_data(c, base), ensure_ascii=False)
+    data = json.loads(f.read_text(encoding="utf-8"))
+    for w in (data["wijken"] if isinstance(data, dict) else data):
+        if w.get("slug") == slug[len("wijk/"):]:
+            return w["naam"]
+    return ""
+
+
+def json_ld(base, slug):
+    """Structured data per page: the LocalBusiness on the home page (the contact details come from config.js
+    so they live in one place), a BreadcrumbList on every wijk page, nothing elsewhere. No price statement
+    of any kind: every quote is made per client. Without --base there is no absolute address, so no markup."""
+    if slug == "index":
+        cfg = (OUT / "assets" / "js" / "config.js").read_text(encoding="utf-8")
+        c = dict(re.findall(r'^\s*(\w+):\s*"([^"]*)"', cfg, re.M))
+        return '<script type="application/ld+json">%s</script>' % json.dumps(json_ld_data(c, base), ensure_ascii=False)
+    naam = wijk_naam(slug) if base else ""
+    if naam:
+        return '<script type="application/ld+json">%s</script>' % json.dumps(breadcrumb_data(base, slug, naam), ensure_ascii=False)
+    return ""
 
 
 def selftest():
-    """Renders the JSON-LD with a filled config (what Saki will supply): every key lands, nothing raises."""
+    """Renders the JSON-LD with a filled config (what Saki will supply): every key lands, nothing raises; with an
+    empty config nothing is invented (no founder, no personal mailbox, no placeholder)."""
     full = {"legalName": "Test bv", "owner": "Snymis", "email": "a@b.be", "phone": "+32 470 00 00 00",
             "address": "Teststraat 1, 2000 Antwerpen", "kbo": "0123.456.789", "vat": "BE0123456789"}
     d = json_ld_data(full, "https://example.test/")
     assert d["address"]["streetAddress"] == full["address"] and d["address"]["addressLocality"] == "Antwerpen", d
     assert d["identifier"]["value"] == full["kbo"] and d["vatID"] == full["vat"] and d["email"] == full["email"]
+    assert d["founder"]["name"] == "Snymis" and d["@type"] == "LocalBusiness" and d["@id"] == "https://example.test/#sts"
     assert "priceRange" not in json.dumps(d) and "Brussel" not in d["areaServed"]
-    e = json_ld_data({}, "")
-    assert "address" in e and "streetAddress" not in e["address"] and "url" not in e
+    e = json_ld_data({"email": "iemand@gmail.com"}, "")
+    assert "address" in e and "streetAddress" not in e["address"] and "url" not in e and "founder" not in e and "email" not in e
+    assert not any(v in ("", None, [], {}) for v in e.values()), e
+    b = breadcrumb_data("https://example.test/", "wijk/berchem", "Berchem")
+    assert b["itemListElement"][1]["item"] == "https://example.test/wijk/berchem.html" and b["itemListElement"][0]["position"] == 1
 
 
 def inline_svg(html):

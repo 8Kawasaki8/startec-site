@@ -3,20 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gratis gereedschap voor je zaak: zichtbaarheidscheck, WhatsApp-QR, Google-voorbeeld — Star.Tec.Solutions</title>
+<title>Gratis gereedschap voor je zaak — Star.Tec.Solutions</title>
 <meta name="description" content="Vijf gratis loketten in je browser: zichtbaarheidscheck, WhatsApp-knop met QR-code, Google-voorbeeld, Google-kaartje om 19 u, openingsuren. Geen account.">
 <meta name="theme-color" content="#06080F">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://8kawasaki8.github.io/startec-site/gereedschap.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Star.Tec.Solutions">
-<meta property="og:title" content="Gratis gereedschap voor je zaak: zichtbaarheidscheck, WhatsApp-QR, Google-voorbeeld — Star.Tec.Solutions">
+<meta property="og:locale" content="nl_BE">
+<meta property="og:title" content="Gratis gereedschap voor je zaak — Star.Tec.Solutions">
 <meta property="og:description" content="Vijf gratis loketten in je browser: zichtbaarheidscheck, WhatsApp-knop met QR-code, Google-voorbeeld, Google-kaartje om 19 u, openingsuren. Geen account.">
 <meta property="og:url" content="https://8kawasaki8.github.io/startec-site/gereedschap.html">
 <meta property="og:image" content="https://8kawasaki8.github.io/startec-site/assets/img/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Een verlicht uithangbord op een nachtstad, met de naam Star.Tec.Solutions">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Gratis gereedschap voor je zaak — Star.Tec.Solutions">
+<meta name="twitter:description" content="Vijf gratis loketten in je browser: zichtbaarheidscheck, WhatsApp-knop met QR-code, Google-voorbeeld, Google-kaartje om 19 u, openingsuren. Geen account.">
+<meta name="twitter:image" content="https://8kawasaki8.github.io/startec-site/assets/img/og.png">
+<meta name="twitter:image:alt" content="Een verlicht uithangbord op een nachtstad, met de naam Star.Tec.Solutions">
 
 <link rel="preload" href="assets/fonts/panchang-normal-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/panchang-normal-600.woff2" as="font" type="font/woff2" crossorigin>
@@ -32,6 +38,7 @@
 </head>
 <body>
 <a class="skip" href="#main">Naar de inhoud</a>
+<noscript><style>.ub-chip,[data-lite-toggle]{display:none}</style><p class="nojs">Zonder JavaScript zie je deze pagina als gewone tekst. De schets op het bord, de simulaties, het gereedschap en het formulier hebben JavaScript nodig; de deuren van het uithangbord werken gewoon.</p></noscript>
 <header class="uithangbord">
   <nav class="ub" aria-label="Uithangbord">
     <div class="ub-kop">
@@ -131,10 +138,10 @@
           <div id="kaart-out" hidden>
             <img id="kaart-img" class="kaart-img" alt="Scorekaart van de zichtbaarheidscheck, zelfinschatting" width="1080" height="1080">
             <p class="sr" id="kaart-mirror"></p>
-            <div class="row"><a class="btn btn-sm" id="kaart-download" href="#" download="scorekaart.png">Download de scorekaart (PNG)</a><button class="btn btn-sm btn-line" type="button" data-share="score">Stuur naar een collega</button></div>
+            <div class="row"><a class="btn btn-sm" id="kaart-download" href="#" download="scorekaart.png">Download de scorekaart (PNG)</a></div>
             <p class="small">1080 bij 1080, met je naam, je score en je drie stappen. Er staat &lsquo;zelfinschatting&rsquo; op: het is wat jij invulde, geen meting van ons.</p>
           </div>
-          <p class="small zc-status" data-share-status role="status" hidden></p>
+          <p class="deel-collega">Ken je een collega die dit ook zou moeten zien? <button class="btn btn-sm" type="button" data-share="score">Stuur naar een collega</button> <span class="small" data-share-status role="status" hidden></span></p>
         </div>
         <p class="hint" id="zc-hint">Beantwoord de zes vragen. Je score en de drie stappen om mee te beginnen verschijnen hier.</p>
       </div>
@@ -170,11 +177,13 @@
           <p class="sr" id="wa-a6-mirror"></p>
           <div class="row"><button class="btn btn-sm" type="button" id="wa-a6-download">Download het kaartje (PNG)</button><button class="btn btn-sm btn-line" type="button" id="wa-a6-print">Druk af op A6</button></div>
           <p class="small">Op het kaartje: je knoptekst, de QR-code, de naam van je zaak en je nummer. De vermelding onderaan staat er alleen als jij het vinkje aanzet.</p>
+          <p class="deel-collega">Ken je een collega die dit ook zou moeten zien? <button class="btn btn-sm" type="button" data-share="whatsapp">Stuur naar een collega</button> <span class="small" data-share-status role="status" hidden></span></p>
         </div>
         <p class="hint" id="wa-hint">Vul je gsm-nummer in. Je link, de knop, de QR-code en het kaartje voor aan de kassa verschijnen hier.</p>
       </div>
     </div>
     <p class="loket-voet">Liever dat de knop meteen juist in je site zit? <a href="index.html#bericht?onderwerp=zichtbaarheid" data-bericht="zichtbaarheid">Stuur Snymis een berichtje</a>.</p>
+    <p class="loket-meer small">Waarom die knop? <a href="index.html#telefoon">Speel de dinsdag na</a> in De telefoon om 19 u.</p>
   </section>
 
   <section class="loket" id="google" aria-labelledby="t-sp">
@@ -196,6 +205,7 @@
           <div class="desc" id="sp-out-desc"></div>
         </div>
         <p class="hint" id="sp-hint">Een benadering: Google kapt af op schermbreedte en past soms zelf je tekst aan. Zonder naam op het bord staat hier een verzonnen bakkerij.</p>
+        <p class="deel-collega">Ken je een collega die dit ook zou moeten zien? <button class="btn btn-sm" type="button" data-share="google">Stuur naar een collega</button> <span class="small" data-share-status role="status" hidden></span></p>
       </div>
     </div>
     <p class="loket-voet">Een goede titel zit standaard in elk voorbeeld dat we bouwen. <a href="index.html#bericht?onderwerp=zichtbaarheid" data-bericht="zichtbaarheid">Vraag Snymis ernaar</a>.</p>
@@ -238,6 +248,7 @@
           <p class="gk-afwezig" data-gk-afwezig hidden></p>
         </div>
         <p class="gk-zin" data-gk-zin aria-live="polite"></p>
+        <p class="deel-collega">Ken je een collega die dit ook zou moeten zien? <button class="btn btn-sm" type="button" data-share="kaartje">Stuur naar een collega</button> <span class="small" data-share-status role="status" hidden></span></p>
       </div>
     </div>
     <p class="loket-voet">Staat je profiel niet of fout op Google? <a href="index.html#bericht?onderwerp=kaartje" data-bericht="kaartje">Ik wil dat dit juist staat</a></p>
@@ -308,6 +319,7 @@
           <pre data-ur-html></pre>
           <div class="row"><button class="btn btn-sm" type="button" data-ur-copy="html">Kopieer de HTML</button><button class="btn btn-sm btn-line" type="button" data-ur-copy="tekst">Kopieer als gewone tekst</button></div>
           <p class="small">De gewone tekst past in je Google-profiel of op Facebook. De vermelding onderaan staat er alleen als jij het vinkje aanzet.</p>
+          <p class="deel-collega">Ken je een collega die dit ook zou moeten zien? <button class="btn btn-sm" type="button" data-share="uren">Stuur naar een collega</button> <span class="small" data-share-status role="status" hidden></span></p>
         </div>
         <p class="hint" data-ur-hint>Kies voor minstens &eacute;&eacute;n dag open of gesloten. Daarna verschijnen hier je Google-kaartje, je WhatsApp-tekst en je urenblok.</p>
       </div>
@@ -418,7 +430,8 @@
 <script src="assets/js/tools-serp.js"></script>
 <script src="assets/js/tool-kaartje.js"></script>
 <script src="assets/js/tool-kaart.js"></script>
-<script src="assets/js/tools-share.js"></script>
+<script src="assets/js/deel-data.js"></script>
+<script src="assets/js/deel.js"></script>
 <script src="assets/js/tools-toog.js"></script>
 <script src="assets/js/tools-uren.js"></script>
 </body>

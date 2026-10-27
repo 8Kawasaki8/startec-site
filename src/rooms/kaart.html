@@ -5,6 +5,7 @@
   <div class="kaart" data-kaart>
 {{capabilities}}
   </div>
+  <p class="kamer-verder">Wat vandaag werkt, zie je in actie: <a href="simulatie.html">de doorlichting</a> van een verzonnen zaak, en <a href="index.html#gevel">de schets op jouw naam</a>.</p>
   <!-- WP-10: de twee proeven. Ze staan hier in de bron zodat lint-copy de klantvragen (data-voice=customer)
        leest; lab-assistent.js en lab-reviews.js verhuizen elk blok naar zijn punt In onderzoek (net na de
        <details> met het aanknopingspunt [data-proef]) en tonen het zolang dat punt open staat. Zonder
@@ -31,6 +32,7 @@
       </div>
     </div>
     <div class="proef-voet" data-la-voet></div>
+    <p class="deel-collega">Ken je een collega die dit ook zou moeten zien? <button class="btn btn-sm" type="button" data-share="assistent">Stuur naar een collega</button> <span class="small" data-share-status role="status" hidden></span></p>
   </div>
   <div class="proef-paneel lab-reviews" data-proef-bron="reviews" data-sim hidden>
     <p class="proef-kop" data-lr-kop>In onderzoek &middot; gescripte simulatie, geen live AI. De teksten zijn vooraf geschreven.</p>
@@ -40,6 +42,7 @@
     <div class="lr-lijst" data-lr-lijst></div>
     <p class="small la-slot" data-lr-slot></p>
     <div class="proef-voet" data-lr-voet></div>
+    <p class="deel-collega">Ken je een collega die dit ook zou moeten zien? <button class="btn btn-sm" type="button" data-share="reviews">Stuur naar een collega</button> <span class="small" data-share-status role="status" hidden></span></p>
   </div>
   <!-- data, geen code: de dialoogboom en de reviews (src/data, gekopieerd naar assets/data) -->
   <script src="assets/data/assistent-dialoog.js"></script>

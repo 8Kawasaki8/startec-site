@@ -90,6 +90,19 @@ function a11ySection(a) {
 ${list}`;
 }
 
+/** WP-26: the robustness pass (no-JS, dead modules, fonts, deep links, 404 under <base>, print, feature audit); append-only. */
+function robustSection(r) {
+  if (!r) return '<p>De robuustheidscontrole is in deze run overgeslagen (--no-robust).</p>';
+  const iss = r.issues || [], fails = iss.filter(i => i.severity === 'fail');
+  const counts = {};
+  for (const i of iss) counts[i.check] = (counts[i.check] || 0) + 1;
+  const prints = r.print && r.print.cases ? Object.entries(r.print.cases).map(([k, c]) => `<li><code>${esc(k)}</code>: ${c.pdf ? `${c.pdf.pages} pagina('s) ${c.pdf.boxes.map(b => `${Math.round(b.w / 72 * 25.4)}x${Math.round(b.h / 72 * 25.4)} mm`).join(', ')}` : 'geen PDF'}; <code>.qa/${esc(c.shot)}</code>, <code>.qa/${esc(c.pdfFile)}</code></li>`).join('') : '';
+  return `<p>${(r.nojs || []).length} runs zonder JavaScript, ${(r.modules || []).length} runs met één geblokkeerd script, ${(r.fonts || []).length} runs zonder lettertypen, ${r.links ? r.links.targets : 0} ankers op desktop en telefoon, 404.html op een diep pad en ${r.print && r.print.cases ? Object.keys(r.print.cases).length : 0} afdrukken van gereedschap.html: ${fails.length} fout(en), ${iss.length - fails.length} notitie(s). Alleen een onopgevangen fout of een lege pagina (geen H1, geen tekst) is een fout; de rest is een notitie.${Object.keys(counts).length ? ` Per controle: ${esc(Object.entries(counts).map(([k, v]) => `${k} ${v}`).join(', '))}.` : ''}</p>
+${prints ? `<details><summary>Afdrukken (PDF per afdruk, @page uit print.css)</summary><div><ul>${prints}</ul></div></details>` : ''}
+${iss.length ? `<details${fails.length ? ' open' : ''}><summary><span class="${fails.length ? 'fout' : 'bekend'}">${iss.length} bevindingen</span></summary><div><ul>${iss.map(i => `<li><span class="${sev[i.severity]}">${sev[i.severity]}</span> <code>${esc(i.check)}</code> ${esc(i.text)}</li>`).join('')}</ul></div></details>` : '<p>Geen bevindingen.</p>'}
+${r.audit ? `<details><summary>Kenmerken nieuwer dan Safari 15.4 / Chrome 100 (${r.audit.length})</summary><div><div class="scroller"><table><thead><tr><th>soort</th><th>kenmerk</th><th>sinds</th><th>waar</th><th>terugval</th></tr></thead><tbody>${r.audit.map(a => `<tr><td class="mono">${esc(a.kind)}</td><td class="mono">${esc(a.id)}</td><td>${esc(a.since)}</td><td>${esc(a.where.join(', ') || 'nergens')}</td><td>${esc(a.how)}</td></tr>`).join('')}</tbody></table></div></div></details>` : ''}`;
+}
+
 /** WP-15: the screenshot set of a --shots run (gl and gl-swift, desktop and phone), kept in .qa/shots/. */
 function shotsSection(runs) {
   const shots = (runs || []).filter(r => r.shot);
@@ -124,6 +137,7 @@ export function renderReport(rep) {
 <div><span class="label">fout</span><strong class="${s.fail ? 'fout' : ''}">${s.fail}</strong></div>
 <div><span class="label">lintfouten</span><strong class="${s.lintFails ? 'fout' : ''}">${s.lintFails}</strong></div>
 <div><span class="label">toegankelijkheid</span><strong class="${s.a11yFails ? 'fout' : ''}">${s.a11yFails == null ? '-' : `${s.a11yFails} fout, ${s.a11yNotices} notitie`}</strong></div>
+<div><span class="label">robuustheid</span><strong class="${s.robustFails ? 'fout' : ''}">${s.robustFails == null ? '-' : `${s.robustFails} fout, ${s.robustNotices} notitie`}</strong></div>
 <div><span class="label">duur</span><strong>${Math.round((rep.durationMs || 0) / 1000)} s</strong></div>
 </div>
 <p style="margin-top:16px;font-size:14px">Gegenereerd ${esc(rep.generated)} · commit <code>${esc((rep.commit || '').slice(0, 10) || 'onbekend')}</code> op <code>${esc(rep.branch || '?')}</code> · Node ${esc(rep.node)} · Playwright ${esc(rep.playwright)} · budget: ${esc(rep.budget)} · woordenlijst: ${esc(rep.woordenlijst)}${rep.dirty ? ` · <strong>werkmap met wijzigingen tegenover die commit (${rep.dirtyFiles || '?'} bestanden): dit rapport beschrijft de werkmap, niet de commit</strong>` : ''}${rep.matrix && rep.matrix.quick ? ' · <strong>quick-run, geen volledige matrix</strong>' : rep.matrix && rep.matrix.partial ? ' · <strong>deelrun, geen volledige matrix</strong>' : ''}</p>
@@ -140,6 +154,8 @@ ${shotsSection(rep.runs)}
 ${runDetails(rep.runs || []) || '<p>Geen bevindingen.</p>'}
 <h2>Toegankelijkheid</h2>
 ${a11ySection(rep.a11y)}
+<h2>Robuustheid</h2>
+${robustSection(rep.robust)}
 <h2>Statische lints</h2>
 ${lintSection(rep.lint)}
 </main>

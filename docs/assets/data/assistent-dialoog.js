@@ -61,3 +61,6 @@ window.STS_ASSISTENT = {
   wacht: "De assistent leest de drie blokken hierboven",
   slot: "Alles wat deze schets zegt, komt uit de drie blokken hierboven. Weet ze het niet, dan verzint ze niets en geeft ze de vraag door."
 };
+/* WP-27: wat de uitbater na de proef naar een collega doorstuurt (deel.js, [data-share=assistent]); regels in docs/assets/js/deel-data.js */
+window.STS_DEEL = window.STS_DEEL || {};
+window.STS_DEEL.assistent = "Een proef die ik tegenkwam: zo zou een assistent klantvragen buiten de uren kunnen beantwoorden, met enkel wat de zaak zelf weet. Gescript, nog geen product: {site}werkwijze.html#kaart";

@@ -4,6 +4,97 @@ Statische site van STS Digital (Antwerpen). Bronnen in `src/`, gebouwd naar `doc
 Het bouwplan is `scripts/workflows/PLAN-V5.md`; de beslissingen per golf staan in de Wave-log daar. Dit logboek
 begint bij v5; v3, v3.1 en v4 staan alleen in de git-geschiedenis.
 
+## Golf 6 (tak v5): WP-26 robuustheid, WP-27 vindbaarheid, WP-22 release-refresh
+
+### WP-26, robuustheid: zonder JavaScript, dode modules, oude browsers, lettertypen, afdrukken, diepe links
+
+- Zonder JavaScript (`src/partials/head.html`, `scene.html`, `uithangbord.html`): elke pagina is gewone tekst met de
+  vijf deuren als links; één `<noscript>`-regel onder de strip zegt wat scripts nodig heeft (de schets op het bord, de
+  simulaties, het gereedschap en het formulier); de naamchip en 'Minder animatie' zijn dan verborgen (dode knoppen); op
+  de scenepagina's toont de SVG-skyline haar neutrale bord en blijft de canvas weg.
+- Dode modules: `hydrate.js` zet `action="mailto:{config.email}"` (post, text/plain) op het formulier zolang het geen action
+  heeft, zodat een gewone submit de mail-app opent wanneer `contact.js` niet laadt; de strip blijft staan zoals gebouwd
+  (`aria-current` uit build.py) wanneer `uithangbord.js` wegvalt; de scene-loader toont bij een geblokkeerde module de
+  SVG-route (`sts:scene-failed`).
+- Oudere browsers (vloer Safari 15.4 / Chrome 100): `base.css` kreeg een bijgevoegd blok met de terugval voor elke
+  `dvh`/`svh`/`lvh`- en `color-mix`-declaratie uit de later geladen bestanden (zelfde selector, zelfde eigenschap, eerst de
+  waarde zonder het kenmerk), `-webkit-hyphens` naast `hyphens`, `vh` voor `lvh` op de scène; de kenmerkentabel met de
+  terugval per item staat in `scripts/qa/README.md` (WP-26) en `robust-audit.mjs` bewaakt ze (`:has`, `@container`,
+  `@layer`, nesting, `structuredClone`, `.at()`, top-level await, import maps en lookbehind komen nergens voor).
+- Afdrukken (`print.css`): `color-scheme: light` op `:root` (anders schilderde Chromium de @page-marge zwart) en elke
+  schermkleur wordt zwart op papier; het A6-kaartje, het toogkaartje en de eenpager van Gereedschap drukken op hun
+  `@page`-maat (A6 298x420 pt, A4 595x842 pt) zonder donkere vlakken.
+- Nieuwe poort `scripts/qa/robust.mjs` (met `robust-dom.mjs`, `robust-print.mjs`, `robust-audit.mjs`), na de
+  toegankelijkheidscontrole in `npm run qa` en los te draaien: `nojs`, `modules` (elk script van een pagina één voor één
+  geblokkeerd, op index ook de scènemodules en three.js), `fonts` (elke lettertypeaanvraag geblokkeerd: H1 binnen 6 px,
+  paginahoogte binnen 4 %), `links` (elk `#anker` landt onder de balken, desktop en telefoon), `base` (404.html op een
+  diep pad onder `<base>`), `print` (vier afdrukken met PDF) en `audit`. Alles is een notitie behalve een onopgevangen
+  fout of een lege pagina; de sectie Robuustheid staat in `docs/qa-report.html`.
+
+### WP-27, vindbaarheid zonder advertenties
+
+- Metadata (`scripts/buildlib.py`, front matter van `src/pages/*.html` en `src/templates/wijk.html`): elke titel onder
+  60 en elke beschrijving onder 155 tekens, uniek per pagina; `og:locale`, `og:image:alt` en de Twitter-kaart
+  (`twitter:title`, `twitter:description`, `twitter:image`) per pagina met dezelfde `og.png`; canonical op elke pagina.
+- JSON-LD: `LocalBusiness` op `index.html` met enkel ware velden (`@id`, `url`, `logo`, `image`, Antwerpen, nl-BE);
+  oprichter, adres, KBO, btw en telefoon verschijnen pas als `config.js` ze heeft, een persoonlijk mailadres (Gmail en
+  co) blijft eruit, nooit een plaatshouder; `BreadcrumbList` op elke wijkpagina (naam uit `wijken.json`).
+- Sitemap: `lastmod` uit `updated:` in de front matter van elke geïndexeerde pagina (`index`, `simulatie`,
+  `gereedschap`, `werkwijze` en de wijktemplate kregen die sleutel).
+- Kamers (`src/rooms/*.html`): elke kamer linkt naar minstens twee andere kamers in de taal van de koper (buren ->
+  gevel, bericht -> gevel en doorlichting, radar -> zichtbaarheidscheck, kaart -> doorlichting en gevel, snymis ->
+  bericht met `data-bericht=algemeen`, gereedschap -> De telefoon om 19 u, telefoon -> doorlichting).
+- 'Ken je een collega die dit ook zou moeten zien?' met de knop 'Stuur naar een collega' na elk resultaat: De
+  telefoon om 19 u, de Doorlichting, de radar-replay, de twee proeven, en elk loket van Gereedschap. De teksten zijn
+  data (`docs/assets/js/deel-data.js`, `sim-dag-data.js`, `sim-data-2.js`, `sim-radar-data.js`, `src/data/*.js`,
+  sleutel `window.STS_DEEL.<naam>`), geschreven zoals een uitbater ze doorstuurt; `docs/assets/js/deel.js` vervangt
+  `tools-share.js` en werkt op elke kamerpagina (navigator.share of wa.me, pas na de klik).
+- Nieuwe poorten: `scripts/qa/lint-deel.mjs` (in `lint-copy`: elke knop een tekst en omgekeerd, onder 300 tekens,
+  geen woord uit de woordenlijst) en `scripts/qa/meta-check.mjs` (`npm run meta`, in `npm run lint`: titels,
+  beschrijvingen, OG, JSON-LD zonder lege of plaatshouderwaarden, sitemap-lastmod, twee kamerlinks per kamer, geen
+  dood anker). `docs/CHECKLIST-SAKI.md` kreeg hoofdstuk F: de gratis lokale kanalen die de site ondersteunt.
+- Stijl: `.deel-collega` en `.kamer-verder` in `rooms.css`; de ongebruikte `.zc-status` uit `tools.css`.
+
+### WP-22, release-refresh na de polishgolven
+
+- Nieuw: `scripts/qa/links.mjs` (`npm run links`, in `npm run lint` en in het lintblok van `npm run qa` samen met
+  `meta-check.mjs`, zodat een gebroken link of een gat in de sitemap het rapport rood maakt). Het leest elke gebouwde pagina
+  (`docs/*.html`, `wijk/`, `dev/`, `demo/**`), elke `href`, `src`, `srcset`, `poster`, `action`, `xlink:href`, meta refresh
+  en og:image, lost ze op tegen de pagina en haar `<base href>` (404.html) en eist dat het bestand in `docs/` bestaat en
+  dat elk `#anker` een id of name op de doelpagina is (een query na het anker is staat en telt niet; `#` alleen is een
+  scripthaak). Een oud anker dat `uithangbord.js` doorstuurt (`LEGACY`, bv. `#contact` -> `#bericht`) telt als notitie met
+  verwijzing naar `docs/CHECKLIST-SAKI.md` C.6; een adres op een andere host is een notitie (de juridische pagina's noemen
+  de Consumentenombudsdienst en de Gegevensbeschermingsautoriteit; de site vraagt er niets op).
+- Audit van de gebouwde site na golf 6: 23 pagina's, 1024 verwijzingen, 247 ankers, 0 gebroken; de enige notities zijn de
+  drie `index.html#contact`-links in `juridisch.html` en `privacy.html` (C.6, wachten op het OK van de oprichter). Sitemap:
+  15 adressen (start, simulatie, gereedschap, werkwijze, zeven wijkpagina's, vier juridische pagina's) met `lastmod` uit
+  `updated:`; geen stub, dev-pagina, 404 of QA-rapport; `robots.txt` wijst naar de sitemap. JSON-LD op index.html: één
+  `LocalBusiness` met naam, `legalName` uit `config.js`, de beschrijving uit de grondwaarheid (websites met eerst een gratis
+  voorbeeld, gratis gereedschap, onderzoek naar AI), Antwerpen en Vlaanderen, adres enkel plaats en land, logo, og.png;
+  geen telefoon, e-mail, KBO, prijs of beoordeling zolang `config.js` leeg is. 404.html op een diep pad
+  (`wijk/diep/pad/onbestaand.html`, status 404, de Pages-host lokaal beantwoord): `<base>` naar de Pages-host, drie
+  stylesheets, H1 in Panchang, 21 van 21 links naar de Pages-host, geen extern verzoek, geen overflow, op desktop en
+  telefoon (`.qa/wp22/404-deep-*.png`). Juridische pagina's: de tekst binnen `<main>` verschilt met de vorige publicatie
+  (`4188ce3`) nog altijd precies met de afgesproken regels ('Snymis leest', 'Drie' in privacy en cookies, de rij
+  `sts-zaak`); golf 6 wijzigde er niets; de `data-c`-plaatshouders (legalName, legalForm, owner, address, kbo, vat, phone,
+  whatsapp, email, hosting) staan er alle. Woordenlijst-grep over `docs/` zonder `demo/`: geen euroteken, 'AI-systemen',
+  'automatisering', 'ons team', 'een medewerker', 'gegarandeerd', KvK, iDEAL, leads, funnel, 'Verzonden', TODO of lorem
+  buiten de juridische pagina's; 'jullie' enkel in klantstem (`data-voice`) en een FAQ-vraag, zoals de regels toelaten.
+- Documenten: dit logboek (golf 6 volledig: WP-26, WP-27, WP-22), `docs/CHECKLIST-SAKI.md` (kop, C.6 met de linkchecker,
+  nieuw hoofdstuk G met de stand na golf 6), `README.md` (de linkchecker in de release-volgorde), `scripts/qa/README.md`
+  (links.mjs). `scripts/qa/budget.json` is niet opnieuw gemeten: dat gebeurt per release-procedure op de schone boom na de
+  commit (README, 'Release en QA-poort'); de meting van golf 5 houdt alle poorten groen.
+- Gemeten in de volledige run van deze refresh (SwiftShader, werkmap van golf 6 op `269f50a`; 138 runs, 36 a11y-runs, 36
+  no-JS-runs, 116 geblokkeerde modules, 4 fontruns, 32 ankers, 4 afdrukken, 1411 s; alles groen, 0 notities): startpagina
+  op de telefoon zonder Three.js 407 122 bytes ruw (398 kB, plafond uit de meting van golf 5: 439 249) en 76 809 bytes JS
+  gzip-equivalent (plafond 82 463); de groei tegenover golf 5 (399 317) komt van `deel.js`, de deelteksten en de metadata
+  van WP-27 en de terugvalregels van WP-26. Desktop met Three.js 1 174 467 bytes (gemeld, niet bewaakt); draw calls na het
+  landen 16 op desktop en tablet (plafond 19); lange taken 7 op desktop en 7 op de tablet (gemeld); rAF in 3 s rust 0 op elk
+  profiel; intro klaar na 2473 ms op desktop. Doorlichting 384 430, Gereedschap 336 612, Hoe wij werken 380 409 bytes op de
+  telefoon, elk onder zijn plafond. `docs/qa-report.html` is dat rapport; het draagt de hash van `269f50a` met de vlag
+  'werkmap met wijzigingen' omdat golf 6 nog niet gecommit is: de release-commit draait `npm run qa` opnieuw op de schone
+  boom en vervangt het (README, 'Release en QA-poort').
+
 ## Golf 5 (tak v5, na v5.0.0): WP-17 mobiele UX en WP-18 copy
 
 Twee polishpakketten uit `scripts/workflows/plan-v5.json`, gebouwd op de live staat van golf 4 met dezelfde poorten.

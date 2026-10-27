@@ -150,3 +150,8 @@ html[data-scene="svg"] #gevel[data-room]{background:transparent}
 .buur-fictief{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:13px;color:var(--ink3)}
 .kamer-buren .buren-meer{margin-top:22px;font-size:1rem}
 @media(max-width:900px){.buren-rij{grid-template-columns:1fr}}
+
+/* ── WP-27: 'Ken je een collega?' na elk resultaat (deel.js) en de twee verwijzingen per kamer ─────────── */
+.deel-collega{margin-top:22px;padding-top:14px;border-top:1px dashed var(--line);color:var(--ink2);font-size:15px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;max-width:none}
+.deel-collega [data-share-status]{flex-basis:100%;overflow-wrap:anywhere}
+.kamer-verder{margin-top:22px;color:var(--ink2);font-size:15px;max-width:62ch}

@@ -31,6 +31,7 @@ Een kamer die cijfers of gesprekken verzint draagt `data-sim` en zegt in zichtba
 Een kamer die een gesprek wil starten linkt naar `index.html#bericht?onderwerp=<sleutel>` uit de vaste sleutellijst (WP-02).
 Een kamer met een timeline of timer registreert `init`, `enter` en `leave` in `window.STS_ROOMS[id]`, zodat ze stilvalt wanneer ze uit beeld scrolt (WP-04).
 Een opgesomde kamer die niet bestaat, of `rooms:` zonder `{{rooms}}`, breekt de build met een duidelijke fout.
+Elke kamer linkt in de taal van de koper naar minstens twee andere kamers, en na elk simulatieresultaat staat de regel 'Ken je een collega?' met een knop `[data-share=<sleutel>]` waarvan de tekst in een databestand staat (`window.STS_DEEL`, WP-27); `scripts/qa/meta-check.mjs` en `lint-deel.mjs` bewaken dat.
 
 ## Release en QA-poort (WP-15)
 
@@ -56,6 +57,11 @@ draw calls (afgerond naar beneden: 16 gemeten geeft 19), nooit boven de harde gr
 Three.js, wat het rapport als 439 kB afdrukt omdat het per 1024 telt; 90 000 bytes JS gzip-equivalent in lite). Een meting
 op een werkmap met wijzigingen krijgt naast `measuredOn` een `workingTree`-hash; de meting die telt gebeurt op de schone
 boom na de release-commit (hierboven).
+De statische sitechecks draaien mee in het lintblok van `npm run qa` en in `npm run lint`: `scripts/qa/links.mjs` (WP-22,
+`npm run links`: elke `href`, `src`, `srcset`, `poster`, `action`, meta refresh en og:image op elke gebouwde pagina, ook
+onder de `<base>` van 404.html, bestaat in `docs/` en elk `#anker` is een id op de doelpagina; een oud anker uit `LEGACY`
+in uithangbord.js is een notitie) en `scripts/qa/meta-check.mjs` (WP-27: titels, beschrijvingen, OG, JSON-LD, sitemap,
+kamerlinks). Een gebroken link of een gat in de sitemap maakt het rapport rood.
 Bewaakt: telefoon-bytes per pagina, lite-JS per pagina, verzoeken en ruwe JS per pagina (telefoon en lite, WP-16), draw
 calls na het landen op desktop en tablet, rAF-rust 0, timers, eerste scherm, backdrop-filter, regellimieten (scene < 300,
 CSS < 400, alles < 500), SVG-skyline en `#sign-dom` zonder WebGL, nul externe verzoeken, nul consolefouten, nul overflow,
@@ -67,5 +73,7 @@ gewicht met Three.js en de lange taken onder SwiftShader; de echte GPU-controle 
 `docs/CHECKLIST-SAKI.md`. Na een bewuste gewichtswijziging: opnieuw meten en `budget.json` mee committen.
 `node scripts/qa/budget.mjs` zonder opties toont het geladen budget en de poorten.
 
-Documenten: `CHANGELOG.md` (verwijderd, toegevoegd, gemeten, uitgesteld), `docs/CHECKLIST-SAKI.md` (alles wat de
-oprichter aanlevert of beslist), `docs/qa-report.html` (het laatste volledige rapport), `scripts/qa/README.md` (de harnas).
+Documenten: `CHANGELOG.md` (per golf: verwijderd, toegevoegd, gemeten, uitgesteld; golf 6 = WP-26, WP-27, WP-22),
+`docs/CHECKLIST-SAKI.md` (alles wat de oprichter aanlevert of beslist, met hoofdstuk G: de stand na golf 6),
+`docs/qa-report.html` (het laatste volledige rapport), `scripts/qa/README.md` (de harnas, met de kenmerkentabel van WP-26),
+`scripts/workflows/HANDOFF.md` (de takken, de golven en hoe een volgende golf start).

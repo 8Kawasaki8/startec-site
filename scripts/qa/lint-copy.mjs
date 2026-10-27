@@ -9,6 +9,7 @@ import { parseHTML, walk, textOf, isSkipped, closest, pathOf } from './html-lite
 import { loadWoordenlijst, scanText, hasFiveStars, simLabelPresent, simRoomMissing } from './woorden.mjs';
 import { classify, loadBudget } from './budget.mjs';
 import { isLegalPage } from './profiles.mjs';
+import { lintDeel } from './lint-deel.mjs';   // WP-27: the share texts ([data-share] -> STS_DEEL) ride along
 
 const ROOT = process.cwd();
 const ATTRS = ['alt', 'placeholder', 'aria-label', 'title', 'data-flap'];
@@ -101,6 +102,7 @@ export function lintCopy(files, { root = ROOT } = {}) {
   for (const file of files) {
     for (const raw of lintFile(file, list)) results.push(classify(raw, { root, budget, page: raw.page }));
   }
+  for (const raw of lintDeel(list, { root })) results.push(classify(raw, { root, budget, page: raw.page }));   // WP-27
   return { source: list.source, results };
 }
 

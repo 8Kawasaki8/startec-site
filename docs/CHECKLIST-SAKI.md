@@ -1,4 +1,4 @@
-# Checklist voor Saki (de oprichter), eindversie WP-15, bijgewerkt in golf 5 (WP-18)
+# Checklist voor Saki (de oprichter), eindversie WP-15, bijgewerkt in golf 6 (WP-27 en WP-22)
 
 Alles wat alleen jij kan beslissen of aanleveren, op één plek. Niets hiervan blokkeert de site: elke lege waarde
 is vandaag onzichtbaar of netjes gelabeld ('voorbeeldbericht (ontwerp)', 'Prototype, niet op deze site'). Per punt
@@ -78,8 +78,10 @@ juridische tekst zelf is verder onaangeroerd. Deze punten wachten:
 5. **voorwaarden.html, punt 1.** Zelfde reden. Voorstel: *'websites en platformen, ontwerp, onderhoud, advies en, zodra ze
    bestaan, de systemen die uit dat onderzoek volgen'*. In dezelfde commit als punt 4.
 6. **juridisch.html (1x) en privacy.html (2x): link `index.html#contact` -> `index.html#bericht`.** De sectie `#contact`
-   bestaat niet meer; de link werkt vandaag via de oude koppeling in uithangbord.js (met JavaScript). Voorstel: enkel de
-   drie href-waarden vervangen, de zin blijft. In dezelfde commit als punt 4.
+   bestaat niet meer; de link werkt vandaag via de oude koppeling in uithangbord.js (met JavaScript; zonder JavaScript landt
+   hij bovenaan de startpagina). Voorstel: enkel de drie href-waarden vervangen, de zin blijft. In dezelfde commit als punt
+   4. De linkchecker (`npm run links`, WP-22) meldt deze drie links als notitie, met verwijzing naar dit punt, tot ze
+   vervangen zijn; elke andere interne link en elk ander anker op de site is nagekeken en klopt.
 7. **De voet en je e-mailadres.** De voet toont WhatsApp en telefoon uit `config.js` (elk alleen als gevuld) en bewust
    géén e-mailadres zolang `email` het tijdelijke Gmail-adres is; het blijft wel het mailto-doel van het Bericht. Zodra
    het zakelijke adres bestaat: vul `email` in en zet in `src/partials/foot.html` de span
@@ -157,3 +159,54 @@ juridische tekst zelf is verder onaangeroerd. Deze punten wachten:
 - De openingsuren-check staat live als vijfde loket in Gereedschap (WP-14 is niet uitgesteld); een kioskstand (de stad die
   blijft draaien zonder bezoeker) is bewust niet gebouwd.
 - De sleutels in de browser blijven exact drie: `sts-pre`, `sts-lite`, `sts-zaak`; de QA-harnas weigert elke andere.
+
+## F. Gratis lokale kanalen die de site al ondersteunt (WP-27)
+
+Geen advertenties, geen koude mails. Elk kanaal hieronder is gratis, en de site levert er het stuk voor dat je nodig
+hebt. Wat je deelt, is altijd iets wat vandaag waar is; de deelteksten zeggen zelf 'gesimuleerd', 'voorbeeld' of
+'zelfinschatting' waar dat hoort.
+
+1. **Google Bedrijfsprofiel van STS Digital.** Maak het aan zodra het adres (B) er is; zonder adres kan het als
+   'dienst aan huis' met Antwerpen als werkgebied. Zet als website het adres uit `package.json` (`--base`), kies de
+   categorie 'webdesigner', en vul de uren in met de openingsuren-check op `gereedschap.html#uren` (het urenblok in
+   gewone tekst past in het profiel). De pagina `index.html` draagt de bijbehorende LocalBusiness-gegevens als
+   JSON-LD; naam, zetel, KBO en e-mail verschijnen daar vanzelf zodra `config.js` ze heeft, en niet eerder (een
+   persoonlijk Gmail-adres blijft eruit). Plaats er geen reviews die je niet hebt; vraag ze pas aan echte klanten.
+2. **Unizo en de handelaarsverenigingen per district.** Lid worden hoeft niet om langs te gaan op een
+   handelaarsavond of een Winkelhierweek. Neem de afdrukbare eenpager mee (`gereedschap.html?print`, knop 'Druk af'):
+   vijf gratis loketten, een QR-code naar de pagina, geen prijzen. Voor een adviseur of boekhouder die ziet welke
+   klanten geen goede site hebben, is dat blad genoeg; hij geeft het door, jij hoeft niets te verkopen.
+3. **Buurtgroepen op Facebook (per district) en WhatsApp-groepen van handelaars.** Deel enkel wat nuttig is voor
+   de groep: de wijkpagina van dat district (`wijk/berchem.html` enzovoort, met kruimelpad en deelkaart), of een
+   loket ('Typ je uren één keer'). De deelteksten op de site (knop 'Stuur naar een collega' onder elk resultaat) zijn
+   daarvoor geschreven: kort, Vlaams, zonder hype. Antwoord op vragen in de groep zelf; stuur niemand een privébericht
+   dat hij niet vroeg (art. XII.13 WER, en het staat zo in de privacyverklaring).
+4. **WhatsApp-status en LinkedIn.** Elke nieuwe simulatie of kamer is een kort bouwverslag met een schermafbeelding
+   waar 'gesimuleerd' in beeld staat (`npm run qa -- --shots` schrijft ze naar `.qa/shots/`); de gedeelde link toont
+   automatisch `og.png` met de juiste titel en beschrijving per pagina. In je status werkt dezelfde deeltekst als de
+   knop 'Stuur naar een collega' geeft.
+5. **Het kaartje voor aan de toog** (`gereedschap.html?toog=1`, intern) blijft het kanaal voor een zaak die je zelf
+   bezocht: de QR-code hangt hun naam op het bord, de achterkant zegt dat je enkel de naam gebruikte.
+
+Wat je hiervoor nog moet beslissen staat al in B en D: adres en KBO (profiel), `config.wijken` (de districten van deze
+maand), en de sfeerzin per wijkpagina. Zonder die waarden werkt elk kanaal ook; er staat dan gewoon minder.
+
+## G. Stand na golf 6 (WP-22, release-refresh): wat nog open staat
+
+Golf 6 (robuustheid, vindbaarheid, release-refresh) sloot geen enkel punt van jou: alles in B, C en D staat nog open,
+want elk punt vraagt een feit dat alleen jij kent. Wat er voor jou veranderde:
+
+- De site werkt nu ook zonder JavaScript (gewone tekst, de deuren als links, de skyline met een neutraal bord), met een
+  geblokkeerd script, zonder lettertypen en in browsers vanaf Safari 15.4 / Chrome 100; de drie afdrukken van Gereedschap
+  (A6-kaartje, toogkaartje, eenpager) zijn wit op papier. Dat is getest (`docs/qa-report.html`, sectie Robuustheid) en
+  vraagt niets van jou. Wil je het zelf zien: zet JavaScript uit in je browser en open de startpagina.
+- Elke pagina heeft een eigen titel en beschrijving, een deelkaart (og.png) en de gegevens voor Google (JSON-LD). Zodra
+  B gevuld is (adres, KBO, zakelijk e-mailadres) verschijnen die daar vanzelf; tot dan staat er enkel wat waar is.
+- Onder elk resultaat staat 'Stuur naar een collega' met een tekst zoals jij ze zou doorsturen; hoofdstuk F zegt waar die
+  teksten voor dienen. Lees ze één keer na (`docs/assets/js/deel-data.js` en de `STS_DEEL`-blokken in de databestanden).
+- Elke interne link en elk anker is nagekeken (`npm run links`): niets is gebroken; de enige notitie zijn de drie
+  `#contact`-links in de juridische tekst (C.6), die op jouw OK wachten.
+
+Volgorde die het meest oplevert, als je één avond hebt: A (de schermafbeelding met `?debug=1`), dan B (de identiteit en
+het zakelijke e-mailadres), dan D.5 (de echte eerste-contacttekst) en D.9 (de wijken van deze maand en één sfeerzin per
+wijkpagina). De rest kan per stuk, zonder volgorde.

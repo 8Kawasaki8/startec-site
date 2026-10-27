@@ -78,3 +78,6 @@
     ]
   };
 })();
+/* WP-27: wat de uitbater na de doorlichting naar een collega doorstuurt (deel.js, [data-share=doorlichting]); regels in deel-data.js */
+window.STS_DEEL = window.STS_DEEL || {};
+window.STS_DEEL.doorlichting = "Kijk mee hoe een agent de cijfers van een verzonnen zaak leest, drie acties voorstelt en dan wacht tot een mens het goedkeurt. Gesimuleerde cijfers, echte methode: {site}simulatie.html";

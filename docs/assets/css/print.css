@@ -14,7 +14,11 @@
   @page{margin:12mm}
   @page a6{size:105mm 148mm;margin:0}
   @page a4{size:A4;margin:14mm}
+  /* WP-26: color-scheme light, anders schildert Chromium de paginarand (de @page-marge) zwart, ook zonder achtergronden */
   html,body{background:#fff;color:#000}
+  :root{color-scheme:light}   /* :root, want base.css zet color-scheme op :root (hogere specificiteit dan html) */
+  /* WP-26: elke tekstkleur van het scherm (gedempt wit, cyaan) wordt zwart op papier; geen gloed, geen schaduw */
+  body *{color:#000!important;text-shadow:none!important;box-shadow:none!important}
   .uithangbord,.ub-sheet,.foot,.skip,#scene,#scene-fallback,#sign-dom,#scene-debug{display:none!important}
   [data-room]{background:#fff;border:0}
   .loketten,.tools-deel,.loket-voet,.row,.pill,.btn{display:none!important}
