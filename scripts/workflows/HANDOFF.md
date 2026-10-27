@@ -1,29 +1,10 @@
 # HANDOFF: continuing the STS v5 build on any machine
 
-Last updated by the cloud session on 2026-10-27, when the account ran out of usage credits during wave 6.
+Last updated by the cloud session on 2026-10-27: wave 6 finished and live.
 This file is updated at every wave boundary. If the cloud session stopped (credits refused,
 container reclaimed), everything below still holds: **only complete, QA-green waves are ever
 pushed**, builders never commit, so the remote is always consistent.
 
-## STOPPED: usage credits ran out during wave 6 (2026-10-27)
-
-- `main` (live) and `v5`: the last fully tested release, wave 5, plus documentation-only commits. Consistent and safe.
-- Branch `v5-wave6-wip`: wave 6 as built (robustness with scripts/qa/robust.mjs, discoverability metadata/JSON-LD/share texts, release refresh with link checker, changelog and checklist). Reviews were only partly done; verification, fixes and the final QA loop did not run. Do NOT push it to `main` before `npm run qa` is green.
-- The open findings and the builders' notes are in scripts/workflows/WAVE6-OPEN.md (on both branches).
-
-To finish wave 6 on the laptop:
-
-```sh
-git fetch origin
-git checkout v5-wave6-wip
-npm ci && npx playwright install chromium
-python scripts/build.py --base https://8kawasaki8.github.io/startec-site/
-npm run qa
-```
-
-Fix the serious findings in WAVE6-OPEN.md first, rebuild, and rerun `npm run qa` until it prints `QA GROEN`.
-Then: `git checkout v5 && git merge --ff-only v5-wave6-wip`, commit `docs/qa-report.html`, `git push origin v5`, and release with `STS_RELEASE=1 git push origin v5:main`.
-With Claude Code (needs usage credits on the account): ask it to apply WAVE6-OPEN.md, run `npm run qa` and release as above. Then continue with wave 7 (WP-23, WP-24, WP-25, then WP-22 again) using scripts/workflows/sts-v5-wave.js.
 
 ## State of the branches
 
@@ -77,8 +58,8 @@ Everything else (node 20+, Playwright 1.63 pinned, Chromium) is the same as in t
 | 3 | WP-09 werkwijze, WP-13 wijk pages, WP-14 openingsuren, WP-10 sketches, WP-12 copy pass | done, LIVE |
 | 4 | WP-15 release audit, WP-16 performance, WP-19 accessibility, WP-21 scene craft | done, LIVE |
 | 5 | WP-17 mobile UX, WP-18 copy and emotion | done, LIVE |
-| 6 | WP-26 robustness, WP-27 discoverability, WP-22 release refresh | BUILT, NOT REVIEWED: saved on branch `v5-wave6-wip`; open findings in scripts/workflows/WAVE6-OPEN.md |
-| 7 | WP-23 visual craft, WP-24 sector sketches, WP-25 desktop composition, then WP-22 again | planned |
+| 6 | WP-26 robustness, WP-27 discoverability, WP-22 release refresh | done, LIVE (open findings fixed by hand after the credit stop) |
+| 7 | visual finishing pass (reduced WP-23) | in progress |
 
 Check `git log origin/v5 --oneline` to see which waves actually landed; a wave's commit message
 starts with `v5 wave N`.
