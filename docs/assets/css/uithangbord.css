@@ -57,7 +57,7 @@ html{scroll-padding-top:calc(var(--ub-kop) + 12px)}
 
 /* ═══ HET BEWERKBLAD: naam, sector, gemeente; Wis; Rustige modus ════ */
 .ub-sheet{position:fixed;z-index:110;top:calc(var(--ub-kop) + 8px);left:var(--gut);width:min(460px,calc(100vw - 2*var(--gut)));
-  max-height:calc(var(--vvh,100dvh) - var(--ub-kop) - var(--ub-dok) - 24px);overflow:auto;padding:18px 18px 16px;border-radius:16px;
+  max-height:calc(var(--vvh,100vh) - var(--ub-kop) - var(--ub-dok) - 24px);overflow:auto;padding:18px 18px 16px;border-radius:16px;
   background:rgba(6,8,15,.97);border:1px solid var(--line2);box-shadow:0 24px 60px rgba(0,0,0,.5)}
 .ub-sheet .label{display:block;margin-bottom:14px}
 .ub-sheet .field{margin-bottom:12px}
@@ -99,6 +99,9 @@ html{scroll-padding-top:calc(var(--ub-kop) + 12px)}
   /* het toetsenbord staat open (uithangbord.js meet visualViewport en zet html.is-toetsenbord): het dock schuift
      weg zodat het nooit over het veld met focus ligt; geen transition, het toetsenbord beweegt zelf al */
   html.is-toetsenbord .ub-dok{visibility:hidden;transform:translateY(110%)}
-  html.is-toetsenbord .ub-sheet{max-height:calc(var(--vvh,100dvh) - var(--ub-kop) - 16px)}
+  html.is-toetsenbord .ub-sheet{max-height:calc(var(--vvh,100vh) - var(--ub-kop) - 16px)}
 }
 @media(max-width:899px) and (pointer:coarse){.ub-chip{min-height:44px}}
+/* WP-26 fix: dvh alleen waar de browser het kent */
+@supports (height:1dvh){.ub-sheet{max-height:calc(var(--vvh,100dvh) - var(--ub-kop) - var(--ub-dok) - 24px)}
+  html.is-toetsenbord .ub-sheet{max-height:calc(var(--vvh,100dvh) - var(--ub-kop) - 16px)}}

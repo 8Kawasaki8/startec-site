@@ -45,7 +45,7 @@ html[data-scene="svg"] [data-room]{background:var(--bg)}
 html[data-scene="svg"] #gevel[data-room]{background:transparent}
 #gevel .kamer-gevel{padding-top:0;padding-bottom:clamp(56px,8vw,96px)}
 .gevel-eerste{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,520px);gap:clamp(24px,4vw,64px);align-items:start;
-  padding-top:calc(var(--ub-kop) + 56dvh)}
+  padding-top:calc(var(--ub-kop) + 56vh)}
 .gevel-aankomst{padding:18px 20px;border-radius:18px;background:var(--paneel);border:1px solid var(--line);min-width:0}
 .gevel-aankomst h1{font:600 clamp(1.3rem,1vw + .85rem,1.7rem)/1.22 var(--display);letter-spacing:-.005em;max-width:30ch}
 .gevel-aankomst p{margin-top:14px;max-width:44ch;color:var(--ink2);font-size:clamp(1rem,1.1vw,1.12rem)}
@@ -83,7 +83,7 @@ html[data-scene="svg"] #gevel[data-room]{background:transparent}
 
 @media(max-width:899px){
   /* minmax(0,1fr): een lange naam in de schets (nowrap) mag de kolom nooit breder dan het scherm maken */
-  .gevel-eerste{grid-template-columns:minmax(0,1fr);gap:22px;padding-top:calc(var(--ub-kop) + 37lvh)}
+  .gevel-eerste{grid-template-columns:minmax(0,1fr);gap:22px;padding-top:calc(var(--ub-kop) + 37vh)}
   /* liggende telefoon (WP-17): base.css laat de SVG-skyline dan vanaf de bovenrand zien, het bord staat op
      16 tot 23 % van de breedte; de aankomst begint er net onder in plaats van op 37 % van een lage viewport */
   @media(orientation:landscape) and (max-height:500px){.gevel-eerste{padding-top:calc(23vw + 24px)}}
@@ -141,7 +141,6 @@ html[data-scene="svg"] #gevel[data-room]{background:transparent}
 .buur{--c:var(--cyan);display:grid;gap:6px;align-content:start;padding:0 20px 20px;border-radius:18px;background:var(--glass);border:1px solid var(--line2);color:var(--ink);min-width:0}
 .buur:hover{border-color:var(--c)}
 .buur-gevel{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;height:64px;margin:0 -20px 14px;padding:0 20px 12px;border-radius:18px 18px 0 0;border-bottom:2px solid var(--c);background:linear-gradient(180deg,transparent,rgba(255,255,255,.06))}   /* zonder color-mix (oudere gsm's) */
-.buur-gevel{background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--c) 14%,transparent))}
 .buur-gevel i{display:block;flex:1;height:18px;border-radius:3px 3px 0 0;border:1px solid var(--c);border-bottom:0;opacity:.7}
 .buur-gevel i:nth-child(2){height:26px}
 .buur strong{font:600 1.08rem/1.3 var(--display)}
@@ -155,3 +154,7 @@ html[data-scene="svg"] #gevel[data-room]{background:transparent}
 .deel-collega{margin-top:22px;padding-top:14px;border-top:1px dashed var(--line);color:var(--ink2);font-size:15px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;max-width:none}
 .deel-collega [data-share-status]{flex-basis:100%;overflow-wrap:anywhere}
 .kamer-verder{margin-top:22px;color:var(--ink2);font-size:15px;max-width:62ch}
+/* WP-26 fix: moderne waarden alleen waar de browser ze kent (var() + onbekende eenheid valt anders terug op 'unset') */
+@supports (height:1dvh){.gevel-eerste{padding-top:calc(var(--ub-kop) + 56dvh)}}
+@supports (height:1lvh){@media(max-width:899px){.gevel-eerste{padding-top:calc(var(--ub-kop) + 37lvh)}}}
+@supports (color:color-mix(in srgb,red,blue)){.buur-gevel{background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--c) 14%,transparent))}}
