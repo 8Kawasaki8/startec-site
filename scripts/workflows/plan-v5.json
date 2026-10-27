@@ -404,6 +404,71 @@
    ],
    "parallelizable": false,
    "sizeHours": 3
+  },
+  {
+   "id": "WP-23",
+   "title": "Visual craft critique and fixes: the site must look flawless and futuristic, not generic",
+   "scope": "Act as a demanding creative director. First take screenshots of every view (every room, every page, both lit and unlit sign, phone and desktop, 1920x1080 as well) and write a critique list: typographic rhythm (sizes, line lengths over 75 characters, orphan words in Panchang headings), spacing scale consistency (one spacing scale, no odd gaps), colour balance (cyan accent only where it earns it, violet only in Bericht, sector colours only on the sign/landmark/chip), panel edges and borders consistent, the composition of sign + arrival panel + entry panel on desktop (alignment to one grid), section transitions (no abrupt flat cuts between the Three.js area and the rooms), empty states, the footer, the 404 page, the wijk template, and anything that reads as AI-slop or template. Then fix the top 12 items with CSS and small markup changes only (no copy changes, no new behaviour), keeping every weak-GPU rule and the budget gates. Save before/after screenshots under .qa/craft/.",
+   "files": "docs/assets/css/base.css, docs/assets/css/rooms.css, docs/assets/css/uithangbord.css, docs/assets/css/werkwijze.css, docs/assets/css/sim.css, docs/assets/css/sim-dag.css, docs/assets/css/tools.css, docs/assets/css/wijk.css, src/rooms/*.html (class attributes only), src/partials/foot.html, src/pages/404.html, src/templates/wijk.html, docs/ rebuilt",
+   "acceptance": "A written critique (scripts/qa/craft-notes.md, under 120 lines) with the 12 fixed items and before/after screenshot names; no heading line longer than 75 characters at 1440 wide; one spacing scale used (grep shows no arbitrary px gaps outside tokens, or an allowlist with reasons); no new CSS file over 400 lines; perf:css 0 dead selectors; full QA green incl. budget and a11y.",
+   "qa": "npm run build && npm run qa (full, exit 0); own screenshots at 390x844, 1440x900 and 1920x1080 for every room and page before and after, saved under .qa/craft/; the a11y contrast gate must stay green after colour tweaks.",
+   "dependsOn": [
+    "WP-22"
+   ],
+   "parallelizable": true,
+   "sizeHours": 6
+  },
+  {
+   "id": "WP-24",
+   "title": "Gevel sketch depth: eight sectors, each a believable first site",
+   "scope": "Deepen the phone sketch in the Jouw gevel room so that every sector (horeca, kapper, garage, bakker, aannemer, praktijk, winkel, andere) renders a distinct, believable first screen: sector-specific hero line in the owner's words, the right primary action (reserveren, afspraak, offerte, bestellen, bellen), a sector-appropriate second block (menu-van-de-dag, diensten met duur, pechhulp, broodjeslijst, werken in uitvoering, consultaties, openingsuren), a map placeholder with the gemeente, and the four switches (bel, whatsapp, open, uren) visibly changing the sketch. Keep it a sketch: 'Schets' label stays, no photos, no fake reviews, fictional menu items marked as voorbeeld, no prices. Data lives in preview-data.js (per sector, under 160 lines total; split into preview-data-2.js if needed). Also make the sketch respond to the praktijk u-form and keep the honesty sentences from WP-18.",
+   "files": "docs/assets/js/preview.js, docs/assets/js/preview-data.js, docs/assets/js/preview-data-2.js (new if needed), docs/assets/css/preview.css, src/rooms/gevel.html, docs/ rebuilt",
+   "acceptance": "Playwright: for each of the 8 sectors the sketch shows a different hero line and primary action label and a sector block with at least three items; toggling each switch changes the sketch DOM; no euro signs, no stars, 'Schets' visible; name of 40 chars fits without overflow on phone; index phone bytes stay under the budget ceiling; full QA green.",
+   "qa": "npm run build && npm run qa; screenshots of all 8 sector sketches on phone and desktop saved under .qa/gevel-sectors/.",
+   "dependsOn": [
+    "WP-22"
+   ],
+   "parallelizable": true,
+   "sizeHours": 6
+  },
+  {
+   "id": "WP-25",
+   "title": "Desktop composition and motion: large screens, flights, reveals",
+   "scope": "Tune the desktop experience at 1440x900, 1920x1080 and 2560x1440: the sign and panels composed on one grid at every width (max content width, the sign never wider than the content column plus margins), camera places re-checked at each width so the landmark and sign stay in frame and clear of panels after landing, flights eased so they never fight native scroll (no flight while the user is actively scrolling; start after 300 ms of rest), reveal.js entrance choreography refined (stagger within a room, once, 0.2 s, transform/opacity only), the strip's active door underline animated with transform only, hover states for doors and chips, and the city made more alive at rest without rendering frames (static variation in window lights, a few more instanced shapes under 300 extra triangles). Frames at rest stay 0; no filters, no shadows animated; file limits respected.",
+   "files": "docs/assets/js/scene/places.js, docs/assets/js/scene/flight.js, docs/assets/js/scene/city.js, docs/assets/js/scene.js, docs/assets/js/uithangbord.js, docs/assets/js/reveal.js, docs/assets/css/base.css, docs/assets/css/rooms.css, docs/assets/css/uithangbord.css, docs/ rebuilt",
+   "acceptance": "Screenshots .qa/wide/<place>-<width>.png for every place at the three widths show the sign fully in frame and no panel overlapping it at landing; a flight never starts within 300 ms of a wheel event (measured); frames delta 0 after 3 s idle on desktop and tablet; draw calls within the budget ceiling; reveal animations use only transform/opacity (grep); full QA green.",
+   "qa": "npm run build && npm run qa; Playwright at 1440x900, 1920x1080, 2560x1440 with STSScene.debug for camera and frames.",
+   "dependsOn": [
+    "WP-22"
+   ],
+   "parallelizable": true,
+   "sizeHours": 6
+  },
+  {
+   "id": "WP-26",
+   "title": "Robustness: no-JS, dead modules, old browsers, offline fonts, print, deep links",
+   "scope": "Make failure modes graceful. No JavaScript: every page shows its content, the sign area shows the static SVG with a neutral sign and the doors work as plain links; a <noscript> line explains that the sketch and simulations need JavaScript. Dead or blocked modules (each of state/hydrate/uithangbord/scene/room scripts individually failing): no blank page, no uncaught errors, the form still submits via mailto. Old browsers: audit CSS and JS for features newer than Safari 15.4 / Chrome 100 (:has, dvh/svh, inset, structuredClone, at(), top-level await, import maps) and add fallbacks or guards. Fonts failing: font-display swap and a fallback stack that keeps the layout. Print: the A6 QR card and the gereedschap one-pagers print correctly (@page sizes, no dark backgrounds). Deep links: every #anchor on every page lands under the sticky bars; 404 from a deep path keeps assets via <base>. Add scripts/qa/robust.mjs running these scenarios headlessly and wire it into npm run qa as notices, with hard fails for uncaught errors and blank pages.",
+   "files": "scripts/qa/robust.mjs (new), scripts/qa/qa.mjs, scripts/qa/README.md, src/partials/scene.html, src/partials/head.html, src/partials/uithangbord.html, docs/assets/css/base.css, docs/assets/css/print.css, docs/assets/js/*.js (guards only), docs/ rebuilt",
+   "acceptance": "robust.mjs: no-JS run shows H1, arrival lines, doors as links and the SVG sign on index; each single-module-blocked run has 0 uncaught errors and a visible H1; feature audit list in scripts/qa/README.md with the fallback for each item; print preview screenshots of the A6 card and one-pager look correct; full QA green.",
+   "qa": "npm run build && npm run qa; Playwright with javaScriptEnabled false, route-blocked modules, emulated print media.",
+   "dependsOn": [
+    "WP-22"
+   ],
+   "parallelizable": true,
+   "sizeHours": 5
+  },
+  {
+   "id": "WP-27",
+   "title": "Discoverability without ads: metadata, internal linking, share texts, local signals",
+   "scope": "Within the honesty rules: unique titles and descriptions per page (under 60 and 155 characters), OG/Twitter cards per page with the og.png, JSON-LD LocalBusiness on index with only true fields (placeholders hidden until config.js is filled), BreadcrumbList on wijk pages, canonical URLs, sitemap lastmod from front matter, internal links from every room to the two most relevant other rooms (buyer language), WhatsApp share texts per tool and simulation written as the owner would forward them to a colleague (short, Dutch, no hype), 'Ken je een collega?' line present after every simulation result, and a docs/CHECKLIST-SAKI.md section on free local channels (Google Business profile, Unizo, buurtgroepen, WhatsApp status) that the site supports. No counters, no fake testimonials, no new pages.",
+   "files": "src/pages/*.html (front matter), src/templates/wijk.html, scripts/buildlib.py (json-ld, breadcrumbs, lastmod), src/rooms/*.html (link and share lines), docs/assets/js/*-data.js (share texts), docs/CHECKLIST-SAKI.md, docs/ rebuilt",
+   "acceptance": "Every public page has a unique title under 60 and description under 155 characters (script check); JSON-LD validates (node check) and contains no empty or placeholder values; each wijk page has BreadcrumbList; sitemap lastmod matches front matter; each room links to two other rooms; every [data-share] text under 300 characters and jargon-free (lint-copy); full QA green.",
+   "qa": "npm run build && npm run qa; a small node script validating metadata lengths and JSON-LD across docs/*.html and docs/wijk/*.html.",
+   "dependsOn": [
+    "WP-22"
+   ],
+   "parallelizable": true,
+   "sizeHours": 4
   }
  ],
  "keepFromCurrentSite": [

@@ -57,7 +57,8 @@ Everything else (node 20+, Playwright 1.63 pinned, Chromium) is the same as in t
 | 3 | WP-09 werkwijze, WP-13 wijk pages, WP-14 openingsuren, WP-10 sketches, WP-12 copy pass | done, LIVE |
 | 4 | WP-15 release audit, WP-16 performance, WP-19 accessibility, WP-21 scene craft | done, LIVE |
 | 5 | WP-17 mobile UX, WP-18 copy and emotion | done, LIVE |
-| 6 | WP-22 release refresh | running in the cloud when this file was written |
+| 6 | WP-26 robustness, WP-27 discoverability, WP-22 release refresh | running in the cloud when this file was written (a first attempt was lost in a container restart; nothing was committed) |
+| 7 | WP-23 visual craft, WP-24 sector sketches, WP-25 desktop composition, then WP-22 again | planned |
 
 Check `git log origin/v5 --oneline` to see which waves actually landed; a wave's commit message
 starts with `v5 wave N`.
