@@ -70,7 +70,7 @@ html[data-scene="svg"] #gevel[data-room]{background:transparent}
 
 /* de schets: zin boven, telefoon links, regie rechts */
 .gevel-schets{margin-top:clamp(40px,6vh,72px);padding:clamp(22px,3vw,36px);border-radius:22px;background:var(--paneel);border:1px solid var(--line2)}
-.gevel-zin{font:500 clamp(1.1rem,1.6vw,1.45rem)/1.4 var(--display);letter-spacing:-.005em;max-width:38em;color:var(--ink)}
+.gevel-zin{font:500 clamp(1.1rem,1.6vw,1.45rem)/1.4 var(--display);letter-spacing:-.005em;max-width:38em;color:var(--ink);overflow-wrap:anywhere}   /* de naam zonder spatie (fixronde golf 5) */
 .gevel-split{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:start;margin-top:clamp(22px,3vw,32px)}
 .gevel-regie .label{display:block;margin-bottom:10px}
 .gevel-schakels{display:flex;flex-wrap:wrap;gap:8px}
@@ -84,6 +84,9 @@ html[data-scene="svg"] #gevel[data-room]{background:transparent}
 @media(max-width:899px){
   /* minmax(0,1fr): een lange naam in de schets (nowrap) mag de kolom nooit breder dan het scherm maken */
   .gevel-eerste{grid-template-columns:minmax(0,1fr);gap:22px;padding-top:calc(var(--ub-kop) + 37lvh)}
+  /* liggende telefoon (WP-17): base.css laat de SVG-skyline dan vanaf de bovenrand zien, het bord staat op
+     16 tot 23 % van de breedte; de aankomst begint er net onder in plaats van op 37 % van een lage viewport */
+  @media(orientation:landscape) and (max-height:500px){.gevel-eerste{padding-top:calc(23vw + 24px)}}
   .gevel-split{grid-template-columns:minmax(0,1fr)}
   .phone-wrap,.gevel-regie,.gevel-entry{min-width:0}
   .gevel-aankomst{padding:16px 14px}
@@ -120,10 +123,15 @@ html[data-scene="svg"] #gevel[data-room]{background:transparent}
 .bericht-vragen summary h3{font-size:1.02rem;font-weight:600;line-height:1.3;text-wrap:pretty}
 .bericht-radar p{color:var(--ink2)}
 .bericht-deel .ctas{margin-top:18px}
-.deel-tekst{width:100%;margin-top:14px;padding:12px 15px;border:1px solid var(--line2);background:rgba(0,0,0,.25);border-radius:12px;font-size:15px;line-height:1.5;color:var(--ink);resize:vertical;min-height:120px}
+.deel-tekst{width:100%;margin-top:14px;padding:12px 15px;border:1px solid var(--line2);background:rgba(0,0,0,.25);border-radius:12px;font-size:16px;line-height:1.5;color:var(--ink);resize:vertical;min-height:120px}
 .deel-tekst:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(54,232,255,.18)}
 .bericht-deel [data-deel-status]{margin-top:10px}
 @media(max-width:899px){.bericht-split{grid-template-columns:1fr}}
+/* WP-17: de foutmelding (#form-err, role=alert) staat in de bron boven het eerste veld (bericht.html), naast het veld
+   dat van contact.js de focus krijgt, ook op een telefoon waar de knop dan buiten beeld is; lees- en kijkvolgorde
+   zijn gelijk (fixronde golf 5: geen flex-order meer). */
+.bericht-form .field{margin-bottom:12px}
+.bericht-form .form-err{margin:0 0 12px}
 
 /* ═══ KAMER DE BUREN (WP-09, src/rooms/buren.html; kaarten uit panden.json via build.py) ═══
    Drie gevelkaarten zonder foto's (de telefoon laadt niets extra): een gevelband in de

@@ -179,6 +179,16 @@ export async function runOne(browser, run, env) {
       if (sg.lines.join(' ') !== naam) issue('long-name', `'${naam}' staat als ${JSON.stringify(sg.lines)} op het bord (een woord mag nooit gebroken worden)`);
       if (sg.sr !== 'Uithangbord: ' + naam) issue('long-name', `#sign-sr zegt ${JSON.stringify(sg.sr)}, verwacht 'Uithangbord: ${naam}'`);
     }
+    // the WP-17 limit case on the pages that print the name in a heading, a chip or a derived host (fixronde golf 5):
+    // a 40-character two-word name and a 30-character gemeente, no horizontal overflow anywhere on the page
+    if (run.profile === 'phone' && (run.page === 'index.html' || run.page === 'gereedschap.html') && run.variant === 'default' && run.mode === 'gl') {
+      const lang = 'Aaaaaaaaaaaaaaaaaaaa Bbbbbbbbbbbbbbbbbbb', gem = 'Berendrecht-Zandvliet-Lillo-Xy';
+      await tab.goto(env.base + run.page + '?zaak=' + encodeURIComponent(lang) + '&sector=horeca&gemeente=' + encodeURIComponent(gem), { waitUntil: 'load', timeout: 30000 });
+      await tab.waitForTimeout(1500);
+      const sg = await tab.evaluate(C.signState);
+      rec.longName = Object.assign(rec.longName || {}, { lang: { scrollWidth: sg.scrollWidth, clientWidth: sg.clientWidth } });
+      if (sg.scrollWidth > sg.clientWidth + 1) issue('long-name', `'${lang}' met gemeente '${gem}': horizontale overflow op ${run.page}, scrollWidth ${sg.scrollWidth} > ${sg.clientWidth}`);
+    }
     // a dead scene module (blocked on purpose, intro variant): the overlay must not survive, the fallback must show
     if (variant.intro && hasCanvas) {
       await tab.evaluate(() => { try { sessionStorage.removeItem('sts-pre'); } catch (e) { /* blocked */ } });

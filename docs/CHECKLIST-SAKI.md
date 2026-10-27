@@ -1,4 +1,4 @@
-# Checklist voor Saki (de oprichter), eindversie WP-15
+# Checklist voor Saki (de oprichter), eindversie WP-15, bijgewerkt in golf 5 (WP-18)
 
 Alles wat alleen jij kan beslissen of aanleveren, op één plek. Niets hiervan blokkeert de site: elke lege waarde
 is vandaag onzichtbaar of netjes gelabeld ('voorbeeldbericht (ontwerp)', 'Prototype, niet op deze site'). Per punt
@@ -105,10 +105,15 @@ juridische tekst zelf is verder onaangeroerd. Deze punten wachten:
    van vandaag begint met 'Dag,' en eindigt met 'Snymis, STS Digital, Antwerpen'; lees het na.
 6. **Wat er gebeurt met een gebouwd voorbeeld dat je niet stuurt**: meteen weg, na 30 dagen, of privé bewaard. Tot je
    dat zegt, zegt de replay na 'Niet sturen' enkel 'Dan vertrekt er niets. Ook in het echt niet.' en citeert de site
-   privacy 2.2 alleen voor het geval zonder reactie. Zodra je kiest, komt de zin in de replay én in privacy 2.2 (C.8).
-7. **Een foto van jezelf** (of een vaste illustratie) en een verhaal van zo'n 120 woorden in de ik-vorm voor de kamer
-   'Wie is Snymis' op werkwijze.html: leeftijdsvork, waarom Antwerpen, waarom agents; geen echte naam. Tot dan staat de
-   kamer zonder beeld, met de tekst die er nu staat (lees ook die na).
+   privacy 2.2 alleen voor het geval zonder reactie. Zodra je kiest, komt de zin in de replay én in privacy 2.2 (C.8),
+   en dan ook in de lede van werkwijze.html ('Bevalt het niet, dan verdwijnt het weer.', de enige plek die nu al een
+   beleid noemt; de kamers Snymis en Bericht zeggen enkel 'dan stopt het daar').
+7. **Een foto van jezelf** (of een vaste illustratie) voor de kamer 'Wie is Snymis' op werkwijze.html. De tekst staat er
+   sinds WP-18 zonder plaatshouder: 127 woorden in de ik-vorm in `src/rooms/snymis.html`, enkel uit wat elders op de site
+   al staat (Antwerpen, geen kantoor, een jonge zaak, onderzoek naar AI die werk overneemt, de verkenner en de bouwer, elk
+   bericht zelf gelezen, eerst het voorbeeld). Wat alleen jij kan toevoegen, in je eigen woorden en zonder echte naam:
+   een leeftijdsvork, waarom Antwerpen, waarom je met agents werkt, en of 'ik zou het zelf ook zo willen' klopt. Vervang
+   dan de drie alinea's in dat bestand; de kop en het blok 'Wat wij niet zijn' blijven.
 8. **Bevestiging van de capaciteitenkaart**: wat 'onderhoud' vandaag betekent (maandelijks, opzegbaar?), of het gratis
    voorbeeld foto's van de zaak hergebruikt (zo niet, zegt de tekst enkel 'uren en adres'), en of 'een eerlijke blik op
    je Google-profiel en je site op een gsm' echt bij elk gratis voorbeeld hoort.
@@ -126,7 +131,11 @@ juridische tekst zelf is verder onaangeroerd. Deze punten wachten:
 13. **Een leesbeurt van elke tekst in `src/rooms/`** (toon, districten, sectorwoorden), een beslissing over je of u in de
     praktijk-variant (nu u, zie copy-regels.md hoofdstuk 2) en één blik op de schermafbeeldingen van de gevel
     (`.qa/shots/index.html.desktop.png` en `.phone.png` na `npm run qa -- --shots`): is het bord leesbaar, klopt de
-    kadrering.
+    kadrering. WP-18 las alles al als een bakker uit Borgerhout en een garagist uit Mortsel; wat toen veranderde staat in
+    `CHANGELOG.md` (golf 5). Lees vooral na: de aanloop van De telefoon om 19 u ('Je staat te bedienen ...'), de drie
+    stappen en de antwoorden onder 'Wat mensen ons eerst vragen' in de kamer Bericht (het gratis voorbeeld belooft nu
+    enkel 'je uren, je adres, je Google-profiel', geen foto's of reviews, tot jij D.8 beantwoordt), en de
+    meta-beschrijvingen in de front matter van `src/pages/*.html` (elk korter dan 155 tekens).
 14. **Verzonnen namen waar je je goed bij voelt.** De drie buren die verschijnen als niemand typt staan in
     `docs/assets/js/preview-data.js`, lijst `buren` (nu Bakkerij Noordpool, Kapsalon Lumen, Garage Verhulst); de
     verzonnen buur per sector in de radar-replay in `docs/assets/js/sim-radar-data.js`, object `buren` (Taverne Het

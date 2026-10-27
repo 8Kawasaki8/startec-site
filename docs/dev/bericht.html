@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Berichtcontract, testpagina — Star.Tec.Solutions</title>
-<meta name="description" content="Testpagina voor het conversiecontract: het Bericht-formulier met een knop per sleutel, zodat de QA-harnas elke voorinvulling kan aanklikken. Niet geïndexeerd.">
+<meta name="description" content="Testpagina voor het conversiecontract: het Bericht-formulier met een knop per sleutel, zodat de QA-harnas elke voorinvulling aanklikt. Niet geïndexeerd.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#06080F">
 <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Star.Tec.Solutions">
 <meta property="og:title" content="Berichtcontract, testpagina — Star.Tec.Solutions">
-<meta property="og:description" content="Testpagina voor het conversiecontract: het Bericht-formulier met een knop per sleutel, zodat de QA-harnas elke voorinvulling kan aanklikken. Niet geïndexeerd.">
+<meta property="og:description" content="Testpagina voor het conversiecontract: het Bericht-formulier met een knop per sleutel, zodat de QA-harnas elke voorinvulling aanklikt. Niet geïndexeerd.">
 <meta property="og:url" content="https://8kawasaki8.github.io/startec-site/dev/bericht.html">
 <meta property="og:image" content="https://8kawasaki8.github.io/startec-site/assets/img/og.png">
 <meta property="og:image:width" content="1200">
@@ -58,7 +58,7 @@
   <div class="ub-sheet" id="ub-sheet" role="dialog" aria-modal="true" aria-labelledby="ub-sheet-titel" hidden>
     <form data-ub-form novalidate>
       <p class="label" id="ub-sheet-titel">Jouw zaak op het bord</p>
-      <label class="field"><span>Naam van je zaak</span><input name="zaak" maxlength="40" autocomplete="organization" placeholder="Bijvoorbeeld: Frituur 't Pleintje"></label>
+      <label class="field"><span>Naam van je zaak</span><input name="zaak" maxlength="40" autocomplete="organization" autocapitalize="words" spellcheck="false" enterkeyhint="next" placeholder="Bijvoorbeeld: Frituur 't Pleintje"></label>
       <fieldset class="keuze">
         <legend>Wat voor zaak?</legend>
         <label><input type="radio" name="sector" value="horeca"><span>Horeca</span></label>
@@ -70,7 +70,7 @@
         <label><input type="radio" name="sector" value="winkel"><span>Winkel</span></label>
         <label><input type="radio" name="sector" value="anders"><span>Andere zaak</span></label>
       </fieldset>
-      <label class="field"><span>Gemeente of district</span><input name="gemeente" maxlength="30" autocomplete="address-level2" list="ub-gemeenten" placeholder="Bijvoorbeeld: Deurne"></label>
+      <label class="field"><span>Gemeente of district</span><input name="gemeente" maxlength="30" autocomplete="address-level2" autocapitalize="words" spellcheck="false" enterkeyhint="done" list="ub-gemeenten" placeholder="Bijvoorbeeld: Deurne"></label>
       <datalist id="ub-gemeenten" data-gemeenten></datalist>
       <div class="ub-sheet-acties">
         <button class="pill" type="submit">Zet op het bord</button>

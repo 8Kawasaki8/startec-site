@@ -242,3 +242,22 @@ html.js [data-reveal].in,html.js .rv.in{opacity:1;transform:none;transition:opac
    transition van 200 ms (de grens van de bewegingscontrole). */
 #sign-dom.is-placed.is-behind{opacity:0}
 #sign-dom{transition:opacity .2s var(--ease,ease)}
+
+/* ═══ WP-17 LIGGENDE TELEFOON (append-only, gedeeld bestand) ═══════════════
+   De SVG-skyline (1200x800, xMidYMax slice) verliest op een liggende telefoon
+   (844x390) haar bovenste 170 px: het bord van het landmark (y 190 tot 276)
+   verdwijnt achter de kop. Op grove aanwijzers in liggende stand krijgt de svg
+   haar eigen verhouding op de volle breedte, vanaf de bovenrand: het bord staat
+   dan op 16 tot 23 % van de breedte, onder de kop en boven de aankomst
+   (rooms.css zet de aankomst op 23vw + 24px). De svg steekt onder de viewport
+   uit; vast gepositioneerd telt dat niet als overflow. Elk veld houdt 16 px. */
+@media(pointer:coarse) and (orientation:landscape) and (max-height:500px){
+  #scene-fallback svg{bottom:auto;height:auto;aspect-ratio:1200/800}
+}
+
+/* ═══ FIXRONDE GOLF 5: een naam van 40 tekens zonder spatie (append-only, gedeeld bestand) ═══
+   hydrate.js schrijft de naam in elk [data-zaak] (koppen, legenda's, zinnen op elke pagina). Eén woord
+   van 40 tekens mag nergens de kolom breder maken dan het scherm: het breekt waar het moet. De andere
+   schrijfplekken (.gevel-zin in rooms.css, .serp .title en #sp-host in tools.css) dragen dezelfde regel;
+   runner.mjs (long-name) meet index.html en gereedschap.html met zo'n naam. */
+[data-zaak]{overflow-wrap:anywhere}

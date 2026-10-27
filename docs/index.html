@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Star.Tec.Solutions, Antwerpen: websites met eerst een gratis voorbeeld, gratis gereedschap en onderzoek naar AI voor kleine zaken</title>
-<meta name="description" content="STS Digital, Antwerpen. Typ de naam van je zaak en zie een schets op jouw naam; daarna bouwt Snymis gratis een echt voorbeeld. Eerst zien, dan praten. Hij leest elk bericht zelf.">
+<meta name="description" content="STS Digital, Antwerpen. Typ de naam van je zaak op het bord en zie een schets; daarna bouwt Snymis gratis een echt voorbeeld. Eerst zien, dan praten.">
 <meta name="theme-color" content="#06080F">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://8kawasaki8.github.io/startec-site/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Star.Tec.Solutions">
 <meta property="og:title" content="Star.Tec.Solutions, Antwerpen: websites met eerst een gratis voorbeeld, gratis gereedschap en onderzoek naar AI voor kleine zaken">
-<meta property="og:description" content="STS Digital, Antwerpen. Typ de naam van je zaak en zie een schets op jouw naam; daarna bouwt Snymis gratis een echt voorbeeld. Eerst zien, dan praten. Hij leest elk bericht zelf.">
+<meta property="og:description" content="STS Digital, Antwerpen. Typ de naam van je zaak op het bord en zie een schets; daarna bouwt Snymis gratis een echt voorbeeld. Eerst zien, dan praten.">
 <meta property="og:url" content="https://8kawasaki8.github.io/startec-site/">
 <meta property="og:image" content="https://8kawasaki8.github.io/startec-site/assets/img/og.png">
 <meta property="og:image:width" content="1200">
@@ -59,7 +59,7 @@
   <div class="ub-sheet" id="ub-sheet" role="dialog" aria-modal="true" aria-labelledby="ub-sheet-titel" hidden>
     <form data-ub-form novalidate>
       <p class="label" id="ub-sheet-titel">Jouw zaak op het bord</p>
-      <label class="field"><span>Naam van je zaak</span><input name="zaak" maxlength="40" autocomplete="organization" placeholder="Bijvoorbeeld: Frituur 't Pleintje"></label>
+      <label class="field"><span>Naam van je zaak</span><input name="zaak" maxlength="40" autocomplete="organization" autocapitalize="words" spellcheck="false" enterkeyhint="next" placeholder="Bijvoorbeeld: Frituur 't Pleintje"></label>
       <fieldset class="keuze">
         <legend>Wat voor zaak?</legend>
         <label><input type="radio" name="sector" value="horeca"><span>Horeca</span></label>
@@ -71,7 +71,7 @@
         <label><input type="radio" name="sector" value="winkel"><span>Winkel</span></label>
         <label><input type="radio" name="sector" value="anders"><span>Andere zaak</span></label>
       </fieldset>
-      <label class="field"><span>Gemeente of district</span><input name="gemeente" maxlength="30" autocomplete="address-level2" list="ub-gemeenten" placeholder="Bijvoorbeeld: Deurne"></label>
+      <label class="field"><span>Gemeente of district</span><input name="gemeente" maxlength="30" autocomplete="address-level2" autocapitalize="words" spellcheck="false" enterkeyhint="done" list="ub-gemeenten" placeholder="Bijvoorbeeld: Deurne"></label>
       <datalist id="ub-gemeenten" data-gemeenten></datalist>
       <div class="ub-sheet-acties">
         <button class="pill" type="submit">Zet op het bord</button>
@@ -162,7 +162,7 @@
     </div>
     <form class="gevel-entry" data-gevel-form novalidate>
       <h2 class="gevel-vraag"><label for="gevel-zaak">Hoe heet je zaak?</label></h2>
-      <p class="gevel-naam"><input id="gevel-zaak" name="zaak" type="text" maxlength="40" autocomplete="organization" autocapitalize="words" spellcheck="false" placeholder="Bijvoorbeeld: Frituur 't Pleintje" aria-describedby="gevel-blijft"></p>
+      <p class="gevel-naam"><input id="gevel-zaak" name="zaak" type="text" maxlength="40" autocomplete="organization" autocapitalize="words" spellcheck="false" enterkeyhint="next" placeholder="Bijvoorbeeld: Frituur 't Pleintje" aria-describedby="gevel-blijft"></p>
       <fieldset class="keuze">
         <legend>Wat voor zaak?</legend>
         <label><input type="radio" name="sector" value="horeca"><span>Horeca</span></label>
@@ -175,7 +175,7 @@
         <label><input type="radio" name="sector" value="anders"><span>Andere zaak</span></label>
       </fieldset>
       <div class="gevel-rij">
-        <label class="field gevel-gemeente"><span>Gemeente of district</span><input id="gevel-gemeente" name="gemeente" type="text" maxlength="30" autocomplete="address-level2" list="gevel-gemeenten" placeholder="Bijvoorbeeld: Deurne"></label>
+        <label class="field gevel-gemeente"><span>Gemeente of district</span><input id="gevel-gemeente" name="gemeente" type="text" maxlength="30" autocomplete="address-level2" autocapitalize="words" spellcheck="false" enterkeyhint="done" list="gevel-gemeenten" placeholder="Bijvoorbeeld: Deurne"></label>
         <datalist id="gevel-gemeenten" data-gemeenten></datalist>
         <button class="pill" type="submit">Hang mijn bord op</button>
       </div>
@@ -205,12 +205,12 @@
         </div>
         <p class="label gevel-label-19">Hoe ziet dat eruit voor wie je zoekt</p>
         <button class="btn btn-sm gevel-nacht" type="button" aria-pressed="false" data-gevel-night>Om 19 u</button>
-        <p class="small gevel-nacht-zin" data-gevel-night-zin hidden>Dit zijn de drie dingen die een klant om 19 u zoekt: bellen, een berichtje sturen en weten of je open bent.</p>
-        <p class="gevel-uitleg">Dit is een schets, geen site. Elke regel met &lsquo;voorbeeld&rsquo; is verzonnen; jouw echte uren, adres en foto&rsquo;s komen pas in het echte voorbeeld, en dat bouwt Snymis met wat jij hem geeft.</p>
+        <p class="small gevel-nacht-zin" data-gevel-night-zin hidden>Om 19 u wil een klant meestal drie dingen: bellen, een berichtje sturen en weten of je open bent.</p>
+        <p class="gevel-uitleg">Dit is een schets, geen site. Elke regel met &lsquo;voorbeeld&rsquo; is verzonnen. Je echte uren en adres komen pas in het echte voorbeeld, en dat bouwt Snymis met wat je zelf al openbaar maakte.</p>
         <div class="ctas gevel-ctas">
           <a class="pill primair" href="#bericht" data-bericht="gevel">Laat Snymis het echte voorbeeld bouwen</a>
           <button class="btn" type="button" data-gevel-deel>Deel deze schets</button>
-          <a class="btn btn-line" href="#telefoon">Loop verder</a>
+          <a class="btn btn-line" href="#telefoon">Verder: de telefoon om 19 u</a>
         </div>
         <p class="small gevel-deel-status" data-gevel-deel-status role="status" hidden></p>
       </div>
@@ -222,7 +222,7 @@
 <section id="telefoon" data-room aria-labelledby="telefoon-titel">
 <div class="kamer kamer-dag" data-sim>
   <h2 id="telefoon-titel">De telefoon om 19 u</h2>
-  <p class="dag-sub">Een gesimuleerde dinsdag, van 7 tot 20 u, bij een verzonnen zaak uit jouw sector. Wie belt, wie niemand aan de lijn krijgt, en wat twee kleine ingrepen aan die dag veranderen. Elke oproep is verzonnen; jouw echte cijfers kennen we niet.</p>
+  <p class="dag-sub">Je staat te bedienen, je zit onder een wagen, je handen zitten in het deeg: en de telefoon gaat. Hieronder een gesimuleerde dinsdag, van 7 tot 20 u, bij een verzonnen zaak uit jouw sector. Wie belt, wie niemand aan de lijn krijgt, en wat twee kleine ingrepen aan die dag veranderen. Elke oproep is verzonnen; jouw echte cijfers kennen we niet.</p>
   <form class="dag-ctl" data-dag-form novalidate>
     <fieldset class="keuze" data-dag-sector>
       <legend>Welke zaak speelt de dinsdag?</legend>
@@ -275,7 +275,7 @@
     <a class="pill" data-dag-kassa href="gereedschap.html#whatsapp?bericht=Dag%2C%20ik%20wil%20graag%20een%20tafel%20reserveren.%20Is%20er%20vanavond%20nog%20plaats%20voor%20vier%3F">Zet die knop vandaag op je kassa</a>
     <a class="btn" href="#bericht?onderwerp=telefoon" data-bericht="telefoon" data-bericht-subject="Antwoord buiten de uren (onderzoek)" data-dag-bespreek>Bespreek dit met Snymis</a>
   </div>
-  <p class="small dag-voet">De WhatsApp-knop met QR-code maak je gratis in Gereedschap; het veld daar toont wat de klant naar jou stuurt. Een bericht met je echte uren stel je zelf in bij je telefoonaanbieder; wij sturen niets in jouw naam.</p>
+  <p class="small dag-voet">De WhatsApp-knop met QR-code maak je gratis in Gereedschap; het veld daar toont wat de klant naar jou stuurt. Het bericht met je echte uren stel je zelf in bij je telefoonaanbieder. Wij sturen niets in jouw naam.</p>
 </div>
 </section>
 
@@ -298,7 +298,7 @@
   <h2 id="verder-titel">Verder in de straat</h2>
   <ul class="verder">
     <li><strong><a href="simulatie.html">Doorlichting</a></strong>Kijk mee hoe een agent de cijfers van een verzonnen zaak leest en wacht op Snymis voor er iets vertrekt.</li>
-    <li><strong><a href="gereedschap.html">Gereedschap</a></strong>Een zichtbaarheidscheck, een WhatsApp-knop met QR-code en een Google-voorbeeld van je titel, allemaal in je browser.</li>
+    <li><strong><a href="gereedschap.html">Gereedschap</a></strong>Een zichtbaarheidscheck, een WhatsApp-knop met QR-code, je Google-kaartje om 19 u en een openingsuren-check, allemaal in je browser.</li>
     <li><strong><a href="werkwijze.html">Hoe wij werken</a></strong>De radar nagespeeld op een verzonnen buur, de straat met oude en nieuwe gevel, en wat vandaag werkt, prototype is of nog onderzoek.</li>
   </ul>
 </div>
@@ -311,20 +311,20 @@
   <p>Een paar zinnen volstaan. Er vertrekt niets stilzwijgend en er belt geen verkoper terug: wat je hier schrijft, komt bij &eacute;&eacute;n persoon terecht.</p>
   <div class="split bericht-split">
     <form id="contact-form" class="panel bericht-form" novalidate>
-      <label class="field"><span>Je naam</span><input name="name" required autocomplete="name"></label>
-      <label class="field"><span>Naam van je zaak <span class="small">(optioneel)</span></span><input name="business" autocomplete="organization" maxlength="40"></label>
-      <label class="field"><span>E-mail of gsm-nummer</span><input name="reach" required autocomplete="email" placeholder="Zo kunnen we je antwoorden"></label>
+      <p class="form-err" id="form-err" role="alert" hidden></p>
+      <label class="field"><span>Je naam</span><input name="name" required autocomplete="name" autocapitalize="words" spellcheck="false" enterkeyhint="next"></label>
+      <label class="field"><span>Naam van je zaak <span class="small">(optioneel)</span></span><input name="business" autocomplete="organization" autocapitalize="words" spellcheck="false" maxlength="40" enterkeyhint="next"></label>
+      <label class="field"><span>E-mail of gsm-nummer</span><input name="reach" required autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="next" placeholder="Zo kunnen we je antwoorden"></label>
       <label class="field"><span>Hoe mogen we je antwoorden?</span><select name="prefer"><option>E-mail</option><option>WhatsApp</option><option>Telefoon</option></select></label>
       <input type="hidden" name="onderwerp" value="">
       <div class="field bericht-veld">
         <label for="bericht-tekst">Wat mogen we voor je bekijken?</label>
-        <div data-voice="visitor"><textarea id="bericht-tekst" name="message" required rows="7" placeholder="Wat doet je zaak, en waar loop je tegenaan?"></textarea></div>
+        <div data-voice="visitor"><textarea id="bericht-tekst" name="message" required rows="7" autocapitalize="sentences" placeholder="Wat doet je zaak, en waar loop je tegenaan?"></textarea></div>
       </div>
       <div aria-hidden="true" style="position:absolute;left:-9999px"><label>Laat dit leeg<input name="company_site" tabindex="-1" autocomplete="off"></label></div>
       <button class="pill" type="submit">Stuur een berichtje</button>
       <p class="small bericht-status">Dit opent je mail- of WhatsApp-app. Snymis leest het zelf. We gebruiken je gegevens alleen om je te antwoorden. <a href="privacy.html">Privacy</a></p>
       <p class="small bericht-belofte" data-c-wrap hidden><span data-c="replyPromise"></span></p>
-      <p class="form-err" id="form-err" role="alert" hidden></p>
       <p class="form-ok" id="form-ok" tabindex="-1" hidden>Je mail- of WhatsApp-app zou nu open moeten staan, met je bericht erin. Gebeurt er niets? Kopieer je tekst en stuur ze rechtstreeks naar <a data-c="email" href="#"></a>.</p>
     </form>
     <aside class="bericht-kanalen" aria-labelledby="bericht-kanalen-h">
@@ -340,7 +340,7 @@
         <ol>
           <li><strong>Wij bouwen eerst een gratis voorbeeld.</strong> Met jouw echte gegevens. Je hoeft niets voor te bereiden en niets te betalen.</li>
           <li><strong>Jij beslist daarna.</strong> Goed? Dan maken we een offerte op maat. Niet goed? Dan stopt het daar, zonder kosten.</li>
-          <li><strong>Online, en we blijven erbij.</strong> Onderhoud, aanpassingen en uitbreidingen. Je stuurt een bericht; het is geregeld.</li>
+          <li><strong>Online, en daarna.</strong> Onderhoud en aanpassingen als jij dat wil, nooit als verplichting. Je stuurt een berichtje en Snymis bekijkt het zelf.</li>
         </ol>
       </div>
     </aside>
@@ -350,15 +350,15 @@
     <p class="label">Wat mensen ons eerst vragen</p>
     <details>
       <summary><h3>Wat kost een website?</h3></summary>
-      <p>Elke offerte is op maat, omdat geen twee zaken gelijk zijn. Je ziet eerst gratis een werkend voorbeeld van jouw site; pas daarna praten we over prijs, met een vast bedrag op papier.</p>
+      <p>Eerst zie je gratis een werkend voorbeeld van je site. Pas daarna praten we over prijs: een vast bedrag op papier, op maat van je zaak, want geen twee zaken zijn gelijk.</p>
     </details>
     <details>
       <summary><h3>Wat is dat gratis voorbeeld precies?</h3></summary>
-      <p>Een werkende versie van jouw site met je echte uren, adres, foto&rsquo;s en reviews. Geen schets, geen sjabloon. Je bekijkt hem op je gsm. Bevalt het niet, dan stopt het daar, zonder kosten.</p>
+      <p>Een werkende versie van je site, gebouwd met wat je zelf al openbaar maakte: je uren, je adres, je Google-profiel. Geen schets, geen sjabloon. Je bekijkt hem op je gsm. Bevalt het niet, dan stopt het daar, zonder kosten.</p>
     </details>
     <details>
       <summary><h3>Ik heb al een website. Kan ik overstappen?</h3></summary>
-      <p>Ja. We bouwen het voorbeeld naast je huidige site. Je domein verhuist pas als jij tevreden bent, zonder onderbreking.</p>
+      <p>Ja. We bouwen het voorbeeld naast je huidige site; die blijft gewoon staan. Je domein verhuist pas als jij tevreden bent.</p>
     </details>
     <details>
       <summary><h3>Van wie is de site daarna?</h3></summary>
@@ -366,7 +366,7 @@
     </details>
     <details>
       <summary><h3>Wat doet die AI juist voor mijn zaak?</h3></summary>
-      <p>De systemen die werk overnemen zijn in onderzoek: antwoorden buiten de uren met je echte openingsuren, reviews beantwoorden in jouw toon, een offerte-opzet uit een foto. Wat er vandaag is: een verkenner die zaken zoekt die klanten &rsquo;s avonds slecht vinden, een bouwer die met publieke gegevens het voorbeeld maakt, en Snymis die elk bericht leest voor het vertrekt. Een mens keurt alles goed; er vertrekt niets automatisch.</p>
+      <p>Vandaag: een verkenner zoekt zaken die klanten &rsquo;s avonds slecht vinden, een bouwer maakt met publieke gegevens het voorbeeld, en Snymis leest elk bericht voor het vertrekt. Er vertrekt niets automatisch. De rest is onderzoek, geen product: antwoorden buiten de uren met je echte openingsuren, reviews beantwoorden in jouw toon, een offerte-opzet uit een foto.</p>
     </details>
     <details>
       <summary><h3>Werken jullie ook buiten Antwerpen?</h3></summary>
@@ -375,13 +375,14 @@
   </div>
 
   <div class="bericht-blok bericht-radar" role="region" aria-labelledby="bericht-radar-h">
+    <p class="label">Voor wie een bericht van ons kreeg</p>
     <h3 id="bericht-radar-h">Kreeg u een bericht van ons zonder dat u iets vroeg?</h3>
-    <p>Dan vond onze verkenner uw zaak, en gebruikten we enkel wat u zelf openbaar maakte: uw Google-profiel, uw openingsuren en uw adres. U kreeg van ons &eacute;&eacute;n bericht, en dat las en keurde Snymis zelf goed voor het vertrok. Het voorbeeld dat erbij hoort staat niet in zoekmachines en wordt enkel met u gedeeld. Reageert u niet, dan verwijderen we het na 30 dagen; vraagt u het, dan binnen 5 werkdagen. Zo staat het ook in onze <a href="privacy.html">privacyverklaring</a>.</p>
+    <p>Dan vond onze verkenner uw zaak en gebruikten we enkel wat u zelf openbaar maakte. Hoe dat gaat en wat we daarna verwijderen, leest u in <a href="werkwijze.html#snymis-radar-h">Zo komt u op onze radar</a> en in onze <a href="privacy.html">privacyverklaring</a>.</p>
   </div>
 
   <div class="bericht-blok bericht-deel">
     <h3>Ken je een collega in je straat die dit ook zou moeten zien?</h3>
-    <p>Wij sturen niets naar derden en vragen geen adressen. Maak een tekstje en stuur het zelf door, via WhatsApp of hoe je wilt.</p>
+    <p>Wij sturen niets naar derden en vragen geen adressen. Maak een tekstje en stuur het zelf door, via WhatsApp of hoe je wil.</p>
     <div class="ctas">
       <button class="btn" type="button" data-deel-maak aria-controls="bericht-deeltekst" aria-expanded="false">Maak een deeltekst</button>
       <button class="btn btn-line" type="button" data-deel-kopieer hidden>Kopieer de tekst</button>

@@ -58,7 +58,7 @@
   <div class="ub-sheet" id="ub-sheet" role="dialog" aria-modal="true" aria-labelledby="ub-sheet-titel" hidden>
     <form data-ub-form novalidate>
       <p class="label" id="ub-sheet-titel">Jouw zaak op het bord</p>
-      <label class="field"><span>Naam van je zaak</span><input name="zaak" maxlength="40" autocomplete="organization" placeholder="Bijvoorbeeld: Frituur 't Pleintje"></label>
+      <label class="field"><span>Naam van je zaak</span><input name="zaak" maxlength="40" autocomplete="organization" autocapitalize="words" spellcheck="false" enterkeyhint="next" placeholder="Bijvoorbeeld: Frituur 't Pleintje"></label>
       <fieldset class="keuze">
         <legend>Wat voor zaak?</legend>
         <label><input type="radio" name="sector" value="horeca"><span>Horeca</span></label>
@@ -70,7 +70,7 @@
         <label><input type="radio" name="sector" value="winkel"><span>Winkel</span></label>
         <label><input type="radio" name="sector" value="anders"><span>Andere zaak</span></label>
       </fieldset>
-      <label class="field"><span>Gemeente of district</span><input name="gemeente" maxlength="30" autocomplete="address-level2" list="ub-gemeenten" placeholder="Bijvoorbeeld: Deurne"></label>
+      <label class="field"><span>Gemeente of district</span><input name="gemeente" maxlength="30" autocomplete="address-level2" autocapitalize="words" spellcheck="false" enterkeyhint="done" list="ub-gemeenten" placeholder="Bijvoorbeeld: Deurne"></label>
       <datalist id="ub-gemeenten" data-gemeenten></datalist>
       <div class="ub-sheet-acties">
         <button class="pill" type="submit">Zet op het bord</button>
@@ -86,7 +86,7 @@
     <div>
       <span class="label">404 &middot; niet gevonden</span>
       <h1 style="margin-top:16px">Dit gebouw staat hier niet.</h1>
-      <p style="margin:18px auto 0;color:var(--ink2);max-width:36em">De pagina die je zocht bestaat niet of is verhuisd. De stad staat nog gewoon op de startpagina, en de deuren in het uithangbord werken overal.</p>
+      <p style="margin:18px auto 0;color:var(--ink2);max-width:36em">De pagina die je zocht bestaat niet of is verhuisd. Geen zorgen: de stad staat nog gewoon op de startpagina, en de deuren in het uithangbord werken overal.</p>
       <div class="ctas center">
         <a class="pill" href="index.html">Naar de startpagina</a>
         <a class="pill ghost" href="index.html#gevel">Typ je naam op het bord</a>

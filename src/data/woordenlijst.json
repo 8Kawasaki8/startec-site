@@ -188,6 +188,12 @@
       "note": "geen marketingjargon (de merknaam Star.Tec.Solutions schrijft het met hoofdletter)"
     },
     {
+      "id": "robot",
+      "pattern": "(?<!\\{\\{)\\brobots?\\b|\\bchatbots?\\b",
+      "flags": "i",
+      "note": "WP-18: zeg wat het doet (leest je berichten voor, stelt een antwoord voor, jij keurt goed), nooit 'robot' of 'chatbot'"
+    },
+    {
       "id": "klik-hier",
       "pattern": "\\bklik hier\\b",
       "flags": "i",

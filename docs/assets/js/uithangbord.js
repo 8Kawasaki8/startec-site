@@ -1,23 +1,22 @@
 /* Uithangbord: the one navigation (src/partials/uithangbord.html), on every page.
    - Below 900 px the block moves to the end of <body> (the dock is the last element).
    - Legacy anchors of the old site map to the rooms (#contact -> #bericht, ...).
-   - The name chip mirrors STSState; the sheet edits the same record live, 'Wis' clears
-     it, 'Minder animatie' toggles sts-lite like the footer button; Escape closes the sheet
-     and focus returns to the chip.
-   - On pages with sections ([data-room] or [data-plek]) one IntersectionObserver names the
-     section at the viewport's midline: the matching door gets aria-current, and 300 ms
-     after the last change the city flies there (STSScene.flyTo, never on scroll position;
-     skipped when the camera already stands there). The same observer feeds
-     STSScene.cover() with the fraction of the viewport covered by opaque rooms and calls the
-     room hooks window.STS_ROOMS[id].{init, enter, leave} so a room stops its timeline when it
-     scrolls out, when the tab hides and on pagehide. Rooms registered late can call
-     STSUithangbord.refresh().
-   - On pages with a scene but without the gevel room the sign follows the state here (setSign with
-     the sector colour); on index the room Jouw gevel (gevel.js) owns that binding, so one keystroke
-     costs one texture. 'Zet op het bord' dispatches 'sts:bord' so that room commits the name at once.
-   - The sheet is a modal dialog (role=dialog, aria-modal=true, WP-19): Tab and Shift+Tab wrap inside it,
-     Escape closes it and returns focus to the chip, a click outside closes it; focus that still leaves
-     it some other way (a script, a touch on the page) closes it too, so no stale dialog stays open. */
+   - The name chip mirrors STSState; the sheet edits the same record live, 'Wis' clears it,
+     'Minder animatie' toggles sts-lite like the footer button.
+   - One IntersectionObserver names the section ([data-room], [data-plek]) at the viewport's midline:
+     its door gets aria-current, 300 ms later the city flies there (STSScene.flyTo, never on scroll
+     position). It also feeds STSScene.cover() (viewport fraction under opaque rooms) and calls the
+     room hooks window.STS_ROOMS[id].{init, enter, leave} on scroll-out, tab hide and pagehide.
+   - Without the gevel room the sign follows the state here (setSign with the sector colour); on index
+     gevel.js owns that binding. 'Zet op het bord' dispatches 'sts:bord' so that room commits at once.
+   - The sheet is a modal dialog (WP-19): Tab wraps, Escape closes with focus back on the chip, a tap
+     outside or focus leaving it closes it too. WP-17: open pushes one history entry so Back closes it;
+     every other close pops it again (ownPush: only an entry this document pushed; a stale one after a
+     reload is cleared at start). A tap on a link while the sheet is open pops first and navigates from
+     the popstate, so the stack never keeps a duplicate page; 'Minder animatie' reloads the same way.
+     The dock scrolls the current door into view only when it is cut off (is-scrolled: left fade).
+     Keyboard open (visualViewport 120 px shorter at scale 1, field focused; a pinch-zoom is not a
+     keyboard): html.is-toetsenbord hides the dock, --vvh sizes the sheet, the field stays in view. */
 (function () {
   var d = document, S = window.STSState, N = window.STSNames;
   var ub = d.querySelector(".uithangbord"), chip = d.querySelector("[data-ub-chip]"), chipTxt = d.querySelector("[data-ub-chip-txt]");
@@ -25,8 +24,7 @@
   if (!ub || !chip || !sheet || !form) return;
   var LEGACY = { contact: "bericht", vragen: "bericht", probeer: "gevel", start: "gevel", oplossingen: "gevel", demos: "buren", lab: "verder", werkwijze: "verder", bouwen: "verder", onderzoek: "verder" };
 
-  /* the dock is the last element in <body>: moved now, again after the parser's last script and after the
-     scene module appended its viewport probe (both dispatch nothing visible; appendChild of a fixed block is free) */
+  /* the dock is the last element in <body>: moved now, after the last script and after the scene's viewport probe */
   var phone = matchMedia("(max-width: 899px)").matches;
   function toEnd() { if (phone && ub.parentNode && d.body.lastElementChild !== ub) d.body.appendChild(ub); }
   toEnd();
@@ -67,7 +65,7 @@
   form.addEventListener("submit", function (e) { e.preventDefault(); close(); if (S && S.get().zaak) dispatchEvent(new CustomEvent("sts:bord")); });   /* gevel.js commits on it */
   form.querySelector("[data-ub-wis]").addEventListener("click", function () { if (S) S.clear(); form.reset(); form.elements.zaak.focus({ preventScroll: true }); });
 
-  /* sheet: open, close with focus return, Escape, click outside, Tab wraps (the focus trap of the dialog) */
+  /* sheet: open, close with focus return, Escape, tap outside, Tab wraps */
   function tabbable() {
     return [].filter.call(sheet.querySelectorAll("a[href], button, input, select, textarea, [tabindex]"), function (el) {
       if (el.tabIndex < 0 || el.disabled || el.closest("[hidden]")) return false;
@@ -84,38 +82,65 @@
     if (e.shiftKey && (a === t[0] || !sheet.contains(a))) { e.preventDefault(); t[t.length - 1].focus(); }
     else if (!e.shiftKey && (a === t[t.length - 1] || !sheet.contains(a))) { e.preventDefault(); t[0].focus(); }
   }
-  function onOutside(e) { if (!sheet.contains(e.target) && !chip.contains(e.target)) close(false); }
+  var ownPush = false, afterPop = null;
+  function pushed() { return !!(history.state && history.state.ubSheet); }
+  if (pushed()) try { history.replaceState(null, "", location.href); } catch (e) { /* sandbox */ }   /* a reload with the sheet open left its entry */
+  function onOutside(e) {
+    if (sheet.contains(e.target) || chip.contains(e.target)) return;
+    var a = e.target.closest && e.target.closest("a[href]");
+    if (a && ownPush && !a.target && !a.hasAttribute("download")) {   /* pop the sheet entry first, then go: the native click is eaten once (a new tab opens natively) */
+      var href = a.href, eat = function (ev) { d.removeEventListener("click", eat, true); if (a.contains(ev.target)) ev.preventDefault(); };
+      d.addEventListener("click", eat, true);
+      afterPop = function () { location.assign(href); };
+    }
+    close(false);
+  }
   function open() {
     sheet.hidden = false; chip.setAttribute("aria-expanded", "true");
     form.elements.zaak.focus({ preventScroll: true });
     d.addEventListener("keydown", onKey); d.addEventListener("pointerdown", onOutside, true);
+    if (!pushed()) try { history.pushState({ ubSheet: 1 }, "", location.href); ownPush = true; } catch (e) { /* sandbox */ }
   }
-  function close(back) {
+  function close(back, popped) {
     if (sheet.hidden) return;
     sheet.hidden = true; chip.setAttribute("aria-expanded", "false");
     d.removeEventListener("keydown", onKey); d.removeEventListener("pointerdown", onOutside, true);
     if (back !== false) chip.focus({ preventScroll: true });
+    if (ownPush && !popped) history.back();
+    ownPush = false;
   }
+  addEventListener("popstate", function () {
+    if (!sheet.hidden) close(true, true);
+    if (afterPop) { var go = afterPop; afterPop = null; setTimeout(go, 0); }   /* after the traversal's scroll restore, or a hash jump lands on the old scroll */
+  });
   chip.addEventListener("click", function () { sheet.hidden ? open() : close(); });
-  /* focus that leaves the sheet some other way than Tab (a script, a touch) closes it, so no stale dialog stays open */
+  /* focus leaving the sheet otherwise (a script, a touch) closes it: no stale dialog */
   sheet.addEventListener("focusout", function (e) { var to = e.relatedTarget; if (to && !sheet.contains(to) && !chip.contains(to)) close(false); });
 
-  /* Minder animatie: the same key as the footer button (sts-lite, see lite.js); the page reloads so the scene loader reads it */
+  /* Minder animatie: the footer's key (sts-lite, lite.js); reload so the scene loader reads it */
   var lite = /[?&]lite\b/.test(location.search), sw = form.querySelector("[data-lite-switch]"), st = sw.querySelector("[data-lite-state]");
   try { lite = lite || localStorage.getItem("sts-lite") === "1"; } catch (e) { /* storage blocked */ }
   sw.setAttribute("aria-checked", lite ? "true" : "false"); st.textContent = lite ? "aan" : "uit";
   sw.addEventListener("click", function () {
     var stored = false;
     try { lite ? localStorage.removeItem("sts-lite") : localStorage.setItem("sts-lite", "1"); stored = true; } catch (e) { /* storage blocked */ }
-    if (stored) { location.reload(); return; }
-    var p = new URLSearchParams(location.search); lite ? p.delete("lite") : p.set("lite", "1");
-    location.assign(location.pathname + (p.toString() ? "?" + p : "") + location.hash);
+    function go() {
+      if (stored) { location.reload(); return; }
+      var p = new URLSearchParams(location.search); lite ? p.delete("lite") : p.set("lite", "1");
+      location.assign(location.pathname + (p.toString() ? "?" + p : "") + location.hash);
+    }
+    if (ownPush && !sheet.hidden) { afterPop = go; close(false); } else go();   /* the sheet entry goes first */
   });
 
   /* doors: the one whose same-page anchor names the current section; the dock scrolls the current door into view
-     (also the page's own aria-current=page door at load, on simulatie, gereedschap and werkwijze) */
-  var doors = [].slice.call(ub.querySelectorAll("nav a[href]"));
-  function showDoor(a) { var ul = a.closest("ul"); if (ul && ul.scrollWidth > ul.clientWidth) ul.scrollLeft = Math.max(0, Math.min(a.offsetLeft - 12, ul.scrollWidth - ul.clientWidth)); }
+     (also the page's own aria-current=page door at load) */
+  var doors = [].slice.call(ub.querySelectorAll("nav a[href]")), FADE = 14;
+  function showDoor(a) {
+    var ul = a.closest("ul"), li = a.closest("li") || a, x = ul ? ul.scrollLeft : 0, left = li.offsetLeft, right = left + li.offsetWidth;
+    if (!ul || ul.scrollWidth <= ul.clientWidth || (left >= x + (x ? FADE : 0) && right <= x + ul.clientWidth - FADE)) return;
+    ul.scrollLeft = Math.max(0, Math.min(left - FADE - 2, ul.scrollWidth - ul.clientWidth));
+  }
+  [].forEach.call(ub.querySelectorAll(".ub-deuren"), function (ul) { ul.addEventListener("scroll", function () { ul.classList.toggle("is-scrolled", ul.scrollLeft > 2); }, { passive: true }); });
   function markDoor(id) {
     doors.forEach(function (a) {
       var h = a.getAttribute("href"), same = !!id && h.charAt(0) === "#" && h.slice(1) === id;
@@ -124,9 +149,24 @@
       else if (a.getAttribute("aria-current") === "location") a.removeAttribute("aria-current");
     });
   }
-  function showCurrent() { var a = ub.querySelector('nav a[aria-current="page"]'); if (a) showDoor(a); }
+  function showCurrent() { var a = ub.querySelector('nav a[aria-current="location"]') || ub.querySelector('nav a[aria-current="page"]'); if (a) showDoor(a); }
   showCurrent();
   d.addEventListener("DOMContentLoaded", showCurrent);
+  var rotTimer = 0;
+  addEventListener("resize", function () { clearTimeout(rotTimer); rotTimer = setTimeout(showCurrent, 150); }, { passive: true });
+
+  var vv = window.visualViewport, kbTimer = 0;
+  function editable(el) { return !!el && /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName); }
+  function keyboard() {
+    var el = d.activeElement, h = d.documentElement;
+    var on = phone && editable(el) && vv.scale <= 1.01 && innerHeight - vv.height * vv.scale > 120;   /* a pinch-zoom shrinks vv.height too, but height x scale stays innerHeight */
+    h.classList.toggle("is-toetsenbord", on); h.style.setProperty("--vvh", on ? Math.round(vv.height) + "px" : "");
+    if (!on) return;
+    var r = el.getBoundingClientRect(), top = vv.offsetTop;
+    if (r.bottom > top + vv.height - 8 || r.top < top + 8) el.scrollIntoView({ block: "center" });
+  }
+  function kbSoon() { clearTimeout(kbTimer); kbTimer = setTimeout(keyboard, 150); }
+  if (vv) { vv.addEventListener("resize", keyboard); d.addEventListener("focusin", kbSoon); d.addEventListener("focusout", kbSoon); }
 
   /* sections: current place, flights, cover, room hooks */
   var ROOMS = window.STS_ROOMS = window.STS_ROOMS || {};
@@ -176,7 +216,7 @@
   function flush() { if (pending) fly(pending); }
   ["sts:scene-ready", "sts:scene-failed", "sts:intro-done"].forEach(function (n) { addEventListener(n, function () { toEnd(); if (S) sign(S.get()); flush(); }); });
 
-  /* the sign follows the state (debounced 120 ms: one texture per pause in typing); not on index, where gevel.js owns it */
+  /* the sign follows the state (debounced 120 ms); not on index, where gevel.js owns it */
   var signTimer = 0, gevelOwnsSign = !!d.getElementById("gevel");
   function sign(s) {
     if (gevelOwnsSign || !window.STSScene || !d.getElementById("sign-dom")) return;

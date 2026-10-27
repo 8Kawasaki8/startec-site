@@ -1,6 +1,6 @@
 # HANDOFF: continuing the STS v5 build on any machine
 
-Last updated by the cloud session on 2026-10-26 (wave 4 live; wave 5 running).
+Last updated by the cloud session on 2026-10-27 (wave 5 passed QA).
 This file is updated at every wave boundary. If the cloud session stopped (credits refused,
 container reclaimed), everything below still holds: **only complete, QA-green waves are ever
 pushed**, builders never commit, so the remote is always consistent.
@@ -56,7 +56,7 @@ Everything else (node 20+, Playwright 1.63 pinned, Chromium) is the same as in t
 | 2 | WP-04 front and strip, WP-05 gevel, WP-06 telefoon, WP-07 doorlichting, WP-08 gereedschap, WP-11 bericht | done, LIVE |
 | 3 | WP-09 werkwijze, WP-13 wijk pages, WP-14 openingsuren, WP-10 sketches, WP-12 copy pass | done, LIVE |
 | 4 | WP-15 release audit, WP-16 performance, WP-19 accessibility, WP-21 scene craft | done, LIVE |
-| 5 | WP-17 mobile UX, WP-18 copy and emotion | running in the cloud when this file was written |
+| 5 | WP-17 mobile UX, WP-18 copy and emotion | done, pushed (release follows after the full matrix) |
 | 6 | WP-22 release refresh | planned |
 
 Check `git log origin/v5 --oneline` to see which waves actually landed; a wave's commit message

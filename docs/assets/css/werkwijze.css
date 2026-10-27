@@ -21,7 +21,7 @@
 .kamer-radar .uitleg{max-width:62ch}
 .rs-ctl{margin-top:24px}
 .kamer-radar .keuze input{inset:0;width:100%;height:100%;cursor:pointer}   /* de hele chip is het klikdoel */
-.kamer-radar .rs-context{margin-top:16px;font-size:1rem;color:var(--ink)}
+.kamer-radar .rs-context{margin-top:16px;font-size:1rem;color:var(--ink);overflow-wrap:anywhere}   /* de naam zonder spatie (fixronde golf 5) */
 .rs-speler{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-top:14px}
 .rs-speler .small{max-width:46ch}
 .rs-stappen{list-style:none;margin-top:28px;display:grid;gap:0;position:relative;max-width:980px}
@@ -227,7 +227,7 @@
 .lr-tonen .btn{min-height:44px}
 .lr-veld{display:block;margin-top:10px}
 .lr-veld span{display:block;font-size:13px;color:var(--ink2);margin-bottom:6px}
-.lr-veld textarea{width:100%;min-height:96px;padding:10px 12px;border:1px solid var(--line2);background:rgba(0,0,0,.25);border-radius:10px;font-size:15px;line-height:1.5;color:var(--ink);resize:vertical}
+.lr-veld textarea{width:100%;min-height:96px;padding:10px 12px;border:1px solid var(--line2);background:rgba(0,0,0,.25);border-radius:10px;font-size:16px;line-height:1.5;color:var(--ink);resize:vertical}
 .lr-veld textarea:focus{outline:none;border-color:var(--mens);box-shadow:0 0 0 3px rgba(138,107,255,.18)}
 .lr-acties{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .lr-acties .btn{justify-content:center;min-height:46px;text-align:center}

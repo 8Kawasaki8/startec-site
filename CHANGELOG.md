@@ -4,6 +4,99 @@ Statische site van STS Digital (Antwerpen). Bronnen in `src/`, gebouwd naar `doc
 Het bouwplan is `scripts/workflows/PLAN-V5.md`; de beslissingen per golf staan in de Wave-log daar. Dit logboek
 begint bij v5; v3, v3.1 en v4 staan alleen in de git-geschiedenis.
 
+## Golf 5 (tak v5, na v5.0.0): WP-17 mobiele UX en WP-18 copy
+
+Twee polishpakketten uit `scripts/workflows/plan-v5.json`, gebouwd op de live staat van golf 4 met dezelfde poorten.
+
+### WP-17, mobiele UX
+
+De hele site gelopen als uitbater op een telefoon van 390 px, met één duim; 51 schermafbeeldingen van elke gewijzigde
+weergave in `.qa/wp17/` (390x844, 844x390, 1024x1366). Wat veranderde:
+
+- Dock en kop (`uithangbord.css`): safe-area links en rechts (liggende notch) naast de bestaande onderrand; het dock
+  schuift enkel wanneer de huidige deur afgesneden is, uitgelijnd op een deurgrens, en zet dan `is-scrolled` (ook links
+  een randverloop); de deurenrij past dus nooit per ongeluk op een halve deur.
+- Bewerkblad (`uithangbord.js`): openen zet één geschiedenisstap (`{ubSheet:1}`), zodat Terug op de telefoon het blad
+  sluit in plaats van de pagina te verlaten; elke andere sluiting (Escape, chip, 'Zet op het bord', tik erbuiten) haalt
+  die stap weer weg. Toetsenbord open (`visualViewport` 120 px lager en een veld met focus): `html.is-toetsenbord`
+  verbergt het dock, `--vvh` begrenst de hoogte van het blad en het veld blijft in beeld.
+- Velden (`src/partials/uithangbord.html`, `src/rooms/*.html`, enkel attributen): `autocapitalize`, `spellcheck`,
+  `enterkeyhint` (next/done), `inputmode` (email, tel, url), `type="tel"` en `autocomplete="url"` waar het veld dat is;
+  elk veld 16 px (iOS zoomt niet in), de uurvelden van het Google-kaartje 44 px hoog (`tools.css`).
+- Bericht (`rooms.css`): de foutmelding `#form-err` (role=alert) staat boven het eerste veld, naast het veld dat van
+  `contact.js` de focus krijgt, ook op een telefoon waar de knop dan buiten beeld is.
+- Liggende telefoon (`base.css`, bijgevoegd blok, en `rooms.css`): op grove aanwijzers in liggende stand toont de
+  SVG-skyline haar eigen verhouding vanaf de bovenrand, zodat het bord van het landmark niet achter de kop verdwijnt;
+  de aankomst begint er net onder (23vw + 24 px).
+- Gereedschap (`tools.css`): `scroll-margin-top` op elk loket en op elk veld, zodat een ankersprong of een focus de kop
+  niet onder de kleverige tabs laat vallen.
+
+### WP-18, copy en emotie: de hele site gelezen als uitbater
+
+Alleen tekst veranderde; geen structuur, geen gedrag, de elf sleutels van het conversiecontract en hun sjablonen
+ongewijzigd (`scripts/qa/fixtures/prefill.json` is onaangeroerd).
+
+- Startpagina: de eerlijkheidszin boven de schets begint met de naam ('Dag {zaak}. Daar hangt je naam.') en houdt de
+  verplichte varianten (getypt: 'behalve de naam die je net typte'; kaartje of wijklink: 'We gebruikten enkel de naam op
+  het kaartje; de rest typ je zelf'); de wachtzin zegt wat er gebeurt als je typt; de 19 u-regel zegt 'meestal drie
+  dingen'; de knop 'Loop verder' heet 'Verder: de telefoon om 19 u'. De twee aankomstzinnen en de H2 'Hoe
+  heet je zaak?' bleven: ze dragen al Antwerpen, voorbeeld, onderzoek, verkenner en Snymis in 16 en 13 woorden.
+- De telefoon om 19 u: de aanloop begint bij de dag van de uitbater ('Je staat te bedienen, je zit onder een wagen, je
+  handen zitten in het deeg: en de telefoon gaat.') en houdt 'gesimuleerd', 'verzonnen' en 'jouw echte cijfers kennen we
+  niet' in dezelfde alinea.
+- Bericht: stap 3 belooft niet langer 'het is geregeld' maar 'onderhoud en aanpassingen als jij dat wil, nooit als
+  verplichting'; het antwoord op 'Wat is dat gratis voorbeeld' noemt enkel wat de pijplijn gebruikt (je uren, je adres,
+  je Google-profiel) en geen foto's of reviews meer (zie `docs/CHECKLIST-SAKI.md` D.8); het antwoord over AI zet wat
+  vandaag werkt vooraan en het onderzoek erachter; de prijsvraag begint bij het gratis voorbeeld.
+- Doorlichting: de lege staten zeggen wat er komt ('Nog niets gevonden. De agent leest eerst de cijfers; de bevindingen
+  komen hier, een voor een.'); het slotblok heet 'Dezelfde blik, maar dan op jouw zaak' en de knop 'Laat Snymis kijken wat
+  een klant van mij ziet'.
+- Gereedschap: elke foutmelding en lege staat zegt wat er gebeurde en wat je doet ('Nog niet alle zes beantwoord. Vul de
+  open vraag in, dan rekenen we je score uit.'; het nummerveld zegt hoe je het schrijft en wat er dan komt).
+- Hoe wij werken: 'Wie is Snymis' is 127 woorden in de ik-vorm zonder plaatshouder, enkel uit feiten die elders op de
+  site staan; de radar-statusregel zegt dat de stappen een voor een opengaan; het vierde pand in De straat is korter.
+- Wijkpagina's: de knop heet 'Typ mijn zaak op het bord' (de uitbater spreekt), het bord heet overal 'bord'.
+- Meta-beschrijvingen: elke `description:` korter dan 155 tekens en uniek (start, Doorlichting, Gereedschap, Hoe wij
+  werken, de wijktemplate met de langste naam, dev/bericht); de titels bleven.
+- Woordenlijst: nieuwe regel `robot` (robot, chatbot; de plaatshouder `{{robots}}` uitgesloten), gedocumenteerd in
+  `copy-regels.md` hoofdstuk 1; nieuw hoofdstuk 11 met de lengte- en staatregels van dit pakket (25 woorden, 155 tekens,
+  menselijke foutzinnen, de uitkomstzin van een simulatie, praktijk is u, de kamer Snymis).
+- Sceptische leesbeurt van de gebouwde pagina's (als uitbater): drie zinnen die te veel beloofden zijn herschreven. 'Je domein
+  verhuist ... zonder onderbreking' (een belofte over een verhuis) werd 'je huidige site blijft gewoon staan; je domein verhuist
+  pas als jij tevreden bent'; 'Zit je liever samen aan de toog, dan kan dat ook' (een bezoek beloven is de keuze van de
+  oprichter, copy-regels hoofdstuk 6) werd weer 'een bezoek kan als je dat liever hebt'; 'Om 19 u wil een klant drie dingen
+  ... Meer niet.' werd 'meestal drie dingen'. De schetszin kreeg vier woorden minder ('om mee te vergelijken'), omdat ze in
+  Panchang op een telefoon anders tien regels vraagt.
+- Niet veranderd, bewust: de uitkomstzin van De telefoon om 19 u in `sim-dag.js` en die van de radar in `sim-radar.js`
+  (code, geen data; ze eindigen al op 'geen voorspelling over jouw zaak' en 'Ook in het echt niet.'), de vier juridische
+  pagina's en hun beschrijvingen (elk al onder 155 tekens), `sim-dag-data.js` en `sim-radar-data.js` (de verzonnen
+  bellers en buren spreken al in de woorden van de zaak; praktijk in u), de sfeerzinnen (leeg tot de oprichter ze levert).
+
+### Golf 5, fixronde
+
+- Bewerkblad en geschiedenis (`uithangbord.js`): een tik op een deur of een link terwijl het blad open staat haalt eerst
+  de stap van het blad weg en navigeert dan (de eigen klik wordt één keer opgegeten, de sprong wacht één taak op het
+  herstel van de scrollpositie), zodat Terug niet meer op een dubbele startpagina landt; 'Minder animatie' herlaadt op
+  dezelfde manier. Enkel een stap die dit document zelf zette wordt teruggenomen, en een stap die een herlading
+  overleefde (F5, trek-om-te-verversen, de schakelaar) wordt bij de start gewist: geen onverwachte Terug meer na een
+  herlading. Een knijpzoom is geen toetsenbord (`visualViewport.scale`): het dock blijft staan en de pagina scrolt niet
+  onder de vingers van wie inzoomt.
+- Lange namen: een naam van 40 tekens (twee woorden, of één woord zonder spatie) maakt geen enkele pagina breder dan het
+  scherm. `tools.css` zet de telefoonkolom van elk loket op `minmax(0,1fr)`, de host en de titel van het Google-voorbeeld
+  mogen breken; `base.css` (bijgevoegd blok) laat elk `[data-zaak]` breken, net als de schetszin (`rooms.css`), de
+  contextregel van de Doorlichting (`sim.css`) en die van de radar (`werkwijze.css`). De harnas meet nu ook
+  gereedschap.html en index.html met zo'n naam en een gemeente van 30 tekens (`runner.mjs`, long-name).
+- Bericht: `#form-err` staat ook in de bron boven het eerste veld (`src/rooms/bericht.html`), de flex-order van WP-17 is
+  weg: lees- en kijkvolgorde zijn gelijk. Het blok voor wie ongevraagd een bericht kreeg heeft zijn eigen label ('Voor
+  wie een bericht van ons kreeg'), blijft in u en verwijst in één zin naar 'Zo komt u op onze radar' op werkwijze.html
+  en naar de privacyverklaring; de kamer wisselt niet meer van aanspreekvorm binnen de vragenlijst.
+- Copy: de eerlijkheidszin onder de schets belooft enkel 'je echte uren en adres ... met wat je zelf al openbaar maakte'
+  (geen foto's, zoals de FAQ en `CHECKLIST-SAKI.md` D.8); 'Wie is Snymis' zegt 'Bevalt het niet, dan stopt het daar.'
+  (de verwijdering van een geweigerd voorbeeld is D.6, nog niet beslist; de lede van werkwijze.html staat daar nu bij
+  als tweede plek); de capaciteitenkaart 'Werkt vandaag' noemt de openingsuren-check als vijfde loket.
+- Harnas: de poort eerste scherm op index.html meet nu ook 'Antwerpen' en 'voorbeeld' (`budget.mjs`), zoals
+  `copy-regels.md` hoofdstuk 11 al beweerde.
+
 ## v5.0.0 (2026-10-26): Uithangbord op de nachtstad
 
 Vier golven (WP-00 tot WP-15) plus de eerste drie polishpakketten (WP-16, WP-19, WP-21) en hun fixronde. De voorkant is het Uithangbord: de naam van de zaak van de bezoeker op een verlicht

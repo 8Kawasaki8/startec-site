@@ -6,7 +6,7 @@
     </div>
     <form class="gevel-entry" data-gevel-form novalidate>
       <h2 class="gevel-vraag"><label for="gevel-zaak">Hoe heet je zaak?</label></h2>
-      <p class="gevel-naam"><input id="gevel-zaak" name="zaak" type="text" maxlength="40" autocomplete="organization" autocapitalize="words" spellcheck="false" placeholder="Bijvoorbeeld: Frituur 't Pleintje" aria-describedby="gevel-blijft"></p>
+      <p class="gevel-naam"><input id="gevel-zaak" name="zaak" type="text" maxlength="40" autocomplete="organization" autocapitalize="words" spellcheck="false" enterkeyhint="next" placeholder="Bijvoorbeeld: Frituur 't Pleintje" aria-describedby="gevel-blijft"></p>
       <fieldset class="keuze">
         <legend>Wat voor zaak?</legend>
         <label><input type="radio" name="sector" value="horeca"><span>Horeca</span></label>
@@ -19,7 +19,7 @@
         <label><input type="radio" name="sector" value="anders"><span>Andere zaak</span></label>
       </fieldset>
       <div class="gevel-rij">
-        <label class="field gevel-gemeente"><span>Gemeente of district</span><input id="gevel-gemeente" name="gemeente" type="text" maxlength="30" autocomplete="address-level2" list="gevel-gemeenten" placeholder="Bijvoorbeeld: Deurne"></label>
+        <label class="field gevel-gemeente"><span>Gemeente of district</span><input id="gevel-gemeente" name="gemeente" type="text" maxlength="30" autocomplete="address-level2" autocapitalize="words" spellcheck="false" enterkeyhint="done" list="gevel-gemeenten" placeholder="Bijvoorbeeld: Deurne"></label>
         <datalist id="gevel-gemeenten" data-gemeenten></datalist>
         <button class="pill" type="submit">Hang mijn bord op</button>
       </div>
@@ -49,12 +49,12 @@
         </div>
         <p class="label gevel-label-19">Hoe ziet dat eruit voor wie je zoekt</p>
         <button class="btn btn-sm gevel-nacht" type="button" aria-pressed="false" data-gevel-night>Om 19 u</button>
-        <p class="small gevel-nacht-zin" data-gevel-night-zin hidden>Dit zijn de drie dingen die een klant om 19 u zoekt: bellen, een berichtje sturen en weten of je open bent.</p>
-        <p class="gevel-uitleg">Dit is een schets, geen site. Elke regel met &lsquo;voorbeeld&rsquo; is verzonnen; jouw echte uren, adres en foto&rsquo;s komen pas in het echte voorbeeld, en dat bouwt Snymis met wat jij hem geeft.</p>
+        <p class="small gevel-nacht-zin" data-gevel-night-zin hidden>Om 19 u wil een klant meestal drie dingen: bellen, een berichtje sturen en weten of je open bent.</p>
+        <p class="gevel-uitleg">Dit is een schets, geen site. Elke regel met &lsquo;voorbeeld&rsquo; is verzonnen. Je echte uren en adres komen pas in het echte voorbeeld, en dat bouwt Snymis met wat je zelf al openbaar maakte.</p>
         <div class="ctas gevel-ctas">
           <a class="pill primair" href="#bericht" data-bericht="gevel">Laat Snymis het echte voorbeeld bouwen</a>
           <button class="btn" type="button" data-gevel-deel>Deel deze schets</button>
-          <a class="btn btn-line" href="#telefoon">Loop verder</a>
+          <a class="btn btn-line" href="#telefoon">Verder: de telefoon om 19 u</a>
         </div>
         <p class="small gevel-deel-status" data-gevel-deel-status role="status" hidden></p>
       </div>

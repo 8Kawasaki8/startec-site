@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hoe wij werken: eerst een gratis voorbeeld, dan pas praten — Star.Tec.Solutions</title>
-<meta name="description" content="Een verkenner zoekt zaken die klanten 's avonds slecht vinden, een bouwer maakt met publieke gegevens een werkend voorbeeld, en Snymis leest elk bericht voor het vertrekt. Speel de radar na op een verzonnen buur, vergelijk oude en nieuwe gevel, en lees wat vandaag werkt, wat prototype is en wat nog onderzoek is.">
+<meta name="description" content="Een verkenner zoekt, een bouwer maakt met publieke gegevens een werkend voorbeeld, Snymis leest elk bericht voor het vertrekt. Eerst bouwen, dan praten.">
 <meta name="theme-color" content="#06080F">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://8kawasaki8.github.io/startec-site/werkwijze.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Star.Tec.Solutions">
 <meta property="og:title" content="Hoe wij werken: eerst een gratis voorbeeld, dan pas praten — Star.Tec.Solutions">
-<meta property="og:description" content="Een verkenner zoekt zaken die klanten 's avonds slecht vinden, een bouwer maakt met publieke gegevens een werkend voorbeeld, en Snymis leest elk bericht voor het vertrekt. Speel de radar na op een verzonnen buur, vergelijk oude en nieuwe gevel, en lees wat vandaag werkt, wat prototype is en wat nog onderzoek is.">
+<meta property="og:description" content="Een verkenner zoekt, een bouwer maakt met publieke gegevens een werkend voorbeeld, Snymis leest elk bericht voor het vertrekt. Eerst bouwen, dan praten.">
 <meta property="og:url" content="https://8kawasaki8.github.io/startec-site/werkwijze.html">
 <meta property="og:image" content="https://8kawasaki8.github.io/startec-site/assets/img/og.png">
 <meta property="og:image:width" content="1200">
@@ -59,7 +59,7 @@
   <div class="ub-sheet" id="ub-sheet" role="dialog" aria-modal="true" aria-labelledby="ub-sheet-titel" hidden>
     <form data-ub-form novalidate>
       <p class="label" id="ub-sheet-titel">Jouw zaak op het bord</p>
-      <label class="field"><span>Naam van je zaak</span><input name="zaak" maxlength="40" autocomplete="organization" placeholder="Bijvoorbeeld: Frituur 't Pleintje"></label>
+      <label class="field"><span>Naam van je zaak</span><input name="zaak" maxlength="40" autocomplete="organization" autocapitalize="words" spellcheck="false" enterkeyhint="next" placeholder="Bijvoorbeeld: Frituur 't Pleintje"></label>
       <fieldset class="keuze">
         <legend>Wat voor zaak?</legend>
         <label><input type="radio" name="sector" value="horeca"><span>Horeca</span></label>
@@ -71,7 +71,7 @@
         <label><input type="radio" name="sector" value="winkel"><span>Winkel</span></label>
         <label><input type="radio" name="sector" value="anders"><span>Andere zaak</span></label>
       </fieldset>
-      <label class="field"><span>Gemeente of district</span><input name="gemeente" maxlength="30" autocomplete="address-level2" list="ub-gemeenten" placeholder="Bijvoorbeeld: Deurne"></label>
+      <label class="field"><span>Gemeente of district</span><input name="gemeente" maxlength="30" autocomplete="address-level2" autocapitalize="words" spellcheck="false" enterkeyhint="done" list="ub-gemeenten" placeholder="Bijvoorbeeld: Deurne"></label>
       <datalist id="ub-gemeenten" data-gemeenten></datalist>
       <div class="ub-sheet-acties">
         <button class="pill" type="submit">Zet op het bord</button>
@@ -119,7 +119,7 @@
   <p class="rs-context" data-rs-context>Hieronder: een verzonnen buur. De echte cijfers van een zaak kennen we niet.</p>
   <div class="rs-speler">
     <button type="button" class="btn" data-rs-replay>Speel de vier stappen opnieuw</button>
-    <span class="small" data-rs-status role="status">De stappen openen vanzelf. Klik op een stap om ze meteen te openen.</span>
+    <span class="small" data-rs-status role="status">De stappen openen vanzelf, een voor een. Klik op een stap om ze meteen te openen.</span>
   </div>
 
   <ol class="rs-stappen" data-rs-stappen aria-label="Vier stappen, van radar tot gesprek">
@@ -306,7 +306,7 @@
   </div>
   <div class="straat-vierde">
     <h3>Jouw zaak als vierde pand in de straat?</h3>
-    <p>Typ je naam op het bord en je ziet eerst een schets op jouw naam. Daarna bouwt Snymis het echte voorbeeld met jouw echte gegevens, zonder kosten en zonder verplichting; pas daarna beslis jij.</p>
+    <p>Typ je naam op het bord en je ziet eerst een schets op jouw naam. Daarna bouwt Snymis het echte voorbeeld, zonder kosten en zonder verplichting. Pas dan beslis jij.</p>
     <div class="ctas">
       <a class="pill" href="index.html#gevel">Typ mijn naam op het bord</a>
       <a class="btn" href="index.html#bericht?onderwerp=straat" data-bericht="straat">Vraag Snymis naar mijn gevel</a>
@@ -326,7 +326,7 @@
 <li data-lamp="vandaag"><span class="lamp">Werkt vandaag</span><p>Een gratis, werkend voorbeeld van een website, gemaakt met publieke gegevens, met een eerlijke blik op het Google-profiel en op hoe de huidige site op een gsm laadt.</p></li>
 <li data-lamp="vandaag"><span class="lamp">Werkt vandaag</span><p>De <a href="simulatie.html">Doorlichting</a>: een agent leest de cijfers van een verzonnen zaak, op deze site.</p></li>
 <li data-lamp="vandaag"><span class="lamp">Werkt vandaag</span><p>Drie verzonnen zaken in <a href="#straat">de straat</a> en het <a href="demo/radar/" target="_blank" rel="noopener">Radar-concept</a>, met fictieve cijfers.</p></li>
-<li data-lamp="vandaag"><span class="lamp">Werkt vandaag</span><p>Gratis <a href="gereedschap.html">gereedschap</a> dat in je browser blijft: zichtbaarheidscheck, WhatsApp-knop met QR-code, Google-voorbeeld en het Google-kaartje om 19 u.</p></li>
+<li data-lamp="vandaag"><span class="lamp">Werkt vandaag</span><p>Gratis <a href="gereedschap.html">gereedschap</a> dat in je browser blijft: zichtbaarheidscheck, WhatsApp-knop met QR-code, Google-voorbeeld, het Google-kaartje om 19 u en de openingsuren-check.</p></li>
 </ul></div>
 <div class="kaart-kolom kaart-prototype"><p class="label kaart-kop" id="kaart-prototype-h">Prototype</p><ul aria-labelledby="kaart-prototype-h">
 <li data-lamp="prototype"><span class="lamp">Prototype</span><p>Kawa: een assistent die lokaal bij ons draait en onthoudt wat hij leert.</p><p class="small">Prototype, niet op deze site, nog geen klantproduct.</p></li>
@@ -388,9 +388,9 @@
   <h2 id="snymis-titel">E&eacute;n persoon, een paar agents, en elk bericht gelezen voor het vertrekt.</h2>
   <div class="snymis-split">
     <div class="snymis-tekst">
-      <p>Ik ben Snymis. Ik werk vanuit Antwerpen, zonder kantoor en zonder verkopers, en STS Digital is een jonge zaak. Ik doe onderzoek naar AI die werk overneemt van kleine zaken, en ik gebruik dat onderzoek elke dag voor mijn eigen werk: een verkenner zoekt, een bouwer maakt het voorbeeld, en ik lees elk bericht voor het naar een zaak gaat.</p>
+      <p>Ik ben Snymis. Ik werk vanuit Antwerpen, zonder kantoor en zonder verkopers, en STS Digital is een jonge zaak. Ik doe onderzoek naar AI die werk overneemt van kleine zaken, en ik gebruik dat elke dag zelf: een verkenner zoekt zaken die klanten &rsquo;s avonds slecht vinden, een bouwer maakt met publieke gegevens een werkend voorbeeld, en ik lees elk bericht voor het naar een zaak gaat.</p>
       <p>Er zit geen team achter de schermen. De agents zoeken en bouwen; beslissen doe ik. Wat je me schrijft, lees ik zelf, en wat ik terugstuur, heb ik zelf geschreven.</p>
-      <p>Liever eerst kijken dan praten? Dat begrijp ik. Daarom staat het voorbeeld er altijd eerst, en beslis jij daarna.</p>
+      <p>Liever eerst kijken dan praten? Dat begrijp ik. Daarom staat het voorbeeld er altijd eerst, kosteloos en zonder verplichting, en beslis jij daarna. Bevalt het niet, dan stopt het daar.</p>
       <p class="snymis-wijken" data-c-wrap hidden><span class="label">Deze maand</span> <span data-c="wijken"></span></p>
     </div>
     <div class="snymis-niet">

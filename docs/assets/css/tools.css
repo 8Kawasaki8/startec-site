@@ -91,7 +91,7 @@ html[data-scene="svg"] .loketten{background:var(--bg)}
 .gk-uren{width:100%;border-collapse:collapse;margin-bottom:10px}
 .gk-uren th{text-align:left;font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);width:46px;padding:4px 0}
 .gk-uren td{padding:3px 0}
-.gk-uren input{width:100%;min-height:44px;padding:8px 12px;border:1px solid var(--line2);background:rgba(0,0,0,.25);border-radius:10px;font-size:15px;color:var(--ink)}
+.gk-uren input{width:100%;min-height:44px;padding:8px 12px;border:1px solid var(--line2);background:rgba(0,0,0,.25);border-radius:10px;font-size:16px;color:var(--ink)}   /* 16 px: iOS zoomt niet in op het veld (WP-17) */
 .gk-uren input:focus{outline:none;border-color:var(--cyan)}
 .gk{background:#fff;color:#202124;border:1px solid #dadce0;border-radius:14px;padding:14px 16px 16px;font-family:Arial,Helvetica,sans-serif;max-width:420px}
 .gk p{max-width:none}
@@ -138,12 +138,17 @@ html.is-eenpager main > :not(.eenpager){display:none}
 .eenpager-voet{margin-top:22px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
 
 @media(max-width:860px){
-  .tool,.gk-rij,.toog-kaart{grid-template-columns:1fr}
+  /* minmax(0,1fr), niet 1fr: een naam van 40 tekens in de kop (Panchang, één woord) mag de kolom nooit breder
+     maken dan het scherm; de velden en tabellen van elk loket volgen die kolom (fixronde golf 5) */
+  .tool,.gk-rij,.toog-kaart{grid-template-columns:minmax(0,1fr)}
   .zc-out{position:static}
   .out{padding:18px 14px}
   .toog-zijde{max-width:320px;width:100%;justify-self:center}
-  .eenpager-qr{grid-template-columns:1fr}
+  .eenpager-qr{grid-template-columns:minmax(0,1fr)}
 }
+/* de naam in de kop van een loket en de afgeleide host in het Google-voorbeeld (één woord zonder spatie) breken waar
+   het moet; de harnas meet gereedschap.html met een naam van 40 tekens (runner.mjs, long-name) */
+#sp-host,.serp .title,.serp .desc{overflow-wrap:anywhere}   /* [data-zaak] in de koppen en legenda's: base.css */
 
 /* ═══ LOKET 5: openingsuren per dag, feestdagen, uitzondering, drie uitvoeren (WP-14) ═══ */
 .ur-snel{margin:0 0 14px;align-items:center}
@@ -158,7 +163,7 @@ html.is-eenpager main > :not(.eenpager){display:none}
 .ur-tijden[hidden]{display:none}
 .ur-tijden .field{margin:0;min-width:0}
 .ur-tijden .field>span{font-size:12.5px;margin-bottom:4px}
-.ur-tijden input{padding:10px 10px;min-height:44px;font-size:15px;color-scheme:dark}
+.ur-tijden input{padding:10px 8px;min-height:44px;font-size:16px;color-scheme:dark}
 .ur-tijden-2{grid-template-columns:repeat(2,minmax(0,1fr));max-width:320px}
 .ur-feest{margin-bottom:18px}
 .ur-feest legend{font-size:15px;color:var(--ink)}

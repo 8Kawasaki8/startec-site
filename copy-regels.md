@@ -12,7 +12,9 @@ bouwplan (`scripts/workflows/PLAN-V5.md`, Copystrategie en Eerlijkheidsregels) e
   andere wijkpagina's zijn districten van Antwerpen.
 - Nooit (woordenlijst, scope `sts`): leuk, mobieltje, doei, hartstikke, gaaf, pinnen, KvK, iDEAL, Randstad; leads, funnel,
   conversie, onboarding, solutions (behalve in de merknaam), smart, seamless, boost, premium, KPI, ROI, 'klik hier';
-  AI-powered, AI-gedreven, slim(me), revolutionair, baanbrekend, innovatief.
+  AI-powered, AI-gedreven, slim(me), revolutionair, baanbrekend, innovatief; sinds WP-18 ook robot en chatbot (zeg wat
+  het doet: 'leest je berichten voor, stelt een antwoord voor, jij keurt goed'; de plaatshouder `{{robots}}` in
+  `src/partials/head.html` is uitgesloten).
 - 'AI-systemen' en 'automatisering' zijn geen diensten van ons en staan nergens buiten de vier juridische pagina's, ook
   niet in titels, meta-beschrijvingen, OG-tags of JSON-LD. De juridische zin wacht op het OK van de oprichter
   (`docs/CHECKLIST-SAKI.md`, punt 4). Wat er wel is, heet bij zijn naam: een verkenner, een bouwer, onderzoek.
@@ -148,7 +150,27 @@ De zelftest (`npm run lint:selftest`) bewijst dat de visitor-regel en de FAQ-kop
   oprichter naar `.qa/shots/`.
 - Eén leesbeurt door Snymis voor elke release; wat hij schrapt, komt als regel terug in dit bestand.
 
-## 11. Snel nalezen voor een commit
+## 11. Lengte en staat (WP-18)
+
+- De twee aankomstzinnen op de startpagina (de H1 en de regel eronder) en elke knop of link die een actie is, tellen
+  hoogstens 25 woorden. De aankomstzinnen dragen altijd 'Antwerpen', 'voorbeeld', 'onderzoek', 'verkenner' en 'Snymis';
+  de QA meet dat ze op 390x844 zonder scrollen in beeld staan.
+- Elke `description:` in de front matter is korter dan 155 tekens en komt op geen andere pagina voor; de wijkpagina's
+  tellen met de langste naam (Borgerhout). Een beschrijving voor zoekmachines is geen juridische tekst.
+- Een lege staat of een foutmelding is een menselijke zin met twee delen: wat er nu is of gebeurde, en wat de bezoeker
+  kan doen ('Nog niet alle zes beantwoord. Vul de open vraag in, dan rekenen we je score uit.'). Nooit enkel 'Fout' of
+  'Ongeldig'.
+- De uitkomstzin van een simulatie noemt de zaak verzonnen, telt wat er in dat scenario gebeurde en eindigt met
+  'geen voorspelling over jouw zaak' (telefoon) of 'in deze simulatie' (radar). Emotie zit in de aanloop ('Je staat te
+  bedienen ... en de telefoon gaat.'), nooit in een cijfer over de lezer.
+- Praktijk is u: de sector praktijk spreekt in de schets, het Google-kaartje en het voorbeeldbericht van De telefoon om
+  19 u met u; `names.js` (`aanspreek`) bepaalt dat, de tekstbestanden volgen.
+- Wie is Snymis (werkwijze.html) is zo'n 120 woorden in de ik-vorm en bevat enkel wat elders op de site al staat: Antwerpen,
+  geen kantoor, een jonge zaak, onderzoek naar AI die werk overneemt, de verkenner en de bouwer, elk bericht zelf gelezen,
+  eerst het voorbeeld. Geen leeftijd, geen echte naam; wat de oprichter persoonlijk wil maken staat in
+  `docs/CHECKLIST-SAKI.md`, punt D.7.
+
+## 12. Snel nalezen voor een commit
 
 1. Zegt elke zin iets wat vandaag waar is en waar de grondwaarheid het staaft?
 2. Noemt elke verzonnen zaak, elk verzonnen cijfer en elk gescript antwoord zichzelf zo, in de zin?

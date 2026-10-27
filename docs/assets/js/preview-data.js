@@ -74,10 +74,10 @@ window.STS_PREVIEW = {
   /* the sentence above the sketch: 'wacht' before a name is committed, then by how the name arrived
      (STSState.source: typed / url) or 'buur' for a fictional neighbour; {zaak} is replaced */
   zin: {
-    wacht: "Hieronder: de schets zoals ze er voor jou uitziet zodra je naam op het bord hangt. Tot dan staat er \u2018Jouw zaak\u2019 en is elke regel een voorbeeld.",
-    typed: "Dag {zaak}. Hieronder: een schets op jouw naam, en een paar verzonnen buren om mee te vergelijken. We weten niets over je zaak behalve de naam die je net typte. Snymis leest elk bericht zelf.",
-    url: "Dag {zaak}. We gebruikten enkel de naam op het kaartje; de rest typ je zelf. Hieronder: een schets op jouw naam, en een paar verzonnen buren om mee te vergelijken. Snymis leest elk bericht zelf.",
-    buur: "Dit is {zaak}: een verzonnen buur om mee te vergelijken, geen echte zaak. Typ je eigen naam en de schets komt op jouw naam. Snymis leest elk bericht zelf."
+    wacht: "Typ je naam en de schets hieronder neemt ze over. Tot dan staat er \u2018Jouw zaak\u2019 en is elke regel een voorbeeld.",
+    typed: "Dag {zaak}. Daar hangt je naam. Hieronder een schets op jouw naam, naast een paar verzonnen buren. We weten niets over je zaak behalve de naam die je net typte. Snymis leest elk bericht zelf.",
+    url: "Dag {zaak}. We gebruikten enkel de naam op het kaartje; de rest typ je zelf. Hieronder een schets op jouw naam, naast een paar verzonnen buren. Snymis leest elk bericht zelf.",
+    buur: "Dit is {zaak}: een verzonnen buur om mee te vergelijken, geen echte zaak. Typ je eigen naam en de schets hangt op jouw naam. Snymis leest elk bericht zelf."
   },
   /* visitor voice: the extra line the gevel CTA adds to the frozen 'gevel' template (STSBericht.prefill lines) */
   berichtRegel: "Een gratis voorbeeld zonder verplichting is goed; ik beslis daarna zelf.",
