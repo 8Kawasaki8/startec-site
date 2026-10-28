@@ -23,7 +23,7 @@
    Oproep: [uur, wie belt (in de woorden van de zaak), vlaggen 'wa' en/of 'tb'].
    'opener' is wat een klant naar de zaak stuurt (klantstem) en vult de WhatsApp-knop in Gereedschap.
    'antwoord' is het voorbeeldbericht dat de beller in modus 2 en 3 hoort; het staat enkel in het
-   Bericht aan Snymis (zelf in te stellen; STS stuurt niets). */
+   Bericht aan STS (zelf in te stellen; STS stuurt niets). */
 window.SIM_DAG = {
   van: "07:00", tot: "20:00", dag: "dinsdag",
   alias: { winkel: "bakker", anders: "horeca" },

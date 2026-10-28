@@ -75,7 +75,7 @@
       "id": "medewerker",
       "pattern": "\\been medewerker\\b|\\bonze medewerkers?\\b|\\been collega van ons\\b",
       "flags": "i",
-      "note": "Snymis leest zelf; er is geen medewerker"
+      "note": "Een mens leest zelf; er is geen medewerker"
     },
     {
       "id": "mobieltje",
@@ -267,13 +267,13 @@
       "doorlichting": [
         "verzonnen",
         "gesimuleerd",
-        "Snymis"
+        "mens"
       ],
       "radar": [
         "verzonnen",
         "fictief",
         "simulatie",
-        "Snymis"
+        "mens"
       ],
       "straat": [
         "verzonnen",

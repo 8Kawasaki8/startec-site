@@ -75,7 +75,7 @@ begint bij v5; v3, v3.1 en v4 staan alleen in de git-geschiedenis.
   (`wijk/diep/pad/onbestaand.html`, status 404, de Pages-host lokaal beantwoord): `<base>` naar de Pages-host, drie
   stylesheets, H1 in Panchang, 21 van 21 links naar de Pages-host, geen extern verzoek, geen overflow, op desktop en
   telefoon (`.qa/wp22/404-deep-*.png`). Juridische pagina's: de tekst binnen `<main>` verschilt met de vorige publicatie
-  (`4188ce3`) nog altijd precies met de afgesproken regels ('Snymis leest', 'Drie' in privacy en cookies, de rij
+  (`4188ce3`) nog altijd precies met de afgesproken regels ('Een mens leest', 'Drie' in privacy en cookies, de rij
   `sts-zaak`); golf 6 wijzigde er niets; de `data-c`-plaatshouders (legalName, legalForm, owner, address, kbo, vat, phone,
   whatsapp, email, hosting) staan er alle. Woordenlijst-grep over `docs/` zonder `demo/`: geen euroteken, 'AI-systemen',
   'automatisering', 'ons team', 'een medewerker', 'gegarandeerd', KvK, iDEAL, leads, funnel, 'Verzonden', TODO of lorem
@@ -140,11 +140,11 @@ ongewijzigd (`scripts/qa/fixtures/prefill.json` is onaangeroerd).
   je Google-profiel) en geen foto's of reviews meer (zie `docs/CHECKLIST-SAKI.md` D.8); het antwoord over AI zet wat
   vandaag werkt vooraan en het onderzoek erachter; de prijsvraag begint bij het gratis voorbeeld.
 - Doorlichting: de lege staten zeggen wat er komt ('Nog niets gevonden. De agent leest eerst de cijfers; de bevindingen
-  komen hier, een voor een.'); het slotblok heet 'Dezelfde blik, maar dan op jouw zaak' en de knop 'Laat Snymis kijken wat
+  komen hier, een voor een.'); het slotblok heet 'Dezelfde blik, maar dan op jouw zaak' en de knop 'Laat ons kijken wat
   een klant van mij ziet'.
 - Gereedschap: elke foutmelding en lege staat zegt wat er gebeurde en wat je doet ('Nog niet alle zes beantwoord. Vul de
   open vraag in, dan rekenen we je score uit.'; het nummerveld zegt hoe je het schrijft en wat er dan komt).
-- Hoe wij werken: 'Wie is Snymis' is 127 woorden in de ik-vorm zonder plaatshouder, enkel uit feiten die elders op de
+- Hoe wij werken: 'Wie zit erachter' is 127 woorden in de ik-vorm zonder plaatshouder, enkel uit feiten die elders op de
   site staan; de radar-statusregel zegt dat de stappen een voor een opengaan; het vierde pand in De straat is korter.
 - Wijkpagina's: de knop heet 'Typ mijn zaak op het bord' (de uitbater spreekt), het bord heet overal 'bord'.
 - Meta-beschrijvingen: elke `description:` korter dan 155 tekens en uniek (start, Doorlichting, Gereedschap, Hoe wij
@@ -182,7 +182,7 @@ ongewijzigd (`scripts/qa/fixtures/prefill.json` is onaangeroerd).
   wie een bericht van ons kreeg'), blijft in u en verwijst in één zin naar 'Zo komt u op onze radar' op werkwijze.html
   en naar de privacyverklaring; de kamer wisselt niet meer van aanspreekvorm binnen de vragenlijst.
 - Copy: de eerlijkheidszin onder de schets belooft enkel 'je echte uren en adres ... met wat je zelf al openbaar maakte'
-  (geen foto's, zoals de FAQ en `CHECKLIST-SAKI.md` D.8); 'Wie is Snymis' zegt 'Bevalt het niet, dan stopt het daar.'
+  (geen foto's, zoals de FAQ en `CHECKLIST-SAKI.md` D.8); 'Wie zit erachter' zegt 'Bevalt het niet, dan stopt het daar.'
   (de verwijdering van een geweigerd voorbeeld is D.6, nog niet beslist; de lede van werkwijze.html staat daar nu bij
   als tweede plek); de capaciteitenkaart 'Werkt vandaag' noemt de openingsuren-check als vijfde loket.
 - Harnas: de poort eerste scherm op index.html meet nu ook 'Antwerpen' en 'voorbeeld' (`budget.mjs`), zoals
@@ -299,7 +299,7 @@ schone boom (README, 'Release en QA-poort') en dan vervangt die meting deze lijs
 
 Sinds de vorige publicatie (commit `4188ce3`) veranderden in `juridisch.html`, `privacy.html`, `cookies.html` en
 `voorwaarden.html` enkel de afgesproken regels: de rij `sts-zaak`, 'Drie' in plaats van 'Twee' met de zin dat een
-zaaknaam een persoonsnaam kan zijn (cookies, privacy 2.3), 'Snymis leest' in plaats van 'Een medewerker leest'
+zaaknaam een persoonsnaam kan zijn (cookies, privacy 2.3), 'Een mens leest' in plaats van 'Een medewerker leest'
 (privacy), de datum in de front matter en de scriptlijst (`motion` -> `lite uithangbord`, techniek zonder
 tekstgevolg). Eén afwijking buiten die lijst, bewust: de meta-beschrijving van `voorwaarden.html` noemt 'AI-systemen'
 niet meer (WP-12; een beschrijving voor zoekmachines, geen voorwaarde). De kop- en voetpartials (de strip, de voet, de

@@ -1,7 +1,7 @@
 {
-  "_doel": "Het bevroren conversiecontract (docs/assets/js/contact-prefill.js): per sleutel de zin die STSBericht.phrase(key) teruggeeft en die in het Bericht-tekstvak moet staan na een klik op [data-bericht=key]. Opening: 'Dag Snymis, ik ben van {zaak} in {gemeente} ({Sectorlabel}). ' of 'Dag Snymis,' met een witregel zonder naam. Controle: node scripts/qa/fixtures.mjs.",
-  "opening": "Dag Snymis, ik ben van Frituur 't Pleintje in Deurne (Horeca). ",
-  "openingZonderNaam": "Dag Snymis,\n\n",
+  "_doel": "Het bevroren conversiecontract (docs/assets/js/contact-prefill.js): per sleutel de zin die STSBericht.phrase(key) teruggeeft en die in het Bericht-tekstvak moet staan na een klik op [data-bericht=key]. Opening: 'Dag STS, ik ben van {zaak} in {gemeente} ({Sectorlabel}). ' of 'Dag STS,' met een witregel zonder naam. Controle: node scripts/qa/fixtures.mjs.",
+  "opening": "Dag STS, ik ben van Frituur 't Pleintje in Deurne (Horeca). ",
+  "openingZonderNaam": "Dag STS,\n\n",
   "sleutels": {
     "gevel": "Ik heb mijn naam op het uithangbord getypt en de schets gezien. Mag ik het echte voorbeeld van mijn site, met mijn uren en foto's?",
     "telefoon": "Ik heb de dinsdag van de verzonnen zaak gespeeld. Als de telefoon bij mij ook overgaat terwijl ik bezig ben: kan je me tonen wat een site daaraan verandert, met mijn echte uren?",

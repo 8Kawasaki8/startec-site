@@ -7,8 +7,8 @@
    (2) cross page: a link index.html#bericht?onderwerp=<key> is read from location.hash on load.
    (3) tool prefill: gereedschap.html#whatsapp?bericht=<urlencoded> is read from location.hash only
        and fills the WhatsApp message field (#wa-msg), event 'sts:tool-prefill'.
-   (4) KEYS below are frozen. Message = 'Dag Snymis, ik ben van {zaak} in {gemeente} ({Sectorlabel}). ' +
-       template ('Dag Snymis,' + blank line + template without a name). Visitor voice (data-voice=visitor).
+   (4) KEYS below are frozen. Message = 'Dag STS, ik ben van {zaak} in {gemeente} ({Sectorlabel}). ' +
+       template ('Dag STS,' + blank line + template without a name). Visitor voice (data-voice=visitor).
        Templates only state what is true for every visitor (conditions, never facts about his business).
        Without a form on the page the message is parked in STSBericht.parked and the browser goes
        to index.html#bericht?onderwerp=<key>, with the composed lines as &r= (newline-separated,
@@ -35,8 +35,8 @@
   function zaak() { var S = window.STSState; return S ? S.get() : { zaak: "", sector: "", gemeente: "" }; }
   function sectorLabel(k) { var N = window.STSNames; return (N && N.sectorLabel(k)) || k; }
   function opening(s) {
-    if (!s.zaak) return "Dag Snymis,\n\n";
-    var t = "Dag Snymis, ik ben van " + s.zaak + (s.gemeente ? " in " + s.gemeente : "");   // the uitbater is 'van' the zaak
+    if (!s.zaak) return "Dag STS,\n\n";
+    var t = "Dag STS, ik ben van " + s.zaak + (s.gemeente ? " in " + s.gemeente : "");   // the uitbater is 'van' the zaak
     return t + (s.sector && s.sector !== "anders" ? " (" + sectorLabel(s.sector) + ")" : "") + ". ";
   }
   function compose(o) {

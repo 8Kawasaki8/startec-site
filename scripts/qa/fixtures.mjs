@@ -64,7 +64,7 @@ export function checkFixtures({ root = process.cwd() } = {}) {
   if (noName !== pre.openingZonderNaam + pre.sleutels.telefoon) fail(prefillFile, `compose zonder naam: ${JSON.stringify(noName.slice(0, 40))} begint niet met ${JSON.stringify(pre.openingZonderNaam)}`);
   w.STSState = { get: () => ({ zaak: 'Kinesist Els', sector: 'praktijk', gemeente: '', g: 0, source: 'typed' }) };
   const praktijk = B.compose({ key: 'algemeen' });
-  if (!praktijk.startsWith('Dag Snymis, ik ben van Kinesist Els (Praktijk). ')) fail(prefillFile, `compose praktijk zonder gemeente: ${JSON.stringify(praktijk.slice(0, 60))}`);
+  if (!praktijk.startsWith('Dag STS, ik ben van Kinesist Els (Praktijk). ')) fail(prefillFile, `compose praktijk zonder gemeente: ${JSON.stringify(praktijk.slice(0, 60))}`);
 
   /* ── WP-08: the Zichtbaarheidscheck scores like the old tools.js and its texts stay honest ── */
   const toolsFile = 'scripts/qa/fixtures/tools.json', Sc = w.STSScore;

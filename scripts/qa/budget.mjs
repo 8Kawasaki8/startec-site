@@ -32,7 +32,7 @@ export const DEFAULT_BUDGET = {
   clsMax: 0.1,                // WP-16: cumulative layout shift of the first load (layout-shift entries without input)
   h1PaintMaxMs: 1000,         // WP-16: the H1 has a width within this on the phone and lite routes (fixed ceiling)
   assets: { ogMaxBytes: 150_000, straatMaxBytes: 60_000, straatSize: [800, 500] },   // WP-16: static image gates
-  firstViewportWords: { 'index.html': ['Antwerpen', 'voorbeeld', 'onderzoek', 'verkenner', 'Snymis'] },   // the arrival lines (copy-regels.md ch. 11, WP-18)
+  firstViewportWords: { 'index.html': ['Antwerpen', 'voorbeeld', 'onderzoek', 'verkenner', 'mens'] },   // the arrival lines (copy-regels.md ch. 11, WP-18)
   // Per-page ceilings, filled by --measure: pages[page][profile + '/' + variant] = { raw, rawMax, jsGzip, jsGzipMax, gated }
   // and pages[page].calls[profile] = { calls, callsMax }. Absent page: only the absolute caps apply, with a notice.
   pages: {},

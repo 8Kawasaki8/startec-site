@@ -7,7 +7,7 @@
 window.STS_CONFIG = {
   company: "STS Digital",
   brand: "Star.Tec.Solutions",
-  founder: "Snymis",
+  founder: "",                 // leeg = geen naam op de site (bewuste keuze van de oprichter)
   city: "Antwerpen",
 
   // Contact — fill in before publishing.
@@ -26,7 +26,7 @@ window.STS_CONFIG = {
   hosting: "GitHub Pages (GitHub, Inc.)",   // where the site is served from; named in the privacy policy
 
   // Optional site copy (WP-02). Empty = the element that shows it stays hidden.
-  replyPromise: "",            // the only response-time promise on the site (WP-11): one sentence Snymis can keep, e.g. "Je krijgt binnen twee werkdagen antwoord van Snymis."
+  replyPromise: "",            // the only response-time promise on the site (WP-11): one sentence the founder can keep, e.g. "Je krijgt binnen twee werkdagen antwoord van ons."
                                // Shown under the Bericht form (data-c="replyPromise") only while non-empty; empty = the line stays hidden, nothing else promises a response time
   wijken: "",                  // one sentence about the gemeenten and districten we serve, e.g. "Berchem, Borgerhout, Deurne, Merksem, Hoboken, Wilrijk en Mortsel." (data-c="wijken")
   credit: "gemaakt op startec", // the opt-in credit line on exports (A6 card, score card); the visitor switches it on, default off

@@ -16,7 +16,7 @@ DOORS = [
     ("gereedschap.html", "Gereedschap", "gereedschap", "Gereedschap"),
     ("werkwijze.html", "Hoe wij werken", "werkwijze", "Werkwijze"),
 ]
-ACTION = ("index.html#bericht", "Bericht aan Snymis", "bericht", "Bericht")
+ACTION = ("index.html#bericht", "Bericht aan STS", "bericht", "Bericht")
 # ScrollTrigger and Lenis stay in docs/assets/vendor for the demo sites; no STS page loads them.
 # GSAP only where a timeline exists: index.html, simulatie.html and dev/scene.html declare 'vendor: gsap.min'.
 VENDOR_DEFAULT = ""
@@ -238,12 +238,12 @@ def json_ld(base, slug):
 def selftest():
     """Renders the JSON-LD with a filled config (what Saki will supply): every key lands, nothing raises; with an
     empty config nothing is invented (no founder, no personal mailbox, no placeholder)."""
-    full = {"legalName": "Test bv", "owner": "Snymis", "email": "a@b.be", "phone": "+32 470 00 00 00",
+    full = {"legalName": "Test bv", "owner": "Test Persoon", "email": "a@b.be", "phone": "+32 470 00 00 00",
             "address": "Teststraat 1, 2000 Antwerpen", "kbo": "0123.456.789", "vat": "BE0123456789"}
     d = json_ld_data(full, "https://example.test/")
     assert d["address"]["streetAddress"] == full["address"] and d["address"]["addressLocality"] == "Antwerpen", d
     assert d["identifier"]["value"] == full["kbo"] and d["vatID"] == full["vat"] and d["email"] == full["email"]
-    assert d["founder"]["name"] == "Snymis" and d["@type"] == "LocalBusiness" and d["@id"] == "https://example.test/#sts"
+    assert d["founder"]["name"] == "Test Persoon" and d["@type"] == "LocalBusiness" and d["@id"] == "https://example.test/#sts"
     assert "priceRange" not in json.dumps(d) and "Brussel" not in d["areaServed"]
     e = json_ld_data({"email": "iemand@gmail.com"}, "")
     assert "address" in e and "streetAddress" not in e["address"] and "url" not in e and "founder" not in e and "email" not in e

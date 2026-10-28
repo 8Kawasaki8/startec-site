@@ -1,8 +1,8 @@
-/* Kaartje voor aan de toog: the generator for Snymis, mounted only when location.search holds
+/* Kaartje voor aan de toog: the internal generator, mounted only when location.search holds
    toog=1 (gereedschap.html?toog=1), from <template data-toog-tpl> in src/rooms/gereedschap.html,
    after the public loketten and outside their tabs, with a one-line 'intern' label.
    - Fields naam, sector, gemeente (not the shared record: the shop's name must not land in
-     Snymis' own sts-zaak). The QR (STSTools.qr, local qrcode.min.js) carries
+     the founder's own sts-zaak). The QR (STSTools.qr, local qrcode.min.js) carries
      {root}index.html?zaak=..&sector=..&gemeente=..#gevel, empty fields left out, so scanning lights
      the sign with that name and the gevel room shows the card variant of its honesty sentence.
    - The card has a front (name, QR) and a back with the printed line 'We gebruikten enkel je naam.

@@ -75,9 +75,9 @@ window.STS_PREVIEW = {
      (STSState.source: typed / url) or 'buur' for a fictional neighbour; {zaak} is replaced */
   zin: {
     wacht: "Typ je naam en de schets hieronder neemt ze over. Tot dan staat er \u2018Jouw zaak\u2019 en is elke regel een voorbeeld.",
-    typed: "Dag {zaak}. Daar hangt je naam. Hieronder een schets op jouw naam, naast een paar verzonnen buren. We weten niets over je zaak behalve de naam die je net typte. Snymis leest elk bericht zelf.",
-    url: "Dag {zaak}. We gebruikten enkel de naam op het kaartje; de rest typ je zelf. Hieronder een schets op jouw naam, naast een paar verzonnen buren. Snymis leest elk bericht zelf.",
-    buur: "Dit is {zaak}: een verzonnen buur om mee te vergelijken, geen echte zaak. Typ je eigen naam en de schets hangt op jouw naam. Snymis leest elk bericht zelf."
+    typed: "Dag {zaak}. Daar hangt je naam. Hieronder een schets op jouw naam, naast een paar verzonnen buren. We weten niets over je zaak behalve de naam die je net typte. Een mens leest elk bericht zelf.",
+    url: "Dag {zaak}. We gebruikten enkel de naam op het kaartje; de rest typ je zelf. Hieronder een schets op jouw naam, naast een paar verzonnen buren. Een mens leest elk bericht zelf.",
+    buur: "Dit is {zaak}: een verzonnen buur om mee te vergelijken, geen echte zaak. Typ je eigen naam en de schets hangt op jouw naam. Een mens leest elk bericht zelf."
   },
   /* visitor voice: the extra line the gevel CTA adds to the frozen 'gevel' template (STSBericht.prefill lines) */
   berichtRegel: "Een gratis voorbeeld zonder verplichting is goed; ik beslis daarna zelf.",

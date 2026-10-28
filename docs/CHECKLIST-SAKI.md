@@ -14,7 +14,7 @@ Daarom is de ene controle die telt op de pc die vroeger bevroor, voor jou:
 1. Open `index.html?debug=1` (op de gepubliceerde site: `https://8kawasaki8.github.io/startec-site/?debug=1`) in
    een nieuw privévenster, zodat de intro speelt.
 2. Laat de intro lopen tot het bord staat.
-3. Klik twee deuren in de strip (bijvoorbeeld 'De telefoon om 19 u' en dan 'Bericht aan Snymis'), zodat de camera
+3. Klik twee deuren in de strip (bijvoorbeeld 'De telefoon om 19 u' en dan 'Bericht aan STS'), zodat de camera
    twee keer vliegt.
 4. Maak een schermafbeelding van het kleine zwarte paneel met de cijfers (de debug-overlay: regels `frames`,
    `longtasks`, `bloom`, `calls`) en stuur ze door.
@@ -42,7 +42,7 @@ Een lege waarde verbergt het element dat ze toont (voet, juridische rijen, de an
 | `kbo` | ondernemingsnummer | leeg | rij op juridisch.html |
 | `vat` | btw-nummer of de vrijstellingsregel voor kleine ondernemingen | leeg | rij op juridisch.html |
 | `replyPromise` | de ene zin over antwoordtijd die je echt waarmaakt | leeg | de zin onder het Bericht-formulier; leeg = geen belofte, nergens |
-| `wijken` | de gemeenten en districten waar je deze maand langsgaat | leeg | de regel 'Deze maand' in de kamer Wie is Snymis en 'Snymis komt hier langs' op die wijkpagina's |
+| `wijken` | de gemeenten en districten waar je deze maand langsgaat | leeg | de regel 'Deze maand' in de kamer Wie zit erachter en 'Wij komen hier langs' op die wijkpagina's |
 | `emailjs.*` | directe verzending via een derde | leeg, en dat blijft zo | niet invullen: het zou een extern verzoek toevoegen, en de site belooft er geen te doen |
 
 Art. XII.6 WER vraagt naam, rechtsvorm, adres, ondernemingsnummer en btw-nummer zodra de site diensten aanbiedt;
@@ -52,7 +52,7 @@ Art. XII.6 WER vraagt naam, rechtsvorm, adres, ondernemingsnummer en btw-nummer 
 
 Sinds de vorige publicatie (commit `4188ce3`) veranderden in de vier juridische pagina's alleen deze zinnen, allemaal
 door WP-02 en WP-12 afgesproken: de rij `sts-zaak` en 'Drie' met de zin over een persoonsnaam in cookies.html, 'Drie'
-in privacy 2.3, 'Snymis leest' in plaats van 'Een medewerker leest' in privacy, de datum in de kop, en de
+in privacy 2.3, 'Een mens leest' in plaats van 'Een medewerker leest' in privacy, de datum in de kop, en de
 meta-beschrijving van voorwaarden.html die 'AI-systemen' niet meer noemt (een beschrijving voor zoekmachines, geen
 voorwaarde; de regel 'nooit AI-systemen in titels, meta-beschrijvingen of OG-tags' ging voor). De zichtbare
 juridische tekst zelf is verder onaangeroerd. Deze punten wachten:
@@ -95,7 +95,7 @@ juridische tekst zelf is verder onaangeroerd. Deze punten wachten:
 1. **Wettelijke identiteit** (B): rechtsvorm, adres, KBO, btw, verantwoordelijke uitgever. Vóór de site een offerte
    aanbiedt.
 2. **Zakelijk e-mailadres en WhatsApp Business-nummer** (B). Met WhatsApp gevuld wordt het Bericht WhatsApp-eerst.
-3. **`replyPromise`** (B): bijvoorbeeld 'Je krijgt meestal binnen een werkdag antwoord van Snymis.' Alleen als je dat
+3. **`replyPromise`** (B): bijvoorbeeld 'Je krijgt meestal binnen een werkdag antwoord van ons.' Alleen als je dat
    ook op een drukke week haalt; anders leeg laten.
 4. **Eén ware zin per prototype** voor de capaciteitenkaart op werkwijze.html (`src/data/capabilities.json`, lamp
    `prototype`). Nu, enkel uit je eigen woorden: *'Kawa: een assistent die lokaal bij ons draait en onthoudt wat hij
@@ -104,13 +104,13 @@ juridische tekst zelf is verder onaangeroerd. Deze punten wachten:
 5. **De echte eerste-contacttekst** die de pijplijn na jouw goedkeuring stuurt, in u-vorm, zonder prijs:
    `src/data/radar-bericht.json`, veld `regels` (met `{aanleiding}` als plaatshouder per zaak), en `echt` op `true`. Het
    label in de replay wordt dan 'zo schrijven we echt'; tot dan staat er 'voorbeeldbericht (ontwerp)'. Het ontwerp
-   van vandaag begint met 'Dag,' en eindigt met 'Snymis, STS Digital, Antwerpen'; lees het na.
+   van vandaag begint met 'Dag,' en eindigt met 'STS Digital, Antwerpen'; lees het na.
 6. **Wat er gebeurt met een gebouwd voorbeeld dat je niet stuurt**: meteen weg, na 30 dagen, of privé bewaard. Tot je
    dat zegt, zegt de replay na 'Niet sturen' enkel 'Dan vertrekt er niets. Ook in het echt niet.' en citeert de site
    privacy 2.2 alleen voor het geval zonder reactie. Zodra je kiest, komt de zin in de replay én in privacy 2.2 (C.8),
    en dan ook in de lede van werkwijze.html ('Bevalt het niet, dan verdwijnt het weer.', de enige plek die nu al een
    beleid noemt; de kamers Snymis en Bericht zeggen enkel 'dan stopt het daar').
-7. **Een foto van jezelf** (of een vaste illustratie) voor de kamer 'Wie is Snymis' op werkwijze.html. De tekst staat er
+7. **Een foto van jezelf** (of een vaste illustratie) voor de kamer 'Wie zit erachter' op werkwijze.html. De tekst staat er
    sinds WP-18 zonder plaatshouder: 127 woorden in de ik-vorm in `src/rooms/snymis.html`, enkel uit wat elders op de site
    al staat (Antwerpen, geen kantoor, een jonge zaak, onderzoek naar AI die werk overneemt, de verkenner en de bouwer, elk
    bericht zelf gelezen, eerst het voorbeeld). Wat alleen jij kan toevoegen, in je eigen woorden en zonder echte naam:

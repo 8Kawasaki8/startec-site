@@ -6,7 +6,7 @@
    we kijken, geen meting'. 3 Bouwen: three public-data cards slide (transform) into view next to a phone
    frame drawn by STSPreview.render. 4 Lezen: the first-contact draft rendered by build.py from
    radar-bericht.json ({zaak} and {gemeente} are replaced with the neighbour here), status 'Wacht op
-   goedkeuring van Snymis', two buttons with honest outcomes; the privacy 2.2 readout shows only after
+   goedkeuring van een mens', two buttons with honest outcomes; the privacy 2.2 readout shows only after
    Goedkeuren (the no-reaction case) and never after Niet sturen.
    Autoplay: the stations open one by one (1.8 s apart) once the stepper itself is half in view (one
    IntersectionObserver on the first station, disconnected after its first hit), never on the room's enter
@@ -31,7 +31,7 @@
   var instant = reduce || lite, STEP_MS = 1800, CIRC = 326.7;
   var st = { sector: "anders", chosen: false, over: {}, open: 0, timer: 0, playing: false, done: false, off: true, seen: false, decided: "" };
   var TPL = { onderwerp: E.onderwerp ? E.onderwerp.textContent : "", regels: [].map.call(E.tekst.querySelectorAll("p"), function (p) { return p.textContent; }) };
-  var UIT = { ja: "Goedgekeurd in deze simulatie. In het echt beslist Snymis, en er vertrekt niets vanzelf.", nee: "Dan vertrekt er niets. Ook in het echt niet." };
+  var UIT = { ja: "Goedgekeurd in deze simulatie. In het echt beslist een mens, en er vertrekt niets vanzelf.", nee: "Dan vertrekt er niets. Ook in het echt niet." };
 
   /* ── the neighbour of the current sector ─────────────────────────────── */
   function buur() {
@@ -106,7 +106,7 @@
     E.brief.classList.toggle("is-ja", keur === "ja"); E.brief.classList.toggle("is-nee", keur === "nee");
     E.uitkomst.textContent = keur ? UIT[keur] : "";
     E.readout.hidden = keur !== "ja";
-    E.briefStatus.textContent = keur === "ja" ? "Gelezen en goedgekeurd door Snymis (simulatie)" : keur === "nee" ? "Niet gestuurd (simulatie)" : "Wacht op goedkeuring van Snymis";
+    E.briefStatus.textContent = keur === "ja" ? "Gelezen en goedgekeurd door een mens (simulatie)" : keur === "nee" ? "Niet gestuurd (simulatie)" : "Wacht op goedkeuring van een mens";
     qa("[data-rs-keur]").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-rs-keur") === keur ? "true" : "false"); });
   }
 

@@ -95,7 +95,7 @@
       }).then(function (r) {
         btn.disabled = false;
         if (!r.ok) throw new Error(r.status);
-        form.reset(); show(ok, "Je bericht is aangekomen bij Snymis. Hij leest het zelf."); ok.focus();
+        form.reset(); show(ok, "Je bericht is aangekomen bij STS. Een mens leest het zelf."); ok.focus();
       }).catch(function () {
         btn.disabled = false;
         fail("Versturen lukte niet. Probeer opnieuw, of stuur je bericht rechtstreeks" + (hasMail ? " naar " + C.email : "") + ".");
@@ -119,7 +119,7 @@
   function deelTekst() {
     return "Dag, ken je dit al? Op " + pageUrl() + " typ je de naam van je zaak op een uithangbord en zie je meteen een schets van een site, " +
       "met wat een klant om 19 u zoekt. Er is ook gratis gereedschap voor je zaak: een WhatsApp-knop met QR-code en een zichtbaarheidscheck. " +
-      "De man erachter, Snymis uit Antwerpen, leest elk bericht zelf. Misschien iets voor jou.";
+      "De oprichter, uit Antwerpen, leest elk bericht zelf. Misschien iets voor jou.";
   }
   maak.addEventListener("click", function () {
     deel.value = deelTekst();

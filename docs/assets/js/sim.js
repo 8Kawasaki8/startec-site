@@ -107,7 +107,7 @@
   function setPhase(s) { E.phase.textContent = s; }
   function showFinding(i) { E.findEmpty.hidden = true; S.finds[i].hidden = false; E.findCount.textContent = (i + 1) + " van 4"; E.finds.scrollTop = E.finds.scrollHeight; }
   function showAdvice() { S.advs.forEach(function (a) { a.hidden = false; }); E.advNote.textContent = "Drie acties, gerangschikt op impact. " + D.advice_note.charAt(0).toUpperCase() + D.advice_note.slice(1) + "."; }
-  function humanWait() { E.human.classList.add("wait"); E.humState.textContent = "Wacht op goedkeuring van Snymis"; }
+  function humanWait() { E.human.classList.add("wait"); E.humState.textContent = "Wacht op goedkeuring van een mens"; }
   function scrollLog() { E.log.scrollTop = E.log.scrollHeight; }
   /* the context line: the visitor's name appears here and nowhere else in the room */
   function contextLine() {
@@ -182,10 +182,10 @@
     var lab = tl.currentLabel() || ""; if (lab !== S.label) { S.label = lab; if (flap) flap.set(lab); }
   }
   function done() {
-    S.status = "done"; E.room.classList.remove("running"); setPhase("klaar · wacht op Snymis");
+    S.status = "done"; E.room.classList.remove("running"); setPhase("klaar · wacht op een mens");
     if (S.tl) { var last = phases(S.tl).pop(); S.tl.kill(); S.tl = null; if (flap && last && S.label !== last) { S.label = last; flap.set(last); } }
     E.tabs.querySelectorAll("button").forEach(function (t) { t.classList.add("can", "done"); });
-    if (E.live) E.live.textContent = "Doorlichting van " + biz().name + " klaar: vier bevindingen en drie acties. Wacht op goedkeuring van Snymis; er vertrekt niets automatisch.";
+    if (E.live) E.live.textContent = "Doorlichting van " + biz().name + " klaar: vier bevindingen en drie acties. Wacht op goedkeuring van een mens; er vertrekt niets automatisch.";
     emit("status");
   }
   function finish() {                                  /* skip to the end (also the reduced-motion path) */

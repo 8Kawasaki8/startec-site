@@ -5,7 +5,7 @@
       "id": "vandaag",
       "token": "Werkt vandaag",
       "items": [
-        { "html": "De werkwijze hierboven: een verkenner zoekt, een bouwer maakt het voorbeeld en Snymis keurt elk bericht goed voor het vertrekt." },
+        { "html": "De werkwijze hierboven: een verkenner zoekt, een bouwer maakt het voorbeeld en een mens keurt elk bericht goed voor het vertrekt." },
         { "html": "Een gratis, werkend voorbeeld van een website, gemaakt met publieke gegevens, met een eerlijke blik op het Google-profiel en op hoe de huidige site op een gsm laadt." },
         { "html": "De <a href=\"simulatie.html\">Doorlichting</a>: een agent leest de cijfers van een verzonnen zaak, op deze site." },
         { "html": "Drie verzonnen zaken in <a href=\"#straat\">de straat</a> en het <a href=\"demo/radar/\" target=\"_blank\" rel=\"noopener\">Radar-concept</a>, met fictieve cijfers." },
@@ -50,7 +50,7 @@
           "tekst": "Een klant stuurt een foto van de werf of een spraakbericht van twee minuten. Daaruit zou een eerste opzet kunnen komen die jij nakijkt en aanvult voor er iets vertrekt. We onderzoeken het; we beloven het niet.",
           "bericht": "algemeen",
           "onderwerp": "Offerte-opzet uit een foto (onderzoek)",
-          "cta": "Vertel Snymis hoe jij offertes maakt"
+          "cta": "Vertel ons hoe jij offertes maakt"
         },
         {
           "id": "probleem",

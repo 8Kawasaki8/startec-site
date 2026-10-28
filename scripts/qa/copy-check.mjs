@@ -2,7 +2,7 @@
 // Usage: node scripts/qa/copy-check.mjs [--pages a.html,b.html] [--shots] [--port 8793] [--out .qa] [--json]
 // Static part (on the HTML files): the slogan exactly twice on index.html and once on every other page, no euro sign
 // and no 'AI-systemen' / 'automatisering voor' outside the four legal pages (OG tags included), 'ons team' and
-// 'een medewerker' nowhere, 'Snymis' on every page that holds a room, og.png 1200x630 under 300 kB.
+// 'een medewerker' nowhere, 'Snymis' nowhere (the founder stays anonymous), og.png 1200x630 under 300 kB.
 // Rendered part (Playwright, desktop 1440x900 and phone 390x844, intro skipped): no element with computed colour
 // #36E8FF carries more than one line of text (text height, without tap-target padding, <= 1.6 x font-size and one
 // client rect, so an inline link may not straddle a line break either), 'jullie' only inside data-voice=visitor,
@@ -46,7 +46,7 @@ for (const page of pages) {
   if (!legal && /€|&euro;|&#8364;/.test(html)) fail(page, 'euro', 'euroteken buiten de juridische pagina\'s');
   if (!legal) for (const w of ['AI-systemen', 'automatisering voor']) if (html.includes(w)) fail(page, 'dienst', `'${w}' staat in de HTML (ook OG-tags tellen)`);
   for (const w of ['ons team', 'een medewerker']) if (new RegExp('\\b' + w + '\\b', 'i').test(html)) fail(page, 'persona', `'${w}' staat in de HTML`);
-  if (html.includes('data-room') && !html.includes('Snymis')) fail(page, 'snymis', 'een pagina met kamers zonder Snymis');
+  if (html.includes('data-room') && /Snymis/.test(html)) fail(page, 'snymis', 'de naam Snymis staat op de site (oprichter blijft anoniem)');
 }
 const og = join(DOCS, 'assets', 'img', 'og.png');
 if (!existsSync(og)) fail('assets/img/og.png', 'og', 'ontbreekt');

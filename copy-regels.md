@@ -29,12 +29,16 @@ bouwplan (`scripts/workflows/PLAN-V5.md`, Copystrategie en Eerlijkheidsregels) e
   markeert die met `u`; `[data-aanspreek]` krijgt je of u).
 - Binnen één `<section>` of kamer wisselt de aanspreking nooit. Een u-blok heeft een eigen kop en `role="region"`.
 
-## 3. Persona: Snymis, en 'wij' één keer uitgelegd
+## 3. Persona: anoniem, en 'wij' één keer uitgelegd
+
+- BESLISSING (2026-10-28): de naam 'Snymis' staat nergens op de site. De site spreekt als STS ('wij', 'ons'); de
+  goedkeuringsbelofte blijft letterlijk via 'een mens' of 'de oprichter'. copy-check.mjs faalt als 'Snymis' terugkomt.
+  De regels hieronder over Snymis gelden niet meer; lees 'de oprichter' waar 'Snymis' staat.
 
 - Snymis is de enige naam en altijd een echte persoon die alles leest. Geen echte naam tot de oprichter die aanlevert
   (config.js `owner`), geen foto tot hij er een geeft.
 - 'Wij' betekent Snymis plus zijn agents (verkenner, bouwer). Dat staat één keer uitgelegd, in de lede van
-  `werkwijze.html`; de kamer 'Wie is Snymis' spreekt in de eerste persoon en herhaalt die uitleg niet.
+  `werkwijze.html`; de kamer 'Wie zit erachter' spreekt in de eerste persoon en herhaalt die uitleg niet.
 - Nooit: 'ons team', 'een medewerker', 'onze medewerkers', 'het team van'. 'Geen team van tien' mag: het ontkent.
 - STS spreekt één uitbater nooit met 'jullie' aan. De lint verbiedt 'jullie' in STS-stem; zie hoofdstuk 4 voor de
   twee stemmen die wél 'jullie' zeggen.
@@ -46,7 +50,7 @@ woordenlijst slaat ze over voor de regels in STS-stem (en alleen daarvoor: sim-r
 
 | attribuut | wie spreekt | waar |
 | --- | --- | --- |
-| `data-voice="visitor"` | de uitbater zelf | het tekstvak van het Bericht (voorinvulling 'Dag Snymis, ik ben ... Mag ik ...?'), de deeltekst, titel en beschrijving in het Google-voorbeeld, de afwezigheidstekst van de openingsuren-check |
+| `data-voice="visitor"` | de uitbater zelf | het tekstvak van het Bericht (voorinvulling 'Dag STS, ik ben ... Mag ik ...?'), de deeltekst, titel en beschrijving in het Google-voorbeeld, de afwezigheidstekst van de openingsuren-check |
 | `data-voice="customer"` | een klant tegen een zaak | de klantvragen in de proef 'Zo zou een assistent kunnen antwoorden' ('Zijn jullie vanavond open?'), het WhatsApp-bericht dat de klant naar de zaak stuurt |
 | `data-voice="pand"` | de verzonnen oude site van een pand | de `oude gevel` in De straat (`docs/assets/img/oud-*.svg`, inline gezet door `scripts/builddata.py`): een site uit 2011 die met opzet fout is ('klik hier', geen belknop) |
 | `details > summary` | de bezoeker die een vraag stelt | de FAQ-koppen in de kamer Bericht ('Werken jullie ook buiten Antwerpen?'); het antwoord eronder is STS-stem |
@@ -73,7 +77,7 @@ De zelftest (`npm run lint:selftest`) bewijst dat de visitor-regel en de FAQ-kop
   het databestand (`sim-dag-data.js`, `sim-data.js`, `assistent-dialoog.js`, `lab-reviews-data.js`).
 - Binnen `data-sim` nooit: studie, 'onderzoek toont', rapport, statistiek, 'volgens de cijfers van', sectorcijfers als
   dreigement. De methode mag echt heten; de cijfers heten verzonnen.
-- De goedkeuring door een mens blijft letterlijk: 'Snymis keurt het advies goed voor het naar de zaak gaat', 'Er vertrekt
+- De goedkeuring door een mens blijft letterlijk: 'Een mens keurt het advies goed voor het naar de zaak gaat', 'Er vertrekt
   niets automatisch, ook in deze simulatie niet', en na 'Niet sturen': 'Dan vertrekt er niets. Ook in het echt niet.'
 - Het eerste-contactbericht heet 'voorbeeldbericht (ontwerp)' tot de oprichter de echte tekst levert (`echt: true`).
 - De assistent-proef noemt nooit Kawa; prototypes dragen enkel de ene zin van de oprichter en de voetzin 'Prototype,
@@ -87,7 +91,7 @@ De zelftest (`npm run lint:selftest`) bewijst dat de visitor-regel en de FAQ-kop
 - Geen tellers, geen 'reeds N zaken', geen testimonials, geen klantenlogo's, geen badges, geen urgentie ('laatste kans',
   'beperkte tijd'), geen vooraf aangevinkte vakjes. Vijf gevulde sterren alleen naast het woord 'voorbeeld'.
 - Geen 'Verzonden'-staat: het formulier opent de mail- of WhatsApp-app en zegt dat ('Dit opent je mail- of WhatsApp-app.
-  Snymis leest het zelf.'). De enige belofte over antwoordtijd is `config.replyPromise`; leeg betekent geen belofte.
+  Een mens leest het zelf.'). De enige belofte over antwoordtijd is `config.replyPromise`; leeg betekent geen belofte.
 - De gevelschets belooft alleen wat het gratis voorbeeld bevat (naam, uren, adres, bel- en WhatsApp-knop,
   plaatshouders), elke regel gemarkeerd 'voorbeeld'; nooit 'garantie', 'live uit je agenda', '24 uur'.
 - De eerlijkheidszin van de gevel volgt hoe de naam binnenkwam: getypt ('behalve de naam die je net typte') of via
@@ -95,7 +99,7 @@ De zelftest (`npm run lint:selftest`) bewijst dat de visitor-regel en de FAQ-kop
   naam', want de buren zijn verzonnen.
 - Capaciteiten volgen de grondwaarheid: werkt vandaag (pijplijn met goedkeuring, gratis voorbeeld, Doorlichting,
   Radar-concept, demo's, gereedschap), prototype (Kawa, sts-world, webshot: niet op deze site), de rest in onderzoek.
-- 'Kom eens langs' alleen als het waar is (oprichter beslist); 'Snymis komt hier langs' op een wijkpagina alleen via
+- 'Kom eens langs' alleen als het waar is (oprichter beslist); 'Wij komen hier langs' op een wijkpagina alleen via
   `config.wijken`.
 
 ## 7. Leus, merkregel en de voet
@@ -126,12 +130,12 @@ De zelftest (`npm run lint:selftest`) bewijst dat de visitor-regel en de FAQ-kop
 ## 9. Microcopy
 
 - Knoppen zijn beleefde werkwoorden in de eerste persoon van de bezoeker of een uitnodiging: 'Hang mijn bord op', 'Laat
-  Snymis het echte voorbeeld bouwen', 'Speel de dinsdag', 'Start de doorlichting', 'Stuur een berichtje', 'Zet op het
-  bord', 'Bespreek dit met Snymis'. Nooit 'Verstuur', 'Submit', 'Klik hier', 'Meer info'.
-- Formulier: label 'Wat mogen we voor je bekijken?'; status 'Dit opent je mail- of WhatsApp-app. Snymis leest het zelf.';
+  ons het echte voorbeeld bouwen', 'Speel de dinsdag', 'Start de doorlichting', 'Stuur een berichtje', 'Zet op het
+  bord', 'Bespreek dit met ons'. Nooit 'Verstuur', 'Submit', 'Klik hier', 'Meer info'.
+- Formulier: label 'Wat mogen we voor je bekijken?'; status 'Dit opent je mail- of WhatsApp-app. Een mens leest het zelf.';
   na het openen: 'Je mail- of WhatsApp-app zou nu open moeten staan, met je bericht erin.'
 - Voorinvullingen schrijft `contact-prefill.js` uit één sjabloon per sleutel, zoals de uitbater het zou schrijven:
-  'Dag Snymis, ik ben van {zaak} in {gemeente} ({Sector}).' Ze dragen `data-voice="visitor"`.
+  'Dag STS, ik ben van {zaak} in {gemeente} ({Sector}).' Ze dragen `data-voice="visitor"`.
 - Opslag: 'Blijft in je browser. We sturen niets.' Nooit 'veilig opgeslagen', nooit 'wij bewaren'.
 - Het gereedschap zegt wat het is: 'zelfinschatting' op de scorekaart, 'niet live van Google' bij het kaartje, 'Dit is
   wat de klant naar jou stuurt' bij WhatsApp, 'zelf in te stellen; wij sturen niets' bij het afwezigheidsbericht.
@@ -165,7 +169,7 @@ De zelftest (`npm run lint:selftest`) bewijst dat de visitor-regel en de FAQ-kop
   bedienen ... en de telefoon gaat.'), nooit in een cijfer over de lezer.
 - Praktijk is u: de sector praktijk spreekt in de schets, het Google-kaartje en het voorbeeldbericht van De telefoon om
   19 u met u; `names.js` (`aanspreek`) bepaalt dat, de tekstbestanden volgen.
-- Wie is Snymis (werkwijze.html) is zo'n 120 woorden in de ik-vorm en bevat enkel wat elders op de site al staat: Antwerpen,
+- Wie zit erachter (werkwijze.html) is zo'n 120 woorden in de ik-vorm en bevat enkel wat elders op de site al staat: Antwerpen,
   geen kantoor, een jonge zaak, onderzoek naar AI die werk overneemt, de verkenner en de bouwer, elk bericht zelf gelezen,
   eerst het voorbeeld. Geen leeftijd, geen echte naam; wat de oprichter persoonlijk wil maken staat in
   `docs/CHECKLIST-SAKI.md`, punt D.7.

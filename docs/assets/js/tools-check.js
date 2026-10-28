@@ -2,7 +2,7 @@
    - The questions name the business through [data-zaak] (hydrate.js); the score is STSScore.score
      of the six values (0, 50, 100), the three lowest answers give the three steps (STSScore.worst).
    - Three result texts by band; the strong one sells nothing: it says to keep the hours
-     and the profile right and to send Snymis a note when someone should look along.
+     and the profile right and to send us a note when someone should look along.
    - The result CTA gets data-bericht=zichtbaarheid only once a score exists (before that there is
      nothing to send) and adds one visitor-voice line with the score to the frozen template
      (STSBericht.prefill lines); the quiet line at the end of the loket is always there.
@@ -27,7 +27,7 @@
   var TEKST = {
     laag: ["Onzichtbaar voor wie 's avonds zoekt.", "Klanten vinden je niet, of vinden verkeerde informatie. Het goede nieuws: elk van de drie stappen hieronder kan je deze week zelf zetten."],
     midden: ["Zichtbaar, maar je laat klanten liggen.", "De basis staat er. Een paar gerichte stappen maken het verschil tussen gevonden worden en gebeld worden."],
-    hoog: ["Sterk. Je bent vindbaar en bereikbaar.", "Hou je uren en je Google-profiel juist, en antwoord op reviews; wil je dat iemand meekijkt, stuur Snymis een berichtje."]
+    hoog: ["Sterk. Je bent vindbaar en bereikbaar.", "Hou je uren en je Google-profiel juist, en antwoord op reviews; wil je dat iemand meekijkt, stuur ons een berichtje."]
   };
   var res = $("zc-res"), hint = $("zc-hint"), err = $("zc-err"), cta = $("zc-cta"), api = window.STSCheck = { last: null, TIPS: TIPS, TEKST: TEKST };
 

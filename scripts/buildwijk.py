@@ -9,7 +9,7 @@ The template's front matter and body carry these placeholders:
   {{soortzin}} {{rond}}   'een district van Antwerpen' + 'van de stad' / 'een gemeente naast Antwerpen' + 'rond de stad'
   {{sectoren}}            the three trades in the buyer's words, 'a, b en c'
   {{sfeerzin}}            a line that is dropped while the founder's sentence is empty
-  {{langs}}               'Snymis komt hier langs' only when config.js wijken names the gemeente
+  {{langs}}               'Wij komen hier langs' only when config.js wijken names the gemeente
 Rules checked here, so a wrong data file breaks the build instead of the page: known slug, soort and
 sector keys, exactly three sectors, no digits in naam or sfeerzin, no duplicate slugs. Stdlib only."""
 import html as H, json, pathlib, re, urllib.parse
@@ -27,9 +27,9 @@ SOORTEN = {
     "district": {"label": "District van Antwerpen", "zin": "een district van Antwerpen", "rond": "van de stad"},
     "gemeente": {"label": "Gemeente naast Antwerpen", "zin": "een gemeente naast Antwerpen", "rond": "rond de stad"},
 }
-LANGS = ('  <p class="wijk-langs" data-wijk-langs>Snymis komt hier langs. Wil je het voorbeeld liever aan de toog bekijken '
+LANGS = ('  <p class="wijk-langs" data-wijk-langs>Wij komen hier langs. Wil je het voorbeeld liever aan de toog bekijken '
          'dan op een scherm, zeg het in je bericht; hij komt het zelf tonen.</p>')
-SFEER = '  <p class="wijk-sfeer" data-sfeerzin><span class="label">Snymis over %s</span>%s</p>'
+SFEER = '  <p class="wijk-sfeer" data-sfeerzin><span class="label">STS over %s</span>%s</p>'
 
 
 def e(s):

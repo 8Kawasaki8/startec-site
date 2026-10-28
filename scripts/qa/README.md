@@ -102,7 +102,7 @@ Bijzonderheden:
 - Conversiecontract: de harnas klikt elk `[data-bericht]` met een proefzaak in `sessionStorage.sts-zaak`
   (`{naam:'Proefzaak QA', ...}`) en controleert dat het Bericht-tekstvak de zaaknaam en de sleutelzin
   (`STSBericht.phrase(key)`) bevat (`window.STSBericht.prefill` bestaat sinds WP-02).
-- Eerste scherm: `budget.firstViewportWords` (voor index.html: 'onderzoek', 'verkenner', 'Snymis') moet zichtbaar
+- Eerste scherm: `budget.firstViewportWords` (voor index.html: 'onderzoek', 'verkenner', 'mens') moet zichtbaar
   zijn zonder scrollen. De helper `firstViewport(words)` in `checks.mjs` is herbruikbaar.
 - Dock (`dock`, telefoon): minstens vier van de vijf deuren volledig in beeld (drie op een pagina met een eigen
   deur, die dan zelf in beeld staat met `aria-current=page`), elke deur minstens 44x44 px, de actie in beeld.

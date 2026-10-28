@@ -15,7 +15,7 @@ window.SIM_DATA = {
   agents: ["verkenner", "meter", "lezer", "planner"],
   months: ["nov", "dec", "jan", "feb", "mrt", "apr", "mei", "jun", "jul", "aug", "sep", "okt"],
   advice_note: "schatting op gesimuleerde data",
-  end_line: "Advies klaar. Wacht op goedkeuring van Snymis. Er vertrekt niets automatisch.",
+  end_line: "Advies klaar. Wacht op goedkeuring van een mens. Er vertrekt niets automatisch.",
   businesses: {
     noordpool: {
       name: "Bakkerij Noordpool", place: "Borgerhout", kind: "bakkerij", sector: "bakker",

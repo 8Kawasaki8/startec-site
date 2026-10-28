@@ -32,7 +32,7 @@ export const places = {
      under the panel's edge and the landmark stays whole in the frame. */
   telefoon:     { ...ring(29, -34, HERO.h + 5, [HERO.x, SIGN_Y - 0.25, HERO.z]), label: "De telefoon om 19 u" },
   buren:        { ...ring(42, 38, HERO.h + 3, [HERO.x, SIGN_Y + 1.9, HERO.z]), label: "De buren" },
-  bericht:      { ...ring(42, 14, HERO.h + 9, [HERO.x, SIGN_Y + 1.9, HERO.z]), label: "Bericht aan Snymis" },
+  bericht:      { ...ring(42, 14, HERO.h + 9, [HERO.x, SIGN_Y + 1.9, HERO.z]), label: "Bericht aan STS" },
   doorlichting: { ...ring(28, -42, HERO.h + 12, [HERO.x, HERO.h - 1, HERO.z]), label: "Doorlichting" },
   gereedschap:  { ...ring(25, 46, HERO.h + 6, [HERO.x, HERO.h - 1, HERO.z]), label: "Gereedschap" },
   werkwijze:    { ...ring(30, -12, HERO.h + 14, [HERO.x, HERO.h - 1, HERO.z]), label: "Werkwijze" }
