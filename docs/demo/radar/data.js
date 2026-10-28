@@ -75,8 +75,8 @@ window.RADAR = (function () {
     { a: "verkenner", t: "Deurne doorzocht: 212 zaken, 71 zonder website" },
     { a: "meter",     t: "Fietsen De Spaak: site uit 2019, mobiel onleesbaar, score 35/100" },
     { a: "bouwer",    t: "voorbeeld klaar voor Wasserette Blauwzeep (laadtijd 0,8 s)" },
-    { a: "planner",   t: "6 kandidaten in de wachtrij voor goedkeuring door Snymis" },
-    { a: "mens",      t: "Snymis: 4 berichten goedgekeurd, 1 aangepast, 1 afgewezen" },
+    { a: "planner",   t: "6 kandidaten in de wachtrij voor goedkeuring door een mens" },
+    { a: "mens",      t: "Mens: 4 berichten goedgekeurd, 1 aangepast, 1 afgewezen" },
     { a: "meter",     t: "Loodgieterij Waterval: niet gevonden op kaarten, score 9/100" },
     { a: "verkenner", t: "scan Ekeren gestart: 148 adressen in de wachtrij" },
     { a: "bouwer",    t: "foto's en openingsuren verzameld voor Eethuis De Lantaarn" },
@@ -84,14 +84,14 @@ window.RADAR = (function () {
     { a: "planner",   t: "gesprek ingepland: Garage Mertensveld, donderdag 14:00" },
     { a: "verkenner", t: "Merksem: 9 zaken met enkel een Facebook-pagina gevonden" },
     { a: "bouwer",    t: "voorbeeld klaar voor Slagerij Tweesprong (4 pagina's)" },
-    { a: "mens",      t: "Snymis: voorbeeld Frituur Nummer Negen goedgekeurd voor verzending" },
+    { a: "mens",      t: "Mens: voorbeeld Frituur Nummer Negen goedgekeurd voor verzending" },
     { a: "planner",   t: "weekrapport klaar: 153 scans, 51 zonder website, 4 voorbeelden" }
   ];
   var agents = [
     { name: "verkenner", task: "scant Ekeren (148 adressen)", load: 0.82 },
     { name: "meter",     task: "meet 23 zaken in de wachtrij", load: 0.64 },
     { name: "bouwer",    task: "bouwt 2 voorbeelden",          load: 0.47 },
-    { name: "planner",   task: "wacht op Snymis (6 berichten)", load: 0.21 }
+    { name: "planner",   task: "wacht op een mens (6 berichten)", load: 0.21 }
   ];
 
   function rep(ch, n) { return n > 0 ? new Array(n + 1).join(ch) : ""; }
