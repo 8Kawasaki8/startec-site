@@ -60,7 +60,8 @@
     hero.appendChild(h("div", "ps-name", name));
     hero.appendChild(line("p", "ps-tag", p.tag, D));
     var ctas = h("div", "ps-ctas");
-    ctas.appendChild(attr(h("span", "main need", "Bel"), "data-el", "bel"));
+    if (p.actie) ctas.appendChild(h("span", "main", p.actie));
+    ctas.appendChild(attr(h("span", p.actie ? "need" : "main need", "Bel"), "data-el", "bel"));
     ctas.appendChild(attr(h("span", "need", "WhatsApp"), "data-el", "whatsapp"));
     ctas.appendChild(h("span", "", D.route));
     hero.appendChild(ctas);
@@ -70,6 +71,16 @@
     var foto = h("div", "ps-foto");
     foto.appendChild(line("span", "", p.foto, D));
     frag.appendChild(foto);
+
+    /* the sector block: what this kind of zaak shows first (example lines, marked) */
+    if (p.blok) {
+      var blok = h("div", "ps-blok");
+      blok.appendChild(line("span", "label", p.blok.titel, D));
+      var ul = h("ul");
+      p.blok.items.forEach(function (t) { ul.appendChild(h("li", "", t)); });
+      blok.appendChild(ul);
+      frag.appendChild(blok);
+    }
 
     /* address and reviews placeholder (outlined stars) */
     var row = h("div", "ps-row");

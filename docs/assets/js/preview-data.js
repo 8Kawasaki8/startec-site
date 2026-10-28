@@ -16,48 +16,57 @@
      his own fixtures without touching gevel.js.
    Keys follow STSNames.SECTORS: horeca, kapper, garage, bakker, aannemer, praktijk, winkel, anders.
    Fields: tag (one line under the name), open (the 'nu open' status), foto (photo placeholder
-   label), adres (street example), uren (three rows of example hours). */
+   label), adres (street example), uren (three rows of example hours), actie (the main button in the owner's words),
+   blok (one sector block: a title and three example lines; no prices, no stars). */
 window.STS_PREVIEW = {
   sectors: {
     horeca: {
       tag: "Vanavond open? Hier zie je het meteen, met de weg ernaartoe.",
       open: "Nu open tot 22 u", foto: "Foto van de zaal of het terras", adres: "Kerkstraat 12",
-      uren: [["Ma – do", "11:30 – 22:00"], ["Vr – za", "11:30 – 23:00"], ["Zo", "gesloten"]]
+      uren: [["Ma – do", "11:30 – 22:00"], ["Vr – za", "11:30 – 23:00"], ["Zo", "gesloten"]],
+      actie: "Reserveer een tafel", blok: { titel: "Vandaag op de kaart", items: ["Dagsoep", "Stoofvlees met frietjes", "Vegetarische curry"] }
     },
     kapper: {
       tag: "Een stoel vrij? Bel of stuur een berichtje, ook na sluitingstijd.",
       open: "Nu open tot 18 u", foto: "Foto van het salon", adres: "Statiestraat 48",
-      uren: [["Di – vr", "9:00 – 18:00"], ["Za", "8:30 – 16:00"], ["Zo – ma", "gesloten"]]
+      uren: [["Di – vr", "9:00 – 18:00"], ["Za", "8:30 – 16:00"], ["Zo – ma", "gesloten"]],
+      actie: "Maak een afspraak", blok: { titel: "Behandelingen", items: ["Knippen, 30 min", "Kleuren, 90 min", "Baard bijwerken, 20 min"] }
     },
     garage: {
       tag: "Onderhoud, keuring of een vreemd geluid: bel of stuur een foto via WhatsApp.",
       open: "Nu open tot 18 u", foto: "Foto van de werkplaats", adres: "Industrieweg 7",
-      uren: [["Ma – vr", "8:00 – 18:00"], ["Za", "9:00 – 12:00"], ["Zo", "gesloten"]]
+      uren: [["Ma – vr", "8:00 – 18:00"], ["Za", "9:00 – 12:00"], ["Zo", "gesloten"]],
+      actie: "Plan een onderhoud", blok: { titel: "In de werkplaats", items: ["Onderhoud en keuring", "Banden wisselen", "Diagnose van een vreemd geluid"] }
     },
     bakker: {
       tag: "Elke ochtend vers. De uren staan hier, ook op feestdagen.",
       open: "Nu open tot 18 u", foto: "Foto van de toog", adres: "Dorpsstraat 3",
-      uren: [["Di – vr", "6:30 – 18:00"], ["Za – zo", "6:30 – 13:00"], ["Ma", "gesloten"]]
+      uren: [["Di – vr", "6:30 – 18:00"], ["Za – zo", "6:30 – 13:00"], ["Ma", "gesloten"]],
+      actie: "Bestel voor morgen", blok: { titel: "Vandaag vers", items: ["Desembrood", "Croissants", "Taart op bestelling"] }
     },
     aannemer: {
       tag: "Een aanvraag of een offerte? Stuur foto's van de werf via WhatsApp of bel.",
       open: "Vandaag bereikbaar tot 17 u", foto: "Foto van recent werk", adres: "Molenstraat 21",
-      uren: [["Ma – vr", "7:30 – 17:00"], ["Za", "op afspraak"], ["Zo", "gesloten"]]
+      uren: [["Ma – vr", "7:30 – 17:00"], ["Za", "op afspraak"], ["Zo", "gesloten"]],
+      actie: "Vraag een offerte", blok: { titel: "Recente werken", items: ["Badkamerrenovatie", "Dakwerken", "Gevelrenovatie"] }
     },
     praktijk: {
       tag: "Maandagochtend is de lijn druk. Hier vindt u de uren, het adres en hoe u ons bereikt.",
       open: "Vandaag open tot 19 u", foto: "Foto van de wachtruimte", adres: "Lange Leemstraat 90",
-      uren: [["Ma – vr", "8:00 – 19:00"], ["Za", "9:00 – 12:00"], ["Zo", "gesloten"]]
+      uren: [["Ma – vr", "8:00 – 19:00"], ["Za", "9:00 – 12:00"], ["Zo", "gesloten"]],
+      actie: "Maak een afspraak", blok: { titel: "Consultaties", items: ["Eerste consult, 45 min", "Opvolging, 30 min", "Huisbezoek op afspraak"] }
     },
     winkel: {
       tag: "Open of gesloten, het adres en een foto van de winkel: in één oogopslag.",
       open: "Nu open tot 18 u", foto: "Foto van de winkel", adres: "Turnhoutsebaan 115",
-      uren: [["Ma – za", "10:00 – 18:00"], ["Zo", "gesloten"], ["Feestdagen", "gesloten"]]
+      uren: [["Ma – za", "10:00 – 18:00"], ["Zo", "gesloten"], ["Feestdagen", "gesloten"]],
+      actie: "Bekijk wat er binnen is", blok: { titel: "In de winkel", items: ["Nieuwe collectie", "Cadeaubonnen", "Online bestellen, in de winkel ophalen"] }
     },
     anders: {
       tag: "Zichtbaar voor wie je 's avonds zoekt op zijn gsm.",
       open: "Nu open tot 18 u", foto: "Foto van de zaak", adres: "Kerkstraat 12",
-      uren: [["Ma – vr", "9:00 – 18:00"], ["Za", "9:00 – 13:00"], ["Zo", "gesloten"]]
+      uren: [["Ma – vr", "9:00 – 18:00"], ["Za", "9:00 – 13:00"], ["Zo", "gesloten"]],
+      actie: "Neem contact op", blok: { titel: "Bij ons", items: ["Wat je bij ons vindt", "Hoe je ons bereikt", "Wanneer we open zijn"] }
     }
   },
   /* fixed lines of the sketch */
