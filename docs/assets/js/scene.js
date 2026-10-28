@@ -35,6 +35,7 @@ import { createSky, NIGHT } from "./scene/sky.js";
 import { createIntro } from "./scene/intro.js";
 import { places } from "./scene/places.js";
 import { createFlight } from "./scene/flight.js";
+import { ritPose } from "./scene/rit.js";
 import { createSign } from "./scene/sign.js";
 import { writeSignDom, placeSignDom, shadeSignDom, watchSignShade, countLongTasks } from "./scene/signdom.js";
 import { mountDebug } from "./scene/debug.js";
@@ -106,6 +107,7 @@ function boot() {
      (every landing after gevel on index): the loop stays paused there, so without this direct render the
      canvas would keep the previous landing while #sign-dom already moved to the new place */
   addEventListener("sts:landed", () => {
+    document.documentElement.classList.remove("is-rit");
     if (!dead && !hidden && !offscreen && covered > 0.6) render(clock.getElapsedTime());
     wake(reduce ? 0 : 600); placeSign();
   });
@@ -200,8 +202,23 @@ function boot() {
     signBox: () => sign.project(camera, innerWidth, innerHeight).box,
     info: () => renderer.info.render
   };
+  /* the scroll ride (scene/rit.js): p = 0 is the gevel framing, so leaving the ride upwards ends exactly
+     where the sign was; under reduced motion only the light changes, the camera stays put */
+  function ride(p) {
+    if (p <= 0 && flight.state.at !== "rit") { city.setLit(1); return; }
+    const r = ritPose(p);
+    city.setLit(r.lit);
+    if (!reduce) {
+      /* the crisp DOM twin of the sign belongs to a landing; during the ride only the 3D board shows */
+      document.documentElement.classList.toggle("is-rit", p > 0);
+      if (flight.state.active) flight.kill();
+      flight.par.set(0, 0, 0); flight.pos.copy(r.pos); flight.look.copy(r.look); flight.apply();
+      flight.state.at = p <= 0 ? "gevel" : "rit";
+    }
+    wake(120);
+  }
   window.STSScene = {
-    lite: false, profile, places, flyTo: id => flight.flyTo(id), setSign, signText: () => sign.text(), setSector, cover,
+    lite: false, profile, places, flyTo: id => flight.flyTo(id), setSign, signText: () => sign.text(), setSector, cover, ride,
     setParallax: (x, y) => { if (profile === "desktop") { flight.setParallax(x, y); wake(400); } },
     intro: intro ? { play: cb => intro.play(cb), skip: () => intro.skip(), debug: () => intro.debug() } : null,
     debug

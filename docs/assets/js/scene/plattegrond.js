@@ -10,6 +10,7 @@
    weak). No requestAnimationFrame at all. On coarse pointers the fallback
    keeps the large viewport height (like the canvas), so the address bar of a
    phone never rescales the skyline or moves the sign. */
+import { lichtOp } from "./rit-licht.js";
 import { places } from "./places.js";
 import { writeSignDom, placeSignDom, shadeSignDom, watchSignShade, countLongTasks } from "./signdom.js";
 
@@ -88,8 +89,11 @@ export function install({ reason = "svg", text = "", color = "#36E8FF" } = {}) {
   setSector(sector);
   setSign(text);
 
+  /* the scroll ride on the SVG route: only the window patterns dim and light up (opacity on 13 rects) */
+  const ramen = fallback ? [...fallback.querySelectorAll('[fill="url(#pg-ramen)"],[fill="url(#pg-ramen2)"]')] : [];
+  function ride(p) { const o = (0.1 + 0.9 * lichtOp(p)).toFixed(2); for (const r of ramen) r.style.opacity = o; }
   window.STSScene = {
-    lite: true, profile: reason, places,
+    lite: true, profile: reason, places, ride,
     flyTo, setSign, signText: () => signText, setSector,
     cover() {}, setParallax() {},
     intro: {

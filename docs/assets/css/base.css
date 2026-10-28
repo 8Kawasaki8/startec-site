@@ -277,3 +277,4 @@ html.js [data-reveal].in,html.js .rv.in{opacity:1;transform:none;transition:opac
   background:var(--paneel);color:var(--ink2);font-size:14px;max-width:none}
 @media(max-width:899px){html.is-toetsenbord .ub-sheet{max-height:calc(var(--vvh,100vh) - var(--ub-kop) - 16px)}}
 .dag-tijdlijn,.dag-tijdlijn svg{max-height:60vh}                            /* sim-dag.css: 60svh */
+html.is-rit #sign-dom{opacity:0!important}   /* de rit (scene/rit.js): alleen het 3D-bord, tot de volgende landing */

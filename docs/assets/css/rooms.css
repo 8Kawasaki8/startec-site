@@ -158,3 +158,13 @@ html[data-scene="svg"] #gevel[data-room]{background:transparent}
 @supports (height:1dvh){.gevel-eerste{padding-top:calc(var(--ub-kop) + 56dvh)}}
 @supports (height:1lvh){@media(max-width:899px){.gevel-eerste{padding-top:calc(var(--ub-kop) + 37lvh)}}}
 @supports (color:color-mix(in srgb,red,blue)){.buur-gevel{background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--c) 14%,transparent))}}
+/* ═══ DE RIT: transparante strook tussen het bord en De telefoon om 19 u; de stad schuift mee
+   (scene/rit.js), drie korte zinnen scrollen gewoon voorbij. Geen sticky, geen blur. ════ */
+#rit[data-room],html[data-scene="svg"] #rit[data-room]{background:transparent;border-top:0}
+.rit-beat{min-height:100vh;display:flex;align-items:center;padding:0 var(--gut);max-width:var(--max);margin:0 auto}
+.rit-rechts{justify-content:flex-end}
+.rit-beat:first-child{align-items:flex-end;padding-bottom:10vh}   /* onder het bord, dat nog in beeld hangt */
+.rit-zin{max-width:21ch;margin:0;padding:20px 24px;border-radius:18px;background:rgba(6,8,15,.74);border:1px solid var(--line);
+  font:600 clamp(1.35rem,1.9vw + .8rem,2.4rem)/1.2 var(--display);color:var(--ink)}
+@media(max-width:899px){.rit-beat{min-height:78vh}.rit-rechts{justify-content:flex-start}}
+

@@ -40,7 +40,7 @@ const VERT = `
     #include <fog_vertex>
   }`;
 const FRAG = `
-  uniform float uTime; uniform vec3 uCyan; uniform vec3 uViolet; uniform vec3 uBase; uniform float uMirror; uniform float uAlpha; uniform vec3 uSector; uniform float uHero;
+  uniform float uTime; uniform vec3 uCyan; uniform vec3 uViolet; uniform vec3 uBase; uniform float uMirror; uniform float uAlpha; uniform vec3 uSector; uniform float uHero; uniform float uLit;
   varying vec3 vN; varying vec3 vW; varying vec3 vL; varying float vSeed; varying float vH; varying float vKind; varying float vLand;
   #include <fog_pars_fragment>
   float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)))*43758.5453); }
@@ -63,7 +63,7 @@ const FRAG = `
       vec3 wc = tc < 0.55 ? mix(vec3(0.75,0.93,1.0), uCyan, 0.55) : (tc < 0.86 ? vec3(1.0,0.62,0.30) : uViolet);
       float flick = 0.82 + 0.18*sin(uTime*0.5 + id*40.0);
       float tv = step(0.975, id) * (0.5 + 0.5*step(0.5, fract(uTime*2.3 + b*5.0)));
-      em += pane*on*(0.45+0.7*b)*flick*wc*side*(1.0+tv);
+      em += pane*on*(0.45+0.7*b)*flick*wc*side*(1.0+tv) * smoothstep(vSeed-0.14, vSeed+0.02, uLit);   // the ride: towers light up one by one
       float sign = vLand * step(0.5, n.x) * step(0.1,uv.x+0.5)*step(uv.x+0.5,0.9) * step(0.42,uv.y)*step(uv.y,0.6);
       float stripe = 0.5+0.5*sin(uTime*1.4 + (uv.x+0.5)*12.0 - uv.y*30.0);
       vec3 neon = mix(mix(uCyan, uViolet, stripe), uSector, uHero);
@@ -84,7 +84,7 @@ const FRAG = `
 function towerMaterial(extra) {
   return new THREE.ShaderMaterial({
     uniforms: THREE.UniformsUtils.merge([THREE.UniformsLib.fog, { uTime: { value: 0 }, uCyan: { value: new THREE.Color(0x36e8ff) }, uViolet: { value: new THREE.Color(0x8a6bff) },
-      uBase: { value: new THREE.Color(0x0c1222) }, uMirror: { value: 1 }, uAlpha: { value: 1 }, uSector: { value: new THREE.Color(0x36e8ff) }, uHero: { value: 0 } }]),
+      uBase: { value: new THREE.Color(0x0c1222) }, uMirror: { value: 1 }, uAlpha: { value: 1 }, uSector: { value: new THREE.Color(0x36e8ff) }, uHero: { value: 0 }, uLit: { value: 1 } }]),
     vertexShader: VERT, fragmentShader: FRAG, fog: true, ...extra
   });
 }
@@ -262,6 +262,8 @@ export function createCity(scene) {
     if (mirror) mirror.material.uniforms.uTime.value = t;
     for (const p of [lampPts, carPts, warnPts]) { p.material.uniforms.uTime.value = t; p.material.uniforms.uPx.value = px; }
   }
+  /* the scroll ride (scene/rit.js): 0 = every window dark, 1 = the whole city lit; the landmark keeps its own material */
+  function setLit(v) { mat.uniforms.uLit.value = v; if (mirror) mirror.material.uniforms.uLit.value = v; }
   function dropMirror() { if (mirror) { group.remove(mirror); mirror = null; base.material.transparent = false; base.material.opacity = 1; base.material.needsUpdate = true; } }
-  return { group, update, dropMirror, signState, count: cells.length, landmark: hero, annex, roof, sector: heroMat.uniforms.uSector };
+  return { group, update, dropMirror, signState, setLit, count: cells.length, landmark: hero, annex, roof, sector: heroMat.uniforms.uSector };
 }
