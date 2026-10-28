@@ -168,3 +168,4 @@ html[data-scene="svg"] #gevel[data-room]{background:transparent}
   font:600 clamp(1.35rem,1.9vw + .8rem,2.4rem)/1.2 var(--display);color:var(--ink)}
 @media(max-width:899px){.rit-beat{min-height:78vh}.rit-rechts{justify-content:flex-start}}
 
+.rit-zin a{padding-block:10px;color:inherit;text-decoration-color:var(--cyan);text-underline-offset:.18em}   /* tikdoel van 44 px op de telefoon */
