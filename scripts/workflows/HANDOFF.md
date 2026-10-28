@@ -1,6 +1,6 @@
 # HANDOFF: continuing the STS v5 build on any machine
 
-Last updated by the cloud session on 2026-10-27: wave 6 finished and live.
+Last updated by the cloud session on 2026-10-28: wave 7 finished and live.
 This file is updated at every wave boundary. If the cloud session stopped (credits refused,
 container reclaimed), everything below still holds: **only complete, QA-green waves are ever
 pushed**, builders never commit, so the remote is always consistent.
@@ -59,7 +59,7 @@ Everything else (node 20+, Playwright 1.63 pinned, Chromium) is the same as in t
 | 4 | WP-15 release audit, WP-16 performance, WP-19 accessibility, WP-21 scene craft | done, LIVE |
 | 5 | WP-17 mobile UX, WP-18 copy and emotion | done, LIVE |
 | 6 | WP-26 robustness, WP-27 discoverability, WP-22 release refresh | done, LIVE (open findings fixed by hand after the credit stop) |
-| 7 | visual finishing pass: opaque strip and dock, lighter front headline | done, LIVE. The larger wave-7 packages WP-23 to WP-25 remain optional in plan-v5.json |
+| 7 | wave 7: anonymous founder (no 'Snymis' on the site), scroll ride through the city, per-sector sketch actions and blocks, opaque strip, lighter headline | done, LIVE |
 
 Check `git log origin/v5 --oneline` to see which waves actually landed; a wave's commit message
 starts with `v5 wave N`.

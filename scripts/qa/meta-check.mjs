@@ -25,7 +25,7 @@ export const ROOM_LINKS = {
   radar: ['werkwijze.html#radar', '#radar'], straat: ['werkwijze.html#straat', '#straat'],
   kaart: ['werkwijze.html#kaart', '#kaart'], snymis: ['werkwijze.html#snymis', '#snymis'],
 };
-const ROOM_PAGE = { gevel: 'index', telefoon: 'index', buren: 'index', verder: 'index', bericht: 'index', doorlichting: 'simulatie', gereedschap: 'gereedschap', radar: 'werkwijze', straat: 'werkwijze', kaart: 'werkwijze', snymis: 'werkwijze' };
+const ROOM_PAGE = { gevel: 'index', rit: 'index', telefoon: 'index', buren: 'index', verder: 'index', bericht: 'index', doorlichting: 'simulatie', gereedschap: 'gereedschap', radar: 'werkwijze', straat: 'werkwijze', kaart: 'werkwijze', snymis: 'werkwijze' };
 
 const html = (rel) => readFileSync(join(DOCS, rel), 'utf8');
 const files = (sub) => { const d = join(DOCS, sub); return existsSync(d) ? readdirSync(d).filter(f => f.endsWith('.html') && f !== 'qa-report.html').map(f => sub ? `${sub}/${f}` : f) : []; };
